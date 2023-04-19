@@ -3,7 +3,7 @@ import getCities from "../../API/PostService";
 import { CITY } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchLink = () => {
+const fetchCity = () => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: CITY.FETCH_CITY });
@@ -21,4 +21,4 @@ const fetchLink = () => {
   };
 };
 
-export default fetchLink;
+export default fetchCity;

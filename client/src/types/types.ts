@@ -21,7 +21,7 @@ export interface ISights {
 export interface ICity {
   id: number;
   name: string;
-  weather: string;
+  weather: number;
   sights: ISights[];
 }
 
@@ -32,7 +32,7 @@ export interface ICities {
 }
 
 export interface ICityState {
-  city: ICities;
+  city: ICities[];
   loading: boolean;
   error: null | string;
 }

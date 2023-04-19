@@ -1,0 +1,30 @@
+.wrapper__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.wrapper__title {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.hot {
+  color: #fff;
+  background-color: #7783fa;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.more {
+  color: gray;
+  font-size: 16px;
+}

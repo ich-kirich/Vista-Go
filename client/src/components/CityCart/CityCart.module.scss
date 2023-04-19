@@ -1,0 +1,26 @@
+.country__wrapper {
+  display: flex;
+  gap: 15px;
+}
+
+.counrty__img {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 15px 0px;
+  width: 140px;
+  height: 110px;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
+  border-radius: 5px;
+}
+
+.coutry__name {
+  color: #fff;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+}
