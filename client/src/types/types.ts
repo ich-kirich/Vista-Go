@@ -37,6 +37,12 @@ export interface ICityState {
   error: null | string;
 }
 
+export interface IRecommendState {
+  recommend: ICities[];
+  loading: boolean;
+  error: null | string;
+}
+
 export interface IAction {
   type: string;
   payload?: any;

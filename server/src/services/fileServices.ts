@@ -1,9 +1,8 @@
-import { JsonDB, Config } from "node-json-db";
-import DATA from "../libs/constants";
+import { DATA, db } from "../libs/constants";
 
 async function generateDb() {
-  const db = new JsonDB(new Config("myDataBase", true, false, "/"));
   db.push("/cities", DATA);
+  db.push("/recommends", DATA);
   return db;
 }
 

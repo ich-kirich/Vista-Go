@@ -1,4 +1,6 @@
-const DATA = [
+import { JsonDB, Config } from "node-json-db";
+
+export const DATA = [
   {
     id: 1,
     country: "Germany",
@@ -145,4 +147,4 @@ const DATA = [
   },
 ];
 
-export default DATA;
+export const db = new JsonDB(new Config("myDataBase", true, false, "/"));

@@ -22,8 +22,26 @@ export const INITIAL_CITY: ICities[] = [
   },
 ];
 
+export const settings = {
+  arrows: false,
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  centerMode: true,
+  variableWidth: true,
+};
+
 export enum CITY {
   FETCH_CITY = "FETCH_CITY",
   FETCH_CITY_SUCCESS = "FETCH_CITY_SUCCESS",
   FETCH_CITY_ERROR = "FETCH_CITY_ERROR",
+}
+
+export enum RECOMMENDS {
+  FETCH_RECOMMENDS = "FETCH_RECOMMENDS",
+  FETCH_RECOMMENDS_SUCCESS = "FETCH_RECOMMENDS_SUCCESS",
+  FETCH_RECOMMENDS_ERROR = "FETCH_RECOMMENDS_ERROR",
 }
