@@ -52,3 +52,7 @@ export interface IChildernProps {
   children: React.ReactNode;
   className?: string;
 }
+
+export interface ICityProps {
+  city: ICity;
+}

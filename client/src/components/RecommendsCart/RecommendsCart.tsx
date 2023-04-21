@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
@@ -12,6 +13,7 @@ import { settings } from "../../libs/constants";
 function RecommendsCart() {
   const { fetchRecommend } = useActions();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
   const sliderRef = useRef<Slider>(null);
   useEffect(() => {
     fetchRecommend();
@@ -42,7 +44,11 @@ function RecommendsCart() {
                   }}
                   onClick={() => {
                     if (item.id - 1 === currentSlide) {
-                      console.log("View second screen");
+                      localStorage.setItem(
+                        "city",
+                        JSON.stringify(item.cities[0]),
+                      );
+                      navigate("/city");
                     } else {
                       setTimeout(() => {
                         setCurrentSlide(item.id - 1);

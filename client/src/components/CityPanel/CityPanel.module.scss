@@ -1,0 +1,17 @@
+.city__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.city__name {
+  font-weight: bold;
+}
+
+.weather__wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.city__weather {
+  color: #808080;
+}
