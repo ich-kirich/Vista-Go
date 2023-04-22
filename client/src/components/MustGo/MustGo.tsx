@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import { ICityProps } from "../../types/types";
 import MustSights from "../MustSights/MustSights";
 import styles from "./MustGo.module.scss";
 
-function MustGo() {
+function MustGo(props: ICityProps) {
+  const { city } = props;
   return (
     <Box className={styles.go__wrapper}>
       <Box className={styles.must__wrapper}>
@@ -13,7 +15,7 @@ function MustGo() {
           More
         </Typography>
       </Box>
-      <MustSights />
+      <MustSights city={city} />
     </Box>
   );
 }

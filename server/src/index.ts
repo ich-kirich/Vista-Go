@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import ErrorHandling from "./middleware/errorhandlingmiddleware";
 import router from "./routes/router";
 import ApiError from "./error/apiError";
+import generateDb from "./services/fileServices";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ const port = process.env.PORT || "5000";
 
 const startServer = async () => {
   try {
+    await generateDb();
     app.listen(port, () => console.log(`Running on port ${port}`));
   } catch (e) {
     console.error(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));

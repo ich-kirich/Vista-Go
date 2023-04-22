@@ -24,6 +24,20 @@ export const DATA = [
               "https://tripplanet.ru/wp-content/uploads/europe/germany/berlin/memorial-church.jpg",
             tags: ["Religion", "Empire", "History"],
           },
+          {
+            id: 3,
+            name: "Checkpoint Charlie",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/europe/germany/berlin/check-point-charlie.jpg",
+            tags: ["Checkpoint", "Berlin Wall", "History"],
+          },
+          {
+            id: 4,
+            name: "Victory Column",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/europe/germany/berlin/victory-column.jpg",
+            tags: ["Column", "Victory", "History"],
+          },
         ],
       },
       {
@@ -44,6 +58,20 @@ export const DATA = [
             image:
               "https://tripplanet.ru/wp-content/uploads/europe/germany/hamburg/international-maritime-museum.jpg",
             tags: ["Sea", "Museum", "History"],
+          },
+          {
+            id: 3,
+            name: "Hagenbeck Zoo",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/europe/germany/hamburg/tierpark-hagenbeck.jpg",
+            tags: ["Zoo", "Animals", "Science"],
+          },
+          {
+            id: 4,
+            name: "Dialogue in the Dark Museum",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/europe/germany/hamburg/dialogue-in-the-dark.jpg",
+            tags: ["Life", "Museum", "Science"],
           },
         ],
       },
@@ -72,6 +100,20 @@ export const DATA = [
               "https://cdn2.tu-tu.ru/image/pagetree_node_data/1/911233cfca0d4314998dc46a96ef4631/",
             tags: ["Religion", "Architecture", "History"],
           },
+          {
+            id: 3,
+            name: "Gates of Minsk",
+            image:
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Babrujskaja%2C_Minsk.jpg/300px-Babrujskaja%2C_Minsk.jpg",
+            tags: ["Gates", "Architecture", "History"],
+          },
+          {
+            id: 4,
+            name: "National Library of Belarus",
+            image:
+              "https://upload.wikimedia.org/wikipedia/ru/thumb/0/0e/BelarusNationalLibrary.JPG/290px-BelarusNationalLibrary.JPG",
+            tags: ["Library", "Architecture", "Science"],
+          },
         ],
       },
       {
@@ -92,6 +134,20 @@ export const DATA = [
             image:
               "https://avatars.dzeninfra.ru/get-zen_doc/5236269/pub_630374203fda8341457af3b8_6303751756792f4c4b5bdd5f/scale_1200",
             tags: ["Religion", "Architecture", "History"],
+          },
+          {
+            id: 3,
+            name: "Grodno State Museum of the History of Religion",
+            image:
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Museum_of_religion.JPG/274px-Museum_of_religion.JPG",
+            tags: ["Religion", "Museum", "History"],
+          },
+          {
+            id: 4,
+            name: "Zhiliber Park",
+            image:
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/%D0%93%D1%80%D0%BE%D0%B4%D0%BD%D0%B0_%282018%29._%D0%9F%D0%B0%D1%80%D0%BA_%D0%96%D1%8B%D0%BB%D1%96%D0%B1%D0%B5%D1%80%D0%B0_07.jpg/280px-%D0%93%D1%80%D0%BE%D0%B4%D0%BD%D0%B0_%282018%29._%D0%9F%D0%B0%D1%80%D0%BA_%D0%96%D1%8B%D0%BB%D1%96%D0%B1%D0%B5%D1%80%D0%B0_07.jpg",
+            tags: ["Park", "Nature", "History"],
           },
         ],
       },
@@ -120,6 +176,20 @@ export const DATA = [
               "https://blogtravel.by/wp-content/uploads/2021/10/dostoprimechatelnosty-yerevana-44.jpg",
             tags: ["Winery", "Architecture", "Wine"],
           },
+          {
+            id: 3,
+            name: "Republic Square",
+            image:
+              "https://blogtravel.by/wp-content/uploads/2021/10/dostoprimechatelnosty-yerevana-1.jpg",
+            tags: ["Square", "Architecture", "History"],
+          },
+          {
+            id: 4,
+            name: "Yerevan Cascade",
+            image:
+              "https://blogtravel.by/wp-content/uploads/2021/10/dostoprimechatelnosty-yerevana-3.jpg",
+            tags: ["Beauty", "Architecture", "History"],
+          },
         ],
       },
       {
@@ -140,6 +210,20 @@ export const DATA = [
             image:
               "https://tripplanet.ru/wp-content/uploads/asia/armenia/gyumri/vardanants-square.jpg",
             tags: ["Square", "Architecture", "History"],
+          },
+          {
+            id: 3,
+            name: "Central Park",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/asia/armenia/gyumri/central-park.jpg",
+            tags: ["Park", "Architecture", "Nature"],
+          },
+          {
+            id: 4,
+            name: "Marmashen Monastery",
+            image:
+              "https://tripplanet.ru/wp-content/uploads/asia/armenia/gyumri/marmashen-monastery.jpg",
+            tags: ["Religion", "Architecture", "History"],
           },
         ],
       },

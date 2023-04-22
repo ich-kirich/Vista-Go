@@ -43,6 +43,20 @@
 
 .sight__third {
   width: 100px;
-  height: 100px;
   @extend %backimg;
+}
+
+.sight__amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: #7783fa;
+  border-radius: 5px;
+}
+
+.amount__text {
+  font-weight: bold;
+  color: #fff;
 }
