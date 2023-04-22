@@ -1,0 +1,26 @@
+.btns__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.btns {
+  box-shadow: 4px 4px 8px 5px #faf7f7;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  padding: 20px 70px;
+  text-transform: none;
+}
+
+.btn__text {
+  font-size: 18px;
+  color: #7782d7;
+}
+
+.btn__icon {
+  color: #7782d7;
+}

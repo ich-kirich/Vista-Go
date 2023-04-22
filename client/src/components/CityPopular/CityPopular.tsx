@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { ICityProps } from "../../types/types";
+import PopularControls from "../PopularControls/PopularControls";
 import PopularSight from "../PopularSight/PopularSight";
 import styles from "./CityPopular.module.scss";
 
@@ -16,6 +17,7 @@ function CityPopular(props: ICityProps) {
         </Typography>
       </Box>
       <PopularSight city={city} />
+      <PopularControls />
     </Box>
   );
 }

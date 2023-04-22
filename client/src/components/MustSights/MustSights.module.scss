@@ -1,0 +1,48 @@
+%backimg {
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
+}
+
+%wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex-direction: column;
+}
+
+
+.signts__wrapper {
+  @extend %wrapper;
+}
+
+.sight__wrapper {
+  @extend %wrapper;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sight__first {
+  width: 245px;
+  height: 245px;
+  @extend %backimg;
+}
+
+.sight__second {
+  width: 220px;
+  height: 125px;
+  @extend %backimg;
+}
+
+.sight__third {
+  width: 100px;
+  height: 100px;
+  @extend %backimg;
+}

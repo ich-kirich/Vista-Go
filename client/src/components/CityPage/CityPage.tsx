@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import CityPanel from "../CityPanel/CityPanel";
 import CityPopular from "../CityPopular/CityPopular";
+import MustGo from "../MustGo/MustGo";
 import styles from "./CityPage.module.scss";
 
 function CityPage() {
@@ -9,6 +10,7 @@ function CityPage() {
     <Container maxWidth="sm" className={styles.app__wrapper}>
       <CityPanel city={cityIformation} />
       <CityPopular city={cityIformation} />
+      <MustGo />
     </Container>
   );
 }

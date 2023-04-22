@@ -1,0 +1,18 @@
+.go__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.must__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.more {
+  color: #808080;
+}
