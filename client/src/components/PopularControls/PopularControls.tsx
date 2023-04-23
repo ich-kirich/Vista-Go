@@ -6,7 +6,11 @@ function PopularControls() {
   return (
     <Box className={styles.btns__wrapper}>
       <Box className={styles.btns}>
-        <ButtonGroup variant="text" aria-label="text button group">
+        <ButtonGroup
+          variant="text"
+          aria-label="text button group"
+          className={styles.bnts__group}
+        >
           <Button className={styles.btn}>
             <Typography
               variant="h6"

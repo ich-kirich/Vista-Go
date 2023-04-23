@@ -1,23 +1,21 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createDate } from "../../libs/utils";
 import { IRecommendCartProps } from "../../types/types";
 import styles from "./RecommendCart.module.scss";
 
 function RecommendCart(props: IRecommendCartProps) {
-  const { recommend, sliderRef } = props;
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const { recommend, sliderRef, currentSlide, setCurrentSlide } = props;
   const navigate = useNavigate();
   const viewCity = () => {
-    if (recommend.id - 1 === currentSlide) {
+    if (recommend.id === currentSlide) {
       localStorage.setItem("city", JSON.stringify(recommend.cities[0]));
       navigate("/city");
     } else {
-      setTimeout(() => {
-        setCurrentSlide(recommend.id - 1);
-      }, 500);
       sliderRef.current?.slickGoTo(recommend.id - 1);
+      setTimeout(() => {
+        setCurrentSlide(recommend.id);
+      }, 500);
     }
   };
   return (

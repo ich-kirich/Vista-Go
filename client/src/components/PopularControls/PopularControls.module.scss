@@ -7,6 +7,12 @@ $btnColor: #7782d7;
   border-radius: 5px;
 }
 
+@media screen and (max-width: 500px) {
+  .bnts__group {
+    flex-direction: column;
+  }
+}
+
 .btns {
   box-shadow: 4px 4px 8px 5px #faf7f7;
 }
