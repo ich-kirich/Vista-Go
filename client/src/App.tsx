@@ -1,5 +1,4 @@
 import { StyledEngineProvider } from "@mui/material";
-import { useState, useMemo } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter/AppRouter";
 import ControlPanel from "./components/ControlPanel/ControlPanel";

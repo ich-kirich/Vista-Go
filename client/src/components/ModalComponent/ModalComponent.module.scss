@@ -1,12 +1,12 @@
 .modal__invisible {
   position: absolute;
   z-index: 100;
-  background-color: #fff;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   display: none;
+  background-color: #fff;
 }
 
 .modal__visible {
@@ -16,8 +16,8 @@
 }
 
 .modal__content {
-  text-align: center;
   padding: 25px;
-  border-radius: 25px;
   min-width: 250px;
+  border-radius: 25px;
+  text-align: center;
 }

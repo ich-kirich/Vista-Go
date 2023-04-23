@@ -7,9 +7,8 @@ import ModalComponent from "../ModalComponent/ModalComponent";
 import styles from "./ListCountryCities.module.scss";
 
 function ListCountryCities(props: IListCountryCitiesProps) {
-  const { visible, setVisible } = useContext(CONTEXT);
   const { cities, setCountry } = props;
-  console.log(cities);
+  const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
   const viewCity = (city: ICity) => {
     localStorage.setItem("city", JSON.stringify(city));

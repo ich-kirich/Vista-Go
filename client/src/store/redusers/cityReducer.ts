@@ -1,8 +1,8 @@
-import { INITIAL_CITY, CITY } from "../../libs/constants";
+import { INITIAL_COUNTRY, COUNTRY } from "../../libs/constants";
 import { IAction, ICityState } from "../../types/types";
 
 const initialState: ICityState = {
-  countries: INITIAL_CITY,
+  countries: INITIAL_COUNTRY,
   loading: false,
   error: null,
 };
@@ -12,12 +12,16 @@ const cityReducer = (
   action: IAction,
 ): ICityState => {
   switch (action.type) {
-    case CITY.FETCH_CITY:
-      return { loading: true, error: null, countries: INITIAL_CITY };
-    case CITY.FETCH_CITY_SUCCESS:
+    case COUNTRY.FETCH_COUNTRY:
+      return { loading: true, error: null, countries: INITIAL_COUNTRY };
+    case COUNTRY.FETCH_COUNTRY_SUCCESS:
       return { loading: false, error: null, countries: action.payload };
-    case CITY.FETCH_CITY_ERROR:
-      return { loading: false, error: action.payload, countries: INITIAL_CITY };
+    case COUNTRY.FETCH_COUNTRY_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+        countries: INITIAL_COUNTRY,
+      };
     default:
       return state;
   }

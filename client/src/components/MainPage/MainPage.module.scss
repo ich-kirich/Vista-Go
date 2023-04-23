@@ -1,8 +1,12 @@
-.app__wrapper {
+%wrapper {
   display: flex;
   justify-content: center;
   gap: 15px;
   flex-direction: column;
+}
+
+.app__wrapper {
+  @extend %wrapper;
   padding: 20px;
   margin-top: 20px;
   border-radius: 20px;
@@ -10,10 +14,7 @@
 
 .inf__wrapper {
   position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-direction: column;
+  @extend %wrapper;
 }
 
 .app__title {

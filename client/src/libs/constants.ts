@@ -1,7 +1,7 @@
 import React from "react";
 import { ICities, IContext } from "../types/types";
 
-export const INITIAL_CITY: ICities[] = [
+export const INITIAL_COUNTRY: ICities[] = [
   {
     id: 0,
     country: "Unknown",
@@ -35,10 +35,10 @@ export const SETTINGS = {
   variableWidth: true,
 };
 
-export enum CITY {
-  FETCH_CITY = "FETCH_CITY",
-  FETCH_CITY_SUCCESS = "FETCH_CITY_SUCCESS",
-  FETCH_CITY_ERROR = "FETCH_CITY_ERROR",
+export enum COUNTRY {
+  FETCH_COUNTRY = "FETCH_CITY",
+  FETCH_COUNTRY_SUCCESS = "FETCH_CITY_SUCCESS",
+  FETCH_COUNTRY_ERROR = "FETCH_CITY_ERROR",
 }
 
 export enum RECOMMENDS {
