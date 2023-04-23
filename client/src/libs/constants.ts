@@ -22,7 +22,7 @@ export const INITIAL_CITY: ICities[] = [
   },
 ];
 
-export const settings = {
+export const SETTINGS = {
   arrows: false,
   dots: false,
   infinite: false,

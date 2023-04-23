@@ -5,8 +5,8 @@ import styles from "./CitiesBlock.module.scss";
 function CitiesBlock() {
   return (
     <Box>
-      <Box className={styles.wrapper__header}>
-        <Box className={styles.wrapper__title}>
+      <Box className={styles.header__wrapper}>
+        <Box className={styles.title__wrapper}>
           <Typography variant="h6" component="h2" className={styles.title}>
             City
           </Typography>

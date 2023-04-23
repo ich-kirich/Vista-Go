@@ -1,3 +1,5 @@
+import Slider from "react-slick";
+
 export interface IStatictic {
   id: number;
   date: Date | string;
@@ -55,4 +57,9 @@ export interface IChildernProps {
 
 export interface ICityProps {
   city: ICity;
+}
+
+export interface IRecommendCartProps {
+  recommend: ICities;
+  sliderRef: React.RefObject<Slider>;
 }

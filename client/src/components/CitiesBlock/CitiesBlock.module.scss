@@ -1,16 +1,17 @@
-.wrapper__header {
+%wrapper {
   display: flex;
   justify-content: space-between;
   gap: 5px;
   align-items: center;
+}
+
+.header__wrapper {
+  @extend %wrapper;
   margin-bottom: 15px;
 }
 
-.wrapper__title {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
-  align-items: center;
+.title__wrapper {
+  @extend %wrapper;
 }
 
 .title {
@@ -18,9 +19,9 @@
 }
 
 .hot {
+  padding: 5px;
   color: #fff;
   background-color: #7783fa;
-  padding: 5px;
   border-radius: 5px;
 }
 

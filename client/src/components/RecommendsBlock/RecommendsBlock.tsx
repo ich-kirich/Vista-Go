@@ -5,8 +5,8 @@ import styles from "./RecommendsBlock.module.scss";
 function RecommendsBlock() {
   return (
     <Box>
-      <Box className={styles.wrapper__header}>
-        <Box className={styles.wrapper__title}>
+      <Box className={styles.header__wrapper}>
+        <Box className={styles.title__wrapper}>
           <Typography variant="h6" component="h2" className={styles.title}>
             Daily Scenery
           </Typography>

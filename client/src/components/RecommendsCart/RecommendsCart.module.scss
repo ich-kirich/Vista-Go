@@ -2,35 +2,3 @@
   display: flex;
   gap: 15px;
 }
-
-.recommends__img {
-  position: relative;
-  height: 190px;
-  background-repeat: no-repeat;
-  background-position: 0 center;
-  background-size: 100% 100%;
-  border-radius: 5px;
-  box-shadow: 4px 4px 8px 5px #faf7f7;
-  cursor: pointer;
-}
-
-.wrapper__inf {
-  position: absolute;
-  bottom: 0;
-  background-color: #fff;
-  width: 100%;
-}
-
-.recommends__data {
-  color: #808080;
-  font-size: 14px;
-  padding: 5px 20px 0px 20px;
-}
-
-.recommends__name {
-  color: #000;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 0px 20px 5px 20px;
-  border-radius: 5px;
-}

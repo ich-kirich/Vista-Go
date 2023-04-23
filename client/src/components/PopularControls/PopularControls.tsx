@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import styles from "./PopularControls.module.scss";
 
