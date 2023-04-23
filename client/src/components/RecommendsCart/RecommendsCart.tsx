@@ -33,7 +33,11 @@ function RecommendsCart() {
               ref={sliderRef}
             >
               {recommend.map((item) => (
-                <RecommendCart recommend={item} sliderRef={sliderRef} />
+                <RecommendCart
+                  key={item.id}
+                  recommend={item}
+                  sliderRef={sliderRef}
+                />
               ))}
             </Slider>
           )}

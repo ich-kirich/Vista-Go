@@ -34,7 +34,7 @@ export interface ICities {
 }
 
 export interface ICityState {
-  city: ICities[];
+  countries: ICities[];
   loading: boolean;
   error: null | string;
 }
@@ -50,6 +50,13 @@ export interface IAction {
   payload?: any;
 }
 
+export interface IContext {
+  nameCity: string;
+  visible: boolean;
+  setVisible: Function;
+  setNameCity: Function;
+}
+
 export interface IChildernProps {
   children: React.ReactNode;
   className?: string;
@@ -62,4 +69,20 @@ export interface ICityProps {
 export interface IRecommendCartProps {
   recommend: ICities;
   sliderRef: React.RefObject<Slider>;
+}
+
+export interface IListCountryCitiesProps {
+  cities: ICity[];
+  setCountry: Function;
+}
+
+export interface IModalComponentProps extends IChildernProps {
+  visible: boolean;
+  setVisible: Function;
+  setCountry: Function;
+}
+
+export interface ISearchFieldProps {
+  setNameCity: Function;
+  nameCity: string;
 }

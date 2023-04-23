@@ -1,4 +1,5 @@
-import { ICities } from "../types/types";
+import React from "react";
+import { ICities, IContext } from "../types/types";
 
 export const INITIAL_CITY: ICities[] = [
   {
@@ -45,3 +46,5 @@ export enum RECOMMENDS {
   FETCH_RECOMMENDS_SUCCESS = "FETCH_RECOMMENDS_SUCCESS",
   FETCH_RECOMMENDS_ERROR = "FETCH_RECOMMENDS_ERROR",
 }
+
+export const CONTEXT = React.createContext({} as IContext);

@@ -8,6 +8,14 @@
   border-radius: 20px;
 }
 
+.inf__wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-direction: column;
+}
+
 .app__title {
   font-weight: bold;
 }

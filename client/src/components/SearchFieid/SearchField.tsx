@@ -1,11 +1,21 @@
 import { Box, InputAdornment, TextField } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import EastIcon from "@mui/icons-material/East";
-import { useState } from "react";
+import { useContext } from "react";
 import styles from "./SearchField.module.scss";
+import { ISearchFieldProps } from "../../types/types";
+import { CONTEXT } from "../../libs/constants";
 
-function SearchField() {
-  const [value, setValue] = useState("");
+function SearchField(props: ISearchFieldProps) {
+  const { nameCity, setNameCity } = props;
+  const { setVisible } = useContext(CONTEXT);
+
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setNameCity(e.target.value);
+    setVisible(true);
+  };
   return (
     <Box>
       <TextField
@@ -14,9 +24,9 @@ function SearchField() {
         placeholder="Input destination"
         size="small"
         type="search"
-        value={value}
+        value={nameCity}
         fullWidth
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => handleInput(e)}
         className={styles.city__input}
         InputProps={{
           disableUnderline: true,
