@@ -1,7 +1,0 @@
-client/node_modules
-client/build
-client/.env
-server/dist
-server/config/local.json
-server/node_modules
-server/docker-compose.yml
