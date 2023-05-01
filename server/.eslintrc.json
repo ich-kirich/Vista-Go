@@ -25,6 +25,11 @@
     "import/no-named-as-default": 0,
     "no-param-reassign": 0,
     "@typescript-eslint/naming-convention": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "import/no-dynamic-require": "off",
+    "global-require": "off",
+    "no-useless-return": "off"
   }
 }

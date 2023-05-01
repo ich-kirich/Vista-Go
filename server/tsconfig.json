@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "esnext",
     "module": "commonjs",
     "sourceMap": true,
@@ -8,6 +9,6 @@
     "baseUrl": ".",
     "moduleResolution": "node"
   },
-  "include": ["src"],
+  "include": ["src", "models"],
   "exclude": ["node_modules"]
 }
