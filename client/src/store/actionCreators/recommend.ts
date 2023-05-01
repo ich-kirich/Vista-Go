@@ -1,21 +1,21 @@
 import { Dispatch } from "redux";
-import { getRecommends } from "../../API/PostService";
-import { RECOMMENDS } from "../../libs/constants";
+import { getRecommend } from "../../API/PostService";
+import { RECOMMEND } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchRecommend = () => {
+const fetchRecommend = (id: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: RECOMMENDS.FETCH_RECOMMENDS });
-      const response = await getRecommends();
+      dispatch({ type: RECOMMEND.FETCH_RECOMMEND });
+      const response = await getRecommend(id);
       dispatch({
-        type: RECOMMENDS.FETCH_RECOMMENDS_SUCCESS,
+        type: RECOMMEND.FETCH_RECOMMEND_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       dispatch({
-        type: RECOMMENDS.FETCH_RECOMMENDS_ERROR,
-        payload: "Error loading recommends",
+        type: RECOMMEND.FETCH_RECOMMEND_ERROR,
+        payload: "Error loading recommend",
       });
     }
   };

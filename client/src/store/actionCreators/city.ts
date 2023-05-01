@@ -1,21 +1,21 @@
 import { Dispatch } from "redux";
-import { getCities } from "../../API/PostService";
-import { COUNTRY } from "../../libs/constants";
+import { getCity } from "../../API/PostService";
+import { CITY } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchCity = () => {
+const fetchCity = (id: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: COUNTRY.FETCH_COUNTRY });
-      const response = await getCities();
+      dispatch({ type: CITY.FETCH_CITY });
+      const response = await getCity(id);
       dispatch({
-        type: COUNTRY.FETCH_COUNTRY_SUCCESS,
+        type: CITY.FETCH_CITY_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       dispatch({
-        type: COUNTRY.FETCH_COUNTRY_ERROR,
-        payload: "Error loading countries",
+        type: CITY.FETCH_CITY_ERROR,
+        payload: "Error loading city",
       });
     }
   };

@@ -9,8 +9,7 @@ function RecommendCart(props: IRecommendCartProps) {
   const navigate = useNavigate();
   const viewCity = () => {
     if (recommend.id === currentSlide) {
-      localStorage.setItem("city", JSON.stringify(recommend.cities[0]));
-      navigate("/city");
+      navigate(`/city/${recommend.id}`);
     } else {
       sliderRef.current?.slickGoTo(recommend.id - 1);
       setTimeout(() => {
@@ -22,7 +21,7 @@ function RecommendCart(props: IRecommendCartProps) {
     <Box
       className={styles.recommends__img}
       sx={{
-        backgroundImage: `url(${recommend.cities[0].sights[0].image})`,
+        backgroundImage: `url(${recommend.image})`,
       }}
       onClick={viewCity}
     >
@@ -32,14 +31,14 @@ function RecommendCart(props: IRecommendCartProps) {
           component="h5"
           className={styles.recommends__data}
         >
-          {createDate(new Date(Date.now()))}
+          {createDate(new Date(recommend.updatedAt))}
         </Typography>
         <Typography
           variant="h6"
           component="h5"
           className={styles.recommends__name}
         >
-          {recommend.cities[0].name}, {recommend.country}
+          {recommend.name}, {recommend.country}
         </Typography>
       </Box>
     </Box>

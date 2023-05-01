@@ -3,7 +3,7 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PersonIcon from "@mui/icons-material/Person";
 import classNames from "classnames";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./ControlPanel.module.scss";
 
 function ControlPanel() {
@@ -23,7 +23,7 @@ function ControlPanel() {
       <IconButton
         color="default"
         className={classNames(
-          location.pathname === "/city" && styles.icon_active,
+          location.pathname.includes("/city") && styles.icon_active,
         )}
       >
         <LocationOnIcon />

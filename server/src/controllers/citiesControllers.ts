@@ -28,16 +28,6 @@ class CitiesControllers {
     }
   }
 
-  async getRecommend(req: Request, res: Response, next: NextFunction) {
-    try {
-      const recommendId = req.params.id;
-      const recommend = await findRecommend(recommendId);
-      return res.json(recommend);
-    } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
-    }
-  }
-
   async getRecommends(req: Request, res: Response, next: NextFunction) {
     try {
       const recommends = await findRecommends();

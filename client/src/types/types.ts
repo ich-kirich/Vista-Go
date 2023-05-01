@@ -1,46 +1,50 @@
 import Slider from "react-slick";
 
-export interface IStatictic {
+interface ITag {
   id: number;
-  date: Date | string;
-  ip: string;
-  region: string;
-  browserName: string;
-  browserVersion: string;
-  os: string;
-  LinkId: number;
-  createdAt: string;
-  updatedAt: string;
+  name: string;
 }
 
 export interface ISights {
   id: number;
   name: string;
   image: string;
-  tags: string[];
-}
-
-export interface ICity {
-  id: number;
-  name: string;
-  weather: number;
-  sights: ISights[];
+  tags: ITag[];
 }
 
 export interface ICities {
   id: number;
   country: string;
-  cities: ICity[];
+  name: string;
+  weather: string;
+  image: string;
+  sights?: ISights[];
 }
 
-export interface ICityState {
-  countries: ICities[];
+export interface ICitiesState {
+  cities: ICities[];
   loading: boolean;
   error: null | string;
 }
 
+export interface ICityState {
+  city: ICities;
+  loading: boolean;
+  error: null | string;
+}
+
+export interface IRecommends extends ICities {
+  updatedAt: string;
+}
+
 export interface IRecommendState {
-  recommend: ICities[];
+  recommend: IRecommends;
+  loading: boolean;
+  error: null | string;
+}
+
+export interface IRecommendsState {
+  recommends: IRecommends[];
   loading: boolean;
   error: null | string;
 }
@@ -63,18 +67,18 @@ export interface IChildernProps {
 }
 
 export interface ICityProps {
-  city: ICity;
+  city: ICities;
 }
 
 export interface IRecommendCartProps {
-  recommend: ICities;
+  recommend: IRecommends;
   sliderRef: React.RefObject<Slider>;
   currentSlide: number;
   setCurrentSlide: Function;
 }
 
 export interface IListCountryCitiesProps {
-  cities: ICity[];
+  cities: ICities[];
   setCountry: Function;
 }
 

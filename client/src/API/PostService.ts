@@ -1,13 +1,21 @@
-import axios from "axios";
+import api from "./Axios";
 
 export async function getCities() {
-  const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/cities`);
+  const response = await api.get("/cities");
   return response;
 }
 
 export async function getRecommends() {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/recommends`,
-  );
+  const response = await api.get("/recommends");
+  return response;
+}
+
+export async function getCity(id: string) {
+  const response = await api.get(`/cities/${id}`);
+  return response;
+}
+
+export async function getRecommend(id: string) {
+  const response = await api.get(`/recommends/${id}`);
   return response;
 }

@@ -10,14 +10,14 @@ import { SETTINGS } from "../../libs/constants";
 import RecommendCart from "../RecommendCart/RecommendCart";
 
 function RecommendsCart() {
-  const { fetchRecommend } = useActions();
+  const { fetchRecommends } = useActions();
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
   useEffect(() => {
-    fetchRecommend();
+    fetchRecommends();
   }, []);
-  const { recommend, error, loading } = useTypedSelector(
-    (state) => state.recommend,
+  const { recommends, error, loading } = useTypedSelector(
+    (state) => state.recommends,
   );
   return (
     <Box>
@@ -33,7 +33,7 @@ function RecommendsCart() {
               className={styles.recommends__wrapper}
               ref={sliderRef}
             >
-              {recommend.map((item) => (
+              {recommends.map((item) => (
                 <RecommendCart
                   key={item.id}
                   recommend={item}

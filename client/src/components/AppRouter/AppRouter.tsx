@@ -6,7 +6,7 @@ import MainPage from "../MainPage/MainPage";
 function AppRouter() {
   const routers = [
     { path: "/", element: <MainPage /> },
-    { path: "/city", element: <CityPage /> },
+    { path: "/city/:id", element: <CityPage /> },
     { path: "/error", element: <ErrorPage /> },
   ];
   return (
