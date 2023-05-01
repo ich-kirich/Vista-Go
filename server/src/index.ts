@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { StatusCodes } from "http-status-codes";
-import ErrorHandling from "./middleware/errorhandlingmiddleware";
+import ErrorHandling from "./middleware/errormiddleware";
 import router from "./routes/router";
 import ApiError from "./error/apiError";
-import generateDb from "./services/fileServices";
+import generateDb from "./services/citiesServices";
 
 const app = express();
 app.use(express.json());

@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { db } from "../libs/constants";
 import ApiError from "../error/apiError";
 
-class FileControllers {
-  async getInf(req: Request, res: Response, next: NextFunction) {
+class CitiesControllers {
+  async getCities(req: Request, res: Response, next: NextFunction) {
     try {
       const cities = await db.getData("/cities");
       return res.json(cities);
@@ -13,7 +13,7 @@ class FileControllers {
     }
   }
 
-  async getRec(req: Request, res: Response, next: NextFunction) {
+  async getRecommends(req: Request, res: Response, next: NextFunction) {
     try {
       const recommends = await db.getData("/cities");
       return res.json(recommends);
@@ -23,4 +23,4 @@ class FileControllers {
   }
 }
 
-export default new FileControllers();
+export default new CitiesControllers();

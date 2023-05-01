@@ -1,7 +1,7 @@
 import { Router } from "express";
-import FileCouter from "./file";
+import CitiesRouter from "./cities";
 
 const router = Router();
-router.use("/", FileCouter);
+router.use("/", CitiesRouter);
 
 export default router;
