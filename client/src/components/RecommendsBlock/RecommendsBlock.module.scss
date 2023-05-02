@@ -25,4 +25,9 @@
 .more {
   color: #808080;
   font-size: 16px;
+  transition: 1s;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
 }

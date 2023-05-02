@@ -72,13 +72,13 @@ export interface ICityProps {
 }
 
 export interface IRecommendCartProps {
-  recommend: IRecommends;
+  recommend: IRecommends | ICities;
   sliderRef: React.RefObject<Slider>;
   currentSlide: number;
   setCurrentSlide: Function;
 }
 
-export interface IListCountryCitiesProps {
+export interface IListCitiesProps {
   cities: ICities[];
 }
 
