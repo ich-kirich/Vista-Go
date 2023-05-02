@@ -7,18 +7,14 @@ import ModalComponent from "../ModalComponent/ModalComponent";
 import styles from "./ListCountryCities.module.scss";
 
 function ListCountryCities(props: IListCountryCitiesProps) {
-  const { cities, setCountry } = props;
+  const { cities } = props;
   const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
   const viewCity = (city: ICities) => {
     navigate(`/city/${city.id}`);
   };
   return (
-    <ModalComponent
-      visible={visible}
-      setVisible={setVisible}
-      setCountry={setCountry}
-    >
+    <ModalComponent visible={visible} setVisible={setVisible}>
       <Box>
         <Typography variant="h6" component="h5">
           {cities.length === 0 ? "No city found" : "Choose city:"}

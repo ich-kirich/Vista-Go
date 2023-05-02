@@ -1,18 +1,13 @@
 import { Box } from "@mui/material";
 import classnames from "classnames";
-import { useContext } from "react";
-import { CONTEXT } from "../../libs/constants";
 import { IModalComponentProps } from "../../types/types";
 import styles from "./ModalComponent.module.scss";
 
 function ModalComponent(props: IModalComponentProps) {
-  const { children, visible, setVisible, setCountry } = props;
-  const { setNameCity } = useContext(CONTEXT);
+  const { children, visible, setVisible } = props;
 
   const closePopup = () => {
     setVisible(false);
-    setCountry([]);
-    setNameCity("");
   };
 
   return (

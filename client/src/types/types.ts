@@ -9,6 +9,7 @@ export interface ISights {
   id: number;
   name: string;
   image: string;
+  description: string;
   tags: ITag[];
 }
 
@@ -79,13 +80,11 @@ export interface IRecommendCartProps {
 
 export interface IListCountryCitiesProps {
   cities: ICities[];
-  setCountry: Function;
 }
 
 export interface IModalComponentProps extends IChildernProps {
   visible: boolean;
   setVisible: Function;
-  setCountry: Function;
 }
 
 export interface ISearchFieldProps {

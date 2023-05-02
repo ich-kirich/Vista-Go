@@ -17,7 +17,7 @@ function CityPopular(props: ICityProps) {
         </Typography>
       </Box>
       <PopularSight city={city} />
-      <PopularControls />
+      <PopularControls city={city} />
     </Box>
   );
 }

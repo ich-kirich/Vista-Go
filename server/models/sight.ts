@@ -7,6 +7,8 @@ class Sight extends Model {
 
   public image!: string;
 
+  public description!: string;
+
   public tags?: Tag[];
 }
 
@@ -23,6 +25,10 @@ Sight.init(
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.STRING(2048),
       allowNull: false,
     },
   },

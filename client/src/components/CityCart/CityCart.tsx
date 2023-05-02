@@ -1,9 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState, MouseEvent, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import { CONTEXT } from "../../libs/constants";
 import { getFindCities } from "../../libs/utils";
+import recommend from "../../store/actionCreators/recommend";
 import { ICities } from "../../types/types";
 import ListCountryCities from "../ListCountryCities/ListCountryCities";
 import Loader from "../Loader/Loader";
@@ -14,6 +16,7 @@ function CityCart() {
   const { nameCity } = useContext(CONTEXT);
   const { fetchCities } = useActions();
   const [country, setCountry] = useState<ICities[]>([]);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchCities();
   }, []);
@@ -24,6 +27,10 @@ function CityCart() {
       return getFindCities(cities, nameCity);
     }
     return country;
+  };
+
+  const viewCity = (id: number) => {
+    navigate(`/city/${id}`);
   };
   return (
     <Box>
@@ -42,6 +49,7 @@ function CityCart() {
                   sx={{
                     backgroundImage: `url(${item.image})`,
                   }}
+                  onClick={() => viewCity(item.id)}
                 >
                   <Typography
                     variant="h6"
@@ -52,7 +60,7 @@ function CityCart() {
                   </Typography>
                 </Box>
               ))}
-              <ListCountryCities cities={getCities()} setCountry={setCountry} />
+              <ListCountryCities cities={getCities()} />
             </Box>
           )}
         </Box>
