@@ -8,6 +8,7 @@ import styles from "./ListCountryCities.module.scss";
 
 function ListCountryCities(props: IListCitiesProps) {
   const { cities } = props;
+  const sortCities = cities.sort((a, b) => a.name.localeCompare(b.name));
   const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
   const viewCity = (city: ICities) => {
@@ -17,9 +18,9 @@ function ListCountryCities(props: IListCitiesProps) {
     <ModalComponent visible={visible} setVisible={setVisible}>
       <Box>
         <Typography variant="h6" component="h5">
-          {cities.length === 0 ? "No city found" : "Choose city:"}
+          {sortCities.length === 0 ? "No city found" : "Choose city:"}
         </Typography>
-        {cities.map((item) => (
+        {sortCities.map((item) => (
           <Typography
             key={item.id}
             variant="inherit"

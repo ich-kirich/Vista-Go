@@ -16,7 +16,7 @@ function PopupList(props: IListCitiesProps) {
       {cities.map((item) => (
         <Grid key={item.id} item sm={4}>
           <Box
-            className={styles.recommends__img}
+            className={styles.cart__img}
             sx={{
               backgroundImage: `url(${item.image})`,
             }}
@@ -26,7 +26,7 @@ function PopupList(props: IListCitiesProps) {
               <Typography
                 variant="h6"
                 component="h5"
-                className={styles.recommends__name}
+                className={styles.cart__name}
               >
                 {item.name}, {item.country}
               </Typography>

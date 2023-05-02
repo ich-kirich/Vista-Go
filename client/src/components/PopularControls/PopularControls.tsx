@@ -3,11 +3,11 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
 import styles from "./PopularControls.module.scss";
 import ModalComponent from "../ModalComponent/ModalComponent";
-import { ICityProps } from "../../types/types";
-import DetailsPopular from "../DetailsPopular/DetailsPopular";
+import { IDetailsSightProps } from "../../types/types";
+import DetailsSight from "../DetailsSight/DetailsSight";
 
-function PopularControls(props: ICityProps) {
-  const { city } = props;
+function PopularControls(props: IDetailsSightProps) {
+  const { sight } = props;
   const [visible, setVisible] = useState(false);
 
   const changeVisible = () => {
@@ -52,7 +52,7 @@ function PopularControls(props: ICityProps) {
           </Button>
         </ButtonGroup>
         <ModalComponent visible={visible} setVisible={setVisible}>
-          <DetailsPopular city={city} />
+          <DetailsSight sight={sight} />
         </ModalComponent>
       </Box>
     </Box>

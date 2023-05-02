@@ -91,3 +91,7 @@ export interface ISearchFieldProps {
   setNameCity: Function;
   nameCity: string;
 }
+
+export interface IDetailsSightProps {
+  sight: ISights;
+}

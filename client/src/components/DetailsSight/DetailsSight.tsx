@@ -1,31 +1,29 @@
 import { Box, Typography } from "@mui/material";
-import { ICityProps } from "../../types/types";
-import styles from "./DetailsPopular.module.scss";
+import { IDetailsSightProps } from "../../types/types";
+import styles from "./DetailsSight.module.scss";
 
-function DetailsPopular(props: ICityProps) {
-  const { city } = props;
+function DetailsPopular(props: IDetailsSightProps) {
+  const { sight } = props;
   return (
     <Box className={styles.details__wrapper}>
       <Box
         className={styles.details__img}
         sx={{
-          backgroundImage: `url(${city.sights![0].image})`,
+          backgroundImage: `url(${sight.image})`,
         }}
       />
       <Box className={styles.details__tags}>
         <Typography variant="h6" component="h5">
           Tags:
         </Typography>
-        {city.sights![0].tags.map((item, index) => (
+        {sight.tags.map((item, index) => (
           <Typography
             key={item.id}
             variant="h6"
             component="h5"
             className={styles.details__tag}
           >
-            {index === city.sights![0].tags.length - 1
-              ? item.name
-              : `${item.name},`}
+            {index === sight.tags.length - 1 ? item.name : `${item.name},`}
           </Typography>
         ))}
       </Box>
@@ -38,7 +36,7 @@ function DetailsPopular(props: ICityProps) {
           component="h5"
           className={styles.details__text}
         >
-          {city.sights![0].description}
+          {sight.description}
         </Typography>
       </Box>
     </Box>
