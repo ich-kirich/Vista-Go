@@ -14,6 +14,7 @@ function ListCountryCities(props: IListCitiesProps) {
   const viewCity = (city: ICities) => {
     navigate(`/city/${city.id}`);
   };
+
   return (
     <ModalComponent visible={visible} setVisible={setVisible}>
       <Box>

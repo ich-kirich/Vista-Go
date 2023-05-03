@@ -19,6 +19,7 @@ function CityCart(props: IListCitiesProps) {
   const viewCity = (id: number) => {
     navigate(`/city/${id}`);
   };
+
   return (
     <Box className={styles.country__wrapper}>
       {cities.slice(0, 3).map((item) => (

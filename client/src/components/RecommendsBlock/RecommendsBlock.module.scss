@@ -6,8 +6,8 @@
 }
 
 .header__wrapper {
-  @extend %wrapper;
   margin-bottom: 15px;
+  @extend %wrapper;
 }
 
 .title__wrapper {

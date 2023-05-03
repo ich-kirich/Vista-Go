@@ -13,10 +13,12 @@ import styles from "./CityPage.module.scss";
 function CityPage() {
   const { fetchCity } = useActions();
   const { id } = useParams();
+
   useEffect(() => {
     fetchCity(id!);
   }, []);
   const { city, error, loading } = useTypedSelector((state) => state.city);
+
   return (
     <Box>
       {loading ? (

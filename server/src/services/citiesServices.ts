@@ -31,24 +31,6 @@ export async function findCity(cityId: string) {
   return city;
 }
 
-export async function findRecommend(recommendId: string) {
-  const recommend = await Recommend.findOne({
-    where: { id: recommendId },
-    include: {
-      model: Sight,
-      as: "sights",
-      include: [
-        {
-          model: Tag,
-          as: "tags",
-        },
-      ],
-    },
-  });
-  recommend.dataValues.weather = await getWeather(recommend.dataValues.name);
-  return recommend;
-}
-
 export async function findCities() {
   const cities = await City.findAll();
   return cities;

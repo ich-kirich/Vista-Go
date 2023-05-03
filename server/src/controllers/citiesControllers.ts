@@ -5,7 +5,6 @@ import {
   findRecommends,
   findCities,
   findCity,
-  findRecommend,
 } from "../services/citiesServices";
 
 class CitiesControllers {

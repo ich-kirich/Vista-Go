@@ -11,8 +11,8 @@ import styles from "./CitiesBlock.module.scss";
 
 function CitiesBlock() {
   const [visible, setVisible] = useState(false);
-  const { fetchCities } = useActions();
 
+  const { fetchCities } = useActions();
   useEffect(() => {
     fetchCities();
   }, []);

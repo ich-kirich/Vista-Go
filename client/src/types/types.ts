@@ -38,12 +38,6 @@ export interface IRecommends extends ICities {
   updatedAt: string;
 }
 
-export interface IRecommendState {
-  recommend: IRecommends;
-  loading: boolean;
-  error: null | string;
-}
-
 export interface IRecommendsState {
   recommends: IRecommends[];
   loading: boolean;
@@ -59,7 +53,6 @@ export interface IContext {
   nameCity: string;
   visible: boolean;
   setVisible: Function;
-  setNameCity: Function;
 }
 
 export interface IChildernProps {

@@ -14,9 +14,8 @@ function MainPage() {
       nameCity: city,
       visible: view,
       setVisible: setView,
-      setNameCity: setCity,
     }),
-    [city, view, setView, setCity],
+    [city, view, setView],
   );
   return (
     <Container maxWidth="sm" className={styles.app__wrapper}>

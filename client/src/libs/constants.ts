@@ -10,16 +10,6 @@ export const INITIAL_CITY: ICities = {
   sights: [],
 };
 
-export const INITIAL_RECOMMEND: IRecommends = {
-  id: 1,
-  country: "Unknown",
-  name: "Unknown",
-  weather: "Unknown",
-  image: "Unknown",
-  updatedAt: "Unknown",
-  sights: [],
-};
-
 export const INITIAL_CITIES: ICities[] = [
   {
     id: 1,
@@ -69,12 +59,6 @@ export enum RECOMMENDS {
   FETCH_RECOMMENDS = "FETCH_RECOMMENDS",
   FETCH_RECOMMENDS_SUCCESS = "FETCH_RECOMMENDS_SUCCESS",
   FETCH_RECOMMENDS_ERROR = "FETCH_RECOMMENDS_ERROR",
-}
-
-export enum RECOMMEND {
-  FETCH_RECOMMEND = "FETCH_RECOMMEND",
-  FETCH_RECOMMEND_SUCCESS = "FETCH_RECOMMEND_SUCCESS",
-  FETCH_RECOMMEND_ERROR = "FETCH_RECOMMEND_ERROR",
 }
 
 export const CONTEXT = React.createContext({} as IContext);
