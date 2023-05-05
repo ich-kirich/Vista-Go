@@ -20,6 +20,14 @@ module.exports = {
         type: Sequelize.STRING(2048),
         allowNull: false,
       },
+      distance: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -32,10 +40,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'cities', key: 'id' }
       },
-      RecommendId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'recommends', key: 'id' }
-      }
     });
   },
   async down(queryInterface, Sequelize) {

@@ -4,16 +4,6 @@ import Sight from "./sight";
 
 class Recommend extends Model {
   public id!: number;
-
-  public country!: string;
-
-  public name!: string;
-
-  public weather!: string;
-
-  public image!: string;
-
-  public sight?: Sight[];
 }
 
 Recommend.init(
@@ -22,22 +12,6 @@ Recommend.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    country: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    weather: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {

@@ -20,10 +20,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      SightId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'sights', key: 'id' }
-      }
     });
   },
   async down(queryInterface, Sequelize) {

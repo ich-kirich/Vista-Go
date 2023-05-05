@@ -5,11 +5,11 @@ import Sight from "./sight";
 import Tag from "./tag";
 
 const initDb = async () => {
-  Tag.belongsTo(Sight);
-  Sight.hasMany(Tag, { as: "tags" });
+  Sight.belongsToMany(Tag, { through: "SightTag", as: "tags" });
+  Tag.belongsToMany(Sight, { through: "SightTag" });
   Sight.belongsTo(City);
-  Sight.belongsTo(Recommend);
-  Recommend.hasMany(Sight, { as: "sights" });
+  Recommend.belongsTo(City);
+  City.hasMany(Recommend);
   City.hasMany(Sight, { as: "sights" });
 
   await sequelize.authenticate();

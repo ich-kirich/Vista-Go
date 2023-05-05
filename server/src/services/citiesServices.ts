@@ -1,17 +1,9 @@
-import axios from "axios";
-import config from "config";
+import { Sequelize } from "sequelize";
 import Recommend from "../../models/recommend";
 import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
-
-async function getWeather(city: string) {
-  const apiKey = config.get("weather.apiKey");
-  const response = await axios.get(
-    `  https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
-  );
-  return String(response.data.main.temp);
-}
+import getWeather from "../libs/utils";
 
 export async function findCity(cityId: string) {
   const city = await City.findOne({
@@ -37,6 +29,12 @@ export async function findCities() {
 }
 
 export async function findRecommends() {
-  const recommends = await Recommend.findAll();
+  const recommends = await Recommend.findAll({
+    include: [
+      {
+        model: City,
+      },
+    ],
+  });
   return recommends;
 }

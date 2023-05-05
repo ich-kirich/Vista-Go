@@ -8,22 +8,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      country: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      weather: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -31,7 +15,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      CityId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'cities', key: 'id' }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

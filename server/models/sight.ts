@@ -9,6 +9,10 @@ class Sight extends Model {
 
   public description!: string;
 
+  public price!: string;
+
+  public distance!: string;
+
   public tags?: Tag[];
 }
 
@@ -29,6 +33,14 @@ Sight.init(
     },
     description: {
       type: DataTypes.STRING(2048),
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    distance: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
