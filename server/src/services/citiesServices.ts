@@ -19,7 +19,10 @@ export async function findCity(cityId: string) {
       ],
     },
   });
-  city.dataValues.weather = await getWeather(city.dataValues.name);
+  city.dataValues.weather = await getWeather(
+    city.dataValues.lat,
+    city.dataValues.lon,
+  );
   return city;
 }
 

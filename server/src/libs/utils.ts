@@ -3,11 +3,11 @@ import config from "config";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 
-async function getWeather(city: string) {
+async function getWeather(lat: string, lon: string) {
   const apiKey = config.get("weather.apiKey");
   try {
     const response = await axios.get(
-      `  https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
     );
     return String(response.data.main.temp);
   } catch (e) {

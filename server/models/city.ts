@@ -13,6 +13,10 @@ class City extends Model {
 
   public image!: string;
 
+  public lat!: string;
+
+  public lon!: string;
+
   public sights?: Sight[];
 }
 
@@ -36,6 +40,14 @@ City.init(
       allowNull: false,
     },
     image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lat: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lon: {
       type: DataTypes.STRING,
       allowNull: false,
     },
