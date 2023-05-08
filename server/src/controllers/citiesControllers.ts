@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { mergeCityFields } from "../libs/utils";
 import ApiError from "../error/apiError";
 import {
   findRecommends,
@@ -30,7 +31,8 @@ class CitiesControllers {
   async getRecommends(req: Request, res: Response, next: NextFunction) {
     try {
       const recommends = await findRecommends();
-      return res.json(recommends);
+      const result = mergeCityFields(recommends);
+      return res.json(result);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }

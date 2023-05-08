@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { getCity } from "../../API/PostService";
+import { getCity } from "../../api/postService";
 import { CITY } from "../../libs/constants";
 import { IAction } from "../../types/types";
 

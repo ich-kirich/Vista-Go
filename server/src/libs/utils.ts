@@ -1,9 +1,10 @@
 import axios from "axios";
 import config from "config";
 import { StatusCodes } from "http-status-codes";
+import Recommend from "../../models/recommend";
 import ApiError from "../error/apiError";
 
-async function getWeather(lat: string, lon: string) {
+export async function getWeather(lat: string, lon: string) {
   const apiKey = config.get("weather.apiKey");
   try {
     const response = await axios.get(
@@ -15,4 +16,10 @@ async function getWeather(lat: string, lon: string) {
   }
 }
 
-export default getWeather;
+export function mergeCityFields(arr: any) {
+  return arr.map((item) => {
+    const { City, ...rest } = item.dataValues;
+    const result = { ...City.dataValues, ...rest };
+    return result;
+  });
+}

@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { getRecommends } from "../../API/PostService";
+import { getRecommends } from "../../api/postService";
 import { RECOMMENDS } from "../../libs/constants";
 import { IAction } from "../../types/types";
 

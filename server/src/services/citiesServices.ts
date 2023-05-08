@@ -1,9 +1,8 @@
-import { Sequelize } from "sequelize";
 import Recommend from "../../models/recommend";
 import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
-import getWeather from "../libs/utils";
+import { getWeather } from "../libs/utils";
 
 export async function findCity(cityId: string) {
   const city = await City.findOne({

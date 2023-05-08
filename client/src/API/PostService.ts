@@ -1,4 +1,4 @@
-import api from "./Axios";
+import api from "./axiosConfig";
 
 export async function getCities() {
   const response = await api.get("/cities");
