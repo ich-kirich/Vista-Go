@@ -1,20 +1,18 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ICityProps, ISights } from "../../types/types";
-import DetailsPopular from "../DetailsSight/DetailsSight";
-import ModalComponent from "../ModalComponent/ModalComponent";
 import ViewError from "../ViewError/ViewError";
-import styles from "./PopupSights.module.scss";
+import styles from "./ListSights.module.scss";
 
-function PopupSights(props: ICityProps) {
+function ListSights(props: ICityProps) {
   const { city } = props;
-  const [visible, setVisible] = useState(false);
-  const [chooseSight, setChooseSight] = useState<ISights>({} as ISights);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const changeVisible = (e: MouseEvent, sight: ISights) => {
     e.stopPropagation();
-    setVisible(true);
-    setChooseSight(sight);
+    navigate(`/city/${id}/sights/${sight.id}`);
   };
 
   return (
@@ -42,9 +40,6 @@ function PopupSights(props: ICityProps) {
                   </Typography>
                 </Box>
               </Box>
-              <ModalComponent visible={visible} setVisible={setVisible}>
-                <DetailsPopular sight={chooseSight} />
-              </ModalComponent>
             </Grid>
           ))}
         </Grid>
@@ -53,4 +48,4 @@ function PopupSights(props: ICityProps) {
   );
 }
 
-export default PopupSights;
+export default ListSights;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ICityProps } from "../../types/types";
 import ModalComponent from "../ModalComponent/ModalComponent";
 import MustSights from "../MustSights/MustSights";
-import PopupSights from "../PopupSights/PopupSights";
+import ListSights from "../ListSights/ListSights";
 import styles from "./MustGo.module.scss";
 
 function MustGo(props: ICityProps) {
@@ -31,7 +31,7 @@ function MustGo(props: ICityProps) {
       </Box>
       <MustSights city={city} />
       <ModalComponent visible={visible} setVisible={setVisible}>
-        <PopupSights city={city} />
+        <ListSights city={city} />
       </ModalComponent>
     </Box>
   );

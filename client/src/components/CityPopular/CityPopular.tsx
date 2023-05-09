@@ -1,19 +1,18 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ICityProps } from "../../types/types";
-import ModalComponent from "../ModalComponent/ModalComponent";
 import PopularControls from "../PopularControls/PopularControls";
 import PopularSight from "../PopularSight/PopularSight";
-import PopupSights from "../PopupSights/PopupSights";
 import ViewError from "../ViewError/ViewError";
 import styles from "./CityPopular.module.scss";
 
 function CityPopular(props: ICityProps) {
   const { city } = props;
-  const [visible, setVisible] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const changeVisible = () => {
-    setVisible(true);
+    navigate(`/city/${id}/sights`);
   };
 
   return (
@@ -37,9 +36,6 @@ function CityPopular(props: ICityProps) {
           </Box>
           <PopularSight sight={city.sights[0]} />
           <PopularControls sight={city.sights[0]} />
-          <ModalComponent visible={visible} setVisible={setVisible}>
-            <PopupSights city={city} />
-          </ModalComponent>
         </Box>
       )}
     </Box>

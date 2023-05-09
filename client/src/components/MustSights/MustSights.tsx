@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ICityProps, ISights } from "../../types/types";
 import DetailsSight from "../DetailsSight/DetailsSight";
 import ModalComponent from "../ModalComponent/ModalComponent";
-import PopupSights from "../PopupSights/PopupSights";
+import PopupSights from "../ListSights/ListSights";
 import ViewError from "../ViewError/ViewError";
 import styles from "./MustSights.module.scss";
 
@@ -74,7 +74,7 @@ function MustSights(props: ICityProps) {
         <DetailsSight sight={chooseSight} />
       </ModalComponent>
       <ModalComponent visible={visible} setVisible={setVisible}>
-        <PopupSights city={city} />
+        <ListSights city={city} />
       </ModalComponent>
     </Box>
   );

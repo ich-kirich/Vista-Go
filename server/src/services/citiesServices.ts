@@ -1,4 +1,3 @@
-import Recommend from "../../models/recommend";
 import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
@@ -28,15 +27,4 @@ export async function findCity(cityId: string) {
 export async function findCities() {
   const cities = await City.findAll();
   return cities;
-}
-
-export async function findRecommends() {
-  const recommends = await Recommend.findAll({
-    include: [
-      {
-        model: City,
-      },
-    ],
-  });
-  return recommends;
 }
