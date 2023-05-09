@@ -1,16 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ICityProps, ISights } from "../../types/types";
 import DetailsSight from "../DetailsSight/DetailsSight";
 import ModalComponent from "../ModalComponent/ModalComponent";
-import PopupSights from "../ListSights/ListSights";
 import ViewError from "../ViewError/ViewError";
 import styles from "./MustSights.module.scss";
 
 function MustSights(props: ICityProps) {
   const { city } = props;
   const [visibleDetails, setVisibleDetails] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [chooseSight, setChooseSight] = useState<ISights>({} as ISights);
 
   const changeVisibleDetails = (sight: ISights) => {
@@ -18,8 +19,8 @@ function MustSights(props: ICityProps) {
     setChooseSight(sight);
   };
 
-  const changeVisible = () => {
-    setVisible(true);
+  const viewSightsPage = () => {
+    navigate(`/city/${id}/sights`);
   };
 
   return (
@@ -56,7 +57,7 @@ function MustSights(props: ICityProps) {
                 />
               )}
               {city.sights.length >= 4 && (
-                <Box className={styles.sight__amount} onClick={changeVisible}>
+                <Box className={styles.sight__amount} onClick={viewSightsPage}>
                   <Typography
                     variant="h6"
                     component="h5"
@@ -72,9 +73,6 @@ function MustSights(props: ICityProps) {
       )}
       <ModalComponent visible={visibleDetails} setVisible={setVisibleDetails}>
         <DetailsSight sight={chooseSight} />
-      </ModalComponent>
-      <ModalComponent visible={visible} setVisible={setVisible}>
-        <ListSights city={city} />
       </ModalComponent>
     </Box>
   );

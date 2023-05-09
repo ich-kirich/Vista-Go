@@ -13,6 +13,12 @@ export interface ISights {
   tags: ITag[];
 }
 
+export interface ISightsState {
+  sights: ISights[];
+  loading: boolean;
+  error: null | string;
+}
+
 export interface ICities {
   id: number;
   country: string;
@@ -87,4 +93,8 @@ export interface ISearchFieldProps {
 
 export interface IDetailsSightProps {
   sight: ISights;
+}
+
+export interface IListSightsProps {
+  sights: ISights[];
 }

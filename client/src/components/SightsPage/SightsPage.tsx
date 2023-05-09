@@ -10,12 +10,12 @@ import styles from "./SightsPage.module.scss";
 
 function SightsPage() {
   const { id } = useParams();
-  const { fetchCity } = useActions();
+  const { fetchSights } = useActions();
 
   useEffect(() => {
-    fetchCity(id!);
+    fetchSights(id!);
   }, []);
-  const { city, error, loading } = useTypedSelector((state) => state.city);
+  const { sights, error, loading } = useTypedSelector((state) => state.sights);
   const navigate = useNavigate();
   const closePage = () => {
     navigate(`/city/${id}`);
@@ -32,7 +32,7 @@ function SightsPage() {
           ) : (
             <Box className={styles.sights_wrapper} onClick={closePage}>
               <Box className={styles.sights_content}>
-                <ListSights city={city} />
+                <ListSights sights={sights} />
               </Box>
             </Box>
           )}
