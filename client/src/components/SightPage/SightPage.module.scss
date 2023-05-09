@@ -1,0 +1,19 @@
+.sights_wrapper {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.sights_content {
+  padding: 25px;
+  min-width: 250px;
+  border-radius: 25px;
+  text-align: center;
+}

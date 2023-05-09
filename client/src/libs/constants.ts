@@ -41,6 +41,14 @@ export const INITIAL_SIGHTS: ISights[] = [
   },
 ];
 
+export const INITIAL_SIGHT: ISights = {
+  id: 1,
+  name: "Unknown",
+  image: "Unknown",
+  description: "Unknown",
+  tags: [],
+};
+
 export const SETTINGS = {
   arrows: false,
   dots: false,
@@ -75,6 +83,12 @@ export enum SIGHTS {
   FETCH_SIGHTS = "FETCH_SIGHTS",
   FETCH_SIGHTS_SUCCESS = "FETCH_SIGHTS_SUCCESS",
   FETCH_SIGHTS_ERROR = "FETCH_SIGHTS_ERROR",
+}
+
+export enum SIGHT {
+  FETCH_SIGHT = "FETCH_SIGHT",
+  FETCH_SIGHT_SUCCESS = "FETCH_SIGHT_SUCCESS",
+  FETCH_SIGHT_ERROR = "FETCH_SIGHT_ERROR",
 }
 
 export const CONTEXT = React.createContext({} as IContext);

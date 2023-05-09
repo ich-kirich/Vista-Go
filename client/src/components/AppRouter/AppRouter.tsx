@@ -10,7 +10,7 @@ function AppRouter() {
     { path: "/", element: <MainPage /> },
     { path: "/city/:id", element: <CityPage /> },
     { path: "/city/:id/sights", element: <SightsPage /> },
-    { path: "/city/:id/sights/:id", element: <SightPage /> },
+    { path: "/city/:id/sights/:sightId", element: <SightPage /> },
     { path: "/error", element: <ErrorPage /> },
   ];
   return (

@@ -4,8 +4,7 @@ import { ICityProps } from "../../types/types";
 import MustSights from "../MustSights/MustSights";
 import styles from "./MustGo.module.scss";
 
-function MustGo(props: ICityProps) {
-  const { city } = props;
+function MustGo() {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -28,7 +27,7 @@ function MustGo(props: ICityProps) {
           More
         </Typography>
       </Box>
-      <MustSights city={city} />
+      <MustSights />
     </Box>
   );
 }

@@ -1,17 +1,16 @@
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./PopularControls.module.scss";
-import ModalComponent from "../ModalComponent/ModalComponent";
 import { IDetailsSightProps } from "../../types/types";
-import DetailsSight from "../DetailsSight/DetailsSight";
 
 function PopularControls(props: IDetailsSightProps) {
   const { sight } = props;
-  const [visible, setVisible] = useState(false);
+  const { id } = useParams();
 
-  const changeVisible = () => {
-    setVisible(true);
+  const navigate = useNavigate();
+  const closePage = () => {
+    navigate(`/city/${id}/sights/${sight.id}`);
   };
 
   return (
@@ -27,7 +26,7 @@ function PopularControls(props: IDetailsSightProps) {
               variant="h6"
               component="h5"
               className={styles.btn__text}
-              onClick={changeVisible}
+              onClick={closePage}
             >
               Details
             </Typography>
@@ -41,7 +40,7 @@ function PopularControls(props: IDetailsSightProps) {
               variant="h6"
               component="h5"
               className={styles.btn__text}
-              onClick={changeVisible}
+              onClick={closePage}
             >
               Navigation
             </Typography>
@@ -51,9 +50,6 @@ function PopularControls(props: IDetailsSightProps) {
             />
           </Button>
         </ButtonGroup>
-        <ModalComponent visible={visible} setVisible={setVisible}>
-          <DetailsSight sight={sight} />
-        </ModalComponent>
       </Box>
     </Box>
   );

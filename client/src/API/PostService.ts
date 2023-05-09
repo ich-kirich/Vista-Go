@@ -19,3 +19,8 @@ export async function getSights(id: string) {
   const response = await api.get(`/${id}/sights`);
   return response;
 }
+
+export async function getSight(id: string) {
+  const response = await api.get(`/sights/${id}`);
+  return response;
+}

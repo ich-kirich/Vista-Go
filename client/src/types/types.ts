@@ -19,6 +19,12 @@ export interface ISightsState {
   error: null | string;
 }
 
+export interface ISightState {
+  sight: ISights;
+  loading: boolean;
+  error: null | string;
+}
+
 export interface ICities {
   id: number;
   country: string;
