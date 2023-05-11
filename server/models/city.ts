@@ -17,6 +17,8 @@ class City extends Model {
 
   public lon!: string;
 
+  public weatherLastRequest!: Date;
+
   public sights?: Sight[];
 }
 
@@ -49,6 +51,10 @@ City.init(
     },
     lon: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    weatherLastRequest: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },

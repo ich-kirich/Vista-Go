@@ -1,3 +1,4 @@
+import config from "config";
 import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
@@ -17,10 +18,22 @@ export async function findCity(cityId: string) {
       ],
     },
   });
-  city.dataValues.weather = await getWeather(
-    city.dataValues.lat,
-    city.dataValues.lon,
+  const cityWeatherRequest = new Date(city.dataValues.weatherLastRequest);
+  const now = new Date();
+  const diffInMinutes = Math.round(
+    (now.getTime() - cityWeatherRequest.getTime()) / (1000 * 60),
   );
+  const timeRequestWeather: number = config.get("weather.timeRequestWeather");
+  if (diffInMinutes > timeRequestWeather) {
+    const cityWeather = await getWeather(
+      city.dataValues.lat,
+      city.dataValues.lon,
+    );
+    await city.update({
+      weather: cityWeather,
+      weatherLastRequest: new Date(),
+    });
+  }
   return city;
 }
 
