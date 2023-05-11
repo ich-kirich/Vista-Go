@@ -17,7 +17,6 @@ export interface ISights {
   image: string;
   description: string;
   tags: ITag[];
-  guides: IGuide[];
 }
 
 export interface ISightsState {
@@ -38,7 +37,8 @@ export interface ICities {
   name: string;
   weather: string;
   image: string;
-  sights?: ISights[];
+  sights: ISights[];
+  guides: IGuide[];
 }
 
 export interface ICitiesState {
@@ -55,6 +55,7 @@ export interface ICityState {
 
 export interface IRecommends extends ICities {
   updatedAt: string;
+  CityId: number;
 }
 
 export interface IRecommendsState {
@@ -84,7 +85,7 @@ export interface ICityProps {
 }
 
 export interface IRecommendCartProps {
-  recommend: IRecommends | ICities;
+  recommend: IRecommends;
   sliderRef: React.RefObject<Slider>;
   currentSlide: number;
   setCurrentSlide: Function;
@@ -92,6 +93,10 @@ export interface IRecommendCartProps {
 
 export interface IListCitiesProps {
   cities: ICities[];
+}
+
+export interface IListRecommendsProps {
+  recommends: IRecommends[];
 }
 
 export interface IModalComponentProps extends IChildernProps {

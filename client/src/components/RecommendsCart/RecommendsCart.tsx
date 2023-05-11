@@ -3,10 +3,10 @@ import Slider from "react-slick";
 import styles from "./RecommendsCart.module.scss";
 import { SETTINGS } from "../../libs/constants";
 import RecommendCart from "../RecommendCart/RecommendCart";
-import { IListCitiesProps } from "../../types/types";
+import { IListRecommendsProps } from "../../types/types";
 
-function RecommendsCart(props: IListCitiesProps) {
-  const { cities } = props;
+function RecommendsCart(props: IListRecommendsProps) {
+  const { recommends } = props;
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
   return (
@@ -15,7 +15,7 @@ function RecommendsCart(props: IListCitiesProps) {
       className={styles.recommends__wrapper}
       ref={sliderRef}
     >
-      {cities.slice(0, 3).map((item) => (
+      {recommends.slice(0, 3).map((item) => (
         <RecommendCart
           key={item.id}
           recommend={item}

@@ -54,7 +54,7 @@ function RecommendsBlock() {
                   More
                 </Typography>
               </Box>
-              <RecommendsCart cities={recommends} />
+              <RecommendsCart recommends={recommends} />
               <ModalComponent visible={visible} setVisible={setVisible}>
                 <PopupList cities={recommends} />
               </ModalComponent>

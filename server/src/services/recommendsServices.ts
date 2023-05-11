@@ -1,4 +1,5 @@
 import Recommend from "../../models/recommend";
+import Guide from "../../models/guide";
 import City from "../../models/city";
 
 async function findRecommends() {
@@ -6,6 +7,12 @@ async function findRecommends() {
     include: [
       {
         model: City,
+        include: [
+          {
+            model: Guide,
+            as: "guides",
+          },
+        ],
       },
     ],
   });

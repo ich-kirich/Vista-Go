@@ -55,7 +55,7 @@ module.exports = {
         id: 7,
         name: "Lena Wagner",
         image:
-          "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=797592037303700",
+          "https://media.fulledu.ru/documents/images/1k27/5b5cc9b1d6e4a901de7bb012/article5b5cc9b16f8be4.35382404.jpg",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

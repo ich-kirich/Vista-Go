@@ -9,7 +9,7 @@ function RecommendCart(props: IRecommendCartProps) {
   const navigate = useNavigate();
   const viewCity = () => {
     if (recommend.id === currentSlide) {
-      navigate(`/city/${recommend.id}`);
+      navigate(`/city/${recommend.CityId}`);
     } else {
       sliderRef.current?.slickGoTo(recommend.id - 1);
       setTimeout(() => {
@@ -26,20 +26,33 @@ function RecommendCart(props: IRecommendCartProps) {
       onClick={viewCity}
     >
       <Box className={styles.inf__wrapper}>
-        <Typography
-          variant="h6"
-          component="h5"
-          className={styles.recommends__data}
-        >
-          {createDate(new Date((recommend as IRecommends).updatedAt))}
-        </Typography>
-        <Typography
-          variant="h6"
-          component="h5"
-          className={styles.recommends__name}
-        >
-          {recommend.name}, {recommend.country}
-        </Typography>
+        <Box>
+          <Typography
+            variant="h6"
+            component="h5"
+            className={styles.recommends__data}
+          >
+            {createDate(new Date((recommend as IRecommends).updatedAt))}
+          </Typography>
+          <Typography
+            variant="h6"
+            component="h5"
+            className={styles.recommends__name}
+          >
+            {recommend.name}, {recommend.country}
+          </Typography>
+        </Box>
+        <Box className={styles.guide__wrapper}>
+          {recommend.guides.map((item) => (
+            <Box
+              key={item.id}
+              className={styles.guide__img}
+              sx={{
+                backgroundImage: `url(${item.image})`,
+              }}
+            />
+          ))}
+        </Box>
       </Box>
     </Box>
   );

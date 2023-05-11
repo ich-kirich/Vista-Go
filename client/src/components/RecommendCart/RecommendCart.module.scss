@@ -4,6 +4,19 @@
   background-size: 100% 100%;
 }
 
+.guide__wrapper {
+  display: flex;
+  gap: 10px;
+  padding: 0px 20px 0px 0px;
+}
+
+.guide__img {
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  @extend %backimg;
+}
+
 .recommends__img {
   position: relative;
   height: 190px;
@@ -31,5 +44,8 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #fff;
 }

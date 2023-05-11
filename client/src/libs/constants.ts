@@ -8,6 +8,7 @@ export const INITIAL_CITY: ICities = {
   weather: "Unknown",
   image: "Unknown",
   sights: [],
+  guides: [],
 };
 
 export const INITIAL_CITIES: ICities[] = [
@@ -17,6 +18,8 @@ export const INITIAL_CITIES: ICities[] = [
     name: "Unknown",
     weather: "Unknown",
     image: "Unknown",
+    guides: [],
+    sights: [],
   },
 ];
 
@@ -27,7 +30,10 @@ export const INITIAL_RECOMMENDS: IRecommends[] = [
     name: "Unknown",
     weather: "Unknown",
     image: "Unknown",
+    guides: [],
+    sights: [],
     updatedAt: "Unknown",
+    CityId: 1,
   },
 ];
 
@@ -38,7 +44,6 @@ export const INITIAL_SIGHTS: ISights[] = [
     image: "Unknown",
     description: "Unknown",
     tags: [],
-    guides: [],
   },
 ];
 
@@ -48,7 +53,6 @@ export const INITIAL_SIGHT: ISights = {
   image: "Unknown",
   description: "Unknown",
   tags: [],
-  guides: [],
 };
 
 export const SETTINGS = {
