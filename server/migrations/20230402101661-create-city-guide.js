@@ -2,18 +2,18 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SightGuide', {
+    await queryInterface.createTable('CityGuide', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      SightId: {
+      CityId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'sights',
+          model: 'cities',
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -38,6 +38,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('SightGuide');
+    await queryInterface.dropTable('CityGuide');
   }
 };

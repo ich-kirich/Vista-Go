@@ -38,6 +38,7 @@ export const INITIAL_SIGHTS: ISights[] = [
     image: "Unknown",
     description: "Unknown",
     tags: [],
+    guides: [],
   },
 ];
 
@@ -47,6 +48,7 @@ export const INITIAL_SIGHT: ISights = {
   image: "Unknown",
   description: "Unknown",
   tags: [],
+  guides: [],
 };
 
 export const SETTINGS = {

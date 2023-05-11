@@ -10,10 +10,6 @@ export async function findCitySights(cityId: string) {
         model: Tag,
         as: "tags",
       },
-      {
-        model: Guide,
-        as: "guides",
-      },
     ],
   });
   return sights;
@@ -25,10 +21,6 @@ export async function findSight(sightId: string) {
       {
         model: Tag,
         as: "tags",
-      },
-      {
-        model: Guide,
-        as: "guides",
       },
     ],
   });

@@ -8,8 +8,8 @@ import Tag from "./tag";
 const initDb = async () => {
   Sight.belongsToMany(Tag, { through: "SightTag", as: "tags" });
   Tag.belongsToMany(Sight, { through: "SightTag" });
-  Sight.belongsToMany(Guide, { through: "SightGuide", as: "guides" });
-  Guide.belongsToMany(Sight, { through: "SightGuide" });
+  City.belongsToMany(Guide, { through: "CityGuide", as: "guides" });
+  Guide.belongsToMany(City, { through: "CityGuide" });
   Sight.belongsTo(City);
   Recommend.belongsTo(City);
   City.hasMany(Recommend);

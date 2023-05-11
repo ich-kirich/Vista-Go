@@ -8,20 +8,22 @@ import { getWeather } from "../libs/utils";
 export async function findCity(cityId: string) {
   const city = await City.findOne({
     where: { id: cityId },
-    include: {
-      model: Sight,
-      as: "sights",
-      include: [
-        {
-          model: Tag,
-          as: "tags",
-        },
-        {
-          model: Guide,
-          as: "guides",
-        },
-      ],
-    },
+    include: [
+      {
+        model: Sight,
+        as: "sights",
+        include: [
+          {
+            model: Tag,
+            as: "tags",
+          },
+        ],
+      },
+      {
+        model: Guide,
+        as: "guides",
+      },
+    ],
   });
   const cityWeatherRequest = new Date(city.dataValues.weatherLastRequest);
   const now = new Date();

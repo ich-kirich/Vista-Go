@@ -1,12 +1,16 @@
-.recommends__img {
-  position: relative;
-  height: 190px;
+%backimg {
   background-repeat: no-repeat;
   background-position: 0 center;
   background-size: 100% 100%;
+}
+
+.recommends__img {
+  position: relative;
+  height: 190px;
   border-radius: 5px;
   box-shadow: 4px 4px 8px 5px #faf7f7;
   cursor: pointer;
+  @extend %backimg;
 }
 
 .recommends__data {
