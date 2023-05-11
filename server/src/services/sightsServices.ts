@@ -1,3 +1,4 @@
+import Guide from "../../models/guide";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
 
@@ -8,6 +9,10 @@ export async function findCitySights(cityId: string) {
       {
         model: Tag,
         as: "tags",
+      },
+      {
+        model: Guide,
+        as: "guides",
       },
     ],
   });
@@ -20,6 +25,10 @@ export async function findSight(sightId: string) {
       {
         model: Tag,
         as: "tags",
+      },
+      {
+        model: Guide,
+        as: "guides",
       },
     ],
   });

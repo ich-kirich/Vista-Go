@@ -1,4 +1,5 @@
 import config from "config";
+import Guide from "../../models/guide";
 import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
@@ -14,6 +15,10 @@ export async function findCity(cityId: string) {
         {
           model: Tag,
           as: "tags",
+        },
+        {
+          model: Guide,
+          as: "guides",
         },
       ],
     },
