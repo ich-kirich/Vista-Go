@@ -18,8 +18,6 @@ class City extends Model {
   public lon!: string;
 
   public weatherLastRequest!: Date;
-
-  public sights?: Sight[];
 }
 
 City.init(

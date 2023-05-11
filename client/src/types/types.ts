@@ -22,6 +22,8 @@ export interface ISights {
   name: string;
   image: string;
   description: string;
+  distance: string;
+  price: string;
   tags: ITag[];
 }
 

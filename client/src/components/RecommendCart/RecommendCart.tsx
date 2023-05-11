@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createDate } from "../../libs/utils";
-import { IRecommendCartProps, IRecommends } from "../../types/types";
+import { IRecommendCartProps } from "../../types/types";
 import styles from "./RecommendCart.module.scss";
 
 function RecommendCart(props: IRecommendCartProps) {
@@ -17,6 +17,7 @@ function RecommendCart(props: IRecommendCartProps) {
       }, 500);
     }
   };
+
   return (
     <Box
       className={styles.recommends__img}
@@ -32,7 +33,7 @@ function RecommendCart(props: IRecommendCartProps) {
             component="h5"
             className={styles.recommends__data}
           >
-            {createDate(new Date((recommend as IRecommends).updatedAt))}
+            {createDate(new Date(recommend.updatedAt))}
           </Typography>
           <Typography
             variant="h6"

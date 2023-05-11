@@ -1,4 +1,3 @@
-import Guide from "../../models/guide";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
 

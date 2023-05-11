@@ -12,8 +12,6 @@ class Sight extends Model {
   public price!: string;
 
   public distance!: string;
-
-  public tags?: Tag[];
 }
 
 Sight.init(

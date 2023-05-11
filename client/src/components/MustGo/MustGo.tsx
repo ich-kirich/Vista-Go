@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { ICityProps } from "../../types/types";
 import MustSights from "../MustSights/MustSights";
 import styles from "./MustGo.module.scss";
 

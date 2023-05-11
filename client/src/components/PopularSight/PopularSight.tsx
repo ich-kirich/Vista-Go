@@ -34,10 +34,10 @@ function PopularSight(props: IDetailsSightProps) {
             component="h5"
             className={styles.sight__price}
           >
-            $5
+            {sight.price}
           </Typography>
           <Typography variant="h6" component="h5" className={styles.sight__tag}>
-            6.2 km
+            {sight.distance}
           </Typography>
         </Box>
       </Box>

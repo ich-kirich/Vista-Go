@@ -11,6 +11,7 @@
     "password": "PASSWORD"
   },
   "weather": {
-    "apiKey": "API_KEY"
+    "apiKey": "API_KEY",
+    "timeRequestWeather": "TIME_REQUEST_WEATHER"
   }
 }

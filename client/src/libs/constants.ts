@@ -49,6 +49,8 @@ export const INITIAL_SIGHTS: ISights[] = [
     name: "Unknown",
     image: "Unknown",
     description: "Unknown",
+    price: "Unknown",
+    distance: "Unknown",
     tags: [],
   },
 ];
@@ -58,6 +60,8 @@ export const INITIAL_SIGHT: ISights = {
   name: "Unknown",
   image: "Unknown",
   description: "Unknown",
+  price: "Unknown",
+  distance: "Unknown",
   tags: [],
 };
 
@@ -68,18 +72,6 @@ export const INITIAL_GUIDES: IGuide[] = [
     image: "Unknown",
   },
 ];
-
-export const SETTINGS = {
-  arrows: false,
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  initialSlide: 0,
-  centerMode: true,
-  variableWidth: true,
-};
 
 export enum CITIES {
   FETCH_CITIES = "FETCH_CITIES",
@@ -116,5 +108,17 @@ export enum GUIDES {
   FETCH_GUIDES_SUCCESS = "FETCH_GUIDES_SUCCESS",
   FETCH_GUIDES_ERROR = "FETCH_GUIDES_ERROR",
 }
+
+export const SETTINGS = {
+  arrows: false,
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  centerMode: true,
+  variableWidth: true,
+};
 
 export const CONTEXT = React.createContext({} as IContext);
