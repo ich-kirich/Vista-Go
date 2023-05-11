@@ -2,6 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { useState, useMemo } from "react";
 import { CONTEXT } from "../../libs/constants";
 import CitiesBlock from "../CitiesBlock/CitiesBlock";
+import ListGuides from "../ListGuides/ListGuides";
 import RecommendsBlock from "../RecommendsBlock/RecommendsBlock";
 import SearchField from "../SearchFieid/SearchField";
 import styles from "./MainPage.module.scss";
@@ -27,6 +28,7 @@ function MainPage() {
         <Box className={styles.inf__wrapper}>
           <RecommendsBlock />
           <CitiesBlock />
+          <ListGuides />
         </Box>
       </CONTEXT.Provider>
     </Container>

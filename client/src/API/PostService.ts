@@ -24,3 +24,8 @@ export async function getSight(id: string) {
   const response = await api.get(`/sights/${id}`);
   return response;
 }
+
+export async function getGuides() {
+  const response = await api.get(`/guides`);
+  return response;
+}

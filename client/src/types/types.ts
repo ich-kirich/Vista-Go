@@ -5,10 +5,16 @@ interface ITag {
   name: string;
 }
 
-interface IGuide {
+export interface IGuide {
   id: number;
   name: string;
   image: string;
+}
+
+export interface IGuidesState {
+  guides: IGuide[];
+  loading: boolean;
+  error: null | string;
 }
 
 export interface ISights {

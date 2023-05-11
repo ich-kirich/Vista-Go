@@ -1,5 +1,11 @@
 import React from "react";
-import { ICities, IContext, IRecommends, ISights } from "../types/types";
+import {
+  ICities,
+  IContext,
+  IGuide,
+  IRecommends,
+  ISights,
+} from "../types/types";
 
 export const INITIAL_CITY: ICities = {
   id: 1,
@@ -55,6 +61,14 @@ export const INITIAL_SIGHT: ISights = {
   tags: [],
 };
 
+export const INITIAL_GUIDES: IGuide[] = [
+  {
+    id: 1,
+    name: "Unknown",
+    image: "Unknown",
+  },
+];
+
 export const SETTINGS = {
   arrows: false,
   dots: false,
@@ -95,6 +109,12 @@ export enum SIGHT {
   FETCH_SIGHT = "FETCH_SIGHT",
   FETCH_SIGHT_SUCCESS = "FETCH_SIGHT_SUCCESS",
   FETCH_SIGHT_ERROR = "FETCH_SIGHT_ERROR",
+}
+
+export enum GUIDES {
+  FETCH_GUIDES = "FETCH_GUIDES",
+  FETCH_GUIDES_SUCCESS = "FETCH_GUIDES_SUCCESS",
+  FETCH_GUIDES_ERROR = "FETCH_GUIDES_ERROR",
 }
 
 export const CONTEXT = React.createContext({} as IContext);
