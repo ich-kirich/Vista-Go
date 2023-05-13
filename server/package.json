@@ -20,9 +20,11 @@
   },
   "homepage": "https://github.com/ich-kirich/Daily-meal-planner#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/config": "^3.3.0",
     "@types/cors": "^2.8.13",
     "@types/express-fileupload": "^1.4.1",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/uuid": "^9.0.1",
     "@types/xml2js": "^0.4.11",
     "@types/xml2json": "^0.11.4",

@@ -2,18 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 import { findCity } from "../services/citiesServices";
-import { createUser, validationRegistration } from "../services/userServices";
+import { createUser } from "../services/userServices";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
     try {
       const { name, email, password } = req.body;
-      const checkInput = await validationRegistration(email, password, name);
-      if (checkInput instanceof ApiError) {
-        return next(checkInput);
-      }
-      const newUser = await createUser(name, email, password);
-      return res.json(newUser);
+      const resultCreate = await createUser(name, email, password);
+      return res.json(resultCreate);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }

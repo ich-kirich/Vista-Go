@@ -13,5 +13,8 @@
   "weather": {
     "apiKey": "API_KEY",
     "timeRequestWeather": "TIME_REQUEST_WEATHER"
+  },
+  "jwt": {
+    "secretKey": "SECRET_KEY"
   }
 }

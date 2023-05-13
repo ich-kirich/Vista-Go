@@ -1,4 +1,7 @@
 import { StatusCodes } from "http-status-codes";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import config from "config";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
 import {
@@ -44,7 +47,7 @@ function validateEmail(email: string): boolean {
   return re.test(email);
 }
 
-export async function validationRegistration(
+async function validationRegistration(
   email: string,
   password: string,
   name: string,
@@ -71,12 +74,22 @@ export async function createUser(
   email: string,
   password: string,
 ) {
-  const fileName = DEFAULT_NAME_IMG;
+  const checkInput = await validationRegistration(email, password, name);
+  if (checkInput instanceof ApiError) {
+    return checkInput;
+  }
+  const hashPassword = await bcrypt.hash(password, 5);
   const newUser = await User.create({
     name,
     email,
-    password,
-    image: fileName,
+    password: hashPassword,
   });
-  return newUser;
+  const jwtToken = jwt.sign(
+    { id: newUser.id, email, name },
+    config.get("jwt.secretKey"),
+    { expiresIn: "24h" },
+  );
+  return jwtToken;
 }
+
+export default createUser;
