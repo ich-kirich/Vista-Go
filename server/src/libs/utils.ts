@@ -1,7 +1,6 @@
 import axios from "axios";
 import config from "config";
 import { StatusCodes } from "http-status-codes";
-import Recommend from "../../models/recommend";
 import ApiError from "../error/apiError";
 
 export async function getWeather(lat: string, lon: string) {
