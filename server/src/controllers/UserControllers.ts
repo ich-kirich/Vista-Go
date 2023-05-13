@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 import { findCity } from "../services/citiesServices";
-import { createUser } from "../services/userServices";
+import { createUser, loginUser } from "../services/userServices";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -17,9 +17,9 @@ class UserControllers {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const cityId = req.params.id;
-      const city = await findCity(cityId);
-      return res.json(city);
+      const { email, password } = req.body;
+      const resultLogin = await loginUser(email, password);
+      return res.json(resultLogin);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }

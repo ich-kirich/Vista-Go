@@ -1,17 +1,15 @@
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import config from "config";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
 import {
-  DEFAULT_NAME_IMG,
   ERROR,
   LONG_NAME,
   MIN_LENGHT_NAME,
   MIN_LENGHT_PASSWORD,
   SHORT_PASSWORD,
 } from "../libs/constants";
+import { generateJwt } from "../libs/utils";
 
 function validatePassword(password: string, username: string, email: string) {
   const hasNumber = /\d/.test(password);
@@ -69,6 +67,27 @@ async function validationRegistration(
   return validatePassword(password, name, email);
 }
 
+async function validateLogin(email: string, password: string) {
+  const userExist = await User.findOne({ where: { email } });
+  if (!userExist) {
+    return new ApiError(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      ERROR.USER_NOT_FOUND,
+    );
+  }
+  const comparePassword = bcrypt.compareSync(
+    password,
+    userExist.dataValues.password,
+  );
+  if (!comparePassword) {
+    return new ApiError(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      ERROR.INCORRECT_PASSWORD,
+    );
+  }
+  return userExist.dataValues.id;
+}
+
 export async function createUser(
   name: string,
   email: string,
@@ -84,11 +103,16 @@ export async function createUser(
     email,
     password: hashPassword,
   });
-  const jwtToken = jwt.sign(
-    { id: newUser.id, email, name },
-    config.get("jwt.secretKey"),
-    { expiresIn: "24h" },
-  );
+  const jwtToken = generateJwt(newUser.dataValues.id, email, name);
+  return jwtToken;
+}
+
+export async function loginUser(email: string, password: string) {
+  const checkLogin = await validateLogin(email, password);
+  if (checkLogin instanceof ApiError) {
+    return checkLogin;
+  }
+  const jwtToken = generateJwt(checkLogin, email);
   return jwtToken;
 }
 

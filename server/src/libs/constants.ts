@@ -15,4 +15,6 @@ export enum ERROR {
   NO_PERSONAL_DATA = "The password must not contain the username, last name or email address.",
   SIMPLE_PASSWORD = "The password is too easy.",
   INCORRECT_EMAIL = "Incorrect email format.",
+  USER_NOT_FOUND = "User with this email was not found.",
+  INCORRECT_PASSWORD = "Incorrect password",
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "config";
+import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 
@@ -20,5 +21,11 @@ export function mergeCityFields(arr: any) {
     const { City, ...rest } = item.dataValues;
     const result = { ...City.dataValues, ...rest };
     return result;
+  });
+}
+
+export function generateJwt(id: number, email: string, name?: string) {
+  return jwt.sign({ id, email, name }, config.get("jwt.secretKey"), {
+    expiresIn: "24h",
   });
 }
