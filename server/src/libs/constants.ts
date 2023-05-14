@@ -17,4 +17,5 @@ export enum ERROR {
   INCORRECT_EMAIL = "Incorrect email format.",
   USER_NOT_FOUND = "User with this email was not found.",
   INCORRECT_PASSWORD = "Incorrect password",
+  UNAUTHORIZED_USER = "User is not logged in",
 }

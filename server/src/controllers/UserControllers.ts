@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { generateJwt } from "../libs/utils";
 import ApiError from "../error/apiError";
-import { findCity } from "../services/citiesServices";
 import { createUser, loginUser } from "../services/userServices";
 
 class UserControllers {
@@ -26,13 +26,8 @@ class UserControllers {
   }
 
   async checkAuth(req: Request, res: Response, next: NextFunction) {
-    try {
-      const cityId = req.params.id;
-      const city = await findCity(cityId);
-      return res.json(city);
-    } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
-    }
+    const jwtToken = generateJwt(req.user.id, req.user.email, req.user.name);
+    return res.json({ jwtToken });
   }
 }
 

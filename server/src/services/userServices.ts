@@ -85,7 +85,7 @@ async function validateLogin(email: string, password: string) {
       ERROR.INCORRECT_PASSWORD,
     );
   }
-  return userExist.dataValues.id;
+  return userExist.dataValues;
 }
 
 export async function createUser(
@@ -112,7 +112,7 @@ export async function loginUser(email: string, password: string) {
   if (checkLogin instanceof ApiError) {
     return checkLogin;
   }
-  const jwtToken = generateJwt(checkLogin, email);
+  const jwtToken = generateJwt(checkLogin.id, email, checkLogin.name);
   return jwtToken;
 }
 
