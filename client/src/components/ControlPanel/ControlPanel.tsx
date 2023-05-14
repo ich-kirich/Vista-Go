@@ -13,9 +13,11 @@ function ControlPanel() {
     <Box className={styles.panel__wrapper}>
       <IconButton
         color="default"
-        className={classNames(location.pathname === "/" && styles.icon_active)}
+        className={classNames(
+          location.pathname === "/home" && styles.icon_active,
+        )}
         onClick={() => {
-          navigate("/");
+          navigate("/home");
         }}
       >
         <WidgetsIcon />

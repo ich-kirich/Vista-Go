@@ -36,7 +36,6 @@ function validatePassword(password: string, username: string, email: string) {
   if (isSimplePassword) {
     return new ApiError(StatusCodes.BAD_REQUEST, ERROR.SIMPLE_PASSWORD);
   }
-
   return true;
 }
 
@@ -45,7 +44,7 @@ function validateEmail(email: string): boolean {
   return re.test(email);
 }
 
-async function validationRegistration(
+export async function validationRegistration(
   email: string,
   password: string,
   name: string,
@@ -55,25 +54,25 @@ async function validationRegistration(
   }
   const isUserExist = await User.findOne({ where: { email } });
   if (isUserExist) {
-    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_EXIST);
+    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.USER_EXIST);
   }
   const checkEmail = validateEmail(email);
   if (!checkEmail) {
-    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_EMAIL);
+    return new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      ERROR.INCORRECT_EMAIL,
+    );
   }
   if (name.length > MIN_LENGHT_NAME) {
-    return new ApiError(StatusCodes.BAD_REQUEST, LONG_NAME);
+    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, LONG_NAME);
   }
   return validatePassword(password, name, email);
 }
 
-async function validateLogin(email: string, password: string) {
+export async function validateLogin(email: string, password: string) {
   const userExist = await User.findOne({ where: { email } });
   if (!userExist) {
-    return new ApiError(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      ERROR.USER_NOT_FOUND,
-    );
+    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.USER_NOT_FOUND);
   }
   const comparePassword = bcrypt.compareSync(
     password,
@@ -81,7 +80,7 @@ async function validateLogin(email: string, password: string) {
   );
   if (!comparePassword) {
     return new ApiError(
-      StatusCodes.INTERNAL_SERVER_ERROR,
+      StatusCodes.UNPROCESSABLE_ENTITY,
       ERROR.INCORRECT_PASSWORD,
     );
   }
@@ -93,10 +92,6 @@ export async function createUser(
   email: string,
   password: string,
 ) {
-  const checkInput = await validationRegistration(email, password, name);
-  if (checkInput instanceof ApiError) {
-    return checkInput;
-  }
   const hashPassword = await bcrypt.hash(password, 5);
   const newUser = await User.create({
     name,
@@ -107,12 +102,8 @@ export async function createUser(
   return jwtToken;
 }
 
-export async function loginUser(email: string, password: string) {
-  const checkLogin = await validateLogin(email, password);
-  if (checkLogin instanceof ApiError) {
-    return checkLogin;
-  }
-  const jwtToken = generateJwt(checkLogin.id, email, checkLogin.name);
+export async function loginUser(id: number, email: string, name: string) {
+  const jwtToken = generateJwt(id, email, name);
   return jwtToken;
 }
 

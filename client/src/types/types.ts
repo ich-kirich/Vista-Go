@@ -72,6 +72,21 @@ export interface IRecommendsState {
   error: null | string;
 }
 
+export interface IUserState {
+  user: string;
+  loading: boolean;
+  error: null | string;
+}
+
+export interface IAuthState {
+  isAuth: boolean;
+}
+
+export interface IRegistrationState {
+  loading: boolean;
+  error: null | string;
+}
+
 export interface IAction {
   type: string;
   payload?: any;

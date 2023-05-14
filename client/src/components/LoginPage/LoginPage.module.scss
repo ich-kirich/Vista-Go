@@ -1,0 +1,32 @@
+.login__wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #000;
+  border-radius: 20px;
+}
+
+.login__title {
+  font-weight: bold;
+  color: rgb(41, 136, 195);
+}
+
+.login__link {
+  color: rgb(41, 136, 195);
+  text-decoration: none;
+  cursor: pointer;
+  transition: 1s;
+  &:hover {
+    color: #000;
+  }
+}

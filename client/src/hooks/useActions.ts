@@ -4,8 +4,10 @@ import fetchCities from "../store/actionCreators/cities";
 import fetchCity from "../store/actionCreators/city";
 import fetchGuides from "../store/actionCreators/guides";
 import fetchRecommends from "../store/actionCreators/recommends";
+import fetchRegistration from "../store/actionCreators/registration";
 import fetchSight from "../store/actionCreators/sight";
 import fetchSights from "../store/actionCreators/sights";
+import fetchUser from "../store/actionCreators/user";
 
 const useActions = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,8 @@ const useActions = () => {
       fetchSights,
       fetchSight,
       fetchGuides,
+      fetchRegistration,
+      fetchUser,
     },
     dispatch,
   );

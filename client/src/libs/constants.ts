@@ -109,6 +109,23 @@ export enum GUIDES {
   FETCH_GUIDES_ERROR = "FETCH_GUIDES_ERROR",
 }
 
+export enum REGISTRATION {
+  FETCH_REGISTRATION = "FETCH_REGISTRATION",
+  FETCH_REGISTRATION_SUCCESS = "FETCH_REGISTRATION_SUCCESS",
+  FETCH_REGISTRATION_ERROR = "FETCH_REGISTRATION_ERROR",
+}
+
+export enum USER {
+  FETCH_USER = "FETCH_USER",
+  FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS",
+  FETCH_USER_ERROR = "FETCH_USER_ERROR",
+}
+
+export enum AUTH {
+  LOGIN = "LOGIN",
+  LOGOUT = "LOGOUT",
+}
+
 export const SETTINGS = {
   arrows: false,
   dots: false,
@@ -120,5 +137,7 @@ export const SETTINGS = {
   centerMode: true,
   variableWidth: true,
 };
+
+export const INITIAL_AUTH = !!localStorage.getItem("token");
 
 export const CONTEXT = React.createContext({} as IContext);
