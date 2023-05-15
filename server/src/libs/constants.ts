@@ -1,4 +1,4 @@
-export const DEFAULT_NAME_IMG = "default.jpg";
+export const DEFAULT_NAME_IMG = "default.png";
 
 export const MIN_LENGHT_PASSWORD = 8;
 

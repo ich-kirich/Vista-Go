@@ -9,7 +9,7 @@ module.exports = {
         name: "Billy",
         email: "pogger3000@gmail.com",
         password: "Str0ngP@ss",
-        image: "default.jpg",
+        image: "default.png",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

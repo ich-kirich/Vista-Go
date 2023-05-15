@@ -35,16 +35,12 @@ class UserControllers {
         checkLogin.id,
         email,
         checkLogin.name,
+        checkLogin.image,
       );
       return res.json(resultLogin);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }
-  }
-
-  async checkAuth(req: Request, res: Response, next: NextFunction) {
-    const jwtToken = generateJwt(req.user.id, req.user.email, req.user.name);
-    return res.json({ jwtToken });
   }
 }
 

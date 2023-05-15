@@ -66,6 +66,13 @@ export interface IRecommends extends ICities {
   CityId: number;
 }
 
+export interface IUser {
+  id: number;
+  email: string;
+  name: string;
+  image: string;
+}
+
 export interface IRecommendsState {
   recommends: IRecommends[];
   loading: boolean;
@@ -73,7 +80,7 @@ export interface IRecommendsState {
 }
 
 export interface IUserState {
-  user: string;
+  user: IUser;
   loading: boolean;
   error: null | string;
 }

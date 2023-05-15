@@ -102,8 +102,13 @@ export async function createUser(
   return jwtToken;
 }
 
-export async function loginUser(id: number, email: string, name: string) {
-  const jwtToken = generateJwt(id, email, name);
+export async function loginUser(
+  id: number,
+  email: string,
+  name: string,
+  image: string,
+) {
+  const jwtToken = generateJwt(id, email, name, image);
   return jwtToken;
 }
 

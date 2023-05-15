@@ -7,12 +7,14 @@ import MainPage from "../MainPage/MainPage";
 import SightPage from "../SightPage/SightPage";
 import SightsPage from "../SightsPage/SightsPage";
 import LoginPage from "../LoginPage/LoginPage";
+import CabinetPage from "../CabinetPage/CabinetPage";
 
 function AppRouter() {
   const isAuth = useTypedSelector((state) => state.auth.isAuth);
   const authRouters = [
     { path: "/home", element: <MainPage /> },
     { path: "/city/:id", element: <CityPage /> },
+    { path: "/cabinet", element: <CabinetPage /> },
     { path: "/city/:id/sights", element: <SightsPage /> },
     { path: "/city/:id/sights/:sightId", element: <SightPage /> },
   ];

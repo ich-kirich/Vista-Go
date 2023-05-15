@@ -33,8 +33,11 @@ function ControlPanel() {
       <IconButton
         color="default"
         className={classNames(
-          location.pathname === "/user" && styles.icon_active,
+          location.pathname === "/cabinet" && styles.icon_active,
         )}
+        onClick={() => {
+          navigate("/cabinet");
+        }}
       >
         <PersonIcon />
       </IconButton>

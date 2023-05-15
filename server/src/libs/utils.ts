@@ -24,8 +24,13 @@ export function mergeCityFields(arr: any) {
   });
 }
 
-export function generateJwt(id: number, email: string, name?: string) {
-  return jwt.sign({ id, email, name }, config.get("jwt.secretKey"), {
+export function generateJwt(
+  id: number,
+  email: string,
+  name: string,
+  image?: string,
+) {
+  return jwt.sign({ id, email, name, image }, config.get("jwt.secretKey"), {
     expiresIn: "24h",
   });
 }

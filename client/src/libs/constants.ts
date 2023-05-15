@@ -5,6 +5,7 @@ import {
   IGuide,
   IRecommends,
   ISights,
+  IUser,
 } from "../types/types";
 
 export const INITIAL_CITY: ICities = {
@@ -73,6 +74,13 @@ export const INITIAL_GUIDES: IGuide[] = [
   },
 ];
 
+export const INITIAL_USER: IUser = {
+  id: 1,
+  email: "Unknown",
+  name: "Unknown",
+  image: "Unknown",
+};
+
 export enum CITIES {
   FETCH_CITIES = "FETCH_CITIES",
   FETCH_CITIES_SUCCESS = "FETCH_CITIES_SUCCESS",
@@ -139,5 +147,7 @@ export const SETTINGS = {
 };
 
 export const INITIAL_AUTH = !!localStorage.getItem("token");
+
+export const ERROR_LOADING_USER = "Error loaing user information.";
 
 export const CONTEXT = React.createContext({} as IContext);

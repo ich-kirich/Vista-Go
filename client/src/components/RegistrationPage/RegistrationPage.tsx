@@ -1,6 +1,6 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
@@ -10,6 +10,7 @@ function RegistrationPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const { fetchRegistration } = useActions();
   const { error, loading } = useTypedSelector((state) => state.registration);
@@ -17,6 +18,7 @@ function RegistrationPage() {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     fetchRegistration(name, email, password);
+    navigate("/");
   };
 
   return (
