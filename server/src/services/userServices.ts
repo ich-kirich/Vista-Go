@@ -39,9 +39,26 @@ function validatePassword(password: string, username: string, email: string) {
   return true;
 }
 
-function validateEmail(email: string): boolean {
+function validateEmail(email: string) {
   const re = /\S+@\S+\.\S+/;
-  return re.test(email);
+  const checkEmail = re.test(email);
+  if (!checkEmail) {
+    return new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      ERROR.INCORRECT_EMAIL,
+    );
+  }
+  return checkEmail;
+}
+
+export function validateName(name: string) {
+  if (name.length > MIN_LENGHT_NAME) {
+    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, LONG_NAME);
+  }
+  if (!name) {
+    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_INPUT);
+  }
+  return true;
 }
 
 export async function validationRegistration(
@@ -57,14 +74,12 @@ export async function validationRegistration(
     return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.USER_EXIST);
   }
   const checkEmail = validateEmail(email);
-  if (!checkEmail) {
-    return new ApiError(
-      StatusCodes.UNPROCESSABLE_ENTITY,
-      ERROR.INCORRECT_EMAIL,
-    );
+  if (checkEmail instanceof ApiError) {
+    return checkEmail;
   }
-  if (name.length > MIN_LENGHT_NAME) {
-    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, LONG_NAME);
+  const checkName = validateName(name);
+  if (checkName instanceof ApiError) {
+    return checkName;
   }
   return validatePassword(password, name, email);
 }
@@ -112,4 +127,14 @@ export async function loginUser(
   return jwtToken;
 }
 
-export default createUser;
+export async function updateNameUser(userId: number, username: string) {
+  await User.update({ name: username }, { where: { id: userId } });
+  const user = await User.findByPk(userId);
+  const jwtToken = generateJwt(
+    userId,
+    user.dataValues.email,
+    username,
+    user.dataValues.image,
+  );
+  return jwtToken;
+}

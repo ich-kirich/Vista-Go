@@ -5,5 +5,6 @@ const userRouter = Router();
 
 userRouter.post("/registration", UserControllers.registration);
 userRouter.post("/login", UserControllers.login);
+userRouter.post("/update/name", UserControllers.updateUserName);
 
 export default userRouter;

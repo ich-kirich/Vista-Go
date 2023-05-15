@@ -18,4 +18,5 @@ export enum ERROR {
   USER_NOT_FOUND = "User with this email was not found.",
   INCORRECT_PASSWORD = "Incorrect password",
   UNAUTHORIZED_USER = "User is not logged in",
+  USERNAME_NOT_FOUND = "User was not found",
 }

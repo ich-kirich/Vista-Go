@@ -146,3 +146,9 @@ export interface IDetailsSightProps {
 export interface IListSightsProps {
   sights: ISights[];
 }
+
+export interface IChangeUsernameProps {
+  visible: boolean;
+  setVisible: Function;
+  userId: number | undefined;
+}

@@ -1,13 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { generateJwt } from "../libs/utils";
 import ApiError from "../error/apiError";
 import {
   createUser,
   loginUser,
+  updateNameUser,
   validateLogin,
+  validateName,
   validationRegistration,
 } from "../services/userServices";
+import User from "../../models/user";
+import { ERROR } from "../libs/constants";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -40,6 +43,20 @@ class UserControllers {
       return res.json(resultLogin);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+    }
+  }
+
+  async updateUserName(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, name } = req.body;
+      const checkName = validateName(name);
+      if (checkName instanceof ApiError) {
+        return next(checkName);
+      }
+      const updateName = await updateNameUser(id, name);
+      return res.json(updateName);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }
   }
 }

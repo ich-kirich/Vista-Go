@@ -1,6 +1,7 @@
 .user__wrapper {
   display: flex;
   gap: 15px;
+  flex-direction: column;
   margin: 20px;
   padding: 10px 0px;
   box-shadow: 4px 4px 8px 5px #faf7f7;
@@ -8,6 +9,19 @@
   @media screen and (max-width: 470px) {
     flex-direction: column;
   }
+}
+
+.user__information {
+  display: flex;
+  gap: 15px;
+
+  @media screen and (max-width: 470px) {
+    flex-direction: column;
+  }
+}
+
+.user__controls {
+  display: flex;
 }
 
 .user__img {
