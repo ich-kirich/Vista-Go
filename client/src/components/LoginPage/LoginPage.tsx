@@ -17,9 +17,9 @@ function LoginPage() {
   const { fetchUser } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
 
-  const handleSubmit = (event: React.MouseEvent) => {
+  const handleSubmit = async (event: React.MouseEvent) => {
     event.preventDefault();
-    fetchUser(username, password);
+    await fetchUser(username, password);
     if (!error) {
       dispatch({ type: AUTH.LOGIN });
       navigate("/home");

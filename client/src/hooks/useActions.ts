@@ -7,6 +7,7 @@ import fetchRecommends from "../store/actionCreators/recommends";
 import fetchRegistration from "../store/actionCreators/registration";
 import fetchSight from "../store/actionCreators/sight";
 import fetchSights from "../store/actionCreators/sights";
+import fetchUpdateUserImage from "../store/actionCreators/updateUserImage";
 import fetchUpdateUsername from "../store/actionCreators/updateUsername";
 import fetchUser from "../store/actionCreators/user";
 
@@ -23,6 +24,7 @@ const useActions = () => {
       fetchRegistration,
       fetchUser,
       fetchUpdateUsername,
+      fetchUpdateUserImage,
     },
     dispatch,
   );

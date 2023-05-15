@@ -26,3 +26,17 @@ export async function changeNameUser(id: number, name: string) {
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
+
+export async function changeImageUser(id: number, image: File) {
+  const formData = new FormData();
+  formData.append("id", String(id));
+  formData.append("image", image);
+
+  const { data } = await api.post("user/update/image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  localStorage.setItem("token", data);
+  return jwt_decode(data);
+}

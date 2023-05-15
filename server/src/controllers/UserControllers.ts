@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from "express";
+import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 import {
   createUser,
   loginUser,
+  updateImageUser,
   updateNameUser,
+  validateFile,
   validateLogin,
   validateName,
   validationRegistration,
 } from "../services/userServices";
-import User from "../../models/user";
-import { ERROR } from "../libs/constants";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -55,6 +56,25 @@ class UserControllers {
       }
       const updateName = await updateNameUser(id, name);
       return res.json(updateName);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    }
+  }
+
+  async updateUserImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body;
+      const { image } = req.files;
+      const checkFile = await validateFile(image as UploadedFile);
+      if (checkFile instanceof ApiError) {
+        return next(checkFile);
+      }
+      const resUpdate = await updateImageUser(
+        id,
+        image as UploadedFile,
+        checkFile as string,
+      );
+      return res.json(resUpdate);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }

@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import styles from "./CabinetPage.module.scss";
@@ -7,11 +7,13 @@ import ViewError from "../ViewError/ViewError";
 import { ERROR_LOADING_USER } from "../../libs/constants";
 import ChangeUsername from "../ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import ChangeImage from "../ChangeImage/ChangeImage";
 
 function CabinetPage() {
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState<IUser>();
   const [visibleFieldName, setVisibleFieldName] = useState(false);
+  const [visibleImageField, setVisibleImageField] = useState(false);
 
   const { user } = useTypedSelector((state) => state.user);
 
@@ -30,7 +32,11 @@ function CabinetPage() {
   };
 
   const viewNameField = () => {
-    setVisibleFieldName(!visibleFieldName);
+    setVisibleFieldName(true);
+  };
+
+  const viewImageField = () => {
+    setVisibleImageField(true);
   };
 
   useEffect(() => {
@@ -72,10 +78,18 @@ function CabinetPage() {
             <Button variant="contained" fullWidth onClick={viewNameField}>
               Change Name
             </Button>
+            <Button variant="contained" fullWidth onClick={viewImageField}>
+              Change avatar
+            </Button>
           </Box>
           <ChangeUsername
             visible={visibleFieldName}
             setVisible={setVisibleFieldName}
+            userId={userInfo?.id}
+          />
+          <ChangeImage
+            visible={visibleImageField}
+            setVisible={setVisibleImageField}
             userId={userInfo?.id}
           />
         </Box>

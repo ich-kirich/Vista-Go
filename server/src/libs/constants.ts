@@ -19,4 +19,6 @@ export enum ERROR {
   INCORRECT_PASSWORD = "Incorrect password",
   UNAUTHORIZED_USER = "User is not logged in",
   USERNAME_NOT_FOUND = "User was not found",
+  FILE_NOT_IMAGE = "The file is not an image.",
+  INCORRECT_NAME = "An invalid name was entered",
 }

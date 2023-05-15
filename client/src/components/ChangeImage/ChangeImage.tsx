@@ -1,28 +1,27 @@
-import { Box, TextField, Button, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import useActions from "../../hooks/useActions";
-import useTypedSelector from "../../hooks/useTypedSelector";
+import { Box, Button } from "@mui/material";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IChangeUsernameProps } from "../../types/types";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
-import styles from "./ChangeUsername.module.scss";
+import styles from "./ChangeImage.module.scss";
+import useActions from "../../hooks/useActions";
+import useTypedSelector from "../../hooks/useTypedSelector";
 
-function ChangeUsername(props: IChangeUsernameProps) {
+function ChangeImage(props: IChangeUsernameProps) {
   const { visible, setVisible, userId } = props;
-  const [newName, setNewName] = useState("");
   const [displayError, setDisplayError] = useState(false);
 
-  const { fetchUpdateUsername } = useActions();
+  const { fetchUpdateUserImage } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
-
-  const updateName = () => {
-    setVisible(!visible);
-    setDisplayError(true);
-    fetchUpdateUsername(userId!, newName!);
-  };
 
   const closeNameField = () => {
     setVisible(!visible);
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files![0];
+    setDisplayError(true);
+    fetchUpdateUserImage(userId!, file);
   };
 
   useEffect(() => {
@@ -42,17 +41,13 @@ function ChangeUsername(props: IChangeUsernameProps) {
     <Box>
       {visible && (
         <Box className={styles.input__wrapper}>
-          <TextField
-            label="Enter your Name"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            required
-            fullWidth
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
           />
           <Box className={styles.btns__wrapper}>
-            <Button variant="contained" fullWidth onClick={updateName}>
-              Save Name
-            </Button>
             <Button variant="contained" fullWidth onClick={closeNameField}>
               Cancel
             </Button>
@@ -68,4 +63,4 @@ function ChangeUsername(props: IChangeUsernameProps) {
   );
 }
 
-export default ChangeUsername;
+export default ChangeImage;

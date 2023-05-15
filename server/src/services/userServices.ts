@@ -1,5 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
+import path from "path";
+import { UploadedFile } from "express-fileupload";
+import { v4 as uuidv4 } from "uuid";
+import mime from "mime-types";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
 import {
@@ -56,7 +60,7 @@ export function validateName(name: string) {
     return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, LONG_NAME);
   }
   if (!name) {
-    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_INPUT);
+    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_NAME);
   }
   return true;
 }
@@ -134,6 +138,37 @@ export async function updateNameUser(userId: number, username: string) {
     userId,
     user.dataValues.email,
     username,
+    user.dataValues.image,
+  );
+  return jwtToken;
+}
+
+export async function validateFile(image: UploadedFile) {
+  const fileExtension = mime.extension((image as UploadedFile).mimetype);
+  if (
+    !fileExtension ||
+    !(image as UploadedFile).mimetype.startsWith("image/")
+  ) {
+    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.FILE_NOT_IMAGE);
+  }
+  return fileExtension;
+}
+
+export async function updateImageUser(
+  userId: number,
+  image: UploadedFile,
+  fileExtension: string,
+) {
+  const fileName = `${uuidv4()}.${fileExtension}`;
+  (image as UploadedFile).mv(
+    path.resolve(__dirname, "..", "..", "static", fileName),
+  );
+  await User.update({ image: fileName }, { where: { id: userId } });
+  const user = await User.findByPk(userId);
+  const jwtToken = generateJwt(
+    userId,
+    user.dataValues.email,
+    user.dataValues.name,
     user.dataValues.image,
   );
   return jwtToken;
