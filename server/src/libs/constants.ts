@@ -16,9 +16,9 @@ export enum ERROR {
   SIMPLE_PASSWORD = "The password is too easy.",
   INCORRECT_EMAIL = "Incorrect email format.",
   USER_NOT_FOUND = "User with this email was not found.",
-  INCORRECT_PASSWORD = "Incorrect password",
-  UNAUTHORIZED_USER = "User is not logged in",
-  USERNAME_NOT_FOUND = "User was not found",
+  INCORRECT_PASSWORD = "Incorrect password.",
+  UNAUTHORIZED_USER = "User is not logged in.",
+  USERNAME_NOT_FOUND = "User was not found.",
   FILE_NOT_IMAGE = "The file is not an image.",
-  INCORRECT_NAME = "An invalid name was entered",
+  INCORRECT_NAME = "An invalid name was entered.",
 }

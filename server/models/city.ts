@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db";
-import Sight from "./sight";
 
 class City extends Model {
   public id!: number;
