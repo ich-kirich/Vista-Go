@@ -148,6 +148,6 @@ export const SETTINGS = {
 
 export const INITIAL_AUTH = !!localStorage.getItem("token");
 
-export const ERROR_LOADING_USER = "Error loaing user information.";
+export const ERROR_LOADING_USER = "Error loading user information.";
 
 export const CONTEXT = React.createContext({} as IContext);

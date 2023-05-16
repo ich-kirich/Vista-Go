@@ -1,3 +1,5 @@
+$textColor: rgb(41, 136, 195);
+
 .registration__wrapper {
   position: absolute;
   top: 50%;
@@ -18,11 +20,11 @@
 
 .registration__title {
   font-weight: bold;
-  color: rgb(41, 136, 195);
+  color: $textColor;
 }
 
 .registration__link {
-  color: rgb(41, 136, 195);
+  color: $textColor;
   text-decoration: none;
   cursor: pointer;
   transition: 1s;

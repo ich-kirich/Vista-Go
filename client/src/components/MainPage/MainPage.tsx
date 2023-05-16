@@ -44,6 +44,7 @@ function MainPage() {
   useEffect(() => {
     getUserInfo();
   }, [user]);
+
   return (
     <Container maxWidth="sm">
       {error ? (

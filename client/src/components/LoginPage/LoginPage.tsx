@@ -1,5 +1,5 @@
 import { TextField, Button, Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
@@ -12,6 +12,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginClicked, setLoginClicked] = useState(false);
   const dispatch = useDispatch();
 
   const { fetchUser } = useActions();
@@ -19,12 +20,16 @@ function LoginPage() {
 
   const handleSubmit = async (event: React.MouseEvent) => {
     event.preventDefault();
-    await fetchUser(username, password);
-    if (!error) {
+    fetchUser(username, password);
+    setLoginClicked(true);
+  };
+
+  useEffect(() => {
+    if (loginClicked && !loading && !error) {
       dispatch({ type: AUTH.LOGIN });
       navigate("/home");
     }
-  };
+  }, [loginClicked, loading, error, dispatch, navigate]);
 
   return (
     <Box>

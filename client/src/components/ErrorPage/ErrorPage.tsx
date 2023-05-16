@@ -1,4 +1,3 @@
-import { FormattedMessage } from "react-intl";
 import ViewError from "../ViewError/ViewError";
 
 function ErrorPage() {
