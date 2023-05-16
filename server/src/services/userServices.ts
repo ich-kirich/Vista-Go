@@ -13,7 +13,8 @@ import {
   MIN_LENGHT_PASSWORD,
   SHORT_PASSWORD,
 } from "../libs/constants";
-import { generateJwt } from "../libs/utils";
+import { generateJwt, generateVerrificationJwt } from "../libs/utils";
+import Verification from "../../models/verificatiom";
 
 function validatePassword(password: string, username: string, email: string) {
   const hasNumber = /\d/.test(password);
@@ -43,7 +44,12 @@ function validatePassword(password: string, username: string, email: string) {
   return true;
 }
 
-function validateEmail(email: string) {
+function generateVerificationCode() {
+  const code = uuidv4().replace(/-/g, "").slice(0, 5);
+  return code;
+}
+
+export function validateEmail(email: string) {
   const re = /\S+@\S+\.\S+/;
   const checkEmail = re.test(email);
   if (!checkEmail) {
@@ -172,4 +178,47 @@ export async function updateImageUser(
     user.dataValues.image,
   );
   return jwtToken;
+}
+
+export async function createVerefication(emailUser: string) {
+  const verificationCode = generateVerificationCode();
+  const verificationExist = await Verification.findOne({
+    where: { email: emailUser },
+  });
+  if (verificationExist) {
+    await Verification.update(
+      { verificationCode },
+      { where: { email: emailUser } },
+    );
+    const jwtToken = generateVerrificationJwt(
+      verificationExist.dataValues.id,
+      emailUser,
+      verificationCode,
+    );
+    return jwtToken;
+  }
+  const newUser = await Verification.create({
+    email: emailUser,
+    verificationCode,
+  });
+  const jwtToken = generateVerrificationJwt(
+    newUser.dataValues.id,
+    emailUser,
+    verificationCode,
+  );
+  return jwtToken;
+}
+
+export async function checkVerefication(emailUser: string, code: string) {
+  const verificationExist = await Verification.findOne({
+    where: { email: emailUser },
+  });
+  if (verificationExist) {
+    if (verificationExist.dataValues.verificationCode === code) {
+      await Verification.destroy({ where: { email: emailUser } });
+      return true;
+    }
+    return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_CODE);
+  }
+  return new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
 }

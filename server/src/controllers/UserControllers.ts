@@ -3,7 +3,9 @@ import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../error/apiError";
 import {
+  checkVerefication,
   createUser,
+  createVerefication,
   loginUser,
   updateImageUser,
   updateNameUser,
@@ -21,8 +23,8 @@ class UserControllers {
       if (checkInput instanceof ApiError) {
         return next(checkInput);
       }
-      const resultCreate = await createUser(name, email, password);
-      return res.json(resultCreate);
+      const verificationCode = await createVerefication(email);
+      return res.json(verificationCode);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }
@@ -75,6 +77,20 @@ class UserControllers {
         checkFile as string,
       );
       return res.json(resUpdate);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    }
+  }
+
+  async checkVareficationCode(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name, password, email, code } = req.body;
+      const checkVerification = await checkVerefication(email, code);
+      if (checkVerification instanceof ApiError) {
+        return next(checkVerification);
+      }
+      const resultCreate = await createUser(name, email, password);
+      return res.json(resultCreate);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }

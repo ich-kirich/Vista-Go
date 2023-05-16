@@ -21,4 +21,5 @@ export enum ERROR {
   USERNAME_NOT_FOUND = "User was not found.",
   FILE_NOT_IMAGE = "The file is not an image.",
   INCORRECT_NAME = "An invalid name was entered.",
+  INCORRECT_CODE = "incorrect code.",
 }
