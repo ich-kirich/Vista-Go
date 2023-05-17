@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import citiesReducer from "./citiesReducer";
 import cityReducer from "./cityReducer";
+import codepassReducer from "./codepassReducer";
 import codeReducer from "./codeReducer";
 import guidesReducer from "./guidesReducer";
 import recommendsReducer from "./recommendsReducer";
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   user: userReducer,
   code: codeReducer,
+  codepass: codepassReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

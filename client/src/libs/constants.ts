@@ -147,6 +147,12 @@ export enum CODE {
   FETCH_CODE_ERROR = "FETCH_CODE_ERROR",
 }
 
+export enum CODEPASS {
+  FETCH_CODEPASS = "FETCH_CODEPASS",
+  FETCH_CODEPASS_SUCCESS = "FETCH_CODEPASS_SUCCESS",
+  FETCH_CODEPASS_ERROR = "FETCH_CODEPASS_ERROR",
+}
+
 export const SETTINGS = {
   arrows: false,
   dots: false,
@@ -162,5 +168,7 @@ export const SETTINGS = {
 export const INITIAL_AUTH = !!localStorage.getItem("token");
 
 export const ERROR_LOADING_USER = "Error loading user information.";
+
+export const ERROR_REPEAT = "Re-entered password did not match.";
 
 export const CONTEXT = React.createContext({} as IContext);

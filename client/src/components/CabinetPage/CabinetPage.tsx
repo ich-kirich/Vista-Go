@@ -8,12 +8,14 @@ import { ERROR_LOADING_USER } from "../../libs/constants";
 import ChangeUsername from "../ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "../ChangeImage/ChangeImage";
+import ChangePassword from "../ChangePassword/ChangePassword";
 
 function CabinetPage() {
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState<IUser>();
   const [visibleFieldName, setVisibleFieldName] = useState(false);
   const [visibleImageField, setVisibleImageField] = useState(false);
+  const [visibleCodeField, setVisibleCodeField] = useState(false);
 
   const { user } = useTypedSelector((state) => state.user);
 
@@ -33,10 +35,20 @@ function CabinetPage() {
 
   const viewNameField = () => {
     setVisibleFieldName(true);
+    setVisibleImageField(false);
+    setVisibleCodeField(false);
   };
 
   const viewImageField = () => {
     setVisibleImageField(true);
+    setVisibleFieldName(false);
+    setVisibleCodeField(false);
+  };
+
+  const viewCodeField = () => {
+    setVisibleCodeField(true);
+    setVisibleImageField(false);
+    setVisibleFieldName(false);
   };
 
   useEffect(() => {
@@ -79,7 +91,10 @@ function CabinetPage() {
               Change Name
             </Button>
             <Button variant="contained" fullWidth onClick={viewImageField}>
-              Change avatar
+              Change Avatar
+            </Button>
+            <Button variant="contained" fullWidth onClick={viewCodeField}>
+              Change Password
             </Button>
           </Box>
           <ChangeUsername
@@ -91,6 +106,12 @@ function CabinetPage() {
             visible={visibleImageField}
             setVisible={setVisibleImageField}
             userId={userInfo?.id}
+          />
+          <ChangePassword
+            visible={visibleCodeField}
+            setVisible={setVisibleCodeField}
+            email={userInfo?.email}
+            name={userInfo?.name}
           />
         </Box>
       )}

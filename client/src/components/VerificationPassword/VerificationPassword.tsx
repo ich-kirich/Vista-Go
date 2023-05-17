@@ -1,30 +1,28 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography, TextField, Button } from "@mui/material";
+import { useState, useEffect } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { IVerificationField } from "../../types/types";
+import { IVerificationPassword } from "../../types/types";
 import Loader from "../Loader/Loader";
-import styles from "./VerificationFieild.module.scss";
+import styles from "./VerificationPassword.module.scss";
 
-function VerificationFieild(props: IVerificationField) {
-  const { name, email, password } = props;
+function VerificationPassword(props: IVerificationPassword) {
+  const { email, password, setVisible } = props;
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
-  const navigate = useNavigate();
 
-  const { fetchCode } = useActions();
-  const { code, error, loading } = useTypedSelector((state) => state.code);
+  const { fetchUpdateUserPassword } = useActions();
+  const { error, loading } = useTypedSelector((state) => state.user);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    fetchCode(name, email, password, userCode);
+    fetchUpdateUserPassword(userCode, email, password);
     setSendClicked(true);
   };
 
   useEffect(() => {
     if (sendClicked && !loading && !error) {
-      navigate("/");
+      setVisible(false);
     }
   }, [sendClicked, loading, error]);
 
@@ -64,4 +62,4 @@ function VerificationFieild(props: IVerificationField) {
   );
 }
 
-export default VerificationFieild;
+export default VerificationPassword;
