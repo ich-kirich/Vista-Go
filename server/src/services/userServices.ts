@@ -13,7 +13,7 @@ import {
   MIN_LENGHT_PASSWORD,
   SHORT_PASSWORD,
 } from "../libs/constants";
-import { generateJwt, generateVerrificationJwt } from "../libs/utils";
+import { generateJwt } from "../libs/utils";
 import Verification from "../../models/verificatiom";
 
 function generateVerificationCode() {
@@ -21,18 +21,13 @@ function generateVerificationCode() {
   return code;
 }
 
-export function validatePassword(
-  password: string,
-  username: string,
-  email: string,
-) {
+export function validatePassword(password: string, email: string) {
   const hasNumber = /\d/.test(password);
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasSpecialChar = /[!@#$%^&*()\\[\]{};:'"<>,.?/\\|~`_+-=]/.test(
     password,
   );
-  const containsUsername = new RegExp(username, "i").test(password);
   const containsEmail = new RegExp(email, "i").test(password);
   const isSimplePassword = /^(password|123456|qwerty|admin|letmein)$/i.test(
     password,
@@ -44,7 +39,7 @@ export function validatePassword(
   if (!hasNumber || !hasUpperCase || !hasLowerCase || !hasSpecialChar) {
     return new ApiError(StatusCodes.BAD_REQUEST, ERROR.PASSWORD_REQUIREMENTS);
   }
-  if (containsUsername || containsEmail) {
+  if (containsEmail) {
     return new ApiError(StatusCodes.BAD_REQUEST, ERROR.NO_PERSONAL_DATA);
   }
   if (isSimplePassword) {
@@ -95,7 +90,7 @@ export async function validationRegistration(
   if (checkName instanceof ApiError) {
     return checkName;
   }
-  return validatePassword(password, name, email);
+  return validatePassword(password, email);
 }
 
 export async function validateLogin(email: string, password: string) {

@@ -181,11 +181,14 @@ export interface IChangePasswordProps {
   visible: boolean;
   setVisible: Function;
   email: string | undefined;
-  name: string | undefined;
 }
 
 export interface IVerificationPassword {
   email: string;
   password: string;
+  setVisible: Function;
+}
+
+export interface IRecoveryPassword {
   setVisible: Function;
 }

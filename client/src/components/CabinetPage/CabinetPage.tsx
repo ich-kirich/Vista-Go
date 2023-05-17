@@ -111,7 +111,6 @@ function CabinetPage() {
             visible={visibleCodeField}
             setVisible={setVisibleCodeField}
             email={userInfo?.email}
-            name={userInfo?.name}
           />
         </Box>
       )}

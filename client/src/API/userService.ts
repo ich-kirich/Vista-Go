@@ -56,13 +56,8 @@ export async function verificateUser(
   return jwt_decode(data);
 }
 
-export async function createCodePassword(
-  name: string,
-  email: string,
-  password: string,
-) {
+export async function createCodePassword(email: string, password: string) {
   const { data } = await api.post("user/password/change", {
-    name,
     email,
     password,
   });

@@ -11,7 +11,7 @@ import ViewError from "../ViewError/ViewError";
 import styles from "./ChangePassword.module.scss";
 
 function ChangePassword(props: IChangePasswordProps) {
-  const { visible, setVisible, email, name } = props;
+  const { visible, setVisible, email } = props;
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [displayError, setDisplayError] = useState(false);
@@ -28,7 +28,7 @@ function ChangePassword(props: IChangePasswordProps) {
   const sendCode = () => {
     setDisplayError(true);
     if (newPassword === repeatPassword) {
-      fetchCodePassword(name!, email!, newPassword);
+      fetchCodePassword(email!, newPassword);
     } else {
       setErrorRepeat(ERROR_REPEAT);
     }

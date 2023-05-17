@@ -34,17 +34,3 @@ export function generateJwt(
     expiresIn: "24h",
   });
 }
-
-export function generateVerrificationJwt(
-  id: number,
-  email: string,
-  verificationCode: string,
-) {
-  return jwt.sign(
-    { id, email, verificationCode },
-    config.get("jwt.secretKey"),
-    {
-      expiresIn: "24h",
-    },
-  );
-}

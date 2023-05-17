@@ -96,8 +96,8 @@ class UserControllers {
     next: NextFunction,
   ) {
     try {
-      const { name, email, password } = req.body;
-      const checkPassword = validatePassword(password, name, email);
+      const { email, password } = req.body;
+      const checkPassword = validatePassword(password, email);
       if (checkPassword instanceof ApiError) {
         return next(checkPassword);
       }

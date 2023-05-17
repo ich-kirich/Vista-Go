@@ -28,6 +28,19 @@ $textColor: rgb(41, 136, 195);
   text-decoration: none;
   cursor: pointer;
   transition: 1s;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+.login__forgot {
+  color: $textColor;
+  text-decoration: none;
+  text-transform: none;
+  cursor: pointer;
+  transition: 1s;
+
   &:hover {
     color: #000;
   }
