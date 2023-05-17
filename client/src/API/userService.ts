@@ -55,3 +55,29 @@ export async function verificateUser(
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
+
+export async function createCodePassword(
+  name: string,
+  email: string,
+  password: string,
+) {
+  const { data } = await api.post("user/password/change", {
+    name,
+    email,
+    password,
+  });
+  return data;
+}
+
+export async function checkCodePassword(
+  email: string,
+  password: string,
+  code: string,
+) {
+  const { data } = await api.post("user/password/check", {
+    email,
+    password,
+    code,
+  });
+  return data;
+}

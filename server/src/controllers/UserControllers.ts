@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import sendEmail from "../services/sendEmails";
 import ApiError from "../error/apiError";
 import {
+  ChangeUserPassword,
   checkVerefication,
   createUser,
   createVerefication,
@@ -13,6 +14,7 @@ import {
   validateFile,
   validateLogin,
   validateName,
+  validatePassword,
   validationRegistration,
 } from "../services/userServices";
 import { CODE_SEND } from "../libs/constants";
@@ -83,6 +85,46 @@ class UserControllers {
         checkFile as string,
       );
       return res.json(resUpdate);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    }
+  }
+
+  async createVerificationUserPassword(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { name, email, password } = req.body;
+      const checkPassword = validatePassword(password, name, email);
+      if (checkPassword instanceof ApiError) {
+        return next(checkPassword);
+      }
+      const verificationCode = await createVerefication(email);
+      const trySend = await sendEmail(verificationCode, email);
+      if (trySend instanceof ApiError) {
+        return next(trySend);
+      }
+      return res.json(CODE_SEND);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    }
+  }
+
+  async checkVerificationUserPassword(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { email, password, code } = req.body;
+      const checkVerification = await checkVerefication(email, code);
+      if (checkVerification instanceof ApiError) {
+        return next(checkVerification);
+      }
+      const updatePassword = await ChangeUserPassword(email, password);
+      return res.json(updatePassword);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }

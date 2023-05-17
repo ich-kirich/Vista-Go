@@ -16,7 +16,16 @@ import {
 import { generateJwt, generateVerrificationJwt } from "../libs/utils";
 import Verification from "../../models/verificatiom";
 
-function validatePassword(password: string, username: string, email: string) {
+function generateVerificationCode() {
+  const code = uuidv4().replace(/-/g, "").slice(0, 5);
+  return code;
+}
+
+export function validatePassword(
+  password: string,
+  username: string,
+  email: string,
+) {
   const hasNumber = /\d/.test(password);
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
@@ -42,11 +51,6 @@ function validatePassword(password: string, username: string, email: string) {
     return new ApiError(StatusCodes.BAD_REQUEST, ERROR.SIMPLE_PASSWORD);
   }
   return true;
-}
-
-function generateVerificationCode() {
-  const code = uuidv4().replace(/-/g, "").slice(0, 5);
-  return code;
 }
 
 export function validateEmail(email: string) {
@@ -211,4 +215,25 @@ export async function checkVerefication(emailUser: string, code: string) {
     return new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_CODE);
   }
   return new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
+}
+
+export async function ChangeUserPassword(
+  emailUser: string,
+  newPassword: string,
+) {
+  const hashPassword = await bcrypt.hash(newPassword, 5);
+  await User.update(
+    { password: hashPassword },
+    { where: { email: emailUser } },
+  );
+  const user = await User.findOne({
+    where: { email: emailUser },
+  });
+  const jwtToken = generateJwt(
+    user.dataValues.id,
+    emailUser,
+    user.dataValues.name,
+    user.dataValues.image,
+  );
+  return jwtToken;
 }
