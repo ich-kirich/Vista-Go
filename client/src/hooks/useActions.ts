@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchCities from "../store/actionCreators/cities";
 import fetchCity from "../store/actionCreators/city";
+import fetchCode from "../store/actionCreators/code";
 import fetchGuides from "../store/actionCreators/guides";
 import fetchRecommends from "../store/actionCreators/recommends";
 import fetchRegistration from "../store/actionCreators/registration";
@@ -25,6 +26,7 @@ const useActions = () => {
       fetchUser,
       fetchUpdateUsername,
       fetchUpdateUserImage,
+      fetchCode,
     },
     dispatch,
   );

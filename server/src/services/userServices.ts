@@ -190,23 +190,13 @@ export async function createVerefication(emailUser: string) {
       { verificationCode },
       { where: { email: emailUser } },
     );
-    const jwtToken = generateVerrificationJwt(
-      verificationExist.dataValues.id,
-      emailUser,
-      verificationCode,
-    );
-    return jwtToken;
+    return verificationCode;
   }
   const newUser = await Verification.create({
     email: emailUser,
     verificationCode,
   });
-  const jwtToken = generateVerrificationJwt(
-    newUser.dataValues.id,
-    emailUser,
-    verificationCode,
-  );
-  return jwtToken;
+  return verificationCode;
 }
 
 export async function checkVerefication(emailUser: string, code: string) {

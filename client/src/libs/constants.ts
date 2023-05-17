@@ -1,6 +1,7 @@
 import React from "react";
 import {
   ICities,
+  ICode,
   IContext,
   IGuide,
   IRecommends,
@@ -81,6 +82,12 @@ export const INITIAL_USER: IUser = {
   image: "Unknown",
 };
 
+export const INITIAL_CODE: ICode = {
+  id: 1,
+  email: "Unknown",
+  verificationCode: "Unknown",
+};
+
 export enum CITIES {
   FETCH_CITIES = "FETCH_CITIES",
   FETCH_CITIES_SUCCESS = "FETCH_CITIES_SUCCESS",
@@ -132,6 +139,12 @@ export enum USER {
 export enum AUTH {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
+}
+
+export enum CODE {
+  FETCH_CODE = "FETCH_CODE",
+  FETCH_CODE_SUCCESS = "FETCH_CODE_SUCCESS",
+  FETCH_CODE_ERROR = "FETCH_CODE_ERROR",
 }
 
 export const SETTINGS = {

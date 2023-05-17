@@ -8,6 +8,8 @@ export const LONG_NAME = `The name must be no more than ${MIN_LENGHT_NAME} chara
 
 export const SHORT_PASSWORD = `The password must be at least ${MIN_LENGHT_PASSWORD} characters.`;
 
+export const CODE_SEND = `Verification code was successfully sent to the mail.`;
+
 export enum ERROR {
   INCORRECT_INPUT = "Incorrect email, password or name.",
   USER_EXIST = "User with this email exists.",
@@ -21,5 +23,5 @@ export enum ERROR {
   USERNAME_NOT_FOUND = "User was not found.",
   FILE_NOT_IMAGE = "The file is not an image.",
   INCORRECT_NAME = "An invalid name was entered.",
-  INCORRECT_CODE = "incorrect code.",
+  INCORRECT_CODE = "Incorrect code.",
 }

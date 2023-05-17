@@ -94,6 +94,18 @@ export interface IRegistrationState {
   error: null | string;
 }
 
+export interface ICode {
+  id: number;
+  email: string;
+  verificationCode: string;
+}
+
+export interface ICodeState {
+  code: ICode;
+  loading: boolean;
+  error: null | string;
+}
+
 export interface IAction {
   type: string;
   payload?: any;
@@ -151,4 +163,10 @@ export interface IChangeUsernameProps {
   visible: boolean;
   setVisible: Function;
   userId: number | undefined;
+}
+
+export interface IVerificationFieild {
+  name: string;
+  email: string;
+  password: string;
 }

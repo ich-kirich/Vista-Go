@@ -20,7 +20,7 @@ function SightPage() {
   const closePage = () => {
     navigate(`/city/${id}/sights`);
   };
-  console.log(sight);
+
   return (
     <Box>
       {loading ? (

@@ -11,8 +11,7 @@ export async function registrationUser(
     password,
     name,
   });
-  localStorage.setItem("token", data);
-  return jwt_decode(data);
+  return data;
 }
 
 export async function loginUser(email: string, password: string) {
@@ -36,6 +35,22 @@ export async function changeImageUser(id: number, image: File) {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+  });
+  localStorage.setItem("token", data);
+  return jwt_decode(data);
+}
+
+export async function verificateUser(
+  name: string,
+  email: string,
+  password: string,
+  code: string,
+) {
+  const { data } = await api.post("user/verification/check", {
+    name,
+    email,
+    password,
+    code,
   });
   localStorage.setItem("token", data);
   return jwt_decode(data);

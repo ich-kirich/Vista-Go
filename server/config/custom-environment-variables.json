@@ -16,5 +16,11 @@
   },
   "jwt": {
     "secretKey": "SECRET_KEY"
+  },
+  "email": {
+    "name": "NAME",
+    "port": "PORT",
+    "username": "USER",
+    "password": "PASSWORD"
   }
 }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import sendEmail from "../services/sendEmails";
 import ApiError from "../error/apiError";
 import {
   checkVerefication,
@@ -14,6 +15,7 @@ import {
   validateName,
   validationRegistration,
 } from "../services/userServices";
+import { CODE_SEND } from "../libs/constants";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +26,11 @@ class UserControllers {
         return next(checkInput);
       }
       const verificationCode = await createVerefication(email);
-      return res.json(verificationCode);
+      const trySend = await sendEmail(verificationCode, email);
+      if (trySend instanceof ApiError) {
+        return next(trySend);
+      }
+      return res.json(CODE_SEND);
     } catch (e) {
       return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
     }
