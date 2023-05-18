@@ -5,7 +5,7 @@ import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import { IVerificationFieldProps } from "../../types/types";
 import Loader from "../Loader/Loader";
-import styles from "./VerificationFieild.module.scss";
+import styles from "./VerificationField.module.scss";
 
 function VerificationField(props: IVerificationFieldProps) {
   const { name, email, password } = props;

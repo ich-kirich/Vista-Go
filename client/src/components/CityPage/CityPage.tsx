@@ -30,7 +30,13 @@ function CityPage() {
           ) : (
             <Container maxWidth="sm" className={styles.app__wrapper}>
               <CityPanel city={city} />
-              <CityPopular sight={city.sights[0]} />
+              <Box>
+                {city.sights.length > 0 ? (
+                  <CityPopular sight={city.sights[0]} />
+                ) : (
+                  <ViewError>No sights Found</ViewError>
+                )}
+              </Box>
               <MustGo />
             </Container>
           )}
