@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { IDetailsSightProps } from "../../types/types";
+import { ISightProps } from "../../types/types";
 import styles from "./PopularSight.module.scss";
 
-function PopularSight(props: IDetailsSightProps) {
+function PopularSight(props: ISightProps) {
   const { sight } = props;
   return (
     <Box className={styles.popular__wrapper}>

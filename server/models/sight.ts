@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db";
-import Tag from "./tag";
 
 class Sight extends Model {
   public name!: string;

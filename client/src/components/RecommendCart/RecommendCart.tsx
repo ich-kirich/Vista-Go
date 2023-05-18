@@ -7,6 +7,7 @@ import styles from "./RecommendCart.module.scss";
 function RecommendCart(props: IRecommendCartProps) {
   const { recommend, sliderRef, currentSlide, setCurrentSlide } = props;
   const navigate = useNavigate();
+
   const viewCity = () => {
     if (recommend.id === currentSlide) {
       navigate(`/city/${recommend.CityId}`);

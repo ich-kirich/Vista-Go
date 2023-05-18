@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import sendEmail from "../services/sendEmails";
 import ApiError from "../error/apiError";
 import {
-  ChangeUserPassword,
+  сhangeUserPassword,
   checkVerefication,
   createUser,
   createVerefication,
@@ -123,7 +123,7 @@ class UserControllers {
       if (checkVerification instanceof ApiError) {
         return next(checkVerification);
       }
-      const updatePassword = await ChangeUserPassword(email, password);
+      const updatePassword = await сhangeUserPassword(email, password);
       return res.json(updatePassword);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));

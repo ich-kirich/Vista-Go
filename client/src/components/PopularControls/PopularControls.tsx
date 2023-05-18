@@ -2,9 +2,9 @@ import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./PopularControls.module.scss";
-import { IDetailsSightProps } from "../../types/types";
+import { ISightProps } from "../../types/types";
 
-function PopularControls(props: IDetailsSightProps) {
+function PopularControls(props: ISightProps) {
   const { sight } = props;
   const { id } = useParams();
 

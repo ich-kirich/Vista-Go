@@ -14,7 +14,7 @@ function VerificationPassword(props: IVerificationPassword) {
   const { fetchUpdateUserPassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
 
-  const handleSubmit = async (e: React.MouseEvent) => {
+  const sendCode = (e: React.MouseEvent) => {
     e.stopPropagation();
     fetchUpdateUserPassword(userCode, email, password);
     setSendClicked(true);
@@ -51,7 +51,7 @@ function VerificationPassword(props: IVerificationPassword) {
               fullWidth
             />
             <Box>
-              <Button variant="contained" fullWidth onClick={handleSubmit}>
+              <Button variant="contained" fullWidth onClick={sendCode}>
                 Send Code
               </Button>
             </Box>

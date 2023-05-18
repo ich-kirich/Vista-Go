@@ -157,7 +157,7 @@ export interface ISearchFieldProps {
   nameCity: string;
 }
 
-export interface IDetailsSightProps {
+export interface ISightProps {
   sight: ISights;
 }
 
@@ -171,7 +171,7 @@ export interface IChangeUsernameProps {
   userId: number | undefined;
 }
 
-export interface IVerificationField {
+export interface IVerificationFieldProps {
   name: string;
   email: string;
   password: string;

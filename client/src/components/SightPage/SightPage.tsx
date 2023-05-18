@@ -11,12 +11,13 @@ import styles from "./SightPage.module.scss";
 function SightPage() {
   const { id, sightId } = useParams();
   const { fetchSight } = useActions();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSight(sightId!);
   }, []);
   const { sight, error, loading } = useTypedSelector((state) => state.sight);
-  const navigate = useNavigate();
+
   const closePage = () => {
     navigate(`/city/${id}/sights`);
   };

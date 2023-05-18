@@ -12,7 +12,7 @@ function CityCart(props: IListCitiesProps) {
   const { nameCity } = useContext(CONTEXT);
   const navigate = useNavigate();
 
-  const FindCities = getFindCities(cities, nameCity);
+  const findCities = getFindCities(cities, nameCity);
 
   const viewCity = (id: number) => {
     navigate(`/city/${id}`);
@@ -38,7 +38,7 @@ function CityCart(props: IListCitiesProps) {
           </Typography>
         </Box>
       ))}
-      <ListCountryCities cities={FindCities} />
+      <ListCountryCities cities={findCities} />
     </Box>
   );
 }

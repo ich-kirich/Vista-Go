@@ -5,7 +5,7 @@ import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
 import PopupComponent from "../PopupComponent/PopupComponent";
-import VerificationFieild from "../VerificationFieild/VerificationFieild";
+import VerificationField from "../VerificationField/VerificationField";
 import styles from "./RegistrationPage.module.scss";
 
 function RegistrationPage() {
@@ -37,7 +37,7 @@ function RegistrationPage() {
       ) : (
         <Box>
           <PopupComponent visible={visible} setVisible={setVisible}>
-            <VerificationFieild email={email} name={name} password={password} />
+            <VerificationField email={email} name={name} password={password} />
           </PopupComponent>
           <Box className={styles.registration__wrapper}>
             {error && (

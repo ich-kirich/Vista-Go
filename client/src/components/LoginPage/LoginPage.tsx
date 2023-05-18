@@ -21,13 +21,12 @@ function LoginPage() {
   const { fetchUser } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
 
-  const changePassword = async (event: React.MouseEvent) => {
+  const changePassword = (event: React.MouseEvent) => {
     event.stopPropagation();
     setVisibleChangePass(true);
-    console.log(visibleChangePass);
   };
 
-  const handleSubmit = async (event: React.MouseEvent) => {
+  const handleSubmit = (event: React.MouseEvent) => {
     event.preventDefault();
     fetchUser(username, password);
     setLoginClicked(true);

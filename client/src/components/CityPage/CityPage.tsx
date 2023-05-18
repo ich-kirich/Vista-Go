@@ -30,7 +30,7 @@ function CityPage() {
           ) : (
             <Container maxWidth="sm" className={styles.app__wrapper}>
               <CityPanel city={city} />
-              <CityPopular city={city} />
+              <CityPopular sight={city.sights[0]} />
               <MustGo />
             </Container>
           )}

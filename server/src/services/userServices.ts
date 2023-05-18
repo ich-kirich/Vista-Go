@@ -212,7 +212,7 @@ export async function checkVerefication(emailUser: string, code: string) {
   return new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
 }
 
-export async function ChangeUserPassword(
+export async function сhangeUserPassword(
   emailUser: string,
   newPassword: string,
 ) {

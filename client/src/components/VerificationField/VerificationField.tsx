@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { IVerificationField } from "../../types/types";
+import { IVerificationFieldProps } from "../../types/types";
 import Loader from "../Loader/Loader";
 import styles from "./VerificationFieild.module.scss";
 
-function VerificationFieild(props: IVerificationField) {
+function VerificationField(props: IVerificationFieldProps) {
   const { name, email, password } = props;
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
   const navigate = useNavigate();
 
   const { fetchCode } = useActions();
-  const { code, error, loading } = useTypedSelector((state) => state.code);
+  const { error, loading } = useTypedSelector((state) => state.code);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -64,4 +64,4 @@ function VerificationFieild(props: IVerificationField) {
   );
 }
 
-export default VerificationFieild;
+export default VerificationField;
