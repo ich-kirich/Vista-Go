@@ -66,9 +66,7 @@ function CabinetPage() {
               <Box
                 className={styles.user__img}
                 sx={{
-                  backgroundImage: `url(${
-                    userInfo && process.env.REACT_APP_BASE_URL
-                  }${userInfo?.image})`,
+                  backgroundImage: `url(${userInfo?.image})`,
                 }}
               />
             </Box>

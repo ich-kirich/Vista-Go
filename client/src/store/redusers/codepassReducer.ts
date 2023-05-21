@@ -1,4 +1,4 @@
-import { CODEPASS, INITIAL_USER } from "../../libs/constants";
+import { CODEPASS } from "../../libs/constants";
 import { IAction, ICodepassState } from "../../types/types";
 
 const initialState: ICodepassState = {

@@ -1,7 +1,9 @@
 import axios from "axios";
+import FormData from "form-data";
 import config from "config";
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
+import { UploadedFile } from "express-fileupload";
 import ApiError from "../error/apiError";
 
 export async function getWeather(lat: string, lon: string) {
@@ -11,6 +13,25 @@ export async function getWeather(lat: string, lon: string) {
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
     );
     return String(response.data.main.temp);
+  } catch (e) {
+    return new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
+  }
+}
+
+export async function uploadImageToApi(image: UploadedFile, name: string) {
+  try {
+    const formData = new FormData();
+    formData.append("image", image.data, name);
+    const response = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${config.get("imageStorage.apiKey")}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    return response.data.data.url;
   } catch (e) {
     return new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }

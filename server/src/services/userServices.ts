@@ -14,7 +14,7 @@ import {
   SHORT_PASSWORD,
 } from "../libs/constants";
 import { generateJwt } from "../libs/utils";
-import Verification from "../../models/verificatiom";
+import Verification from "../../models/verification";
 
 function generateVerificationCode() {
   const code = uuidv4().replace(/-/g, "").slice(0, 5);
@@ -159,16 +159,8 @@ export async function validateFile(image: UploadedFile) {
   return fileExtension;
 }
 
-export async function updateImageUser(
-  userId: number,
-  image: UploadedFile,
-  fileExtension: string,
-) {
-  const fileName = `${uuidv4()}.${fileExtension}`;
-  (image as UploadedFile).mv(
-    path.resolve(__dirname, "..", "..", "static", fileName),
-  );
-  await User.update({ image: fileName }, { where: { id: userId } });
+export async function updateImageUser(userId: number, imageUrl: string) {
+  await User.update({ image: imageUrl }, { where: { id: userId } });
   const user = await User.findByPk(userId);
   const jwtToken = generateJwt(
     userId,

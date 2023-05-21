@@ -22,5 +22,8 @@
     "port": "PORT",
     "username": "USER",
     "password": "PASSWORD"
+  },
+  "imageStorage": {
+    "apiKey": "IMAGE_KEY"
   }
 }

@@ -1,4 +1,4 @@
-export const DEFAULT_NAME_IMG = "default.png";
+export const DEFAULT_URL_IMG = "https://i.ibb.co/JvKSP4t/default.png";
 
 export const MIN_LENGHT_PASSWORD = 8;
 

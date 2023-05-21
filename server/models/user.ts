@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { DEFAULT_NAME_IMG } from "../src/libs/constants";
+import { DEFAULT_URL_IMG } from "../src/libs/constants";
 import sequelize from "../src/db";
 
 class User extends Model {
@@ -37,7 +37,7 @@ User.init(
     image: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: DEFAULT_NAME_IMG,
+      defaultValue: DEFAULT_URL_IMG,
     },
   },
   {

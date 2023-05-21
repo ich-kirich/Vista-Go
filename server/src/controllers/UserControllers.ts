@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import { v4 as uuidv4 } from "uuid";
 import sendEmail from "../services/sendEmails";
 import ApiError from "../error/apiError";
 import {
@@ -18,6 +19,7 @@ import {
   validationRegistration,
 } from "../services/userServices";
 import { CODE_SEND } from "../libs/constants";
+import { uploadImageToApi } from "../libs/utils";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -79,11 +81,12 @@ class UserControllers {
       if (checkFile instanceof ApiError) {
         return next(checkFile);
       }
-      const resUpdate = await updateImageUser(
-        id,
-        image as UploadedFile,
-        checkFile as string,
-      );
+      const fileName = `${uuidv4()}.${checkFile as string}`;
+      const loadImage = await uploadImageToApi(image as UploadedFile, fileName);
+      if (loadImage instanceof ApiError) {
+        return next(loadImage);
+      }
+      const resUpdate = await updateImageUser(id, loadImage);
       return res.json(resUpdate);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
