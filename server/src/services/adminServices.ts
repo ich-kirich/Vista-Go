@@ -6,6 +6,7 @@ import ApiError from "../error/apiError";
 import { ERROR } from "../libs/constants";
 import Guide from "../../models/guide";
 import { validateFile } from "./userServices";
+import Tag from "../../models/tag";
 
 async function isGuideExsist(id: number) {
   const guide = await Guide.findByPk(id);
@@ -58,7 +59,7 @@ export async function updateGuide(
   return guide;
 }
 
-export async function deleteRecord(id: number) {
+export async function deleteRecordGuide(id: number) {
   const guide = await Guide.findByPk(id);
   if (guide) {
     await Guide.destroy({
@@ -71,4 +72,15 @@ export async function deleteRecord(id: number) {
   return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
 }
 
-export default RemotePlaybackAvailabilityCallback;
+export async function deleteRecordTag(id: number) {
+  const tag = await Tag.findByPk(id);
+  if (tag) {
+    await Tag.destroy({
+      where: {
+        id,
+      },
+    });
+    return true;
+  }
+  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
+}

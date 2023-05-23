@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import Tag from "../../models/tag";
 import ApiError from "../error/apiError";
-import { CODE_SEND, RECORD_DELETED } from "../libs/constants";
+import { CODE_SEND, ERROR, RECORD_DELETED } from "../libs/constants";
 import {
   createGuide,
-  deleteRecord,
+  deleteRecordGuide,
+  deleteRecordTag,
   updateGuide,
 } from "../services/adminServices";
 
@@ -60,7 +62,9 @@ class AdminControllers {
 
   async createTag(req: Request, res: Response, next: NextFunction) {
     try {
-      return res.json("resultCreate");
+      const { name } = req.body;
+      const tag = await Tag.create({ name });
+      return res.json(tag);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }
@@ -68,7 +72,16 @@ class AdminControllers {
 
   async updateTag(req: Request, res: Response, next: NextFunction) {
     try {
-      return res.json("resultCreate");
+      const { id, name } = req.body;
+      const tag = await Tag.findByPk(id);
+      if (tag) {
+        await Tag.update({ name }, { where: { id } });
+        const updatedTag = await Tag.findByPk(id);
+        return res.json(updatedTag);
+      }
+      return next(
+        new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND),
+      );
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }
@@ -76,7 +89,12 @@ class AdminControllers {
 
   async deleteTag(req: Request, res: Response, next: NextFunction) {
     try {
-      return res.json("resultCreate");
+      const { id } = req.body;
+      const tryDeleteTag = await deleteRecordTag(id);
+      if (tryDeleteTag instanceof ApiError) {
+        return next(tryDeleteTag);
+      }
+      return res.json(RECORD_DELETED);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
     }
@@ -87,6 +105,9 @@ class AdminControllers {
       const { name } = req.body;
       const { image } = req.files;
       const guide = await createGuide(image as UploadedFile, name);
+      if (guide instanceof ApiError) {
+        return next(guide);
+      }
       return res.json(guide);
     } catch (e) {
       return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
@@ -110,7 +131,7 @@ class AdminControllers {
   async deleteGuide(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.body;
-      const tryDeleteGuide = await deleteRecord(id);
+      const tryDeleteGuide = await deleteRecordGuide(id);
       if (tryDeleteGuide instanceof ApiError) {
         return next(tryDeleteGuide);
       }

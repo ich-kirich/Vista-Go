@@ -31,4 +31,5 @@ export enum ERROR {
   NOT_AUTHORIZED = "User is not logged in.",
   NO_ACCESS = "No access.",
   GUIDE_NOT_FOUND = "The guide was not found.",
+  TAG_NOT_FOUND = "The tag was not found.",
 }

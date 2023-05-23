@@ -4,6 +4,14 @@ import checkRole from "../middleware/checkRoleMiddleware";
 
 const adminRouter = Router();
 
+adminRouter.post("/create/tag", checkRole("ADMIN"), AdminControllers.createTag);
+adminRouter.post("/update/tag", checkRole("ADMIN"), AdminControllers.updateTag);
+adminRouter.delete(
+  "/delete/tag",
+  checkRole("ADMIN"),
+  AdminControllers.deleteTag,
+);
+
 adminRouter.post(
   "/create/guide",
   checkRole("ADMIN"),
