@@ -49,9 +49,14 @@ export function generateJwt(
   id: number,
   email: string,
   name: string,
-  image?: string,
+  image: string,
+  role: string,
 ) {
-  return jwt.sign({ id, email, name, image }, config.get("jwt.secretKey"), {
-    expiresIn: "24h",
-  });
+  return jwt.sign(
+    { id, email, name, image, role },
+    config.get("jwt.secretKey"),
+    {
+      expiresIn: "24h",
+    },
+  );
 }

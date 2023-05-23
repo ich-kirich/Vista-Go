@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { DEFAULT_URL_IMG } from "../src/libs/constants";
+import { DEFAULT_URL_IMG, DEFAULT_ROLE } from "../src/libs/constants";
 import sequelize from "../src/db";
 
 class User extends Model {
@@ -12,6 +12,8 @@ class User extends Model {
   public password!: string;
 
   public image!: string;
+
+  public role!: string;
 }
 
 User.init(
@@ -38,6 +40,11 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: DEFAULT_URL_IMG,
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: DEFAULT_ROLE,
     },
   },
   {

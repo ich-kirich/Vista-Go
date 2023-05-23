@@ -1,4 +1,5 @@
 import { Router } from "express";
+import adminRouter from "./admin";
 import CitiesRouter from "./cities";
 import GuidesRouter from "./guides";
 import RecommendsRouter from "./recommends";
@@ -11,5 +12,6 @@ router.use("/", RecommendsRouter);
 router.use("/", SightsRouter);
 router.use("/", GuidesRouter);
 router.use("/user", userRouter);
+router.use("/admin", adminRouter);
 
 export default router;

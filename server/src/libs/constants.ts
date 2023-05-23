@@ -1,5 +1,7 @@
 export const DEFAULT_URL_IMG = "https://i.ibb.co/JvKSP4t/default.png";
 
+export const DEFAULT_ROLE = "USER";
+
 export const MIN_LENGHT_PASSWORD = 8;
 
 export const MIN_LENGHT_NAME = 10;
@@ -9,6 +11,8 @@ export const LONG_NAME = `The name must be no more than ${MIN_LENGHT_NAME} chara
 export const SHORT_PASSWORD = `The password must be at least ${MIN_LENGHT_PASSWORD} characters.`;
 
 export const CODE_SEND = `Verification code was successfully sent to the mail.`;
+
+export const RECORD_DELETED = `Record has been deleted.`;
 
 export enum ERROR {
   INCORRECT_INPUT = "Incorrect email, password or name.",
@@ -24,4 +28,7 @@ export enum ERROR {
   FILE_NOT_IMAGE = "The file is not an image.",
   INCORRECT_NAME = "An invalid name was entered.",
   INCORRECT_CODE = "Incorrect code.",
+  NOT_AUTHORIZED = "User is not logged in.",
+  NO_ACCESS = "No access.",
+  GUIDE_NOT_FOUND = "The guide was not found.",
 }
