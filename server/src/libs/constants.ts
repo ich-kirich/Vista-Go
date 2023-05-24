@@ -36,4 +36,5 @@ export enum ERROR {
   TAG_NOT_FOUND = "The tag was not found.",
   SIGHT_NOT_FOUND = "The sight was not found.",
   CITY_NOT_FOUND = "The city was not found.",
+  RECOMMEND_NOT_FOUND = "The recommend was not found.",
 }

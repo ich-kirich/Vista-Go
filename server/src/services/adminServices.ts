@@ -11,15 +11,7 @@ import Sight from "../../models/sight";
 import SightTag from "../../models/sightTag";
 import City from "../../models/city";
 import CityGuide from "../../models/cityGuide";
-
-async function isGuideExsist(id: number) {
-  const guide = await Guide.findByPk(id);
-
-  if (guide) {
-    return true;
-  }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
-}
+import Recommend from "../../models/recommend";
 
 export async function createRecordGuide(image: UploadedFile, name: string) {
   const checkFile = await validateFile(image);
@@ -40,9 +32,12 @@ export async function updateRecordGuide(
   name: string,
   image: UploadedFile,
 ) {
-  const findGuide = await isGuideExsist(id);
-  if (findGuide instanceof ApiError) {
-    return findGuide;
+  const findGuide = await Guide.findByPk(id);
+  if (!findGuide) {
+    return new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      ERROR.GUIDE_NOT_FOUND,
+    );
   }
   if (name) {
     await Guide.update({ name }, { where: { id } });
@@ -433,4 +428,53 @@ export async function deleteRecordCity(id: number) {
     return true;
   }
   return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+}
+
+export async function createRecordRecommend(id: number) {
+  const city = await City.findByPk(id);
+  if (city) {
+    const recommend = await Recommend.create({ CityId: id });
+    return recommend;
+  }
+  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+}
+
+export async function updateRecordRecommend(id: number, cityId: number) {
+  const findRecommend = await Recommend.findByPk(id);
+  if (!findRecommend) {
+    return new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      ERROR.RECOMMEND_NOT_FOUND,
+    );
+  }
+  const findCity = await City.findByPk(Number(cityId));
+  if (!findCity) {
+    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+  }
+  await Recommend.update({ CityId: cityId }, { where: { id } });
+  const recommend = await Recommend.findOne({
+    where: { id },
+    include: [
+      {
+        model: City,
+      },
+    ],
+  });
+  return recommend;
+}
+
+export async function deleteRecordRecommend(id: number) {
+  const findRecommend = await Recommend.findByPk(id);
+  if (findRecommend) {
+    await Recommend.destroy({
+      where: {
+        id,
+      },
+    });
+    return true;
+  }
+  return new ApiError(
+    StatusCodes.UNPROCESSABLE_ENTITY,
+    ERROR.RECOMMEND_NOT_FOUND,
+  );
 }

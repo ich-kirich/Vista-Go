@@ -5,6 +5,22 @@ import checkRole from "../middleware/checkRoleMiddleware";
 const adminRouter = Router();
 
 adminRouter.post(
+  "/create/recommend",
+  checkRole("ADMIN"),
+  AdminControllers.createRecommend,
+);
+adminRouter.post(
+  "/update/recommend",
+  checkRole("ADMIN"),
+  AdminControllers.updateRecommend,
+);
+adminRouter.delete(
+  "/delete/recommend",
+  checkRole("ADMIN"),
+  AdminControllers.deleteRecommend,
+);
+
+adminRouter.post(
   "/create/city",
   checkRole("ADMIN"),
   AdminControllers.createCity,

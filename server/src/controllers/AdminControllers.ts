@@ -7,17 +7,59 @@ import { ERROR, RECORD_DELETED } from "../libs/constants";
 import {
   createRecordCity,
   createRecordGuide,
+  createRecordRecommend,
   createRecordSight,
   deleteRecordCity,
   deleteRecordGuide,
+  deleteRecordRecommend,
   deleteRecordSight,
   deleteRecordTag,
   updateRecordCity,
   updateRecordGuide,
+  updateRecordRecommend,
   updateRecordSight,
 } from "../services/adminServices";
 
 class AdminControllers {
+  async createRecommend(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { cityId } = req.body;
+      const recommend = await createRecordRecommend(cityId);
+      if (recommend instanceof ApiError) {
+        return next(recommend);
+      }
+      return res.json(recommend);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+    }
+  }
+
+  async updateRecommend(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, cityId } = req.body;
+      const recommend = await updateRecordRecommend(id, cityId);
+      if (recommend instanceof ApiError) {
+        return next(recommend);
+      }
+      return res.json(recommend);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+    }
+  }
+
+  async deleteRecommend(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body;
+      const tryDeleteRecommend = await deleteRecordRecommend(id);
+      if (tryDeleteRecommend instanceof ApiError) {
+        return next(tryDeleteRecommend);
+      }
+      return res.json(RECORD_DELETED);
+    } catch (e) {
+      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    }
+  }
+
   async createCity(req: Request, res: Response, next: NextFunction) {
     try {
       const { country, name, lat, lon, sightIds, guideIds } = req.body;
