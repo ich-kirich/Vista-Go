@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("SightTag", [
+    return queryInterface.bulkInsert("sighttags", [
       {
         id: 1,
         SightId: 1,
@@ -463,6 +463,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("SightTag", null, {});
+    return queryInterface.bulkDelete("sighttags", null, {});
   },
 };

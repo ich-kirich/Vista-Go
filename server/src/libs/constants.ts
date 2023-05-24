@@ -14,6 +14,8 @@ export const CODE_SEND = `Verification code was successfully sent to the mail.`;
 
 export const RECORD_DELETED = `Record has been deleted.`;
 
+export const DEFAULT_WEATHER = "Unknown";
+
 export enum ERROR {
   INCORRECT_INPUT = "Incorrect email, password or name.",
   USER_EXIST = "User with this email exists.",
@@ -32,4 +34,6 @@ export enum ERROR {
   NO_ACCESS = "No access.",
   GUIDE_NOT_FOUND = "The guide was not found.",
   TAG_NOT_FOUND = "The tag was not found.",
+  SIGHT_NOT_FOUND = "The sight was not found.",
+  CITY_NOT_FOUND = "The city was not found.",
 }

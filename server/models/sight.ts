@@ -2,6 +2,8 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db";
 
 class Sight extends Model {
+  public id!: number;
+
   public name!: string;
 
   public image!: string;
@@ -19,6 +21,7 @@ Sight.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      defaultValue: sequelize.literal("(SELECT MAX(id) FROM sights) + 1"),
     },
     name: {
       type: DataTypes.STRING,

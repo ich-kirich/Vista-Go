@@ -38,7 +38,8 @@ module.exports = {
       },
       CityId: {
         type: Sequelize.INTEGER,
-        references: { model: 'cities', key: 'id' }
+        references: { model: 'cities', key: 'id' },
+        allowNull: true,
       },
     });
   },

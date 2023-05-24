@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("CityGuide", [
+    return queryInterface.bulkInsert("cityguides", [
       {
         id: 1,
         CityId: 1,
@@ -92,6 +92,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("CityGuide", null, {});
+    return queryInterface.bulkDelete("cityguides", null, {});
   },
 };

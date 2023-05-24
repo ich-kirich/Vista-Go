@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize";
+import { DEFAULT_WEATHER } from "../src/libs/constants";
 import sequelize from "../src/db";
 
 class City extends Model {
@@ -25,6 +26,7 @@ City.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      defaultValue: sequelize.literal("(SELECT MAX(id) FROM cities) + 1"),
     },
     country: {
       type: DataTypes.STRING,
@@ -37,6 +39,7 @@ City.init(
     weather: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: DEFAULT_WEATHER,
     },
     image: {
       type: DataTypes.STRING,
@@ -53,6 +56,7 @@ City.init(
     weatherLastRequest: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: new Date(),
     },
   },
   {
