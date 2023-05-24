@@ -12,10 +12,10 @@ const fetchRecommends = () => {
         type: RECOMMENDS.FETCH_RECOMMENDS_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: RECOMMENDS.FETCH_RECOMMENDS_ERROR,
-        payload: "Error loading recommends",
+        payload: e.response.data.message,
       });
     }
   };

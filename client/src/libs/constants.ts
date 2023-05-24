@@ -6,6 +6,7 @@ import {
   IGuide,
   IRecommends,
   ISights,
+  ITag,
   IUser,
 } from "../types/types";
 
@@ -45,6 +46,18 @@ export const INITIAL_RECOMMENDS: IRecommends[] = [
   },
 ];
 
+export const INITIAL_RECOMMEND: IRecommends = {
+  id: 1,
+  country: "Unknown",
+  name: "Unknown",
+  weather: "Unknown",
+  image: "Unknown",
+  guides: [],
+  sights: [],
+  updatedAt: "Unknown",
+  CityId: 1,
+};
+
 export const INITIAL_SIGHTS: ISights[] = [
   {
     id: 1,
@@ -75,17 +88,29 @@ export const INITIAL_GUIDES: IGuide[] = [
   },
 ];
 
+export const INITIAL_GUIDE: IGuide = {
+  id: 1,
+  name: "Unknown",
+  image: "Unknown",
+};
+
 export const INITIAL_USER: IUser = {
   id: 1,
   email: "Unknown",
   name: "Unknown",
   image: "Unknown",
+  role: "USER",
 };
 
 export const INITIAL_CODE: ICode = {
   id: 1,
   email: "Unknown",
   verificationCode: "Unknown",
+};
+
+export const INITIAL_TAG: ITag = {
+  id: 1,
+  name: "Unknown",
 };
 
 export enum CITIES {
@@ -106,6 +131,12 @@ export enum RECOMMENDS {
   FETCH_RECOMMENDS_ERROR = "FETCH_RECOMMENDS_ERROR",
 }
 
+export enum RECOMMEND {
+  FETCH_RECOMMEND = "FETCH_RECOMMEND",
+  FETCH_RECOMMEND_SUCCESS = "FETCH_RECOMMEND_SUCCESS",
+  FETCH_RECOMMEND_ERROR = "FETCH_RECOMMEND_ERROR",
+}
+
 export enum SIGHTS {
   FETCH_SIGHTS = "FETCH_SIGHTS",
   FETCH_SIGHTS_SUCCESS = "FETCH_SIGHTS_SUCCESS",
@@ -122,6 +153,24 @@ export enum GUIDES {
   FETCH_GUIDES = "FETCH_GUIDES",
   FETCH_GUIDES_SUCCESS = "FETCH_GUIDES_SUCCESS",
   FETCH_GUIDES_ERROR = "FETCH_GUIDES_ERROR",
+}
+
+export enum GUIDE {
+  FETCH_GUIDE = "FETCH_GUIDE",
+  FETCH_GUIDE_SUCCESS = "FETCH_GUIDE_SUCCESS",
+  FETCH_GUIDE_ERROR = "FETCH_GUIDE_ERROR",
+}
+
+export enum TAGS {
+  FETCH_TAGS = "FETCH_TAGS",
+  FETCH_TAGS_SUCCESS = "FETCH_TAGS_SUCCESS",
+  FETCH_TAGS_ERROR = "FETCH_TAGS_ERROR",
+}
+
+export enum TAG {
+  FETCH_TAG = "FETCH_TAG",
+  FETCH_TAG_SUCCESS = "FETCH_TAG_SUCCESS",
+  FETCH_TAG_ERROR = "FETCH_TAG_ERROR",
 }
 
 export enum REGISTRATION {
@@ -170,5 +219,7 @@ export const INITIAL_AUTH = !!localStorage.getItem("token");
 export const ERROR_LOADING_USER = "Error loading user information.";
 
 export const ERROR_REPEAT = "Re-entered password did not match.";
+
+export const ADMIN_ROLE = "ADMIN";
 
 export const CONTEXT = React.createContext({} as IContext);

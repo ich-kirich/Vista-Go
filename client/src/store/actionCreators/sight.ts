@@ -12,10 +12,10 @@ const fetchSight = (id: string) => {
         type: SIGHT.FETCH_SIGHT_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: SIGHT.FETCH_SIGHT_ERROR,
-        payload: "Error loading sight",
+        payload: e.response.data.message,
       });
     }
   };

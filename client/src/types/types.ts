@@ -1,8 +1,20 @@
 import Slider from "react-slick";
 
-interface ITag {
+export interface ITag {
   id: number;
   name: string;
+}
+
+export interface ITagsState {
+  tags: ITag[];
+  loading: boolean;
+  error: null | string;
+}
+
+export interface ITagState {
+  tag: ITag;
+  loading: boolean;
+  error: null | string;
 }
 
 export interface IGuide {
@@ -13,6 +25,12 @@ export interface IGuide {
 
 export interface IGuidesState {
   guides: IGuide[];
+  loading: boolean;
+  error: null | string;
+}
+
+export interface IGuideState {
+  guide: IGuide;
   loading: boolean;
   error: null | string;
 }
@@ -71,10 +89,17 @@ export interface IUser {
   email: string;
   name: string;
   image: string;
+  role: string;
 }
 
 export interface IRecommendsState {
   recommends: IRecommends[];
+  loading: boolean;
+  error: null | string;
+}
+
+export interface IRecommendState {
+  recommend: IRecommends | string;
   loading: boolean;
   error: null | string;
 }

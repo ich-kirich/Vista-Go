@@ -8,9 +8,12 @@ import SightPage from "../SightPage/SightPage";
 import SightsPage from "../SightsPage/SightsPage";
 import LoginPage from "../LoginPage/LoginPage";
 import CabinetPage from "../CabinetPage/CabinetPage";
+import { ADMIN_ROLE } from "../../libs/constants";
+import AdminPanel from "../AdminPanel/AdminPanel";
 
 function AppRouter() {
   const isAuth = useTypedSelector((state) => state.auth.isAuth);
+  const { user } = useTypedSelector((state) => state.user);
   const authRouters = [
     { path: "/home", element: <MainPage /> },
     { path: "/city/:id", element: <CityPage /> },
@@ -23,10 +26,15 @@ function AppRouter() {
     { path: "/registration", element: <RegistrationPage /> },
     { path: "/error", element: <ErrorPage /> },
   ];
+  const adminRouters = [{ path: "/admin", element: <AdminPanel /> }];
   return (
     <Routes>
       {isAuth &&
         authRouters.map((item) => (
+          <Route element={item.element} path={item.path} key={item.path} />
+        ))}
+      {user.role === ADMIN_ROLE &&
+        adminRouters.map((item) => (
           <Route element={item.element} path={item.path} key={item.path} />
         ))}
       {publicRouters.map((item) => (

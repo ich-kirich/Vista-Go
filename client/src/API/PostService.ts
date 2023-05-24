@@ -29,3 +29,8 @@ export async function getGuides() {
   const response = await api.get(`/guides`);
   return response;
 }
+
+export async function getTags() {
+  const response = await api.get(`/tags`);
+  return response;
+}

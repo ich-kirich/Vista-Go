@@ -9,13 +9,8 @@ adminRouter.post(
   checkRole("ADMIN"),
   AdminControllers.createRecommend,
 );
-adminRouter.post(
-  "/update/recommend",
-  checkRole("ADMIN"),
-  AdminControllers.updateRecommend,
-);
 adminRouter.delete(
-  "/delete/recommend",
+  "/delete/recommend/:id",
   checkRole("ADMIN"),
   AdminControllers.deleteRecommend,
 );
@@ -31,7 +26,7 @@ adminRouter.post(
   AdminControllers.updateCity,
 );
 adminRouter.delete(
-  "/delete/city",
+  "/delete/city/:id",
   checkRole("ADMIN"),
   AdminControllers.deleteCity,
 );
@@ -47,7 +42,7 @@ adminRouter.post(
   AdminControllers.updateSight,
 );
 adminRouter.delete(
-  "/delete/sight",
+  "/delete/sight/:id",
   checkRole("ADMIN"),
   AdminControllers.deleteSight,
 );
@@ -55,7 +50,7 @@ adminRouter.delete(
 adminRouter.post("/create/tag", checkRole("ADMIN"), AdminControllers.createTag);
 adminRouter.post("/update/tag", checkRole("ADMIN"), AdminControllers.updateTag);
 adminRouter.delete(
-  "/delete/tag",
+  "/delete/tag/:id",
   checkRole("ADMIN"),
   AdminControllers.deleteTag,
 );
@@ -71,7 +66,7 @@ adminRouter.post(
   AdminControllers.updateGuide,
 );
 adminRouter.delete(
-  "/delete/guide",
+  "/delete/guide/:id",
   checkRole("ADMIN"),
   AdminControllers.deleteGuide,
 );

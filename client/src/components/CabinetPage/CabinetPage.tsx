@@ -1,10 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
 import ViewError from "../ViewError/ViewError";
-import { ERROR_LOADING_USER } from "../../libs/constants";
+import { ADMIN_ROLE, ERROR_LOADING_USER } from "../../libs/constants";
 import ChangeUsername from "../ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "../ChangeImage/ChangeImage";
@@ -16,6 +17,11 @@ function CabinetPage() {
   const [visibleFieldName, setVisibleFieldName] = useState(false);
   const [visibleImageField, setVisibleImageField] = useState(false);
   const [visibleCodeField, setVisibleCodeField] = useState(false);
+  const navigate = useNavigate();
+
+  const viewAdminPanel = () => {
+    navigate("/admin");
+  };
 
   const { user } = useTypedSelector((state) => state.user);
 
@@ -94,6 +100,11 @@ function CabinetPage() {
             <Button variant="contained" fullWidth onClick={viewCodeField}>
               Change Password
             </Button>
+            {user.role === ADMIN_ROLE && (
+              <Button variant="contained" fullWidth onClick={viewAdminPanel}>
+                Go to the admin panel
+              </Button>
+            )}
           </Box>
           <ChangeUsername
             visible={visibleFieldName}

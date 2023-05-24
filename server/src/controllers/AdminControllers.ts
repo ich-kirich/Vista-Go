@@ -16,7 +16,6 @@ import {
   deleteRecordTag,
   updateRecordCity,
   updateRecordGuide,
-  updateRecordRecommend,
   updateRecordSight,
 } from "../services/adminServices";
 
@@ -34,23 +33,10 @@ class AdminControllers {
     }
   }
 
-  async updateRecommend(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id, cityId } = req.body;
-      const recommend = await updateRecordRecommend(id, cityId);
-      if (recommend instanceof ApiError) {
-        return next(recommend);
-      }
-      return res.json(recommend);
-    } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
-    }
-  }
-
   async deleteRecommend(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
-      const tryDeleteRecommend = await deleteRecordRecommend(id);
+      const { id } = req.params;
+      const tryDeleteRecommend = await deleteRecordRecommend(Number(id));
       if (tryDeleteRecommend instanceof ApiError) {
         return next(tryDeleteRecommend);
       }
@@ -107,8 +93,8 @@ class AdminControllers {
 
   async deleteCity(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
-      const tryDeleteCity = await deleteRecordCity(id);
+      const { id } = req.params;
+      const tryDeleteCity = await deleteRecordCity(Number(id));
       if (tryDeleteCity instanceof ApiError) {
         return next(tryDeleteCity);
       }
@@ -165,8 +151,8 @@ class AdminControllers {
 
   async deleteSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
-      const tryDeleteSight = await deleteRecordSight(id);
+      const { id } = req.params;
+      const tryDeleteSight = await deleteRecordSight(Number(id));
       if (tryDeleteSight instanceof ApiError) {
         return next(tryDeleteSight);
       }
@@ -205,8 +191,8 @@ class AdminControllers {
 
   async deleteTag(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
-      const tryDeleteTag = await deleteRecordTag(id);
+      const { id } = req.params;
+      const tryDeleteTag = await deleteRecordTag(Number(id));
       if (tryDeleteTag instanceof ApiError) {
         return next(tryDeleteTag);
       }
@@ -246,8 +232,8 @@ class AdminControllers {
 
   async deleteGuide(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
-      const tryDeleteGuide = await deleteRecordGuide(id);
+      const { id } = req.params;
+      const tryDeleteGuide = await deleteRecordGuide(Number(id));
       if (tryDeleteGuide instanceof ApiError) {
         return next(tryDeleteGuide);
       }

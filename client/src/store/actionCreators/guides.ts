@@ -12,10 +12,10 @@ const fetchGuides = () => {
         type: GUIDES.FETCH_GUIDES_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: GUIDES.FETCH_GUIDES_ERROR,
-        payload: "Error loading guides",
+        payload: e.response.data.message,
       });
     }
   };
