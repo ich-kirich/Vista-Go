@@ -10,7 +10,7 @@ function AddTag() {
   const [isClick, setIsClick] = useState(false);
   const [nameTag, setNameTag] = useState("");
 
-  const { fetchAddAdminTag } = useActions();
+  const { fetchAddTag } = useActions();
   const { error, loading } = useTypedSelector((state) => state.tag);
 
   const newNameTag = (value: string) => {
@@ -19,7 +19,7 @@ function AddTag() {
 
   const addTag = () => {
     setIsClick(true);
-    fetchAddAdminTag(nameTag);
+    fetchAddTag(nameTag);
   };
 
   return (

@@ -9,7 +9,7 @@ function DeleteRecommend() {
   const [chooseRecommend, setChooseRecommend] = useState("");
   const [isClick, setIsClick] = useState(false);
 
-  const { fetchCities, fetchDeleteAdminRecommend } = useActions();
+  const { fetchCities, fetchDeleteRecommend } = useActions();
   const recommend = useTypedSelector((state) => state.adminRecommend);
   useEffect(() => {
     fetchCities();
@@ -24,7 +24,7 @@ function DeleteRecommend() {
 
   const deleteRecommend = () => {
     setIsClick(true);
-    fetchDeleteAdminRecommend(Number(chooseRecommend));
+    fetchDeleteRecommend(Number(chooseRecommend));
   };
 
   return (
@@ -45,6 +45,7 @@ function DeleteRecommend() {
                 onChange={(e) => selectRecommend(e.target.value)}
                 variant="standard"
               >
+                <option value="">Select</option>
                 {recommends.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}

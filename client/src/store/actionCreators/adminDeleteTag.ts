@@ -3,7 +3,7 @@ import { deleteTag } from "../../api/adminService";
 import { TAG } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchDeleteAdminTag = (id: number) => {
+const fetchDeleteTag = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: TAG.FETCH_TAG });
@@ -21,4 +21,4 @@ const fetchDeleteAdminTag = (id: number) => {
   };
 };
 
-export default fetchDeleteAdminTag;
+export default fetchDeleteTag;

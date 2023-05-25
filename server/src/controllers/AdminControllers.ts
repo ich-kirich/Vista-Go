@@ -127,12 +127,10 @@ class AdminControllers {
 
   async updateSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, name, description, price, distance, cityId, tagIds } =
-        req.body;
+      const { id, name, description, price, distance, tagIds } = req.body;
       const { image } = req.files || {};
       const sight = await updateRecordSight(
         id,
-        cityId,
         image as UploadedFile,
         name,
         description,

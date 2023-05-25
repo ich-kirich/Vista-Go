@@ -45,6 +45,17 @@ export async function findCity(cityId: string) {
 }
 
 export async function findCities() {
-  const cities = await City.findAll();
+  const cities = await City.findAll({
+    include: [
+      {
+        model: Sight,
+        as: "sights",
+      },
+      {
+        model: Guide,
+        as: "guides",
+      },
+    ],
+  });
   return cities;
 }

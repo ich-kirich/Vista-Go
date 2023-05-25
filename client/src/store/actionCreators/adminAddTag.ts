@@ -3,7 +3,7 @@ import { createTag } from "../../api/adminService";
 import { TAG } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchAddAdminTag = (name: string) => {
+const fetchAddTag = (name: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: TAG.FETCH_TAG });
@@ -21,4 +21,4 @@ const fetchAddAdminTag = (name: string) => {
   };
 };
 
-export default fetchAddAdminTag;
+export default fetchAddTag;

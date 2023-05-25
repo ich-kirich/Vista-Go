@@ -9,7 +9,7 @@ function DeleteTag() {
   const [chooseTag, setChooseTag] = useState("");
   const [isClick, setIsClick] = useState(false);
 
-  const { fetchTags, fetchDeleteAdminTag } = useActions();
+  const { fetchTags, fetchDeleteTag } = useActions();
   const tag = useTypedSelector((state) => state.tag);
   useEffect(() => {
     fetchTags();
@@ -23,7 +23,7 @@ function DeleteTag() {
   const deleteTag = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsClick(true);
-    fetchDeleteAdminTag(Number(chooseTag));
+    fetchDeleteTag(Number(chooseTag));
   };
 
   return (
@@ -44,6 +44,7 @@ function DeleteTag() {
                 onChange={(e) => selectTag(e.target.value)}
                 variant="standard"
               >
+                <option value="">Select</option>
                 {tags.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}

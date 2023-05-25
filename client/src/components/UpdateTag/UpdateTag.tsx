@@ -17,7 +17,7 @@ function UpdateTag() {
   const [nameTag, setNameTag] = useState("");
   const [isClick, setIsClick] = useState(false);
 
-  const { fetchTags, fetchUpdateAdminTag } = useActions();
+  const { fetchTags, fetchUpdateTag } = useActions();
   const tag = useTypedSelector((state) => state.tag);
   useEffect(() => {
     fetchTags();
@@ -31,7 +31,7 @@ function UpdateTag() {
   const deleteTag = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsClick(true);
-    fetchUpdateAdminTag(Number(chooseTag), nameTag);
+    fetchUpdateTag(Number(chooseTag), nameTag);
   };
 
   const newNameTag = (value: string) => {
@@ -56,6 +56,7 @@ function UpdateTag() {
                 onChange={(e) => selectTag(e.target.value)}
                 variant="standard"
               >
+                <option value="">Select</option>
                 {tags.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}

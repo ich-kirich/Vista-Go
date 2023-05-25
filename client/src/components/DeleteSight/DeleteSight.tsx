@@ -1,28 +1,29 @@
 import { Box, Typography, NativeSelect, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 
-function AddRecommend() {
+function DeleteSight() {
+  const [chooseSight, setChooseSight] = useState("");
   const [isClick, setIsClick] = useState(false);
-  const [city, setCity] = useState("");
 
-  const { fetchCities, fetchAddRecommend } = useActions();
+  const { fetchAllSights, fetchDeleteSight } = useActions();
+  const sight = useTypedSelector((state) => state.sight);
   useEffect(() => {
-    fetchCities();
-  }, []);
-  const { cities, error, loading } = useTypedSelector((state) => state.cities);
-  const recommend = useTypedSelector((state) => state.adminRecommend);
+    fetchAllSights();
+  }, [sight.loading]);
+  const { sights, error, loading } = useTypedSelector((state) => state.sights);
 
-  const selectCity = (value: string) => {
-    setCity(value);
+  const selectSight = (value: string) => {
+    setChooseSight(value);
   };
 
-  const addRecommend = () => {
+  const deleteSight = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsClick(true);
-    fetchAddRecommend(Number(city));
+    fetchDeleteSight(Number(chooseSight));
   };
 
   return (
@@ -36,34 +37,34 @@ function AddRecommend() {
           ) : (
             <Box>
               <Typography variant="h6" component="h2">
-                Select a city for a recommendation:
+                Select a sight for deleting:
               </Typography>
               <NativeSelect
-                value={city}
-                onChange={(e) => selectCity(e.target.value)}
+                value={chooseSight}
+                onChange={(e) => selectSight(e.target.value)}
                 variant="standard"
               >
                 <option value="">Select</option>
-                {cities.map((item) => (
+                {sights.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
                 ))}
               </NativeSelect>
-              <Button variant="contained" fullWidth onClick={addRecommend}>
-                Add Recommend
+              <Button variant="contained" fullWidth onClick={deleteSight}>
+                Delete Sight
               </Button>
               {isClick && (
                 <Box>
-                  {recommend.loading ? (
+                  {sight.loading ? (
                     <Loader />
                   ) : (
                     <Box>
-                      {recommend.error ? (
-                        <ViewError>{error}</ViewError>
+                      {sight.error ? (
+                        <ViewError>{sight.error}</ViewError>
                       ) : (
                         <Typography variant="h6" component="h5">
-                          The recommendation was successfully added
+                          The sight was successfully deleted
                         </Typography>
                       )}
                     </Box>
@@ -78,4 +79,4 @@ function AddRecommend() {
   );
 }
 
-export default AddRecommend;
+export default DeleteSight;

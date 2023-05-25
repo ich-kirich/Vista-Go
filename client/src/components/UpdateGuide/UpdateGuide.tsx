@@ -63,6 +63,7 @@ function UpdateGuide() {
                 onChange={(e) => selectGuide(e.target.value)}
                 variant="standard"
               >
+                <option value="">Select</option>
                 {guides.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}

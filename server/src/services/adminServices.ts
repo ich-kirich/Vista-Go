@@ -150,7 +150,6 @@ export async function createRecordSight(
 
 export async function updateRecordSight(
   id: number,
-  cityId: number,
   image: UploadedFile,
   name: string,
   description: string,
@@ -189,16 +188,6 @@ export async function updateRecordSight(
   if (distance) {
     await Sight.update({ distance }, { where: { id } });
   }
-  if (cityId) {
-    const findCity = await City.findByPk(cityId);
-    if (!findCity) {
-      return new ApiError(
-        StatusCodes.UNPROCESSABLE_ENTITY,
-        ERROR.CITY_NOT_FOUND,
-      );
-    }
-    await Sight.update({ CityId: cityId }, { where: { id } });
-  }
   if (tagIds) {
     for (const tagId of tagIds) {
       const findTag = await Tag.findByPk(tagId);
@@ -210,10 +199,18 @@ export async function updateRecordSight(
       }
     }
     for (const tagId of tagIds) {
-      await SightTag.update(
-        { TagId: tagId },
-        { where: { SightId: findSight.dataValues.id } },
-      );
+      const findSightTag = await SightTag.findOne({
+        where: {
+          TagId: Number(tagId),
+          SightId: id,
+        },
+      });
+      if (!findSightTag) {
+        await SightTag.create({
+          SightId: id,
+          TagId: Number(tagId),
+        });
+      }
     }
   }
   const sight = await Sight.findByPk(id);
@@ -368,10 +365,18 @@ export async function updateRecordCity(
       }
     }
     for (const guideId of guideIds) {
-      await CityGuide.update(
-        { CityId: id },
-        { where: { GuideId: Number(guideId) } },
-      );
+      const findCityGuide = await CityGuide.findOne({
+        where: {
+          CityId: Number(id),
+          GuideId: Number(guideId),
+        },
+      });
+      if (!findCityGuide) {
+        await CityGuide.create({
+          CityId: id,
+          GuideId: Number(guideId),
+        });
+      }
     }
   }
   const city = await City.findOne({

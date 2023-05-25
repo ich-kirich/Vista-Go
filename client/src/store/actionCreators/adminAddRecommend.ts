@@ -3,7 +3,7 @@ import { createRecommend } from "../../api/adminService";
 import { RECOMMEND } from "../../libs/constants";
 import { IAction } from "../../types/types";
 
-const fetchAddAdminRecommend = (cityId: number) => {
+const fetchAddRecommend = (cityId: number) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: RECOMMEND.FETCH_RECOMMEND });
@@ -21,4 +21,4 @@ const fetchAddAdminRecommend = (cityId: number) => {
   };
 };
 
-export default fetchAddAdminRecommend;
+export default fetchAddRecommend;

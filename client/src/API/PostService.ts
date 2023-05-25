@@ -25,6 +25,11 @@ export async function getSight(id: string) {
   return response;
 }
 
+export async function getAllSights() {
+  const response = await api.get("/sights");
+  return response;
+}
+
 export async function getGuides() {
   const response = await api.get(`/guides`);
   return response;

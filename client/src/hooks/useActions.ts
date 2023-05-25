@@ -1,13 +1,20 @@
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import fetchAddAdminRecommend from "../store/actionCreators/adminAddRecommend";
-import fetchAddAdminTag from "../store/actionCreators/adminAddTag";
+import fetchAddRecommend from "../store/actionCreators/adminAddRecommend";
+import fetchAddTag from "../store/actionCreators/adminAddTag";
+import fetchCreateCity from "../store/actionCreators/adminCreateCity";
 import fetchCreateGuide from "../store/actionCreators/adminCreateGuide";
+import fetchCreateSight from "../store/actionCreators/adminCreateSight";
+import fetchDeleteCity from "../store/actionCreators/adminDeleteCity";
 import fetchDeleteGuide from "../store/actionCreators/adminDeleteGuide";
-import fetchDeleteAdminRecommend from "../store/actionCreators/adminDeleteRecommend";
-import fetchDeleteAdminTag from "../store/actionCreators/adminDeleteTag";
+import fetchDeleteRecommend from "../store/actionCreators/adminDeleteRecommend";
+import fetchDeleteSight from "../store/actionCreators/adminDeleteSight";
+import fetchDeleteTag from "../store/actionCreators/adminDeleteTag";
+import fetchUpdateCity from "../store/actionCreators/adminUpdateCity";
 import fetchUpdateGuide from "../store/actionCreators/adminUpdateGuide";
-import fetchUpdateAdminTag from "../store/actionCreators/adminUpdateTag";
+import fetchUpdateSight from "../store/actionCreators/adminUpdateSight";
+import fetchUpdateTag from "../store/actionCreators/adminUpdateTag";
+import fetchAllSights from "../store/actionCreators/allSights";
 import fetchCities from "../store/actionCreators/cities";
 import fetchCity from "../store/actionCreators/city";
 import fetchCode from "../store/actionCreators/code";
@@ -31,6 +38,7 @@ const useActions = () => {
       fetchCities,
       fetchRecommends,
       fetchSights,
+      fetchAllSights,
       fetchSight,
       fetchGuides,
       fetchRegistration,
@@ -40,15 +48,21 @@ const useActions = () => {
       fetchCode,
       fetchUpdateUserPassword,
       fetchCodePassword,
-      fetchAddAdminRecommend,
-      fetchDeleteAdminRecommend,
+      fetchAddRecommend,
+      fetchDeleteRecommend,
       fetchTags,
-      fetchAddAdminTag,
-      fetchDeleteAdminTag,
-      fetchUpdateAdminTag,
+      fetchAddTag,
+      fetchDeleteTag,
+      fetchUpdateTag,
       fetchCreateGuide,
       fetchDeleteGuide,
       fetchUpdateGuide,
+      fetchCreateSight,
+      fetchDeleteSight,
+      fetchUpdateSight,
+      fetchCreateCity,
+      fetchDeleteCity,
+      fetchUpdateCity,
     },
     dispatch,
   );
