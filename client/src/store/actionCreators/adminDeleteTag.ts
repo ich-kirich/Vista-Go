@@ -12,10 +12,10 @@ const fetchDeleteTag = (id: number) => {
         type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: TAG.FETCH_TAG_ERROR,
-        payload: "Error deleting tag",
+        payload: e.response.data.message,
       });
     }
   };

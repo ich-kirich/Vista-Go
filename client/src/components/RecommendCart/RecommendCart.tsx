@@ -5,16 +5,18 @@ import { IRecommendCartProps } from "../../types/types";
 import styles from "./RecommendCart.module.scss";
 
 function RecommendCart(props: IRecommendCartProps) {
-  const { recommend, sliderRef, currentSlide, setCurrentSlide } = props;
+  const { recommend, sliderRef, currentSlide, setCurrentSlide, idsRecommends } =
+    props;
   const navigate = useNavigate();
 
   const viewCity = () => {
-    if (recommend.id === currentSlide) {
+    const index = idsRecommends.indexOf(recommend.id) + 1;
+    if (index === currentSlide) {
       navigate(`/city/${recommend.CityId}`);
     } else {
-      sliderRef.current?.slickGoTo(recommend.id - 1);
+      sliderRef.current?.slickGoTo(index - 1);
       setTimeout(() => {
-        setCurrentSlide(recommend.id);
+        setCurrentSlide(index);
       }, 500);
     }
   };

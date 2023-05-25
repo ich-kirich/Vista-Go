@@ -12,10 +12,10 @@ const fetchCities = () => {
         type: CITIES.FETCH_CITIES_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: CITIES.FETCH_CITIES_ERROR,
-        payload: "Error loading cities",
+        payload: e.response.data.message,
       });
     }
   };

@@ -12,10 +12,10 @@ const fetchAddRecommend = (cityId: number) => {
         type: RECOMMEND.FETCH_RECOMMEND_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: RECOMMEND.FETCH_RECOMMEND_ERROR,
-        payload: "Error adding recommend",
+        payload: e.response.data.message,
       });
     }
   };

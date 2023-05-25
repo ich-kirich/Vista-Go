@@ -10,7 +10,7 @@ function DeleteRecommend() {
   const [isClick, setIsClick] = useState(false);
 
   const { fetchCities, fetchDeleteRecommend } = useActions();
-  const recommend = useTypedSelector((state) => state.adminRecommend);
+  const recommend = useTypedSelector((state) => state.recommend);
   useEffect(() => {
     fetchCities();
   }, [recommend.loading]);
@@ -38,7 +38,7 @@ function DeleteRecommend() {
           ) : (
             <Box>
               <Typography variant="h6" component="h2">
-                Select a city for a recommendation:
+                Select a recommendation:
               </Typography>
               <NativeSelect
                 value={chooseRecommend}

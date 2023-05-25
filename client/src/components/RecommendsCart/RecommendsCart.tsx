@@ -7,6 +7,9 @@ import { IListRecommendsProps } from "../../types/types";
 
 function RecommendsCart(props: IListRecommendsProps) {
   const { recommends } = props;
+  const [idsRecommends, setIdsRecommends] = useState<number[]>(
+    recommends.map((item) => item.id),
+  );
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
   return (
@@ -22,6 +25,7 @@ function RecommendsCart(props: IListRecommendsProps) {
           sliderRef={sliderRef}
           currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
+          idsRecommends={idsRecommends}
         />
       ))}
     </Slider>

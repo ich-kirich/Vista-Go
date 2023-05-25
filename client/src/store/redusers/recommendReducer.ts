@@ -7,7 +7,7 @@ const initialState: IRecommendState = {
   error: null,
 };
 
-const adminRecommendReducer = (
+const recommendReducer = (
   state: IRecommendState = initialState,
   action: IAction,
 ): IRecommendState => {
@@ -27,4 +27,4 @@ const adminRecommendReducer = (
   }
 };
 
-export default adminRecommendReducer;
+export default recommendReducer;

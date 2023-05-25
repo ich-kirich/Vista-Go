@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import adminRecommendReducer from "./adminRecommendReducer";
+import recommendReducer from "./recommendReducer";
 import authReducer from "./authReducer";
 import citiesReducer from "./citiesReducer";
 import cityReducer from "./cityReducer";
@@ -28,7 +28,7 @@ export const rootReducer = combineReducers({
   user: userReducer,
   code: codeReducer,
   codepass: codepassReducer,
-  adminRecommend: adminRecommendReducer,
+  recommend: recommendReducer,
   tags: tagsReducer,
   tag: tagReducer,
 });

@@ -12,10 +12,10 @@ const fetchAddTag = (name: string) => {
         type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: TAG.FETCH_TAG_ERROR,
-        payload: "Error adding tag",
+        payload: e.response.data.message,
       });
     }
   };

@@ -162,6 +162,7 @@ export interface IRecommendCartProps {
   sliderRef: React.RefObject<Slider>;
   currentSlide: number;
   setCurrentSlide: Function;
+  idsRecommends: number[];
 }
 
 export interface IListCitiesProps {

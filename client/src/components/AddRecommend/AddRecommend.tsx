@@ -14,7 +14,7 @@ function AddRecommend() {
     fetchCities();
   }, []);
   const { cities, error, loading } = useTypedSelector((state) => state.cities);
-  const recommend = useTypedSelector((state) => state.adminRecommend);
+  const recommend = useTypedSelector((state) => state.recommend);
 
   const selectCity = (value: string) => {
     setCity(value);
