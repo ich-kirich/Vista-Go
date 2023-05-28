@@ -25,5 +25,9 @@
   },
   "imageStorage": {
     "apiKey": "IMAGE_KEY"
+  },
+  "deleteVerification": {
+    "timeCrone": "TIME_CRONE",
+    "timeToDelete": "TIME_TO_DELETE"
   }
 }

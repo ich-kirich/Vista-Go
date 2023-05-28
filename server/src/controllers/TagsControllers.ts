@@ -9,7 +9,9 @@ class TagsControllers {
       const tags = await Tag.findAll();
       return res.json(tags);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 }

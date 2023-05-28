@@ -23,7 +23,7 @@ async function sendEmail(code: string, emailToSend: string) {
     console.log("Message sent: %s", info.messageId);
     return true;
   } catch (e) {
-    return new ApiError(StatusCodes.BAD_REQUEST, e.message);
+    throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }
 

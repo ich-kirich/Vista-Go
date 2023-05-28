@@ -12,7 +12,9 @@ class SightsControllers {
       const sights = await findCitySights(cityId);
       return res.json(sights);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -22,7 +24,9 @@ class SightsControllers {
       const sight = await findSight(sightId);
       return res.json(sight);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -38,7 +42,9 @@ class SightsControllers {
       });
       return res.json(sights);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 }

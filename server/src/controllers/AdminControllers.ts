@@ -24,12 +24,11 @@ class AdminControllers {
     try {
       const { cityId } = req.body;
       const recommend = await createRecordRecommend(cityId);
-      if (recommend instanceof ApiError) {
-        return next(recommend);
-      }
       return res.json(recommend);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -37,12 +36,11 @@ class AdminControllers {
     try {
       const { id } = req.params;
       const tryDeleteRecommend = await deleteRecordRecommend(Number(id));
-      if (tryDeleteRecommend instanceof ApiError) {
-        return next(tryDeleteRecommend);
-      }
       return res.json(RECORD_DELETED);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -50,21 +48,20 @@ class AdminControllers {
     try {
       const { country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files;
-      const city = await createRecordCity(
-        image as UploadedFile,
+      const city = await createRecordCity({
+        image: image as UploadedFile,
         country,
         name,
         lat,
         lon,
         sightIds,
         guideIds,
-      );
-      if (city instanceof ApiError) {
-        return next(city);
-      }
+      });
       return res.json(city);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -72,22 +69,21 @@ class AdminControllers {
     try {
       const { id, country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files || {};
-      const city = await updateRecordCity(
+      const city = await updateRecordCity({
         id,
-        image as UploadedFile,
+        image: image as UploadedFile,
         country,
         name,
         lat,
         lon,
         sightIds,
         guideIds,
-      );
-      if (city instanceof ApiError) {
-        return next(city);
-      }
+      });
       return res.json(city);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -95,12 +91,11 @@ class AdminControllers {
     try {
       const { id } = req.params;
       const tryDeleteCity = await deleteRecordCity(Number(id));
-      if (tryDeleteCity instanceof ApiError) {
-        return next(tryDeleteCity);
-      }
       return res.json(RECORD_DELETED);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -108,20 +103,19 @@ class AdminControllers {
     try {
       const { name, description, price, distance, tagIds } = req.body;
       const { image } = req.files;
-      const sight = await createRecordSight(
-        image as UploadedFile,
+      const sight = await createRecordSight({
+        image: image as UploadedFile,
         name,
         description,
         price,
         distance,
         tagIds,
-      );
-      if (sight instanceof ApiError) {
-        return next(sight);
-      }
+      });
       return res.json(sight);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -129,21 +123,20 @@ class AdminControllers {
     try {
       const { id, name, description, price, distance, tagIds } = req.body;
       const { image } = req.files || {};
-      const sight = await updateRecordSight(
+      const sight = await updateRecordSight({
         id,
-        image as UploadedFile,
+        image: image as UploadedFile,
         name,
         description,
         price,
         distance,
         tagIds,
-      );
-      if (sight instanceof ApiError) {
-        return next(sight);
-      }
+      });
       return res.json(sight);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -151,12 +144,11 @@ class AdminControllers {
     try {
       const { id } = req.params;
       const tryDeleteSight = await deleteRecordSight(Number(id));
-      if (tryDeleteSight instanceof ApiError) {
-        return next(tryDeleteSight);
-      }
       return res.json(RECORD_DELETED);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -166,7 +158,9 @@ class AdminControllers {
       const tag = await Tag.create({ name });
       return res.json(tag);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -183,7 +177,9 @@ class AdminControllers {
         new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND),
       );
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -191,12 +187,11 @@ class AdminControllers {
     try {
       const { id } = req.params;
       const tryDeleteTag = await deleteRecordTag(Number(id));
-      if (tryDeleteTag instanceof ApiError) {
-        return next(tryDeleteTag);
-      }
       return res.json(RECORD_DELETED);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -205,12 +200,11 @@ class AdminControllers {
       const { name } = req.body;
       const { image } = req.files;
       const guide = await createRecordGuide(image as UploadedFile, name);
-      if (guide instanceof ApiError) {
-        return next(guide);
-      }
       return res.json(guide);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -219,12 +213,11 @@ class AdminControllers {
       const { id, name } = req.body;
       const { image } = req.files || {};
       const guide = await updateRecordGuide(id, name, image as UploadedFile);
-      if (guide instanceof ApiError) {
-        return next(guide);
-      }
       return res.json(guide);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -232,12 +225,11 @@ class AdminControllers {
     try {
       const { id } = req.params;
       const tryDeleteGuide = await deleteRecordGuide(Number(id));
-      if (tryDeleteGuide instanceof ApiError) {
-        return next(tryDeleteGuide);
-      }
       return res.json(RECORD_DELETED);
     } catch (e) {
-      return next(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 }

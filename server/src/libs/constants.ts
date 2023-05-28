@@ -1,7 +1,5 @@
 export const DEFAULT_URL_IMG = "https://i.ibb.co/JvKSP4t/default.png";
 
-export const DEFAULT_ROLE = "USER";
-
 export const MIN_LENGHT_PASSWORD = 8;
 
 export const MIN_LENGHT_NAME = 10;
@@ -15,6 +13,12 @@ export const CODE_SEND = `Verification code was successfully sent to the mail.`;
 export const RECORD_DELETED = `Record has been deleted.`;
 
 export const DEFAULT_WEATHER = "Unknown";
+
+export const TYPE_TOKEN = "Bearer";
+
+export const ADMIN_ROLE = "ADMIN";
+
+export const USER_ROLE = "USER";
 
 export enum ERROR {
   INCORRECT_INPUT = "Incorrect email, password or name.",
@@ -37,4 +41,5 @@ export enum ERROR {
   SIGHT_NOT_FOUND = "The sight was not found.",
   CITY_NOT_FOUND = "The city was not found.",
   RECOMMEND_NOT_FOUND = "The recommend was not found.",
+  INVALID_TYPE_TOKEN = "Invalid token type. Bearer token expected.",
 }

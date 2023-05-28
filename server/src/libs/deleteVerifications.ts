@@ -1,9 +1,14 @@
+import config from "config";
 import cron from "node-cron";
 import { Op } from "sequelize";
+import { IDeleteVerification } from "../types/types";
 import Verification from "../../models/verification";
 
-const job = cron.schedule("0 */2 * * *", async () => {
-  const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+const deleteVerification: IDeleteVerification =
+  config.get("deleteVerification");
+
+const job = cron.schedule(deleteVerification.timeCrone, async () => {
+  const twoHoursAgo = new Date(deleteVerification.timeToDelete);
   await Verification.destroy({
     where: {
       updatedAt: {

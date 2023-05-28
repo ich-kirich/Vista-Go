@@ -11,5 +11,9 @@
   },
   "weather": {
     "timeRequestWeather": 120
+  },
+  "deleteVerification": {
+    "timeCrone": "0 */2 * * *",
+    "timeToDelete": 7200000
   }
 }

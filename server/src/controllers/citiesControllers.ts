@@ -9,7 +9,9 @@ class CitiesControllers {
       const cities = await findCities();
       return res.json(cities);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 
@@ -19,7 +21,9 @@ class CitiesControllers {
       const city = await findCity(cityId);
       return res.json(city);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 }

@@ -1,28 +1,24 @@
 import { StatusCodes } from "http-status-codes";
-import { v4 as uuidv4 } from "uuid";
 import { UploadedFile } from "express-fileupload";
-import { uploadImageToApi } from "../libs/utils";
 import ApiError from "../error/apiError";
 import { ERROR } from "../libs/constants";
 import Guide from "../../models/guide";
-import { validateFile } from "./userServices";
+import { uploadImage } from "../libs/utils";
 import Tag from "../../models/tag";
 import Sight from "../../models/sight";
 import SightTag from "../../models/sightTag";
 import City from "../../models/city";
 import CityGuide from "../../models/cityGuide";
 import Recommend from "../../models/recommend";
+import {
+  ICreateRecordCity,
+  ICreateRecordSight,
+  IUpdateRecordCity,
+  IUpdateRecordSight,
+} from "../types/types";
 
 export async function createRecordGuide(image: UploadedFile, name: string) {
-  const checkFile = await validateFile(image);
-  if (checkFile instanceof ApiError) {
-    return checkFile;
-  }
-  const fileName = `${uuidv4()}.${checkFile as string}`;
-  const loadImage = await uploadImageToApi(image, fileName);
-  if (loadImage instanceof ApiError) {
-    return loadImage;
-  }
+  const loadImage = await uploadImage(image);
   const guide = await Guide.create({ name, image: loadImage });
   return guide;
 }
@@ -34,24 +30,13 @@ export async function updateRecordGuide(
 ) {
   const findGuide = await Guide.findByPk(id);
   if (!findGuide) {
-    return new ApiError(
-      StatusCodes.UNPROCESSABLE_ENTITY,
-      ERROR.GUIDE_NOT_FOUND,
-    );
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
   }
   if (name) {
     await Guide.update({ name }, { where: { id } });
   }
   if (image) {
-    const checkFile = await validateFile(image);
-    if (checkFile instanceof ApiError) {
-      return checkFile;
-    }
-    const fileName = `${uuidv4()}.${checkFile as string}`;
-    const loadImage = await uploadImageToApi(image, fileName);
-    if (loadImage instanceof ApiError) {
-      return loadImage;
-    }
+    const loadImage = await uploadImage(image);
     await Guide.update({ image: loadImage }, { where: { id } });
   }
   const guide = await Guide.findByPk(id);
@@ -78,7 +63,7 @@ export async function deleteRecordGuide(id: number) {
     });
     return true;
   }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
+  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
 }
 
 export async function deleteRecordTag(id: number) {
@@ -101,25 +86,19 @@ export async function deleteRecordTag(id: number) {
     });
     return true;
   }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
+  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
 }
 
-export async function createRecordSight(
-  image: UploadedFile,
-  name: string,
-  description: string,
-  price: string,
-  distance: string,
-  tagIds: string[],
-) {
-  const checkFile = await validateFile(image);
-  if (checkFile instanceof ApiError) {
-    return checkFile;
-  }
-  const fileName = `${uuidv4()}.${checkFile as string}`;
-  const loadImage = await uploadImageToApi(image, fileName);
-  if (loadImage instanceof ApiError) {
-    return loadImage;
+export async function createRecordSight(params: ICreateRecordSight) {
+  const { image, name, description, price, distance, tagIds } = params;
+  const loadImage = await uploadImage(image);
+  const findTags = await Tag.findAll({
+    where: {
+      id: tagIds.map(Number),
+    },
+  });
+  if (findTags.length !== tagIds.length) {
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
   }
   const sight = await Sight.create({
     name,
@@ -128,89 +107,42 @@ export async function createRecordSight(
     price,
     distance,
   });
-  for (const id of tagIds) {
-    const findTag = await Tag.findByPk(id);
-    if (!findTag) {
-      return new ApiError(
-        StatusCodes.UNPROCESSABLE_ENTITY,
-        ERROR.TAG_NOT_FOUND,
-      );
-    }
-    try {
-      await SightTag.create({
-        SightId: sight.dataValues.id,
-        TagId: Number(id),
-      });
-    } catch (e) {
-      return new ApiError(StatusCodes.BAD_REQUEST, e.message);
-    }
+  for (const tagId of tagIds) {
+    await SightTag.create({
+      SightId: sight.dataValues.id,
+      TagId: Number(tagId),
+    });
   }
   return sight;
 }
 
-export async function updateRecordSight(
-  id: number,
-  image: UploadedFile,
-  name: string,
-  description: string,
-  price: string,
-  distance: string,
-  tagIds: string[],
-) {
+export async function updateRecordSight(params: IUpdateRecordSight) {
+  const { id, image, name, description, price, distance, tagIds } = params;
   const findSight = await Sight.findByPk(id);
   if (!findSight) {
-    return new ApiError(
-      StatusCodes.UNPROCESSABLE_ENTITY,
-      ERROR.SIGHT_NOT_FOUND,
-    );
-  }
-  if (name) {
-    await Sight.update({ name }, { where: { id } });
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
   }
   if (image) {
-    const checkFile = await validateFile(image);
-    if (checkFile instanceof ApiError) {
-      return checkFile;
-    }
-    const fileName = `${uuidv4()}.${checkFile as string}`;
-    const loadImage = await uploadImageToApi(image, fileName);
-    if (loadImage instanceof ApiError) {
-      return loadImage;
-    }
+    const loadImage = await uploadImage(image);
     await Sight.update({ image: loadImage }, { where: { id } });
   }
-  if (description) {
-    await Sight.update({ description }, { where: { id } });
-  }
-  if (price) {
-    await Sight.update({ price }, { where: { id } });
-  }
-  if (distance) {
-    await Sight.update({ distance }, { where: { id } });
-  }
+  await Sight.update({ distance, price, description, name }, { where: { id } });
   if (tagIds) {
-    for (const tagId of tagIds) {
-      const findTag = await Tag.findByPk(tagId);
-      if (!findTag) {
-        return new ApiError(
-          StatusCodes.UNPROCESSABLE_ENTITY,
-          ERROR.TAG_NOT_FOUND,
-        );
-      }
+    const findTags = await Tag.findAll({
+      where: {
+        id: tagIds.map(Number),
+      },
+    });
+    if (findTags.length !== tagIds.length) {
+      throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
     }
     for (const tagId of tagIds) {
-      const findSightTag = await SightTag.findOne({
+      await SightTag.findOrCreate({
         where: {
           TagId: Number(tagId),
           SightId: id,
         },
       });
-      if (!findSightTag) {
-        await SightTag.create({
-          SightId: id,
-          TagId: Number(tagId),
-        });
-      }
     }
   }
   const sight = await Sight.findByPk(id);
@@ -237,27 +169,12 @@ export async function deleteRecordSight(id: number) {
     });
     return true;
   }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
+  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
 }
 
-export async function createRecordCity(
-  image: UploadedFile,
-  country: string,
-  name: string,
-  lat: string,
-  lon: string,
-  sightIds: string[],
-  guideIds: string[],
-) {
-  const checkFile = await validateFile(image);
-  if (checkFile instanceof ApiError) {
-    return checkFile;
-  }
-  const fileName = `${uuidv4()}.${checkFile as string}`;
-  const loadImage = await uploadImageToApi(image, fileName);
-  if (loadImage instanceof ApiError) {
-    return loadImage;
-  }
+export async function createRecordCity(params: ICreateRecordCity) {
+  const { image, country, name, lat, lon, sightIds, guideIds } = params;
+  const loadImage = await uploadImage(image);
   const city = await City.create({
     country,
     name,
@@ -265,118 +182,79 @@ export async function createRecordCity(
     lon,
     image: loadImage,
   });
-  for (const id of sightIds) {
-    const findSight = await Sight.findByPk(Number(id));
-    if (!findSight) {
-      return new ApiError(
-        StatusCodes.UNPROCESSABLE_ENTITY,
-        ERROR.SIGHT_NOT_FOUND,
-      );
-    }
-    try {
-      await Sight.update(
-        { CityId: city.dataValues.id },
-        { where: { id: Number(id) } },
-      );
-    } catch (e) {
-      return new ApiError(StatusCodes.BAD_REQUEST, e.message);
-    }
+  const findSights = await Sight.findAll({
+    where: {
+      id: sightIds.map(Number),
+    },
+  });
+  if (findSights.length !== sightIds.length) {
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
   }
-  for (const id of guideIds) {
-    const findGuide = await Guide.findByPk(Number(id));
-    if (!findGuide) {
-      return new ApiError(
-        StatusCodes.UNPROCESSABLE_ENTITY,
-        ERROR.GUIDE_NOT_FOUND,
-      );
-    }
-    try {
-      await CityGuide.create({
-        CityId: city.dataValues.id,
-        GuideId: Number(id),
-      });
-    } catch (e) {
-      return new ApiError(StatusCodes.BAD_REQUEST, e.message);
-    }
+  await Sight.update(
+    { CityId: city.dataValues.id },
+    { where: { id: sightIds.map(Number) } },
+  );
+  const findGuides = await Guide.findAll({
+    where: {
+      id: guideIds.map(Number),
+    },
+  });
+  if (findGuides.length !== guideIds.length) {
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
+  }
+  for (const guideId of guideIds) {
+    await CityGuide.create({
+      CityId: city.dataValues.id,
+      GuideId: Number(guideId),
+    });
   }
   return city;
 }
 
-export async function updateRecordCity(
-  id: number,
-  image: UploadedFile,
-  country: string,
-  name: string,
-  lat: string,
-  lon: string,
-  sightIds: string[],
-  guideIds: string[],
-) {
+export async function updateRecordCity(params: IUpdateRecordCity) {
+  const { id, image, country, name, lat, lon, sightIds, guideIds } = params;
   const findCity = await City.findByPk(id);
   if (!findCity) {
-    return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
   }
   if (image) {
-    const checkFile = await validateFile(image);
-    if (checkFile instanceof ApiError) {
-      return checkFile;
-    }
-    const fileName = `${uuidv4()}.${checkFile as string}`;
-    const loadImage = await uploadImageToApi(image, fileName);
-    if (loadImage instanceof ApiError) {
-      return loadImage;
-    }
+    const loadImage = await uploadImage(image);
     await City.update({ image: loadImage }, { where: { id } });
   }
-  if (country) {
-    await City.update({ country }, { where: { id } });
-  }
-  if (name) {
-    await City.update({ name }, { where: { id } });
-  }
-  if (lat) {
-    await City.update({ lat }, { where: { id } });
-  }
-  if (lon) {
-    await City.update({ lon }, { where: { id } });
-  }
+  await City.update({ country, name, lat, lon }, { where: { id } });
   if (sightIds) {
-    for (const sightId of sightIds) {
-      const findSight = await Sight.findByPk(Number(sightId));
-      if (!findSight) {
-        return new ApiError(
-          StatusCodes.UNPROCESSABLE_ENTITY,
-          ERROR.SIGHT_NOT_FOUND,
-        );
-      }
+    const findSights = await Sight.findAll({
+      where: {
+        id: sightIds.map(Number),
+      },
+    });
+    if (findSights.length !== sightIds.length) {
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.SIGHT_NOT_FOUND,
+      );
     }
-    for (const sightId of sightIds) {
-      await Sight.update({ CityId: id }, { where: { id: Number(sightId) } });
-    }
+    await Sight.update({ CityId: id }, { where: { id: sightIds.map(Number) } });
   }
   if (guideIds) {
-    for (const guideId of guideIds) {
-      const findGuide = await Guide.findByPk(Number(guideId));
-      if (!findGuide) {
-        return new ApiError(
-          StatusCodes.UNPROCESSABLE_ENTITY,
-          ERROR.GUIDE_NOT_FOUND,
-        );
-      }
+    const findGuides = await Guide.findAll({
+      where: {
+        id: guideIds.map(Number),
+      },
+    });
+    if (findGuides.length !== guideIds.length) {
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.GUIDE_NOT_FOUND,
+      );
     }
     for (const guideId of guideIds) {
-      const findCityGuide = await CityGuide.findOne({
+      await CityGuide.findOrCreate({
         where: {
-          CityId: Number(id),
+          CityId: id,
           GuideId: Number(guideId),
         },
       });
-      if (!findCityGuide) {
-        await CityGuide.create({
-          CityId: id,
-          GuideId: Number(guideId),
-        });
-      }
     }
   }
   const city = await City.findOne({
@@ -432,7 +310,7 @@ export async function deleteRecordCity(id: number) {
     });
     return true;
   }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
 }
 
 export async function createRecordRecommend(id: number) {
@@ -441,7 +319,7 @@ export async function createRecordRecommend(id: number) {
     const recommend = await Recommend.create({ CityId: id });
     return recommend;
   }
-  return new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
 }
 
 export async function deleteRecordRecommend(id: number) {
@@ -454,7 +332,7 @@ export async function deleteRecordRecommend(id: number) {
     });
     return true;
   }
-  return new ApiError(
+  throw new ApiError(
     StatusCodes.UNPROCESSABLE_ENTITY,
     ERROR.RECOMMEND_NOT_FOUND,
   );

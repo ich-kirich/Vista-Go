@@ -9,7 +9,9 @@ class GuidesControllers {
       const guides = await findGuides();
       return res.json(guides);
     } catch (e) {
-      return next(new ApiError(StatusCodes.BAD_REQUEST, e.message));
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
     }
   }
 }

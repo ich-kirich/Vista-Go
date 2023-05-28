@@ -1,24 +1,14 @@
 import axios from "axios";
 import FormData from "form-data";
 import config from "config";
-import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import { UploadedFile } from "express-fileupload";
+import { v4 as uuidv4 } from "uuid";
+import mime from "mime-types";
 import ApiError from "../error/apiError";
+import { ERROR } from "./constants";
 
-export async function getWeather(lat: string, lon: string) {
-  const apiKey = config.get("weather.apiKey");
-  try {
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
-    );
-    return String(response.data.main.temp);
-  } catch (e) {
-    return new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
-  }
-}
-
-export async function uploadImageToApi(image: UploadedFile, name: string) {
+async function uploadImageToApi(image: UploadedFile, name: string) {
   try {
     const formData = new FormData();
     formData.append("image", image.data, name);
@@ -33,7 +23,19 @@ export async function uploadImageToApi(image: UploadedFile, name: string) {
     );
     return response.data.data.url;
   } catch (e) {
-    return new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
+    throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
+  }
+}
+
+export async function getWeather(lat: string, lon: string) {
+  const apiKey = config.get("weather.apiKey");
+  try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+    );
+    return String(response.data.main.temp);
+  } catch (e) {
+    throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }
 
@@ -45,18 +47,20 @@ export function mergeCityFields(arr: any) {
   });
 }
 
-export function generateJwt(
-  id: number,
-  email: string,
-  name: string,
-  image: string,
-  role: string,
-) {
-  return jwt.sign(
-    { id, email, name, image, role },
-    config.get("jwt.secretKey"),
-    {
-      expiresIn: "24h",
-    },
-  );
+export async function validateFile(image: UploadedFile) {
+  const fileExtension = mime.extension((image as UploadedFile).mimetype);
+  if (
+    !fileExtension ||
+    !(image as UploadedFile).mimetype.startsWith("image/")
+  ) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.FILE_NOT_IMAGE);
+  }
+  return fileExtension;
+}
+
+export async function uploadImage(image: UploadedFile) {
+  const checkFile = await validateFile(image);
+  const fileName = `${uuidv4()}.${checkFile as string}`;
+  const loadImage = await uploadImageToApi(image, fileName);
+  return loadImage;
 }
