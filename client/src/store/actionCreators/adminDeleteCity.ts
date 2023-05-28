@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { deleteCity } from "../../api/adminService";
-import { CITY } from "../../libs/constants";
-import { IAction } from "../../types/types";
+import { CITY, ERROR } from "../../libs/constants";
+import { CustomError, IAction } from "../../types/types";
 
 const fetchDeleteCity = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
@@ -12,10 +12,13 @@ const fetchDeleteCity = (id: number) => {
         type: CITY.FETCH_CITY_SUCCESS,
         payload: response.data,
       });
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
         type: CITY.FETCH_CITY_ERROR,
-        payload: e.response.data.message,
+        payload: errorMessage,
       });
     }
   };

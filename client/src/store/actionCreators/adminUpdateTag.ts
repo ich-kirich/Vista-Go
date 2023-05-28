@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { updateTag } from "../../api/adminService";
-import { TAG } from "../../libs/constants";
-import { IAction } from "../../types/types";
+import { ERROR, TAG } from "../../libs/constants";
+import { CustomError, IAction } from "../../types/types";
 
 const fetchUpdateTag = (id: number, name: string) => {
   return async (dispatch: Dispatch<IAction>) => {
@@ -12,10 +12,13 @@ const fetchUpdateTag = (id: number, name: string) => {
         type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
         type: TAG.FETCH_TAG_ERROR,
-        payload: e.response.data.message,
+        payload: errorMessage,
       });
     }
   };

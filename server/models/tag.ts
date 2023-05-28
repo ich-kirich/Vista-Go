@@ -11,7 +11,6 @@ Tag.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      defaultValue: sequelize.literal("(SELECT MAX(id) FROM tags) + 1"),
     },
     name: {
       type: DataTypes.STRING,

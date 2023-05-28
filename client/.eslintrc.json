@@ -23,7 +23,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-uses-react": ["off"],
     "react/jsx-props-no-spreading": ["off"],
@@ -38,6 +38,7 @@
     "import/no-named-as-default": 0,
     "no-param-reassign": 0,
     "react-hooks/exhaustive-deps": 0,
-    "import/first": "off"
+    "import/first": "off",
+    "import/no-cycle": "off"
   }
 }

@@ -26,7 +26,6 @@ City.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      defaultValue: sequelize.literal("(SELECT MAX(id) FROM cities) + 1"),
     },
     country: {
       type: DataTypes.STRING,

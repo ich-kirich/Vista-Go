@@ -79,13 +79,12 @@ export async function createSight(
   image: File,
 ) {
   const formData = new FormData();
+  const tagIdsToSend = JSON.stringify(tagIds);
   formData.append("name", name);
   formData.append("description", description);
   formData.append("price", price);
   formData.append("distance", distance);
-  tagIds.forEach((item) => {
-    formData.append("tagIds", String(item));
-  });
+  formData.append("tagIds", String(tagIdsToSend));
   formData.append("image", image);
   const { data } = await adminHost.post("admin/create/sight/", formData, {
     headers: {
@@ -124,9 +123,8 @@ export async function updateSight(
     formData.append("distance", distance);
   }
   if (tagIds.length > 0) {
-    tagIds.forEach((item) => {
-      formData.append("tagIds", String(item));
-    });
+    const tagIdsToSend = JSON.stringify(tagIds);
+    formData.append("tagIds", String(tagIdsToSend));
   }
   if (image) {
     formData.append("image", image);
@@ -149,16 +147,14 @@ export async function createCity(
   image: File,
 ) {
   const formData = new FormData();
+  const sightIdsToSend = JSON.stringify(sightIds);
+  const guideIdsToSend = JSON.stringify(guideIds);
   formData.append("name", name);
   formData.append("country", country);
   formData.append("lat", lat);
   formData.append("lon", lon);
-  sightIds.forEach((item) => {
-    formData.append("sightIds", String(item));
-  });
-  guideIds.forEach((item) => {
-    formData.append("guideIds", String(item));
-  });
+  formData.append("sightIds", String(sightIdsToSend));
+  formData.append("guideIds", String(guideIdsToSend));
   formData.append("image", image);
   const { data } = await adminHost.post("admin/create/city/", formData, {
     headers: {
@@ -198,14 +194,12 @@ export async function updateCity(
     formData.append("lon", lon);
   }
   if (sightIds.length > 0) {
-    sightIds.forEach((item) => {
-      formData.append("sightIds", String(item));
-    });
+    const sightIdsToSend = JSON.stringify(sightIds);
+    formData.append("sightIds", String(sightIdsToSend));
   }
   if (guideIds.length > 0) {
-    guideIds.forEach((item) => {
-      formData.append("guideIds", String(item));
-    });
+    const guideIdsToSend = JSON.stringify(guideIds);
+    formData.append("guideIds", String(guideIdsToSend));
   }
   if (image) {
     formData.append("image", image);

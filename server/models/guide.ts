@@ -15,7 +15,6 @@ Guide.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      defaultValue: sequelize.literal("(SELECT MAX(id) FROM guides) + 1"),
     },
     name: {
       type: DataTypes.STRING,

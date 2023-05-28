@@ -1,4 +1,18 @@
 import Slider from "react-slick";
+import { ERROR } from "../libs/constants";
+
+export type CustomError = {
+  response: {
+    data: {
+      message: keyof typeof ERROR;
+    };
+  };
+};
+
+export interface IAction {
+  type: string;
+  payload?: any;
+}
 
 export interface ITag {
   id: number;
@@ -135,11 +149,6 @@ export interface ICodeState {
   code: ICode;
   loading: boolean;
   error: null | string;
-}
-
-export interface IAction {
-  type: string;
-  payload?: any;
 }
 
 export interface IContext {

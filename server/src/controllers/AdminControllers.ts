@@ -48,14 +48,16 @@ class AdminControllers {
     try {
       const { country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files;
+      const sightIdsArr = JSON.parse(sightIds);
+      const guideIdsArr = JSON.parse(guideIds);
       const city = await createRecordCity({
         image: image as UploadedFile,
         country,
         name,
         lat,
         lon,
-        sightIds,
-        guideIds,
+        sightIds: sightIdsArr,
+        guideIds: guideIdsArr,
       });
       return res.json(city);
     } catch (e) {
@@ -69,6 +71,8 @@ class AdminControllers {
     try {
       const { id, country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files || {};
+      const sightIdsArr = JSON.parse(sightIds);
+      const guideIdsArr = JSON.parse(guideIds);
       const city = await updateRecordCity({
         id,
         image: image as UploadedFile,
@@ -76,8 +80,8 @@ class AdminControllers {
         name,
         lat,
         lon,
-        sightIds,
-        guideIds,
+        sightIds: sightIdsArr,
+        guideIds: guideIdsArr,
       });
       return res.json(city);
     } catch (e) {
@@ -103,13 +107,14 @@ class AdminControllers {
     try {
       const { name, description, price, distance, tagIds } = req.body;
       const { image } = req.files;
+      const tagIdsArr = JSON.parse(tagIds);
       const sight = await createRecordSight({
         image: image as UploadedFile,
         name,
         description,
         price,
         distance,
-        tagIds,
+        tagIds: tagIdsArr,
       });
       return res.json(sight);
     } catch (e) {
@@ -123,6 +128,7 @@ class AdminControllers {
     try {
       const { id, name, description, price, distance, tagIds } = req.body;
       const { image } = req.files || {};
+      const tagIdsArr = JSON.parse(tagIds);
       const sight = await updateRecordSight({
         id,
         image: image as UploadedFile,
@@ -130,7 +136,7 @@ class AdminControllers {
         description,
         price,
         distance,
-        tagIds,
+        tagIds: tagIdsArr,
       });
       return res.json(sight);
     } catch (e) {

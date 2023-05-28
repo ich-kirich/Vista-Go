@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { deleteGuide } from "../../api/adminService";
-import { GUIDE } from "../../libs/constants";
-import { IAction } from "../../types/types";
+import { ERROR, GUIDE } from "../../libs/constants";
+import { CustomError, IAction } from "../../types/types";
 
 const fetchDeleteGuide = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
@@ -12,10 +12,13 @@ const fetchDeleteGuide = (id: number) => {
         type: GUIDE.FETCH_GUIDE_SUCCESS,
         payload: response.data,
       });
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
         type: GUIDE.FETCH_GUIDE_ERROR,
-        payload: e.response.data.message,
+        payload: errorMessage,
       });
     }
   };

@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { deleteRecommend } from "../../api/adminService";
-import { RECOMMEND } from "../../libs/constants";
-import { IAction } from "../../types/types";
+import { ERROR, RECOMMEND } from "../../libs/constants";
+import { CustomError, IAction } from "../../types/types";
 
 const fetchDeleteRecommend = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
@@ -12,10 +12,13 @@ const fetchDeleteRecommend = (id: number) => {
         type: RECOMMEND.FETCH_RECOMMEND_SUCCESS,
         payload: response.data,
       });
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
         type: RECOMMEND.FETCH_RECOMMEND_ERROR,
-        payload: e.response.data.message,
+        payload: errorMessage,
       });
     }
   };

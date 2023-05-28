@@ -5,7 +5,6 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert("cities", [
       {
-        id: 1,
         country: "Germany",
         name: "Berlin",
         weather: "Unknown",
@@ -18,7 +17,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 2,
         country: "Germany",
         name: "Hamburg",
         weather: "Unknown",
@@ -31,7 +29,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 3,
         country: "Belarus",
         name: "Minsk",
         weather: "Unknown",
@@ -43,7 +40,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 4,
         name: "Grodno",
         country: "Belarus",
         weather: "Unknown",
@@ -56,7 +52,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 5,
         country: "Armenia",
         name: "Yerevan",
         weather: "Unknown",
@@ -68,7 +63,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 6,
         name: "Gyumri",
         country: "Armenia",
         weather: "Unknown",

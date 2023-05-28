@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { verificateUser } from "../../api/userService";
-import { CODE } from "../../libs/constants";
-import { IAction } from "../../types/types";
+import { CODE, ERROR } from "../../libs/constants";
+import { CustomError, IAction } from "../../types/types";
 
 const fetchCode = (
   name: string,
@@ -17,10 +17,13 @@ const fetchCode = (
         type: CODE.FETCH_CODE_SUCCESS,
         payload: response,
       });
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
         type: CODE.FETCH_CODE_ERROR,
-        payload: e.response.data.message,
+        payload: errorMessage,
       });
     }
   };

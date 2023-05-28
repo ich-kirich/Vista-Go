@@ -21,7 +21,6 @@ Sight.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      defaultValue: sequelize.literal("(SELECT MAX(id) FROM sights) + 1"),
     },
     name: {
       type: DataTypes.STRING,

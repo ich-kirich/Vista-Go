@@ -13,7 +13,6 @@ CityGuide.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      defaultValue: sequelize.literal("(SELECT MAX(id) FROM cityguides) + 1"),
     },
     CityId: {
       type: DataTypes.INTEGER,
