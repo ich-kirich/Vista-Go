@@ -4,14 +4,17 @@ import Tag from "../../models/tag";
 import Sight from "../../models/sight";
 import ApiError from "../error/apiError";
 import { findCitySights, findSight } from "../services/sightsServices";
+import logger from "../libs/logger";
 
 class SightsControllers {
   async getCitySights(req: Request, res: Response, next: NextFunction) {
     try {
       const cityId = req.params.id;
       const sights = await findCitySights(cityId);
+      logger.info(`Sights of city with this ID${cityId} fetched successfully`);
       return res.json(sights);
     } catch (e) {
+      logger.error("Error occurred while fetching city sights:", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );
@@ -22,8 +25,10 @@ class SightsControllers {
     try {
       const sightId = req.params.id;
       const sight = await findSight(sightId);
+      logger.info(`Sight with this ID ${sightId} fetched successfully`);
       return res.json(sight);
     } catch (e) {
+      logger.error("Error occurred while fetching sight:", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );
@@ -40,8 +45,10 @@ class SightsControllers {
           },
         ],
       });
+      logger.info("All sights fetched successfully");
       return res.json(sights);
     } catch (e) {
+      logger.error("Error occurred while fetching all sights:", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

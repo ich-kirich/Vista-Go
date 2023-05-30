@@ -1,3 +1,4 @@
+import logger from "../src/libs/logger";
 import sequelize from "../src/db";
 import City from "./city";
 import CityGuide from "./cityGuide";
@@ -21,6 +22,7 @@ const initDb = async () => {
   City.hasMany(Sight, { as: "sights" });
 
   await sequelize.authenticate();
+  logger.info("Database connection established successfully");
   return;
 };
 

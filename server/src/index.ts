@@ -8,6 +8,7 @@ import ErrorHandling from "./middleware/errormiddleware";
 import router from "./routes/router";
 import ApiError from "./error/apiError";
 import job from "./libs/deleteVerifications";
+import logger from "./libs/logger";
 
 const app = express();
 app.use(express.json());
@@ -21,9 +22,9 @@ const startServer = async () => {
   try {
     await initDb();
     job.start();
-    app.listen(port, () => console.log(`Running on port ${port}`));
+    app.listen(port, () => logger.info(`Server running on port ${port}`));
   } catch (e) {
-    console.error(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
+    logger.error(new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message));
   }
 };
 

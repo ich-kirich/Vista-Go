@@ -16,6 +16,7 @@ import {
   IUpdateRecordCity,
   IUpdateRecordSight,
 } from "../types/types";
+import logger from "../libs/logger";
 
 export async function createRecordGuide(image: UploadedFile, name: string) {
   const loadImage = await uploadImage(image);
@@ -30,6 +31,7 @@ export async function updateRecordGuide(
 ) {
   const findGuide = await Guide.findByPk(id);
   if (!findGuide) {
+    logger.error(`Guide with this ID: ${id} was not found`);
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
   }
   if (name) {
@@ -63,6 +65,7 @@ export async function deleteRecordGuide(id: number) {
     });
     return true;
   }
+  logger.error(`Guide with this ID: ${id} was not found`);
   throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
 }
 
@@ -86,6 +89,7 @@ export async function deleteRecordTag(id: number) {
     });
     return true;
   }
+  logger.error(`Tag with this ID: ${id} was not found`);
   throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
 }
 
@@ -98,6 +102,7 @@ export async function createRecordSight(params: ICreateRecordSight) {
     },
   });
   if (findTags.length !== tagIds.length) {
+    logger.error("Tags were not found");
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
   }
   const sight = await Sight.create({
@@ -120,6 +125,7 @@ export async function updateRecordSight(params: IUpdateRecordSight) {
   const { id, image, name, description, price, distance, tagIds } = params;
   const findSight = await Sight.findByPk(id);
   if (!findSight) {
+    logger.error(`Sight with this ID: ${id} was not found`);
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
   }
   if (image) {
@@ -134,6 +140,7 @@ export async function updateRecordSight(params: IUpdateRecordSight) {
       },
     });
     if (findTags.length !== tagIds.length) {
+      logger.error("Tags were not found");
       throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
     }
     for (const tagId of tagIds) {
@@ -188,6 +195,7 @@ export async function createRecordCity(params: ICreateRecordCity) {
     },
   });
   if (findSights.length !== sightIds.length) {
+    logger.error("Sigths were not found");
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
   }
   await Sight.update(
@@ -200,6 +208,7 @@ export async function createRecordCity(params: ICreateRecordCity) {
     },
   });
   if (findGuides.length !== guideIds.length) {
+    logger.error("Guides were not found");
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
   }
   for (const guideId of guideIds) {
@@ -215,6 +224,7 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
   const { id, image, country, name, lat, lon, sightIds, guideIds } = params;
   const findCity = await City.findByPk(id);
   if (!findCity) {
+    logger.error(`City with this ID: ${id} was not found`);
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
   }
   if (image) {
@@ -229,6 +239,7 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
       },
     });
     if (findSights.length !== sightIds.length) {
+      logger.error(`Sights were not found`);
       throw new ApiError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         ERROR.SIGHT_NOT_FOUND,
@@ -243,6 +254,7 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
       },
     });
     if (findGuides.length !== guideIds.length) {
+      logger.error(`Guides were not found`);
       throw new ApiError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         ERROR.GUIDE_NOT_FOUND,
@@ -319,6 +331,7 @@ export async function createRecordRecommend(id: number) {
     const recommend = await Recommend.create({ CityId: id });
     return recommend;
   }
+  logger.error(`City with this ID: ${id} was not found`);
   throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
 }
 
@@ -332,6 +345,7 @@ export async function deleteRecordRecommend(id: number) {
     });
     return true;
   }
+  logger.error(`Recommendation with this ID: ${id} was not found`);
   throw new ApiError(
     StatusCodes.UNPROCESSABLE_ENTITY,
     ERROR.RECOMMEND_NOT_FOUND,

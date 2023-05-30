@@ -2,6 +2,7 @@ import config from "config";
 import { StatusCodes } from "http-status-codes";
 import nodemailer from "nodemailer";
 import ApiError from "../error/apiError";
+import logger from "./logger";
 
 async function sendEmail(code: string, emailToSend: string) {
   const transporter = nodemailer.createTransport({
@@ -20,9 +21,10 @@ async function sendEmail(code: string, emailToSend: string) {
       subject: "Verification Code Travel App",
       text: `Verification Code: ${code}`,
     });
-    console.log("Message sent: %s", info.messageId);
+    logger.info("Message with verification code sent", info.messageId);
     return true;
   } catch (e) {
+    logger.error("Error during sent message with verification code", e);
     throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }

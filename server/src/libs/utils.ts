@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import mime from "mime-types";
 import ApiError from "../error/apiError";
 import { ERROR } from "./constants";
+import logger from "./logger";
 
 async function uploadImageToApi(image: UploadedFile, name: string) {
   try {
@@ -21,8 +22,11 @@ async function uploadImageToApi(image: UploadedFile, name: string) {
         },
       },
     );
-    return response.data.data.url;
+    const imageUrl = response.data.data.url;
+    logger.info("Image was successfully uploaded to the api", imageUrl);
+    return imageUrl;
   } catch (e) {
+    logger.error("error during uploading a image ti the api", e);
     throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }
@@ -33,8 +37,16 @@ export async function getWeather(lat: string, lon: string) {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
     );
-    return String(response.data.main.temp);
+    const temperature = String(response.data.main.temp);
+    logger.info(
+      `Weather fetched for coordinates (${lat}, ${lon}): ${temperature}°C`,
+    );
+    return temperature;
   } catch (e) {
+    logger.error(
+      `Error occurred while fetching weather for coordinates (${lat}, ${lon}):`,
+      e,
+    );
     throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }
@@ -53,8 +65,10 @@ export async function validateFile(image: UploadedFile) {
     !fileExtension ||
     !(image as UploadedFile).mimetype.startsWith("image/")
   ) {
+    logger.error("File entered is not an image", image);
     throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.FILE_NOT_IMAGE);
   }
+  logger.info("Entered file was validated successfully");
   return fileExtension;
 }
 

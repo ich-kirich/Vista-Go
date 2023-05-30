@@ -4,6 +4,7 @@ import City from "../../models/city";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
 import { getWeather } from "../libs/utils";
+import logger from "../libs/logger";
 
 export async function findCity(cityId: string) {
   const city = await City.findOne({
@@ -32,6 +33,7 @@ export async function findCity(cityId: string) {
   );
   const timeRequestWeather: number = config.get("weather.timeRequestWeather");
   if (diffInMinutes > timeRequestWeather) {
+    logger.info("There was a request to the api to get the weather");
     const cityWeather = await getWeather(
       city.dataValues.lat,
       city.dataValues.lon,
