@@ -246,4 +246,6 @@ export enum ERROR {
   CITY_NOT_FOUND = "The city was not found.",
   RECOMMEND_NOT_FOUND = "The recommend was not found.",
   INVALID_TYPE_TOKEN = "Invalid token type. Bearer token expected.",
+  LONG_NAME = "The name must be no more than 10 characters long.",
+  SHORT_PASSWORD = "The password must be at least 8 characters.",
 }

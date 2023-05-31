@@ -5,7 +5,7 @@ const userRouter = Router();
 
 userRouter.post("/registration", UserControllers.registration);
 userRouter.post("/login", UserControllers.login);
-userRouter.post("/verification/check", UserControllers.checkVerificationCode);
+userRouter.post("/verification/check", UserControllers.checkVerificationUser);
 userRouter.post(
   "/password/change",
   UserControllers.createVerificationUserPassword,

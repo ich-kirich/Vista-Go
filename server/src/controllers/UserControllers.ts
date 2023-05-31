@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import { decodeJwt } from "../libs/jwtUtils";
 import ApiError from "../error/apiError";
 import {
   сhangeUserPassword,
@@ -45,10 +46,12 @@ class UserControllers {
 
   async updateUserName(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, name } = req.body;
-      const updateName = await updateNameUser(id, name);
+      const { name } = req.body;
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = decodeJwt(token);
+      const updateName = await updateNameUser(decodedToken.id, name);
       logger.info(
-        `Name of user with this ID: ${id} has been successfully updated`,
+        `Name of user with this ID: ${decodedToken.id} has been successfully updated`,
         name,
       );
       return res.json(updateName);
@@ -62,11 +65,15 @@ class UserControllers {
 
   async updateUserImage(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
       const { image } = req.files;
-      const resUpdate = await updateImageUser(id, image as UploadedFile);
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = decodeJwt(token);
+      const resUpdate = await updateImageUser(
+        decodedToken.id,
+        image as UploadedFile,
+      );
       logger.info(
-        `Image of user with this ID: ${id} has been successfully updated`,
+        `Image of user with this ID: ${decodedToken.id} has been successfully updated`,
         image,
       );
       return res.json(resUpdate);
@@ -105,8 +112,8 @@ class UserControllers {
     next: NextFunction,
   ) {
     try {
-      const { email, password, code } = req.body;
-      const updatePassword = await сhangeUserPassword(email, password, code);
+      const { email, code } = req.body;
+      const updatePassword = await сhangeUserPassword(email, code);
       logger.info(
         `The password was successfully changed for a user with this email: ${email}`,
       );
@@ -119,14 +126,14 @@ class UserControllers {
     }
   }
 
-  async checkVerificationCode(req: Request, res: Response, next: NextFunction) {
+  async checkVerificationUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, password, email, code } = req.body;
-      const resultCreate = await createUser({ name, email, password, code });
-      logger.info("Verification code has been successfully verified");
+      const { email, code } = req.body;
+      const resultCreate = await createUser(email, code);
+      logger.info("Verification user code has been successfully verified");
       return res.json(resultCreate);
     } catch (e) {
-      logger.error("Error during confirming the verification code", e);
+      logger.error("Error during confirming the verification user code", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

@@ -1,15 +1,19 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db";
 
-class Verification extends Model {
+class VerificationUser extends Model {
   public id!: number;
 
   public email!: string;
 
+  public name: string;
+
+  public password!: string;
+
   public verificationCode!: string;
 }
 
-Verification.init(
+VerificationUser.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -21,6 +25,14 @@ Verification.init(
       allowNull: false,
       unique: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     verificationCode: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -28,8 +40,8 @@ Verification.init(
   },
   {
     sequelize,
-    tableName: "verifications",
+    tableName: "verificationsusers",
   },
 );
 
-export default Verification;
+export default VerificationUser;

@@ -9,12 +9,12 @@ const checkRole =
       next();
     }
     try {
-      const typeToken = req.headers.authorization?.split(" ")[0];
+      const typeToken = req.headers.authorization.split(" ")[0];
       if (typeToken !== TYPE_TOKEN) {
         logger.error("Invalid token type");
         res.status(401).json({ message: ERROR.INVALID_TYPE_TOKEN });
       }
-      const token = req.headers.authorization?.split(" ")[1];
+      const token = req.headers.authorization.split(" ")[1];
       if (!token) {
         logger.error("Authorization token not provided");
         res.status(401).json({ message: ERROR.NOT_AUTHORIZED });

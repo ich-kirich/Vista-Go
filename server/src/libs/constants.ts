@@ -4,10 +4,6 @@ export const MIN_LENGHT_PASSWORD = 8;
 
 export const MIN_LENGHT_NAME = 10;
 
-export const LONG_NAME = `The name must be no more than ${MIN_LENGHT_NAME} characters long.`;
-
-export const SHORT_PASSWORD = `The password must be at least ${MIN_LENGHT_PASSWORD} characters.`;
-
 export const CODE_SEND = `Verification code was successfully sent to the mail.`;
 
 export const RECORD_DELETED = `Record has been deleted.`;
@@ -42,4 +38,6 @@ export enum ERROR {
   CITY_NOT_FOUND = "CITY_NOT_FOUND",
   RECOMMEND_NOT_FOUND = "RECOMMEND_NOT_FOUND",
   INVALID_TYPE_TOKEN = "INVALID_TYPE_TOKEN",
+  LONG_NAME = "LONG_NAME",
+  SHORT_PASSWORD = "SHORT_PASSWORD",
 }

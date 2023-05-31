@@ -13,13 +13,6 @@ export interface IGenerateJwt {
   role: string;
 }
 
-export interface ICreateUser {
-  name: string;
-  email: string;
-  password: string;
-  code: string;
-}
-
 export interface ICreateRecordSight {
   image: UploadedFile;
   name: string;

@@ -4,39 +4,51 @@ import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
-import {
-  ERROR,
-  LONG_NAME,
-  MIN_LENGHT_NAME,
-  MIN_LENGHT_PASSWORD,
-  SHORT_PASSWORD,
-} from "../libs/constants";
+import { ERROR, MIN_LENGHT_NAME, MIN_LENGHT_PASSWORD } from "../libs/constants";
 import { generateJwt } from "../libs/jwtUtils";
-import Verification from "../../models/verification";
+import VerificationPassword from "../../models/verificationPassword";
 import sendEmail from "../libs/sendEmails";
 import { uploadImage } from "../libs/utils";
-import { ICreateUser } from "../types/types";
 import logger from "../libs/logger";
+import VerificationUser from "../../models/verificationUser";
 
 function generateVerificationCode() {
   const code = uuidv4().replace(/-/g, "").slice(0, 5);
   return code;
 }
 
-async function checkVerefication(emailUser: string, code: string) {
-  const verificationExist = await Verification.findOne({
-    where: { email: emailUser },
+async function checkVereficationPassword(email: string, code: string) {
+  const verificationExist = await VerificationPassword.findOne({
+    where: { email },
   });
   if (verificationExist) {
     if (verificationExist.dataValues.verificationCode === code) {
-      await Verification.destroy({ where: { email: emailUser } });
-      logger.info("Verification code has been successfully verified");
-      return true;
+      const newPassword = verificationExist.dataValues.password;
+      await VerificationPassword.destroy({ where: { email } });
+      logger.info("Verification password code has been successfully verified");
+      return newPassword;
     }
     logger.error("Incorrect confirmation code", code);
     throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_CODE);
   }
-  logger.error("There is no user with this email", emailUser);
+  logger.error("There is no user with this email", email);
+  throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
+}
+
+async function checkVereficationUser(email: string, code: string) {
+  const verificationExist = await VerificationUser.findOne({
+    where: { email },
+  });
+  if (verificationExist) {
+    if (verificationExist.dataValues.verificationCode === code) {
+      await VerificationPassword.destroy({ where: { email } });
+      logger.info("Verification user code has been successfully verified");
+      return verificationExist.dataValues;
+    }
+    logger.error("Incorrect confirmation code", code);
+    throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.INCORRECT_CODE);
+  }
+  logger.error("There is no user with this email", email);
   throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
 }
 
@@ -54,7 +66,7 @@ function validatePassword(password: string, email: string) {
 
   if (password.length < MIN_LENGHT_PASSWORD) {
     logger.error("Too short a password");
-    throw new ApiError(StatusCodes.BAD_REQUEST, SHORT_PASSWORD);
+    throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.SHORT_PASSWORD);
   }
   if (!hasNumber || !hasUpperCase || !hasLowerCase || !hasSpecialChar) {
     logger.error("Password is uncomplicated");
@@ -86,7 +98,7 @@ function validateEmail(email: string) {
 function validateName(name: string) {
   if (name.length > MIN_LENGHT_NAME) {
     logger.error("Too long a name", name);
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, LONG_NAME);
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.LONG_NAME);
   }
   if (!name) {
     logger.error("No value for the name", name);
@@ -137,46 +149,74 @@ async function validateLogin(email: string, password: string) {
   return userExist.dataValues;
 }
 
-async function createVerefication(emailUser: string) {
+async function createVerefication(
+  email: string,
+  name: string,
+  password: string,
+) {
   const verificationCode = generateVerificationCode();
-  const verificationExist = await Verification.findOne({
-    where: { email: emailUser },
+  const verificationExist = await VerificationUser.findOne({
+    where: { email },
   });
+  const hashPassword = await bcrypt.hash(password, 5);
   if (verificationExist) {
-    await Verification.update(
-      { verificationCode },
-      { where: { email: emailUser } },
+    await VerificationUser.update(
+      { verificationCode, password: hashPassword, name },
+      { where: { email } },
+    );
+    logger.info("The verification code has been updated for this email", email);
+    return verificationCode;
+  }
+  const newUser = await VerificationUser.create({
+    email,
+    name,
+    password: hashPassword,
+    verificationCode,
+  });
+  logger.info("The verification code has been created for this email", email);
+  return verificationCode;
+}
+
+async function createVereficationPassword(email: string, password: string) {
+  const verificationCode = generateVerificationCode();
+  const verificationExist = await VerificationPassword.findOne({
+    where: { email },
+  });
+  const hashPassword = await bcrypt.hash(password, 5);
+  if (verificationExist) {
+    await VerificationPassword.update(
+      { verificationCode, password: hashPassword },
+      { where: { email } },
     );
     logger.info(
-      "The verification code has been updated for this email",
-      emailUser,
+      "The verification password code has been updated for this email",
+      email,
     );
     return verificationCode;
   }
-  const newUser = await Verification.create({
-    email: emailUser,
+  const newUser = await VerificationPassword.create({
+    email,
+    password: hashPassword,
     verificationCode,
   });
   logger.info(
-    "The verification code has been created for this email",
-    emailUser,
+    "The verification password code has been created for this email",
+    email,
   );
   return verificationCode;
 }
 
-export async function createUser(params: ICreateUser) {
-  const { name, email, password, code } = params;
-  const checkVerification = await checkVerefication(email, code);
-  const hashPassword = await bcrypt.hash(password, 5);
+export async function createUser(email: string, code: string) {
+  const userInformation = await checkVereficationUser(email, code);
   const newUser = await User.create({
-    name,
+    name: userInformation.name,
     email,
-    password: hashPassword,
+    password: userInformation.password,
   });
   const jwtToken = generateJwt({
     id: newUser.dataValues.id,
     email,
-    name,
+    name: newUser.dataValues.name,
     image: newUser.dataValues.image,
     role: newUser.dataValues.role,
   });
@@ -223,17 +263,9 @@ export async function updateImageUser(userId: number, image: UploadedFile) {
   return jwtToken;
 }
 
-export async function сhangeUserPassword(
-  emailUser: string,
-  newPassword: string,
-  code: string,
-) {
-  const checkVerification = await checkVerefication(emailUser, code);
-  const hashPassword = await bcrypt.hash(newPassword, 5);
-  await User.update(
-    { password: hashPassword },
-    { where: { email: emailUser } },
-  );
+export async function сhangeUserPassword(emailUser: string, code: string) {
+  const newPassword = await checkVereficationPassword(emailUser, code);
+  await User.update({ password: newPassword }, { where: { email: emailUser } });
   const user = await User.findOne({
     where: { email: emailUser },
   });
@@ -253,14 +285,14 @@ export async function registrationUser(
   name: string,
 ) {
   const checkInput = await validationRegistration(email, password, name);
-  const verificationCode = await createVerefication(email);
+  const verificationCode = await createVerefication(email, name, password);
   const trySend = await sendEmail(verificationCode, email);
   return true;
 }
 
 export async function verificationPassword(password: string, email: string) {
   const checkPassword = validatePassword(password, email);
-  const verificationCode = await createVerefication(email);
+  const verificationCode = await createVereficationPassword(email, password);
   const trySend = await sendEmail(verificationCode, email);
   return true;
 }

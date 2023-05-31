@@ -1,12 +1,12 @@
 import jwt_decode from "jwt-decode";
-import { api } from "./axiosConfig";
+import { adminHost } from "./axiosConfig";
 
 export async function registrationUser(
   name: string,
   email: string,
   password: string,
 ) {
-  const { data } = await api.post("user/registration", {
+  const { data } = await adminHost.post("user/registration", {
     email,
     password,
     name,
@@ -15,13 +15,13 @@ export async function registrationUser(
 }
 
 export async function loginUser(email: string, password: string) {
-  const { data } = await api.post("user/login", { email, password });
+  const { data } = await adminHost.post("user/login", { email, password });
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
 
 export async function changeNameUser(id: number, name: string) {
-  const { data } = await api.post("user/update/name", { id, name });
+  const { data } = await adminHost.post("user/update/name", { id, name });
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
@@ -31,7 +31,7 @@ export async function changeImageUser(id: number, image: File) {
   formData.append("id", String(id));
   formData.append("image", image);
 
-  const { data } = await api.post("user/update/image", formData, {
+  const { data } = await adminHost.post("user/update/image", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -46,7 +46,7 @@ export async function verificateUser(
   password: string,
   code: string,
 ) {
-  const { data } = await api.post("user/verification/check", {
+  const { data } = await adminHost.post("user/verification/check", {
     name,
     email,
     password,
@@ -57,7 +57,7 @@ export async function verificateUser(
 }
 
 export async function createCodePassword(email: string, password: string) {
-  const { data } = await api.post("user/password/change", {
+  const { data } = await adminHost.post("user/password/change", {
     email,
     password,
   });
@@ -69,7 +69,7 @@ export async function checkCodePassword(
   password: string,
   code: string,
 ) {
-  const { data } = await api.post("user/password/check", {
+  const { data } = await adminHost.post("user/password/check", {
     email,
     password,
     code,
