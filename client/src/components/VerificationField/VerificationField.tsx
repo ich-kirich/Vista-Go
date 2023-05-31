@@ -8,17 +8,17 @@ import Loader from "../Loader/Loader";
 import styles from "./VerificationField.module.scss";
 
 function VerificationField(props: IVerificationFieldProps) {
-  const { name, email, password } = props;
+  const { name, email } = props;
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
   const navigate = useNavigate();
 
-  const { fetchCode } = useActions();
+  const { fetchCodeUser } = useActions();
   const { error, loading } = useTypedSelector((state) => state.code);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    fetchCode(name, email, password, userCode);
+    fetchCodeUser({ name, email, code: userCode });
     setSendClicked(true);
   };
 

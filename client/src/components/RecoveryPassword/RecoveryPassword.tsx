@@ -2,13 +2,14 @@ import { Box, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { IRecoveryPassword } from "../../types/types";
+import { IRecoveryPasswordProps } from "../../types/types";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import VerificationPassword from "../VerificationPassword/VerificationPassword";
 import ViewError from "../ViewError/ViewError";
 import styles from "./RecoveryPassword.module.scss";
 
-function RecoveryPassword(props: IRecoveryPassword) {
+function RecoveryPassword(props: IRecoveryPasswordProps) {
   const { setVisible } = props;
   const [emailUser, setEmailUser] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -50,23 +51,13 @@ function RecoveryPassword(props: IRecoveryPassword) {
       </Box>
       <Box>
         {sentMail && (
-          <Box>
-            {loading ? (
-              <Loader />
-            ) : (
-              <Box>
-                {error ? (
-                  <ViewError>{error}</ViewError>
-                ) : (
-                  <VerificationPassword
-                    email={emailUser}
-                    password={newPassword}
-                    setVisible={setVisible}
-                  />
-                )}
-              </Box>
-            )}
-          </Box>
+          <FetchWrapper loading={loading} error={error}>
+            <VerificationPassword
+              email={emailUser}
+              password={newPassword}
+              setVisible={setVisible}
+            />
+          </FetchWrapper>
         )}
       </Box>
     </Box>

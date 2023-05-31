@@ -157,6 +157,58 @@ export interface IContext {
   setVisible: Function;
 }
 
+export interface IVerificateUser {
+  name: string;
+  email: string;
+  code: string;
+}
+
+export interface ICreateSight {
+  name: string;
+  description: string;
+  price: string;
+  distance: string;
+  tagIds: number[];
+  image: File;
+}
+
+export interface IUpdateSight {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  distance: string;
+  tagIds: number[];
+  image: File | undefined;
+}
+
+export interface ICreateCity {
+  country: string;
+  name: string;
+  lat: string;
+  lon: string;
+  sightIds: number[];
+  guideIds: number[];
+  image: File;
+}
+
+export interface IUpdateCity {
+  id: number;
+  country: string;
+  name: string;
+  lat: string;
+  lon: string;
+  sightIds: number[];
+  guideIds: number[];
+  image: File | undefined;
+}
+
+export interface IFetchWrapper {
+  children: React.ReactNode;
+  loading: boolean;
+  error: string | null;
+}
+
 export interface IChildernProps {
   children: React.ReactNode;
   className?: string;
@@ -209,7 +261,6 @@ export interface IChangeUsernameProps {
 export interface IVerificationFieldProps {
   name: string;
   email: string;
-  password: string;
 }
 
 export interface IChangePasswordProps {
@@ -218,12 +269,11 @@ export interface IChangePasswordProps {
   email: string | undefined;
 }
 
-export interface IVerificationPassword {
+export interface IVerificationPasswordProps {
   email: string;
-  password: string;
   setVisible: Function;
 }
 
-export interface IRecoveryPassword {
+export interface IRecoveryPasswordProps {
   setVisible: Function;
 }

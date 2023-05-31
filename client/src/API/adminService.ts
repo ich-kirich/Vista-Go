@@ -1,3 +1,9 @@
+import {
+  ICreateCity,
+  ICreateSight,
+  IUpdateCity,
+  IUpdateSight,
+} from "../types/types";
 import { adminHost } from "./axiosConfig";
 
 export async function createRecommend(cityId: number) {
@@ -70,14 +76,8 @@ export async function updateGuide(
   return data;
 }
 
-export async function createSight(
-  name: string,
-  description: string,
-  price: string,
-  distance: string,
-  tagIds: number[],
-  image: File,
-) {
+export async function createSight(params: ICreateSight) {
+  const { name, description, price, distance, tagIds, image } = params;
   const formData = new FormData();
   const tagIdsToSend = JSON.stringify(tagIds);
   formData.append("name", name);
@@ -99,15 +99,8 @@ export async function deleteSight(id: number) {
   return data;
 }
 
-export async function updateSight(
-  id: number,
-  name: string,
-  description: string,
-  price: string,
-  distance: string,
-  tagIds: number[],
-  image: File | undefined,
-) {
+export async function updateSight(params: IUpdateSight) {
+  const { id, name, description, price, distance, tagIds, image } = params;
   const formData = new FormData();
   formData.append("id", String(id));
   if (name) {
@@ -137,15 +130,8 @@ export async function updateSight(
   return data;
 }
 
-export async function createCity(
-  country: string,
-  name: string,
-  lat: string,
-  lon: string,
-  sightIds: number[],
-  guideIds: number[],
-  image: File,
-) {
+export async function createCity(params: ICreateCity) {
+  const { country, name, lat, lon, sightIds, guideIds, image } = params;
   const formData = new FormData();
   const sightIdsToSend = JSON.stringify(sightIds);
   const guideIdsToSend = JSON.stringify(guideIds);
@@ -169,16 +155,8 @@ export async function deleteCity(id: number) {
   return data;
 }
 
-export async function updateCity(
-  id: number,
-  country: string,
-  name: string,
-  lat: string,
-  lon: string,
-  sightIds: number[],
-  guideIds: number[],
-  image: File | undefined,
-) {
+export async function updateCity(params: IUpdateCity) {
+  const { id, country, name, lat, lon, sightIds, guideIds, image } = params;
   const formData = new FormData();
   formData.append("id", String(id));
   if (name) {

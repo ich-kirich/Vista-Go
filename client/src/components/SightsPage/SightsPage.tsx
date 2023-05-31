@@ -7,6 +7,7 @@ import Loader from "../Loader/Loader";
 import ListSights from "../ListSights/ListSights";
 import ViewError from "../ViewError/ViewError";
 import styles from "./SightsPage.module.scss";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 
 function SightsPage() {
   const { id } = useParams();
@@ -23,23 +24,13 @@ function SightsPage() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
-          ) : (
-            <Box className={styles.sights_wrapper} onClick={closePage}>
-              <Box className={styles.sights_content}>
-                <ListSights sights={sights} />
-              </Box>
-            </Box>
-          )}
+    <FetchWrapper loading={loading} error={error}>
+      <Box className={styles.sights_wrapper} onClick={closePage}>
+        <Box className={styles.sights_content}>
+          <ListSights sights={sights} />
         </Box>
-      )}
-    </Box>
+      </Box>
+    </FetchWrapper>
   );
 }
 

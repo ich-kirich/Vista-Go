@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import { AUTH } from "../../libs/constants";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import PopupComponent from "../PopupComponent/PopupComponent";
 import RecoveryPassword from "../RecoveryPassword/RecoveryPassword";

@@ -2,6 +2,7 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 import styles from "./AddGuide.module.scss";
@@ -60,21 +61,11 @@ function AddGuide() {
         Add Guide
       </Button>
       {isClick && (
-        <Box>
-          {loading ? (
-            <Loader />
-          ) : (
-            <Box>
-              {error ? (
-                <ViewError>{error}</ViewError>
-              ) : (
-                <Typography variant="h6" component="h5">
-                  The guide was successfully added
-                </Typography>
-              )}
-            </Box>
-          )}
-        </Box>
+        <FetchWrapper loading={loading} error={error}>
+          <Typography variant="h6" component="h5">
+            The guide was successfully added
+          </Typography>
+        </FetchWrapper>
       )}
     </Box>
   );

@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { IVerificateUser } from "../types/types";
 import { adminHost } from "./axiosConfig";
 
 export async function registrationUser(
@@ -20,17 +21,15 @@ export async function loginUser(email: string, password: string) {
   return jwt_decode(data);
 }
 
-export async function changeNameUser(id: number, name: string) {
-  const { data } = await adminHost.post("user/update/name", { id, name });
+export async function changeNameUser(name: string) {
+  const { data } = await adminHost.post("user/update/name", { name });
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
 
-export async function changeImageUser(id: number, image: File) {
+export async function changeImageUser(image: File) {
   const formData = new FormData();
-  formData.append("id", String(id));
   formData.append("image", image);
-
   const { data } = await adminHost.post("user/update/image", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -40,38 +39,27 @@ export async function changeImageUser(id: number, image: File) {
   return jwt_decode(data);
 }
 
-export async function verificateUser(
-  name: string,
-  email: string,
-  password: string,
-  code: string,
-) {
+export async function verificateUser(params: IVerificateUser) {
+  const { email, code } = params;
   const { data } = await adminHost.post("user/verification/check", {
-    name,
     email,
-    password,
     code,
   });
   localStorage.setItem("token", data);
   return jwt_decode(data);
 }
 
-export async function createCodePassword(email: string, password: string) {
+export async function createCodePassword(email: string, newPassword: string) {
   const { data } = await adminHost.post("user/password/change", {
     email,
-    password,
+    password: newPassword,
   });
   return data;
 }
 
-export async function checkCodePassword(
-  email: string,
-  password: string,
-  code: string,
-) {
+export async function checkCodePassword(email: string, code: string) {
   const { data } = await adminHost.post("user/password/check", {
     email,
-    password,
     code,
   });
   return data;

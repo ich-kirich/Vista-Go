@@ -1,15 +1,15 @@
-import { Dispatch } from "redux";
-import { getAllSights, getSight, getSights } from "../../api/postService";
-import { ERROR, SIGHT, SIGHTS } from "../../libs/constants";
-import { CustomError, IAction } from "../../types/types";
+import { Dispatch } from "react";
+import { createTag, deleteTag, updateTag } from "../../api/adminService";
+import { TAG, ERROR } from "../../libs/constants";
+import { IAction, CustomError } from "../../types/types";
 
-export const fetchSights = (id: string) => {
+export const fetchAddTag = (name: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHTS.FETCH_SIGHTS });
-      const response = await getSights(id);
+      dispatch({ type: TAG.FETCH_TAG });
+      const response = await createTag(name);
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_SUCCESS,
+        type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
@@ -17,20 +17,20 @@ export const fetchSights = (id: string) => {
       const errorMessage =
         ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_ERROR,
+        type: TAG.FETCH_TAG_ERROR,
         payload: errorMessage,
       });
     }
   };
 };
 
-export const fetchAllSights = () => {
+export const fetchDeleteTag = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHTS.FETCH_SIGHTS });
-      const response = await getAllSights();
+      dispatch({ type: TAG.FETCH_TAG });
+      const response = await deleteTag(id);
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_SUCCESS,
+        type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
@@ -38,20 +38,20 @@ export const fetchAllSights = () => {
       const errorMessage =
         ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_ERROR,
+        type: TAG.FETCH_TAG_ERROR,
         payload: errorMessage,
       });
     }
   };
 };
 
-export const fetchSight = (id: string) => {
+export const fetchUpdateTag = (id: number, name: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHT.FETCH_SIGHT });
-      const response = await getSight(id);
+      dispatch({ type: TAG.FETCH_TAG });
+      const response = await updateTag(id, name);
       dispatch({
-        type: SIGHT.FETCH_SIGHT_SUCCESS,
+        type: TAG.FETCH_TAG_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
@@ -59,7 +59,7 @@ export const fetchSight = (id: string) => {
       const errorMessage =
         ERROR[error.response.data.message] || error.response.data.message;
       dispatch({
-        type: SIGHT.FETCH_SIGHT_ERROR,
+        type: TAG.FETCH_TAG_ERROR,
         payload: errorMessage,
       });
     }

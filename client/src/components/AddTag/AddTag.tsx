@@ -2,6 +2,7 @@ import { Box, Typography, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 import styles from "./AddTag.module.scss";
@@ -23,43 +24,27 @@ function AddTag() {
   };
 
   return (
-    <Box>
-      {error ? (
-        <ViewError>{error}</ViewError>
-      ) : (
-        <Box className={styles.controls__wrapper}>
-          <Typography variant="h6" component="h2">
-            Enter a name for the tag:
+    <Box className={styles.controls__wrapper}>
+      <Typography variant="h6" component="h2">
+        Enter a name for the tag:
+      </Typography>
+      <TextField
+        label="Enter name"
+        type="text"
+        value={nameTag}
+        onChange={(e) => newNameTag(e.target.value)}
+        required
+        fullWidth
+      />
+      <Button variant="contained" fullWidth onClick={addTag}>
+        Add Tag
+      </Button>
+      {isClick && (
+        <FetchWrapper loading={loading} error={error}>
+          <Typography variant="h6" component="h5">
+            The tag was successfully added
           </Typography>
-          <TextField
-            label="Enter name"
-            type="text"
-            value={nameTag}
-            onChange={(e) => newNameTag(e.target.value)}
-            required
-            fullWidth
-          />
-          <Button variant="contained" fullWidth onClick={addTag}>
-            Add Tag
-          </Button>
-          {isClick && (
-            <Box>
-              {loading ? (
-                <Loader />
-              ) : (
-                <Box>
-                  {error ? (
-                    <ViewError>{error}</ViewError>
-                  ) : (
-                    <Typography variant="h6" component="h5">
-                      The tag was successfully added
-                    </Typography>
-                  )}
-                </Box>
-              )}
-            </Box>
-          )}
-        </Box>
+        </FetchWrapper>
       )}
     </Box>
   );

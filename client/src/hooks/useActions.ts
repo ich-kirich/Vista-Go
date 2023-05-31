@@ -1,34 +1,46 @@
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import fetchAddRecommend from "../store/actionCreators/adminAddRecommend";
-import fetchAddTag from "../store/actionCreators/adminAddTag";
-import fetchCreateCity from "../store/actionCreators/adminCreateCity";
-import fetchCreateGuide from "../store/actionCreators/adminCreateGuide";
-import fetchCreateSight from "../store/actionCreators/adminCreateSight";
-import fetchDeleteCity from "../store/actionCreators/adminDeleteCity";
-import fetchDeleteGuide from "../store/actionCreators/adminDeleteGuide";
-import fetchDeleteRecommend from "../store/actionCreators/adminDeleteRecommend";
-import fetchDeleteSight from "../store/actionCreators/adminDeleteSight";
-import fetchDeleteTag from "../store/actionCreators/adminDeleteTag";
-import fetchUpdateCity from "../store/actionCreators/adminUpdateCity";
-import fetchUpdateGuide from "../store/actionCreators/adminUpdateGuide";
-import fetchUpdateSight from "../store/actionCreators/adminUpdateSight";
-import fetchUpdateTag from "../store/actionCreators/adminUpdateTag";
-import fetchAllSights from "../store/actionCreators/allSights";
-import fetchCities from "../store/actionCreators/cities";
-import fetchCity from "../store/actionCreators/city";
-import fetchCode from "../store/actionCreators/code";
-import fetchCodePassword from "../store/actionCreators/codePassword";
+import {
+  fetchAddRecommend,
+  fetchDeleteRecommend,
+} from "../store/actionCreators/adminRecommend";
+import {
+  fetchAddTag,
+  fetchUpdateTag,
+  fetchDeleteTag,
+} from "../store/actionCreators/adminTag";
+import {
+  fetchCreateCity,
+  fetchDeleteCity,
+  fetchUpdateCity,
+} from "../store/actionCreators/adminCity";
+import {
+  fetchCreateGuide,
+  fetchDeleteGuide,
+  fetchUpdateGuide,
+} from "../store/actionCreators/adminGuide";
+import {
+  fetchCreateSight,
+  fetchDeleteSight,
+  fetchUpdateSight,
+} from "../store/actionCreators/adminSight";
+import { fetchCities, fetchCity } from "../store/actionCreators/cities";
 import fetchGuides from "../store/actionCreators/guides";
 import fetchRecommends from "../store/actionCreators/recommends";
 import fetchRegistration from "../store/actionCreators/registration";
-import fetchSight from "../store/actionCreators/sight";
-import fetchSights from "../store/actionCreators/sights";
+import {
+  fetchSights,
+  fetchSight,
+  fetchAllSights,
+} from "../store/actionCreators/sights";
 import fetchTags from "../store/actionCreators/tags";
-import fetchUpdateUserImage from "../store/actionCreators/updateUserImage";
-import fetchUpdateUsername from "../store/actionCreators/updateUsername";
-import fetchUpdateUserPassword from "../store/actionCreators/updateUserPassword";
+import {
+  fetchUpdateUserImage,
+  fetchUpdateUsername,
+  fetchUpdateUserPassword,
+} from "../store/actionCreators/updateUserInformation";
 import fetchUser from "../store/actionCreators/user";
+import { fetchCodeUser, fetchCodePassword } from "../store/actionCreators/code";
 
 const useActions = () => {
   const dispatch = useDispatch();
@@ -45,7 +57,7 @@ const useActions = () => {
       fetchUser,
       fetchUpdateUsername,
       fetchUpdateUserImage,
-      fetchCode,
+      fetchCodeUser,
       fetchUpdateUserPassword,
       fetchCodePassword,
       fetchAddRecommend,

@@ -2,6 +2,7 @@ import { Box, Typography, NativeSelect, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 
@@ -26,55 +27,35 @@ function AddRecommend() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
-          ) : (
-            <Box>
-              <Typography variant="h6" component="h2">
-                Select a city for a recommendation:
-              </Typography>
-              <NativeSelect
-                value={city}
-                onChange={(e) => selectCity(e.target.value)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {cities.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </NativeSelect>
-              <Button variant="contained" fullWidth onClick={addRecommend}>
-                Add Recommend
-              </Button>
-              {isClick && (
-                <Box>
-                  {recommend.loading ? (
-                    <Loader />
-                  ) : (
-                    <Box>
-                      {recommend.error ? (
-                        <ViewError>{error}</ViewError>
-                      ) : (
-                        <Typography variant="h6" component="h5">
-                          The recommendation was successfully added
-                        </Typography>
-                      )}
-                    </Box>
-                  )}
-                </Box>
-              )}
-            </Box>
-          )}
-        </Box>
-      )}
-    </Box>
+    <FetchWrapper loading={loading} error={error}>
+      <Box>
+        <Typography variant="h6" component="h2">
+          Select a city for a recommendation:
+        </Typography>
+        <NativeSelect
+          value={city}
+          onChange={(e) => selectCity(e.target.value)}
+          variant="standard"
+        >
+          <option value="">Select</option>
+          {cities.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </NativeSelect>
+        <Button variant="contained" fullWidth onClick={addRecommend}>
+          Add Recommend
+        </Button>
+        {isClick && (
+          <FetchWrapper loading={recommend.loading} error={recommend.error}>
+            <Typography variant="h6" component="h5">
+              The recommendation was successfully added
+            </Typography>
+          </FetchWrapper>
+        )}
+      </Box>
+    </FetchWrapper>
   );
 }
 

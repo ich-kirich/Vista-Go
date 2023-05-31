@@ -5,6 +5,7 @@ import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import CityPanel from "../CityPanel/CityPanel";
 import CityPopular from "../CityPopular/CityPopular";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import MustGo from "../MustGo/MustGo";
 import ViewError from "../ViewError/ViewError";
@@ -20,29 +21,19 @@ function CityPage() {
   const { city, error, loading } = useTypedSelector((state) => state.city);
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
+    <FetchWrapper loading={loading} error={error}>
+      <Container maxWidth="sm" className={styles.app__wrapper}>
+        <CityPanel city={city} />
         <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
+          {city.sights.length > 0 ? (
+            <CityPopular sight={city.sights[0]} />
           ) : (
-            <Container maxWidth="sm" className={styles.app__wrapper}>
-              <CityPanel city={city} />
-              <Box>
-                {city.sights.length > 0 ? (
-                  <CityPopular sight={city.sights[0]} />
-                ) : (
-                  <ViewError>No sights Found</ViewError>
-                )}
-              </Box>
-              <MustGo />
-            </Container>
+            <ViewError>No sights Found</ViewError>
           )}
         </Box>
-      )}
-    </Box>
+        <MustGo />
+      </Container>
+    </FetchWrapper>
   );
 }
 

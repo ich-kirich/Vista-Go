@@ -31,7 +31,7 @@ export async function getAllSights() {
 }
 
 export async function getGuides() {
-  const response = await api.get(`/guides`);
+  const response = await api.get("/guides");
   return response;
 }
 

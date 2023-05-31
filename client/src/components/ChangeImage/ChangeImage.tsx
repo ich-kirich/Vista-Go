@@ -6,6 +6,7 @@ import ViewError from "../ViewError/ViewError";
 import styles from "./ChangeImage.module.scss";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 
 function ChangeImage(props: IChangeUsernameProps) {
   const { visible, setVisible, userId } = props;

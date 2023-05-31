@@ -12,6 +12,7 @@ import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 import styles from "./AddSight.module.scss";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 
 function AddSight() {
   const [isClick, setIsClick] = useState(false);
@@ -45,14 +46,14 @@ function AddSight() {
 
   const addSight = () => {
     setIsClick(true);
-    fetchCreateSight(
-      nameSight,
-      descriptionSight,
-      priceSight,
-      distanceSight,
-      tagIdsSight,
-      imageSight!,
-    );
+    fetchCreateSight({
+      name: nameSight,
+      description: descriptionSight,
+      price: priceSight,
+      distance: distanceSight,
+      tagIds: tagIdsSight,
+      image: imageSight!,
+    });
   };
 
   const addTag = () => {
@@ -146,44 +147,32 @@ function AddSight() {
       <Button variant="text" fullWidth onClick={addTag}>
         Add tag for sight
       </Button>
-      <Box>
-        {tags.loading ? (
-          <Loader />
-        ) : (
-          <Box>
-            {tags.error ? (
-              <ViewError>{tags.error}</ViewError>
-            ) : (
-              <Box>
-                {numberTags.map((elem) => (
-                  <Box key={elem}>
-                    <NativeSelect
-                      value={tagIdsSight[elem - 1]}
-                      onChange={(e) => selectTag(e.target.value, elem)}
-                      variant="standard"
-                    >
-                      <option value="">Select</option>
-                      {tags.tags.map((item) => (
-                        <option
-                          key={item.id}
-                          value={item.id}
-                          disabled={tagIdsSight.includes(item.id)}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                    </NativeSelect>
-                    <CloseIcon
-                      className={styles.select__delete}
-                      onClick={(e) => deleteBlocksSelect(elem, e)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            )}
+      <FetchWrapper loading={tags.loading} error={tags.error}>
+        {numberTags.map((elem) => (
+          <Box key={elem}>
+            <NativeSelect
+              value={tagIdsSight[elem - 1]}
+              onChange={(e) => selectTag(e.target.value, elem)}
+              variant="standard"
+            >
+              <option value="">Select</option>
+              {tags.tags.map((item) => (
+                <option
+                  key={item.id}
+                  value={item.id}
+                  disabled={tagIdsSight.includes(item.id)}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </NativeSelect>
+            <CloseIcon
+              className={styles.select__delete}
+              onClick={(e) => deleteBlocksSelect(elem, e)}
+            />
           </Box>
-        )}
-      </Box>
+        ))}
+      </FetchWrapper>
       <Button
         variant="contained"
         fullWidth
@@ -200,21 +189,11 @@ function AddSight() {
         Add sight
       </Button>
       {isClick && (
-        <Box>
-          {loading ? (
-            <Loader />
-          ) : (
-            <Box>
-              {error ? (
-                <ViewError>{error}</ViewError>
-              ) : (
-                <Typography variant="h6" component="h5">
-                  The sight was successfully added
-                </Typography>
-              )}
-            </Box>
-          )}
-        </Box>
+        <FetchWrapper loading={loading} error={error}>
+          <Typography variant="h6" component="h5">
+            The sight was successfully added
+          </Typography>
+        </FetchWrapper>
       )}
     </Box>
   );

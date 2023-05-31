@@ -1,18 +1,14 @@
 import { Dispatch } from "redux";
-import { verificateUser } from "../../api/userService";
-import { CODE, ERROR } from "../../libs/constants";
-import { CustomError, IAction } from "../../types/types";
+import { createCodePassword, verificateUser } from "../../api/userService";
+import { CODE, CODEPASS, ERROR } from "../../libs/constants";
+import { CustomError, IAction, IVerificateUser } from "../../types/types";
 
-const fetchCode = (
-  name: string,
-  email: string,
-  password: string,
-  code: string,
-) => {
+export const fetchCodeUser = (params: IVerificateUser) => {
+  const { name, email, code } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: CODE.FETCH_CODE });
-      const response = await verificateUser(name, email, password, code);
+      const response = await verificateUser({ name, email, code });
       dispatch({
         type: CODE.FETCH_CODE_SUCCESS,
         payload: response,
@@ -29,4 +25,23 @@ const fetchCode = (
   };
 };
 
-export default fetchCode;
+export const fetchCodePassword = (email: string, password: string) => {
+  return async (dispatch: Dispatch<IAction>) => {
+    try {
+      dispatch({ type: CODEPASS.FETCH_CODEPASS });
+      const response = await createCodePassword(email, password);
+      dispatch({
+        type: CODEPASS.FETCH_CODEPASS_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      const error = e as CustomError;
+      const errorMessage =
+        ERROR[error.response.data.message] || error.response.data.message;
+      dispatch({
+        type: CODEPASS.FETCH_CODEPASS_ERROR,
+        payload: errorMessage,
+      });
+    }
+  };
+};

@@ -25,7 +25,7 @@ const job = cron.schedule(deleteVerification.timeCrone, async () => {
       },
     },
   });
-  logger.info("Verification password records deleted successfully");
+  logger.info("Verifications records deleted successfully");
 });
 
 export default job;

@@ -2,6 +2,7 @@ import { Box, Typography, NativeSelect, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 
@@ -27,55 +28,33 @@ function DeleteSight() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
-          ) : (
-            <Box>
-              <Typography variant="h6" component="h2">
-                Select a sight for deleting:
-              </Typography>
-              <NativeSelect
-                value={chooseSight}
-                onChange={(e) => selectSight(e.target.value)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {sights.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </NativeSelect>
-              <Button variant="contained" fullWidth onClick={deleteSight}>
-                Delete Sight
-              </Button>
-              {isClick && (
-                <Box>
-                  {sight.loading ? (
-                    <Loader />
-                  ) : (
-                    <Box>
-                      {sight.error ? (
-                        <ViewError>{sight.error}</ViewError>
-                      ) : (
-                        <Typography variant="h6" component="h5">
-                          The sight was successfully deleted
-                        </Typography>
-                      )}
-                    </Box>
-                  )}
-                </Box>
-              )}
-            </Box>
-          )}
-        </Box>
+    <FetchWrapper loading={loading} error={error}>
+      <Typography variant="h6" component="h2">
+        Select a sight for deleting:
+      </Typography>
+      <NativeSelect
+        value={chooseSight}
+        onChange={(e) => selectSight(e.target.value)}
+        variant="standard"
+      >
+        <option value="">Select</option>
+        {sights.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ))}
+      </NativeSelect>
+      <Button variant="contained" fullWidth onClick={deleteSight}>
+        Delete Sight
+      </Button>
+      {isClick && (
+        <FetchWrapper loading={sight.loading} error={sight.error}>
+          <Typography variant="h6" component="h5">
+            The sight was successfully deleted
+          </Typography>
+        </FetchWrapper>
       )}
-    </Box>
+    </FetchWrapper>
   );
 }
 

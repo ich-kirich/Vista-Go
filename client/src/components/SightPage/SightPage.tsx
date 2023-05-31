@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import DetailsPopular from "../DetailsSight/DetailsSight";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 import styles from "./SightPage.module.scss";
@@ -23,23 +24,13 @@ function SightPage() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
-          ) : (
-            <Box className={styles.sights_wrapper} onClick={closePage}>
-              <Box className={styles.sights_content}>
-                <DetailsPopular sight={sight} />
-              </Box>
-            </Box>
-          )}
+    <FetchWrapper loading={loading} error={error}>
+      <Box className={styles.sights_wrapper} onClick={closePage}>
+        <Box className={styles.sights_content}>
+          <DetailsPopular sight={sight} />
         </Box>
-      )}
-    </Box>
+      </Box>
+    </FetchWrapper>
   );
 }
 

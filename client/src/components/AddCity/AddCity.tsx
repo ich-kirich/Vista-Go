@@ -12,6 +12,7 @@ import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 import styles from "./AddCity.module.scss";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 
 function AddCity() {
   const [isClick, setIsClick] = useState(false);
@@ -48,15 +49,15 @@ function AddCity() {
 
   const addCity = () => {
     setIsClick(true);
-    fetchCreateCity(
-      countryCity,
-      nameCity,
-      latCity,
-      lonCity,
-      sightIdsCity,
-      guideIdsCity,
-      imageCity!,
-    );
+    fetchCreateCity({
+      country: countryCity,
+      name: nameCity,
+      lat: latCity,
+      lon: lonCity,
+      sightIds: sightIdsCity,
+      guideIds: guideIdsCity,
+      image: imageCity!,
+    });
   };
 
   const addSight = () => {
@@ -177,85 +178,61 @@ function AddCity() {
       <Button variant="text" fullWidth onClick={addSight}>
         Add sight for city
       </Button>
-      <Box>
-        {loading ? (
-          <Loader />
-        ) : (
-          <Box>
-            {error ? (
-              <ViewError>{error}</ViewError>
-            ) : (
-              <Box>
-                {numberSights.map((elem) => (
-                  <Box key={elem}>
-                    <NativeSelect
-                      value={sightIdsCity[elem - 1]}
-                      onChange={(e) => selectSight(e.target.value)}
-                      variant="standard"
-                    >
-                      <option value="">Select</option>
-                      {sights.map((item) => (
-                        <option
-                          key={item.id}
-                          value={item.id}
-                          disabled={sightIdsCity.includes(item.id)}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                    </NativeSelect>
-                    <CloseIcon
-                      className={styles.select__delete}
-                      onClick={(e) => deleteSightsSelect(elem, e)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            )}
+      <FetchWrapper loading={loading} error={error}>
+        {numberSights.map((elem) => (
+          <Box key={elem}>
+            <NativeSelect
+              value={sightIdsCity[elem - 1]}
+              onChange={(e) => selectSight(e.target.value)}
+              variant="standard"
+            >
+              <option value="">Select</option>
+              {sights.map((item) => (
+                <option
+                  key={item.id}
+                  value={item.id}
+                  disabled={sightIdsCity.includes(item.id)}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </NativeSelect>
+            <CloseIcon
+              className={styles.select__delete}
+              onClick={(e) => deleteSightsSelect(elem, e)}
+            />
           </Box>
-        )}
-      </Box>
+        ))}
+      </FetchWrapper>
       <Button variant="text" fullWidth onClick={addGuide}>
         Add guide for city
       </Button>
-      <Box>
-        {guides.loading ? (
-          <Loader />
-        ) : (
-          <Box>
-            {guides.error ? (
-              <ViewError>{guides.error}</ViewError>
-            ) : (
-              <Box>
-                {numberGuides.map((elem) => (
-                  <Box key={elem}>
-                    <NativeSelect
-                      value={guideIdsCity[elem - 1]}
-                      onChange={(e) => selectGuide(e.target.value)}
-                      variant="standard"
-                    >
-                      <option value="">Select</option>
-                      {guides.guides.map((item) => (
-                        <option
-                          key={item.id}
-                          value={item.id}
-                          disabled={guideIdsCity.includes(item.id)}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                    </NativeSelect>
-                    <CloseIcon
-                      className={styles.select__delete}
-                      onClick={(e) => deleteGuideSelect(elem, e)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            )}
+      <FetchWrapper loading={guides.loading} error={guides.error}>
+        {numberGuides.map((elem) => (
+          <Box key={elem}>
+            <NativeSelect
+              value={guideIdsCity[elem - 1]}
+              onChange={(e) => selectGuide(e.target.value)}
+              variant="standard"
+            >
+              <option value="">Select</option>
+              {guides.guides.map((item) => (
+                <option
+                  key={item.id}
+                  value={item.id}
+                  disabled={guideIdsCity.includes(item.id)}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </NativeSelect>
+            <CloseIcon
+              className={styles.select__delete}
+              onClick={(e) => deleteGuideSelect(elem, e)}
+            />
           </Box>
-        )}
-      </Box>
+        ))}
+      </FetchWrapper>
       <Button
         variant="contained"
         fullWidth
@@ -273,21 +250,11 @@ function AddCity() {
         Add City
       </Button>
       {isClick && (
-        <Box>
-          {city.loading ? (
-            <Loader />
-          ) : (
-            <Box>
-              {city.error ? (
-                <ViewError>{city.error}</ViewError>
-              ) : (
-                <Typography variant="h6" component="h5">
-                  The city was successfully added
-                </Typography>
-              )}
-            </Box>
-          )}
-        </Box>
+        <FetchWrapper loading={city.loading} error={city.error}>
+          <Typography variant="h6" component="h5">
+            The city was successfully added
+          </Typography>
+        </FetchWrapper>
       )}
     </Box>
   );

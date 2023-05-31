@@ -2,6 +2,7 @@ import { Box, Typography, NativeSelect, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
+import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 
@@ -27,55 +28,33 @@ function DeleteCity() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          {error ? (
-            <ViewError>{error}</ViewError>
-          ) : (
-            <Box>
-              <Typography variant="h6" component="h2">
-                Select a city for deleting:
-              </Typography>
-              <NativeSelect
-                value={chooseCity}
-                onChange={(e) => selectCity(e.target.value)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {cities.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </NativeSelect>
-              <Button variant="contained" fullWidth onClick={deleteCity}>
-                Delete City
-              </Button>
-              {isClick && (
-                <Box>
-                  {city.loading ? (
-                    <Loader />
-                  ) : (
-                    <Box>
-                      {city.error ? (
-                        <ViewError>{city.error}</ViewError>
-                      ) : (
-                        <Typography variant="h6" component="h5">
-                          The city was successfully deleted
-                        </Typography>
-                      )}
-                    </Box>
-                  )}
-                </Box>
-              )}
-            </Box>
-          )}
-        </Box>
+    <FetchWrapper loading={loading} error={error}>
+      <Typography variant="h6" component="h2">
+        Select a city for deleting:
+      </Typography>
+      <NativeSelect
+        value={chooseCity}
+        onChange={(e) => selectCity(e.target.value)}
+        variant="standard"
+      >
+        <option value="">Select</option>
+        {cities.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ))}
+      </NativeSelect>
+      <Button variant="contained" fullWidth onClick={deleteCity}>
+        Delete City
+      </Button>
+      {isClick && (
+        <FetchWrapper loading={city.loading} error={city.error}>
+          <Typography variant="h6" component="h5">
+            The city was successfully deleted
+          </Typography>
+        </FetchWrapper>
       )}
-    </Box>
+    </FetchWrapper>
   );
 }
 
