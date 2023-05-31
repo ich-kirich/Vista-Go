@@ -16,3 +16,24 @@ export function getFindCities(cities: ICities[], nameCity: string) {
   }
   return cities;
 }
+
+export function addFieldsToFormData(
+  formData: FormData,
+  params: Record<string, any>,
+) {
+  Object.entries(params).forEach(([key, value]) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      value.length !== 0
+    ) {
+      if (Array.isArray(value)) {
+        const arrayValue = JSON.stringify(value);
+        formData.append(key, String(arrayValue));
+      } else {
+        formData.append(key, value);
+      }
+    }
+  });
+}

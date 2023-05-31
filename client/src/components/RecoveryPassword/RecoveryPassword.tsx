@@ -52,11 +52,7 @@ function RecoveryPassword(props: IRecoveryPasswordProps) {
       <Box>
         {sentMail && (
           <FetchWrapper loading={loading} error={error}>
-            <VerificationPassword
-              email={emailUser}
-              password={newPassword}
-              setVisible={setVisible}
-            />
+            <VerificationPassword email={emailUser} setVisible={setVisible} />
           </FetchWrapper>
         )}
       </Box>

@@ -73,7 +73,6 @@ function ChangePassword(props: IChangePasswordProps) {
           >
             <VerificationPassword
               email={email!}
-              password={newPassword}
               setVisible={setVisibleFieldCode}
             />
           </PopupComponent>

@@ -55,8 +55,8 @@ class AdminControllers {
     try {
       const { country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files;
-      const sightIdsArr = JSON.parse(sightIds);
-      const guideIdsArr = JSON.parse(guideIds);
+      const sightIdsArr = sightIds ? JSON.parse(sightIds) : [];
+      const guideIdsArr = guideIds ? JSON.parse(guideIds) : [];
       const city = await createRecordCity({
         image: image as UploadedFile,
         country,
@@ -80,8 +80,8 @@ class AdminControllers {
     try {
       const { id, country, name, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files || {};
-      const sightIdsArr = JSON.parse(sightIds);
-      const guideIdsArr = JSON.parse(guideIds);
+      const sightIdsArr = sightIds ? JSON.parse(sightIds) : [];
+      const guideIdsArr = guideIds ? JSON.parse(guideIds) : [];
       const city = await updateRecordCity({
         id,
         image: image as UploadedFile,
@@ -120,7 +120,7 @@ class AdminControllers {
     try {
       const { name, description, price, distance, tagIds } = req.body;
       const { image } = req.files;
-      const tagIdsArr = JSON.parse(tagIds);
+      const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
       const sight = await createRecordSight({
         image: image as UploadedFile,
         name,
@@ -143,7 +143,7 @@ class AdminControllers {
     try {
       const { id, name, description, price, distance, tagIds } = req.body;
       const { image } = req.files || {};
-      const tagIdsArr = JSON.parse(tagIds);
+      const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
       const sight = await updateRecordSight({
         id,
         image: image as UploadedFile,

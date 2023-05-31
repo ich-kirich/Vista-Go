@@ -133,7 +133,7 @@ export async function updateRecordSight(params: IUpdateRecordSight) {
     await Sight.update({ image: loadImage }, { where: { id } });
   }
   await Sight.update({ distance, price, description, name }, { where: { id } });
-  if (tagIds) {
+  if (tagIds.length !== 0) {
     const findTags = await Tag.findAll({
       where: {
         id: tagIds.map(Number),
@@ -232,7 +232,7 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
     await City.update({ image: loadImage }, { where: { id } });
   }
   await City.update({ country, name, lat, lon }, { where: { id } });
-  if (sightIds) {
+  if (sightIds.length !== 0) {
     const findSights = await Sight.findAll({
       where: {
         id: sightIds.map(Number),
@@ -247,7 +247,7 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
     }
     await Sight.update({ CityId: id }, { where: { id: sightIds.map(Number) } });
   }
-  if (guideIds) {
+  if (guideIds.length !== 0) {
     const findGuides = await Guide.findAll({
       where: {
         id: guideIds.map(Number),

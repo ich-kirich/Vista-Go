@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import FetchWrapper from "../FetchWrapper/FetchWrapper";
 import Loader from "../Loader/Loader";
 import PopupComponent from "../PopupComponent/PopupComponent";
 import VerificationField from "../VerificationField/VerificationField";
@@ -38,7 +37,7 @@ function RegistrationPage() {
       ) : (
         <Box>
           <PopupComponent visible={visible} setVisible={setVisible}>
-            <VerificationField email={email} name={name} password={password} />
+            <VerificationField email={email} name={name} />
           </PopupComponent>
           <Box className={styles.registration__wrapper}>
             {error && (
