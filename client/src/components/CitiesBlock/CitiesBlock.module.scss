@@ -1,0 +1,36 @@
+%wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+
+.header__wrapper {
+  margin-bottom: 15px;
+  @extend %wrapper;
+}
+
+.title__wrapper {
+  @extend %wrapper;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.hot {
+  padding: 5px;
+  color: #fff;
+  background-color: #7783fa;
+  border-radius: 5px;
+}
+
+.more {
+  color: #808080;
+  font-size: 16px;
+  transition: 1s;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
+}

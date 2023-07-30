@@ -1,0 +1,23 @@
+.popular__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.city__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.more {
+  color: #808080;
+  transition: 1s;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
+}

@@ -1,0 +1,22 @@
+%wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.app__wrapper {
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 20px;
+  @extend %wrapper;
+}
+
+.inf__wrapper {
+  position: relative;
+  @extend %wrapper;
+}
+
+.app__title {
+  font-weight: bold;
+}

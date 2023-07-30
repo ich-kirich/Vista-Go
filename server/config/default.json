@@ -1,0 +1,19 @@
+{
+  "server": {
+    "port": 5000
+  },
+  "db": {
+    "database": "travel_app",
+    "username": "postgres",
+    "host": "kubernetes.docker.internal",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "weather": {
+    "timeRequestWeather": 120
+  },
+  "deleteVerification": {
+    "timeCrone": "0 */2 * * *",
+    "timeToDelete": 7200000
+  }
+}

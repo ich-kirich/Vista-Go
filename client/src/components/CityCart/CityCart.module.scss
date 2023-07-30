@@ -1,0 +1,33 @@
+.country__wrapper {
+  display: flex;
+  justify-content: space-evenly;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.counrty__img {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  width: 140px;
+  height: 110px;
+  padding: 15px 0px;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.coutry__name {
+  padding: 5px;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+}

@@ -1,0 +1,47 @@
+$textColor: rgb(41, 136, 195);
+
+.login__wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #000;
+  border-radius: 20px;
+}
+
+.login__title {
+  font-weight: bold;
+  color: $textColor;
+}
+
+.login__link {
+  color: $textColor;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 1s;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+.login__forgot {
+  color: $textColor;
+  text-decoration: none;
+  text-transform: none;
+  cursor: pointer;
+  transition: 1s;
+
+  &:hover {
+    color: #000;
+  }
+}

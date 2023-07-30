@@ -1,0 +1,33 @@
+{
+  "server": {
+    "port": "PORT"
+  },
+  "db": {
+    "database": "DATABASE",
+    "username": "USER",
+    "host": "HOST",
+    "port": "PORT",
+    "dialect": "DIALECT",
+    "password": "PASSWORD"
+  },
+  "weather": {
+    "apiKey": "API_KEY",
+    "timeRequestWeather": "TIME_REQUEST_WEATHER"
+  },
+  "jwt": {
+    "secretKey": "SECRET_KEY"
+  },
+  "email": {
+    "name": "NAME",
+    "port": "PORT",
+    "username": "USER",
+    "password": "PASSWORD"
+  },
+  "imageStorage": {
+    "apiKey": "IMAGE_KEY"
+  },
+  "deleteVerification": {
+    "timeCrone": "TIME_CRONE",
+    "timeToDelete": "TIME_TO_DELETE"
+  }
+}

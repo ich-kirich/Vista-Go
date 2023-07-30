@@ -1,0 +1,33 @@
+%wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.header__wrapper {
+  margin-bottom: 15px;
+  @extend %wrapper;
+}
+
+.title__wrapper {
+  @extend %wrapper;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.hot {
+  color: #7783fa;
+}
+
+.more {
+  color: #808080;
+  font-size: 16px;
+  transition: 1s;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
+}

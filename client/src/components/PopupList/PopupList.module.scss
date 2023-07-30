@@ -1,0 +1,26 @@
+.cart__img {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px 5px #faf7f7;
+  cursor: pointer;
+}
+
+.cart__name {
+  padding: 0px 10px 5px 10px;
+  color: #000;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.inf__wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+}
