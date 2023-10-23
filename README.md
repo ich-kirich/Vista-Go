@@ -1,5 +1,5 @@
 # Travel-App
-It is a sightseeing search app
+It is a sightseeing search app in which user registration and verification, user's personal cabinet and admin panel are implemented
 ***
 #### Launch server part:
 - npm start - build the project and start the server
