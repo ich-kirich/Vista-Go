@@ -248,4 +248,5 @@ export enum ERROR {
   INVALID_TYPE_TOKEN = "Invalid token type. Bearer token expected.",
   LONG_NAME = "The name must be no more than 10 characters long.",
   SHORT_PASSWORD = "The password must be at least 8 characters.",
+  RECOMMEND_FOUND = "Recommend with this city is exist.",
 }

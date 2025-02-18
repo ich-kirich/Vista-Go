@@ -11,7 +11,7 @@ export async function getRecommends() {
 }
 
 export async function getCity(id: string) {
-  const response = await api.get(`/cities/${id}`);
+  const response = await api.get(`/city/${id}`);
   return response;
 }
 

@@ -320,6 +320,14 @@ export async function deleteRecordCity(id: number) {
         id,
       },
     });
+    const findRecommend = await Recommend.findOne({ where: { CityId: id } });
+    if (findRecommend) {
+      await Recommend.destroy({
+        where: {
+          CityId: id,
+        },
+      });
+    }
     return true;
   }
   throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
@@ -327,12 +335,17 @@ export async function deleteRecordCity(id: number) {
 
 export async function createRecordRecommend(id: number) {
   const city = await City.findByPk(id);
-  if (city) {
-    const recommend = await Recommend.create({ CityId: id });
-    return recommend;
+  const findRecommend = await Recommend.findOne({ where: { CityId: id } });
+  if (!city) {
+    logger.error(`City with this ID: ${id} was not found`);
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
   }
-  logger.error(`City with this ID: ${id} was not found`);
-  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+  if (findRecommend) {
+    logger.error(`Recommend with this ID: ${id} was found`);
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.RECOMMEND_FOUND);
+  }
+  const recommend = await Recommend.create({ CityId: id });
+  return recommend;
 }
 
 export async function deleteRecordRecommend(id: number) {

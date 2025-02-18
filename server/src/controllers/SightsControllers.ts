@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { Sequelize } from "sequelize";
 import Tag from "../../models/tag";
 import Sight from "../../models/sight";
 import ApiError from "../error/apiError";
@@ -47,6 +48,47 @@ class SightsControllers {
       });
       logger.info("All sights fetched successfully");
       return res.json(sights);
+    } catch (e) {
+      logger.error("Error occurred while fetching all sights:", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async getCount(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { CityId } = req.body;
+      const signt = await Sight.count({
+        where: {
+          CityId,
+        },
+      });
+      logger.info("Sight fetched successfully");
+      return res.json(signt);
+    } catch (e) {
+      logger.error("Error occurred while fetching all sights:", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async getDiffTime(req: Request, res: Response, next: NextFunction) {
+    try {
+      const sight = await Sight.findOne({
+        attributes: [
+          "id",
+          "name",
+          "image",
+          "description",
+          "price",
+          "distance",
+          [Sequelize.literal("TIMEDIFF(updatedAt, createdAt)"), "timeDiff"],
+        ],
+      });
+      logger.info("Sight fetched successfully");
+      return res.json(sight);
     } catch (e) {
       logger.error("Error occurred while fetching all sights:", e);
       return next(
