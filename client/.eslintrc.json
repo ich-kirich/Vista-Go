@@ -1,33 +1,34 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "jest": true
+    "es2021": true
   },
   "extends": [
-    "react-app",
-    "react-app/jest",
-    "airbnb",
-    "airbnb-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": "./tsconfig.json"
+    "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "import",
+    "react-hooks",
+    "prettier"
+  ],
   "rules": {
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "react/react-in-jsx-scope": ["off"],
     "react/jsx-uses-react": ["off"],
     "react/jsx-props-no-spreading": ["off"],
     "react/no-unescaped-entities": ["off"],
+    "react/react-in-jsx-scope": ["off"],
     "no-debugger": "off",
     "no-console": 0,
     "class-methods-use-this": "off",
@@ -35,6 +36,7 @@
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/default-param-last": 0,
+    "@typescript-eslint/no-explicit-any": "off",
     "import/no-named-as-default": 0,
     "no-param-reassign": 0,
     "react-hooks/exhaustive-deps": 0,

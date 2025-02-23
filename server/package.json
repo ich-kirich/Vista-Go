@@ -1,24 +1,28 @@
 {
   "name": "travel-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "It is server part of sightseeing search app in which user registration and verification, user's personal cabinet and admin panel are implemented",
+  "main": "dist/src/index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && node dist/src/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
+  "keywords": [
+    "node",
+    "typescript",
+    "eslint",
+    "prettier",
+    "express"
+  ],
+  "author": "Kirill Medved",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ich-kirich/Daily-meal-planner.git"
+    "url": "https://github.com/ich-kirich/Travel-App.git"
   },
-  "author": "Kirill Medved",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ich-kirich/Daily-meal-planner/issues"
-  },
-  "homepage": "https://github.com/ich-kirich/Daily-meal-planner#readme",
+  "license": "MIT",
+  "homepage": "https://github.com/ich-kirich/Travel-App#readme",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/config": "^3.3.0",
@@ -29,21 +33,14 @@
     "@types/node-cron": "^3.0.7",
     "@types/nodemailer": "^6.4.7",
     "@types/uuid": "^9.0.1",
-    "@types/xml2js": "^0.4.11",
-    "@types/xml2json": "^0.11.4",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.8.7",
-    "typescript": "^5.0.4"
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@types/express": "^4.17.17",
@@ -51,7 +48,6 @@
     "bcrypt": "^5.1.0",
     "config": "^3.3.9",
     "cors": "^2.8.5",
-    "eslint-config-airbnb-typescript-base": "^4.0.2",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "form-data": "^4.0.0",
@@ -59,17 +55,11 @@
     "jsonwebtoken": "^9.0.0",
     "mime-types": "^2.1.35",
     "node-cron": "^3.0.2",
-    "node-json-db": "^2.2.0",
     "nodemailer": "^6.9.2",
     "nodemon": "^2.0.22",
-    "pg": "^8.10.0",
-    "request-logs": "^2.1.5",
+    "pg": "^8.13.3",
     "sequelize": "^6.31.1",
     "uuid": "^9.0.0",
-    "winston": "^3.9.0",
-    "xml-js": "^1.6.11",
-    "xml2js": "^0.5.0",
-    "xml2json": "^0.12.0",
-    "xml2json-light": "^1.0.6"
+    "winston": "^3.9.0"
   }
 }
