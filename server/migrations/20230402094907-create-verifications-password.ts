@@ -1,37 +1,37 @@
-"use strict";
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
+import { QueryInterface, DataTypes } from "sequelize";
+
+export default {
+  up: async (queryInterface: QueryInterface) => {
     await queryInterface.createTable("verificationspassword", {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       verificationCode: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  down: async (queryInterface: QueryInterface) => {
     await queryInterface.dropTable("verificationspassword");
   },
 };

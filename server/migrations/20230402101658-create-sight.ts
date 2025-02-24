@@ -1,49 +1,52 @@
-"use strict";
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
+import { QueryInterface, DataTypes } from "sequelize";
+
+export default {
+  up: async (queryInterface: QueryInterface) => {
     await queryInterface.createTable("sights", {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
       name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       image: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       description: {
-        type: Sequelize.STRING(2048),
+        type: DataTypes.STRING(2048),
         allowNull: false,
       },
       distance: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       price: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
       CityId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'cities', key: 'id' },
+        type: DataTypes.INTEGER,
+        references: {
+          model: "cities",
+          key: "id",
+        },
         allowNull: true,
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  down: async (queryInterface: QueryInterface) => {
     await queryInterface.dropTable("sights");
   },
 };

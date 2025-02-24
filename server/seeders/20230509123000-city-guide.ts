@@ -1,9 +1,8 @@
-"use strict";
+import { QueryInterface } from "sequelize";
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("cityguides", [
+export default {
+  up: async (queryInterface: QueryInterface) => {
+    const cityGuides = [
       {
         CityId: 1,
         GuideId: 5,
@@ -76,10 +75,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await queryInterface.bulkInsert("cityguides", cityGuides);
   },
 
-  async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("cityguides", null, {});
+  down: async (queryInterface: QueryInterface) => {
+    await queryInterface.bulkDelete("cityguides", null, {});
   },
 };

@@ -1,9 +1,8 @@
-"use strict";
+import { QueryInterface } from "sequelize";
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("cities", [
+export default {
+  up: async (queryInterface: QueryInterface) => {
+    const cities = [
       {
         country: "Germany",
         name: "Berlin",
@@ -38,8 +37,8 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "Grodno",
         country: "Belarus",
+        name: "Grodno",
         weather: "Unknown",
         image: "https://i.ibb.co/rG633xgK/grodno.png",
         lat: "53.6688",
@@ -60,8 +59,8 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "Gyumri",
         country: "Armenia",
+        name: "Gyumri",
         weather: "Unknown",
         image: "https://i.ibb.co/spjKM1tR/gyumri.png",
         lat: "40.7884",
@@ -70,10 +69,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await queryInterface.bulkInsert("cities", cities);
   },
 
-  async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("cities", null, {});
+  down: async (queryInterface: QueryInterface) => {
+    await queryInterface.bulkDelete("cities", null, {});
   },
 };

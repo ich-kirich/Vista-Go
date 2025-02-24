@@ -1,9 +1,8 @@
-"use strict";
+import { QueryInterface } from "sequelize";
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("sights", [
+export default {
+  up: async (queryInterface: QueryInterface) => {
+    const sights = [
       {
         name: "Brandenburg Gate",
         image: "https://i.ibb.co/4nM5s1PV/brandenburg-gate.png",
@@ -268,10 +267,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await queryInterface.bulkInsert("sights", sights);
   },
 
-  async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("sights", null, {});
+  down: async (queryInterface: QueryInterface) => {
+    await queryInterface.bulkDelete("sights", null, {});
   },
 };
