@@ -18,7 +18,7 @@ async function sendEmail(code: string, emailToSend: string) {
     const info = await transporter.sendMail({
       from: config.get("email.username"),
       to: emailToSend,
-      subject: "Verification Code Travel App",
+      subject: "Verification Code Vista go",
       text: `Verification Code: ${code}`,
     });
     logger.info("Message with verification code sent", info.messageId);

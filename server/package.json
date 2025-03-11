@@ -1,5 +1,5 @@
 {
-  "name": "travel-app",
+  "name": "vista-go",
   "version": "1.0.0",
   "description": "It is server part of sightseeing search app in which user registration and verification, user's personal cabinet and admin panel are implemented",
   "main": "dist/src/index.js",
@@ -19,10 +19,10 @@
   "author": "Kirill Medved",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ich-kirich/Travel-App.git"
+    "url": "https://github.com/ich-kirich/Vista-Go.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/ich-kirich/Travel-App#readme",
+  "homepage": "https://github.com/ich-kirich/Vista-Go#readme",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/config": "^3.3.0",

@@ -1,4 +1,4 @@
-# Travel-App
+# Vista-Go
 It is a sightseeing search app
 ***
 #### Launch server part:
