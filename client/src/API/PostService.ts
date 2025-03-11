@@ -15,13 +15,13 @@ export async function getCity(id: string) {
   return response;
 }
 
-export async function getSights(id: string) {
-  const response = await api.get(`/${id}/sights`);
+export async function getCitySights(cityId: string) {
+  const response = await api.get(`sights/city/${cityId}`);
   return response;
 }
 
-export async function getSight(id: string) {
-  const response = await api.get(`/sights/${id}`);
+export async function getSight(sightId: string) {
+  const response = await api.get(`/sights/${sightId}`);
   return response;
 }
 

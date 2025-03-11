@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { getAllSights, getSight, getSights } from "../../api/postService";
+import { getAllSights, getSight, getCitySights } from "../../api/postService";
 import { ERROR, SIGHT, SIGHTS } from "../../libs/constants";
 import { CustomError, IAction } from "../../types/types";
 
@@ -7,7 +7,7 @@ export const fetchSights = (id: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: SIGHTS.FETCH_SIGHTS });
-      const response = await getSights(id);
+      const response = await getCitySights(id);
       dispatch({
         type: SIGHTS.FETCH_SIGHTS_SUCCESS,
         payload: response.data,

@@ -10,7 +10,7 @@ import logger from "../libs/logger";
 class SightsControllers {
   async getCitySights(req: Request, res: Response, next: NextFunction) {
     try {
-      const cityId = req.params.id;
+      const cityId = req.params.cityId;
       const sights = await findCitySights(cityId);
       logger.info(`Sights of city with this ID${cityId} fetched successfully`);
       return res.json(sights);
@@ -24,7 +24,7 @@ class SightsControllers {
 
   async getSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const sightId = req.params.id;
+      const sightId = req.params.sightId;
       const sight = await findSight(sightId);
       logger.info(`Sight with this ID ${sightId} fetched successfully`);
       return res.json(sight);
