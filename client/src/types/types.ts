@@ -119,7 +119,7 @@ export interface IRecommendState {
 }
 
 export interface IUserState {
-  user: IUser;
+  user: IUser | null;
   loading: boolean;
   error: null | string;
 }
@@ -154,7 +154,7 @@ export interface ICodeState {
 export interface IContext {
   nameCity: string;
   visible: boolean;
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
 }
 
 export interface IVerificateUser {
@@ -222,7 +222,7 @@ export interface IRecommendCartProps {
   recommend: IRecommends;
   sliderRef: React.RefObject<Slider>;
   currentSlide: number;
-  setCurrentSlide: Function;
+  setCurrentSlide: (slide: number) => void;
   idsRecommends: number[];
 }
 
@@ -236,11 +236,11 @@ export interface IListRecommendsProps {
 
 export interface IModalComponentProps extends IChildernProps {
   visible: boolean;
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
 }
 
 export interface ISearchFieldProps {
-  setNameCity: Function;
+  setNameCity: (nameCity: string) => void;
   nameCity: string;
 }
 
@@ -254,7 +254,7 @@ export interface IListSightsProps {
 
 export interface IChangeUsernameProps {
   visible: boolean;
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
   userId: number | undefined;
 }
 
@@ -265,15 +265,15 @@ export interface IVerificationFieldProps {
 
 export interface IChangePasswordProps {
   visible: boolean;
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
   email: string | undefined;
 }
 
 export interface IVerificationPasswordProps {
   email: string;
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
 }
 
 export interface IRecoveryPasswordProps {
-  setVisible: Function;
+  setVisible: (visible: boolean) => void;
 }

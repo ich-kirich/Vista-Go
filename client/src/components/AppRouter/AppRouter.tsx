@@ -29,14 +29,17 @@ function AppRouter() {
   const adminRouters = [{ path: "/admin", element: <AdminPanel /> }];
   return (
     <Routes>
-      {isAuth &&
-        authRouters.map((item) => (
-          <Route element={item.element} path={item.path} key={item.path} />
-        ))}
-      {user.role === ADMIN_ROLE &&
-        adminRouters.map((item) => (
-          <Route element={item.element} path={item.path} key={item.path} />
-        ))}
+      {isAuth && user && (
+        <>
+          {authRouters.map((item) => (
+            <Route element={item.element} path={item.path} key={item.path} />
+          ))}
+          {user.role === ADMIN_ROLE &&
+            adminRouters.map((item) => (
+              <Route element={item.element} path={item.path} key={item.path} />
+            ))}
+        </>
+      )}
       {publicRouters.map((item) => (
         <Route element={item.element} path={item.path} key={item.path} />
       ))}

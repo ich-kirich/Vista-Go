@@ -100,7 +100,7 @@ function CabinetPage() {
             <Button variant="contained" fullWidth onClick={viewCodeField}>
               Change Password
             </Button>
-            {user.role === ADMIN_ROLE && (
+            {user && user.role === ADMIN_ROLE && (
               <Button variant="contained" fullWidth onClick={viewAdminPanel}>
                 Go to the admin panel
               </Button>

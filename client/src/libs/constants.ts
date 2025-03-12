@@ -7,7 +7,6 @@ import {
   IRecommends,
   ISights,
   ITag,
-  IUser,
 } from "../types/types";
 
 export const INITIAL_CITY: ICities = {
@@ -92,14 +91,6 @@ export const INITIAL_GUIDE: IGuide = {
   id: 1,
   name: "Unknown",
   image: "Unknown",
-};
-
-export const INITIAL_USER: IUser = {
-  id: 1,
-  email: "Unknown",
-  name: "Unknown",
-  image: "Unknown",
-  role: "USER",
 };
 
 export const INITIAL_CODE: ICode = {
