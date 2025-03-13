@@ -1,8 +1,14 @@
-import { CODE, INITIAL_CODE } from "../../libs/constants";
-import { IAction, ICodeState } from "../../types/types";
+import { CODE } from "../../libs/constants";
+import { IAction, ICode } from "../../types/types";
+
+interface ICodeState {
+  code: ICode | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: ICodeState = {
-  code: INITIAL_CODE,
+  code: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const codeReducer = (
 ): ICodeState => {
   switch (action.type) {
     case CODE.FETCH_CODE:
-      return { loading: true, error: null, code: INITIAL_CODE };
+      return { loading: true, error: null, code: null };
     case CODE.FETCH_CODE_SUCCESS:
       return { loading: false, error: null, code: action.payload };
     case CODE.FETCH_CODE_ERROR:
       return {
         loading: false,
         error: action.payload,
-        code: INITIAL_CODE,
+        code: null,
       };
     default:
       return state;

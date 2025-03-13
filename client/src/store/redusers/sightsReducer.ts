@@ -1,8 +1,14 @@
-import { INITIAL_SIGHTS, SIGHTS } from "../../libs/constants";
-import { IAction, ISightsState } from "../../types/types";
+import { SIGHTS } from "../../libs/constants";
+import { IAction, ISights } from "../../types/types";
+
+interface ISightsState {
+  sights: ISights[] | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: ISightsState = {
-  sights: INITIAL_SIGHTS,
+  sights: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const sightsReducer = (
 ): ISightsState => {
   switch (action.type) {
     case SIGHTS.FETCH_SIGHTS:
-      return { loading: true, error: null, sights: INITIAL_SIGHTS };
+      return { loading: true, error: null, sights: null };
     case SIGHTS.FETCH_SIGHTS_SUCCESS:
       return { loading: false, error: null, sights: action.payload };
     case SIGHTS.FETCH_SIGHTS_ERROR:
       return {
         loading: false,
         error: action.payload,
-        sights: INITIAL_SIGHTS,
+        sights: null,
       };
     default:
       return state;

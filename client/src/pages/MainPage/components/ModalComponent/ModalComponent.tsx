@@ -3,9 +3,11 @@ import classnames from "classnames";
 import { IModalComponentProps } from "../../../../types/types";
 import styles from "./ModalComponent.module.scss";
 
-function ModalComponent(props: IModalComponentProps) {
-  const { children, visible, setVisible } = props;
-
+function ModalComponent({
+  children,
+  visible,
+  setVisible,
+}: IModalComponentProps) {
   const closePopup = () => {
     setVisible(false);
   };

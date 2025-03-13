@@ -1,6 +1,12 @@
 import jwt_decode from "jwt-decode";
 import { USER } from "../../libs/constants";
-import { IAction, IUserState } from "../../types/types";
+import { IAction, IUser } from "../../types/types";
+
+interface IUserState {
+  user: IUser | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const token = localStorage.getItem("token");
 

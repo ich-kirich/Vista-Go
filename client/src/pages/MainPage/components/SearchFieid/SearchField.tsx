@@ -3,11 +3,14 @@ import RoomIcon from "@mui/icons-material/Room";
 import EastIcon from "@mui/icons-material/East";
 import { useContext } from "react";
 import styles from "./SearchField.module.scss";
-import { ISearchFieldProps } from "../../../../types/types";
 import { CONTEXT } from "../../../../libs/constants";
 
-function SearchField(props: ISearchFieldProps) {
-  const { nameCity, setNameCity } = props;
+interface ISearchFieldProps {
+  setNameCity: (nameCity: string) => void;
+  nameCity: string;
+}
+
+function SearchField({ nameCity, setNameCity }: ISearchFieldProps) {
   const { setVisible } = useContext(CONTEXT);
 
   const handleInput = (

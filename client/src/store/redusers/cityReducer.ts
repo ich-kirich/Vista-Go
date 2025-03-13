@@ -1,8 +1,14 @@
-import { INITIAL_CITY, CITY } from "../../libs/constants";
-import { IAction, ICityState } from "../../types/types";
+import { CITY } from "../../libs/constants";
+import { IAction, ICities } from "../../types/types";
+
+interface ICityState {
+  city: ICities | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: ICityState = {
-  city: INITIAL_CITY,
+  city: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const cityReducer = (
 ): ICityState => {
   switch (action.type) {
     case CITY.FETCH_CITY:
-      return { loading: true, error: null, city: INITIAL_CITY };
+      return { loading: true, error: null, city: null };
     case CITY.FETCH_CITY_SUCCESS:
       return { loading: false, error: null, city: action.payload };
     case CITY.FETCH_CITY_ERROR:
       return {
         loading: false,
         error: action.payload,
-        city: INITIAL_CITY,
+        city: null,
       };
     default:
       return state;

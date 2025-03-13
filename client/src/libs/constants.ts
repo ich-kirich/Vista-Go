@@ -1,108 +1,5 @@
 import React from "react";
-import {
-  ICities,
-  ICode,
-  IContext,
-  IGuide,
-  IRecommends,
-  ISights,
-  ITag,
-} from "../types/types";
-
-export const INITIAL_CITY: ICities = {
-  id: 1,
-  country: "Unknown",
-  name: "Unknown",
-  weather: "Unknown",
-  image: "Unknown",
-  sights: [],
-  guides: [],
-};
-
-export const INITIAL_CITIES: ICities[] = [
-  {
-    id: 1,
-    country: "Unknown",
-    name: "Unknown",
-    weather: "Unknown",
-    image: "Unknown",
-    guides: [],
-    sights: [],
-  },
-];
-
-export const INITIAL_RECOMMENDS: IRecommends[] = [
-  {
-    id: 1,
-    country: "Unknown",
-    name: "Unknown",
-    weather: "Unknown",
-    image: "Unknown",
-    guides: [],
-    sights: [],
-    updatedAt: "Unknown",
-    CityId: 1,
-  },
-];
-
-export const INITIAL_RECOMMEND: IRecommends = {
-  id: 1,
-  country: "Unknown",
-  name: "Unknown",
-  weather: "Unknown",
-  image: "Unknown",
-  guides: [],
-  sights: [],
-  updatedAt: "Unknown",
-  CityId: 1,
-};
-
-export const INITIAL_SIGHTS: ISights[] = [
-  {
-    id: 1,
-    name: "Unknown",
-    image: "Unknown",
-    description: "Unknown",
-    price: "Unknown",
-    distance: "Unknown",
-    tags: [],
-  },
-];
-
-export const INITIAL_SIGHT: ISights = {
-  id: 1,
-  name: "Unknown",
-  image: "Unknown",
-  description: "Unknown",
-  price: "Unknown",
-  distance: "Unknown",
-  tags: [],
-};
-
-export const INITIAL_GUIDES: IGuide[] = [
-  {
-    id: 1,
-    name: "Unknown",
-    image: "Unknown",
-  },
-];
-
-export const INITIAL_GUIDE: IGuide = {
-  id: 1,
-  name: "Unknown",
-  image: "Unknown",
-};
-
-export const INITIAL_CODE: ICode = {
-  id: 1,
-  email: "Unknown",
-  verificationCode: "Unknown",
-};
-
-export const INITIAL_TAG: ITag = {
-  id: 1,
-  name: "Unknown",
-};
+import { IContext } from "../types/types";
 
 export enum CITIES {
   FETCH_CITIES = "FETCH_CITIES",
@@ -193,7 +90,7 @@ export enum CODEPASS {
   FETCH_CODEPASS_ERROR = "FETCH_CODEPASS_ERROR",
 }
 
-export const SETTINGS = {
+export const SLIDER_SETTINGS = {
   arrows: false,
   dots: false,
   infinite: false,
@@ -204,12 +101,6 @@ export const SETTINGS = {
   centerMode: true,
   variableWidth: true,
 };
-
-export const INITIAL_AUTH = !!localStorage.getItem("token");
-
-export const ERROR_LOADING_USER = "Error loading user information.";
-
-export const ERROR_REPEAT = "Re-entered password did not match.";
 
 export const ADMIN_ROLE = "ADMIN";
 
@@ -239,6 +130,8 @@ export enum ERROR {
   LONG_NAME = "The name must be no more than 10 characters long.",
   SHORT_PASSWORD = "The password must be at least 8 characters.",
   RECOMMEND_FOUND = "Recommend with this city is exist.",
+  LOADING_USER = "Error loading user information.",
+  REENTERED_PASSWORD = "Reentered password did not match.",
 }
 
 export enum AdminEntity {

@@ -1,18 +1,21 @@
 import { useRef, useState } from "react";
 import Slider from "react-slick";
 import styles from "./RecommendsCart.module.scss";
-import { SETTINGS } from "../../../../libs/constants";
+import { SLIDER_SETTINGS } from "../../../../libs/constants";
 import RecommendCart from "../RecommendCart/RecommendCart";
-import { IListRecommendsProps } from "../../../../types/types";
+import { IRecommends } from "../../../../types/types";
 
-function RecommendsCart(props: IListRecommendsProps) {
-  const { recommends } = props;
+interface IListRecommendsProps {
+  recommends: IRecommends[];
+}
+
+function RecommendsCart({ recommends }: IListRecommendsProps) {
   const idsRecommends = recommends.map((item) => item.id);
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
   return (
     <Slider
-      {...SETTINGS}
+      {...SLIDER_SETTINGS}
       className={styles.recommends__wrapper}
       ref={sliderRef}
     >

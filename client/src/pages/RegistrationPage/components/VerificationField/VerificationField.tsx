@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
-import { IVerificationFieldProps } from "../../../../types/types";
 import Loader from "../../../../components/Loader/Loader";
 import styles from "./VerificationField.module.scss";
 
-function VerificationField(props: IVerificationFieldProps) {
-  const { name, email } = props;
+interface IVerificationFieldProps {
+  name: string;
+  email: string;
+}
+
+function VerificationField({ name, email }: IVerificationFieldProps) {
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
   const navigate = useNavigate();

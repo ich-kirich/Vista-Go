@@ -1,8 +1,14 @@
-import { INITIAL_GUIDE, GUIDE } from "../../libs/constants";
-import { IAction, IGuideState } from "../../types/types";
+import { GUIDE } from "../../libs/constants";
+import { IAction, IGuide } from "../../types/types";
+
+interface IGuideState {
+  guide: IGuide | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: IGuideState = {
-  guide: INITIAL_GUIDE,
+  guide: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const guideReducer = (
 ): IGuideState => {
   switch (action.type) {
     case GUIDE.FETCH_GUIDE:
-      return { loading: true, error: null, guide: INITIAL_GUIDE };
+      return { loading: true, error: null, guide: null };
     case GUIDE.FETCH_GUIDE_SUCCESS:
       return { loading: false, error: null, guide: action.payload };
     case GUIDE.FETCH_GUIDE_ERROR:
       return {
         loading: false,
         error: action.payload,
-        guide: INITIAL_GUIDE,
+        guide: null,
       };
     default:
       return state;

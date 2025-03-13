@@ -1,11 +1,14 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { MouseEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { IListSightsProps, ISights } from "../../../../types/types";
+import { ISights } from "../../../../types/types";
 import styles from "./ListSights.module.scss";
 
-function ListSights(props: IListSightsProps) {
-  const { sights } = props;
+interface IListSightsProps {
+  sights: ISights[];
+}
+
+function ListSights({ sights }: IListSightsProps) {
   const { id } = useParams();
   const navigate = useNavigate();
 

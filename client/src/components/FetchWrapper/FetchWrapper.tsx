@@ -1,11 +1,14 @@
 import { Box } from "@mui/material";
-import { IFetchWrapper } from "../../types/types";
 import Loader from "../Loader/Loader";
 import ViewError from "../ViewError/ViewError";
 
-function FetchWrapper(props: IFetchWrapper) {
-  const { children, loading, error } = props;
+interface IFetchWrapper {
+  children: React.ReactNode;
+  loading: boolean;
+  error: string | null;
+}
 
+function FetchWrapper({ children, loading, error }: IFetchWrapper) {
   return (
     <Box>
       {loading ? (

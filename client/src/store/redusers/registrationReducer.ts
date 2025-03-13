@@ -1,12 +1,17 @@
 import { REGISTRATION } from "../../libs/constants";
-import { IAction, IRegistrationState } from "../../types/types";
+import { IAction } from "../../types/types";
+
+interface IRegistrationState {
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: IRegistrationState = {
   loading: false,
   error: null,
 };
 
-const cityReducer = (
+const registrationReducer = (
   state: IRegistrationState = initialState,
   action: IAction,
 ): IRegistrationState => {
@@ -25,4 +30,4 @@ const cityReducer = (
   }
 };
 
-export default cityReducer;
+export default registrationReducer;

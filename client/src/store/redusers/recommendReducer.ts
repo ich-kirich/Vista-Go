@@ -1,8 +1,14 @@
-import { INITIAL_RECOMMEND, RECOMMEND } from "../../libs/constants";
-import { IAction, IRecommendState } from "../../types/types";
+import { RECOMMEND } from "../../libs/constants";
+import { IAction, IRecommends } from "../../types/types";
+
+interface IRecommendState {
+  recommend: IRecommends | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: IRecommendState = {
-  recommend: INITIAL_RECOMMEND,
+  recommend: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const recommendReducer = (
 ): IRecommendState => {
   switch (action.type) {
     case RECOMMEND.FETCH_RECOMMEND:
-      return { loading: true, error: null, recommend: INITIAL_RECOMMEND };
+      return { loading: true, error: null, recommend: null };
     case RECOMMEND.FETCH_RECOMMEND_SUCCESS:
       return { loading: false, error: null, recommend: action.payload };
     case RECOMMEND.FETCH_RECOMMEND_ERROR:
       return {
         loading: false,
         error: action.payload,
-        recommend: INITIAL_RECOMMEND,
+        recommend: null,
       };
     default:
       return state;

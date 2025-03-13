@@ -2,15 +2,19 @@ import { Box, TextField, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
-import { ERROR_REPEAT } from "../../../../libs/constants";
-import { IChangePasswordProps } from "../../../../types/types";
 import PopupComponent from "../../../../components/PopupComponent/PopupComponent";
 import VerificationPassword from "../../../../components/VerificationPassword/VerificationPassword";
 import styles from "./ChangePassword.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { ERROR } from "../../../../libs/constants";
 
-function ChangePassword(props: IChangePasswordProps) {
-  const { visible, setVisible, email } = props;
+interface IChangePasswordProps {
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
+  email: string | undefined;
+}
+
+function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [visibleFieldCode, setVisibleFieldCode] = useState(false);
@@ -27,7 +31,7 @@ function ChangePassword(props: IChangePasswordProps) {
     if (newPassword === repeatPassword) {
       fetchCodePassword(email!, newPassword);
     } else {
-      setErrorRepeat(ERROR_REPEAT);
+      setErrorRepeat(ERROR.REENTERED_PASSWORD);
     }
   };
 

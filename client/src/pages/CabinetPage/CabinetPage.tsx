@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
 import ViewError from "../../components/ViewError/ViewError";
-import { ADMIN_ROLE, ERROR_LOADING_USER } from "../../libs/constants";
+import { ADMIN_ROLE, ERROR } from "../../libs/constants";
 import ChangeUsername from "./components/ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
@@ -26,10 +26,10 @@ function CabinetPage() {
       try {
         setUserInfo(jwt_decode<IUser>(token));
       } catch {
-        setError(ERROR_LOADING_USER);
+        setError(ERROR.LOADING_USER);
       }
     } else {
-      setError(ERROR_LOADING_USER);
+      setError(ERROR.LOADING_USER);
     }
   }, [user]);
 

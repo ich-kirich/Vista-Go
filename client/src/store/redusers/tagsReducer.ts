@@ -1,8 +1,14 @@
 import { TAGS } from "../../libs/constants";
-import { IAction, ITagsState } from "../../types/types";
+import { IAction, ITag } from "../../types/types";
+
+interface ITagsState {
+  tags: ITag[] | null;
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: ITagsState = {
-  tags: [],
+  tags: null,
   loading: false,
   error: null,
 };
@@ -13,14 +19,14 @@ const tagsReducer = (
 ): ITagsState => {
   switch (action.type) {
     case TAGS.FETCH_TAGS:
-      return { loading: true, error: null, tags: [] };
+      return { loading: true, error: null, tags: null };
     case TAGS.FETCH_TAGS_SUCCESS:
       return { loading: false, error: null, tags: action.payload };
     case TAGS.FETCH_TAGS_ERROR:
       return {
         loading: false,
         error: action.payload,
-        tags: [],
+        tags: null,
       };
     default:
       return state;

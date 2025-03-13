@@ -1,10 +1,13 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
-import { ICityProps } from "../../../../types/types";
 import styles from "./CityPanel.module.scss";
+import { ICities } from "../../../../types/types";
 
-function CityPanel(props: ICityProps) {
-  const { city } = props;
+interface ICityProps {
+  city: ICities;
+}
+
+function CityPanel({ city }: ICityProps) {
   return (
     <Box className={styles.city__wrapper}>
       <Typography variant="h6" component="h5" className={styles.city__name}>

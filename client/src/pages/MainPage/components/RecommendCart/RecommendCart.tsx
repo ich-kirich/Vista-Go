@@ -1,8 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
 import { createDate } from "../../../../libs/utils";
-import { IRecommendCartProps } from "../../../../types/types";
 import styles from "./RecommendCart.module.scss";
+import { IRecommends } from "../../../../types/types";
+
+interface IRecommendCartProps {
+  recommend: IRecommends;
+  sliderRef: React.RefObject<Slider>;
+  currentSlide: number;
+  setCurrentSlide: (slide: number) => void;
+  idsRecommends: number[];
+}
 
 function RecommendCart(props: IRecommendCartProps) {
   const { recommend, sliderRef, currentSlide, setCurrentSlide, idsRecommends } =

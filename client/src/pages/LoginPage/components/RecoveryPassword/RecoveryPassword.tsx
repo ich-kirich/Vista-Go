@@ -2,13 +2,15 @@ import { Box, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
-import { IRecoveryPasswordProps } from "../../../../types/types";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import VerificationPassword from "../../../../components/VerificationPassword/VerificationPassword";
 import styles from "./RecoveryPassword.module.scss";
 
-function RecoveryPassword(props: IRecoveryPasswordProps) {
-  const { setVisible } = props;
+interface IRecoveryPasswordProps {
+  setVisible: (visible: boolean) => void;
+}
+
+function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
   const [emailUser, setEmailUser] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [sentMail, setSentMail] = useState(false);

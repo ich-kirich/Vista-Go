@@ -1,8 +1,12 @@
-import { AUTH, INITIAL_AUTH } from "../../libs/constants";
-import { IAction, IAuthState } from "../../types/types";
+import { AUTH } from "../../libs/constants";
+import { IAction } from "../../types/types";
+
+interface IAuthState {
+  isAuth: boolean;
+}
 
 const initialState: IAuthState = {
-  isAuth: INITIAL_AUTH,
+  isAuth: !!localStorage.getItem("token"),
 };
 
 const authReducer = (
