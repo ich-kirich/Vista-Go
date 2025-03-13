@@ -1,15 +1,15 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import RegistrationPage from "../RegistrationPage/RegistrationPage";
-import CityPage from "../CityPage/CityPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import MainPage from "../MainPage/MainPage";
-import SightPage from "../SightPage/SightPage";
-import SightsPage from "../SightsPage/SightsPage";
-import LoginPage from "../LoginPage/LoginPage";
-import CabinetPage from "../CabinetPage/CabinetPage";
+import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
+import CityPage from "../../pages/CityPage/CityPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import MainPage from "../../pages/MainPage/MainPage";
+import SightPage from "../../pages/SightPage/SightPage";
+import SightsPage from "../../pages/SightsPage/SightsPage";
+import LoginPage from "../../pages/LoginPage/LoginPage";
+import CabinetPage from "../../pages/CabinetPage/CabinetPage";
 import { ADMIN_ROLE } from "../../libs/constants";
-import AdminPanel from "../AdminPanel/AdminPanel";
+import AdminPage from "../../pages/AdminPage/AdminPage";
 
 function AppRouter() {
   const isAuth = useTypedSelector((state) => state.auth.isAuth);
@@ -26,7 +26,7 @@ function AppRouter() {
     { path: "/registration", element: <RegistrationPage /> },
     { path: "/error", element: <ErrorPage /> },
   ];
-  const adminRouters = [{ path: "/admin", element: <AdminPanel /> }];
+  const adminRouters = [{ path: "/admin", element: <AdminPage /> }];
   return (
     <Routes>
       {isAuth && user && (

@@ -1,22 +1,34 @@
 import { Box } from "@mui/material";
+import { useEffect, useRef, useCallback } from "react";
 import classnames from "classnames";
-import { useEffect, useRef } from "react";
 import { IModalComponentProps } from "../../types/types";
 import styles from "./PopupComponent.module.scss";
 
-function PopupComponent(props: IModalComponentProps) {
-  const { children, visible, setVisible } = props;
+function PopupComponent({
+  children,
+  visible,
+  setVisible,
+}: IModalComponentProps) {
   const box = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
+  const onClickOutside = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
       if (box.current && !box.current.contains(e.target as Node)) {
         setVisible(false);
       }
-    };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
-  }, []);
+    },
+    [setVisible],
+  );
+
+  useEffect(() => {
+    if (visible) {
+      document.addEventListener("mousedown", onClickOutside);
+      return () => document.removeEventListener("mousedown", onClickOutside);
+    }
+  }, [visible, onClickOutside]);
+
+  if (!visible) return null;
 
   return (
     <Box

@@ -240,3 +240,11 @@ export enum ERROR {
   SHORT_PASSWORD = "The password must be at least 8 characters.",
   RECOMMEND_FOUND = "Recommend with this city is exist.",
 }
+
+export enum AdminEntity {
+  TAG = "Tag",
+  SIGHT = "Sight",
+  GUIDE = "Guide",
+  CITY = "City",
+  RECOMMEND = "Recommend",
+}
