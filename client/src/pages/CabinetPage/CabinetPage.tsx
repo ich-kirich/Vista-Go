@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
 import ViewError from "../../components/ViewError/ViewError";
-import { ADMIN_ROLE, ERROR } from "../../libs/constants";
+import { ADMIN_ROLE, ERROR, ROUTES } from "../../libs/constants";
 import ChangeUsername from "./components/ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
@@ -64,7 +64,7 @@ function CabinetPage() {
           <Button
             variant="contained"
             fullWidth
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate(ROUTES.ADMIN)}
           >
             Go to the admin panel
           </Button>

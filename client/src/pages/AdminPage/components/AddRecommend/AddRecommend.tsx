@@ -36,11 +36,12 @@ function AddRecommend() {
           variant="standard"
         >
           <option value="">Select</option>
-          {cities.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {cities &&
+            cities.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </NativeSelect>
         <Button variant="contained" fullWidth onClick={addRecommend}>
           Add Recommend

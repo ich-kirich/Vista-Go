@@ -1,10 +1,8 @@
-import { Box, Typography, NativeSelect, Button } from "@mui/material";
+import { Typography, NativeSelect, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 
 function DeleteRecommend() {
   const [chooseRecommend, setChooseRecommend] = useState("");
@@ -39,11 +37,12 @@ function DeleteRecommend() {
         variant="standard"
       >
         <option value="">Select</option>
-        {recommends.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {recommends &&
+          recommends.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
       </NativeSelect>
       <Button variant="contained" fullWidth onClick={deleteRecommend}>
         Delete Recommend

@@ -154,15 +154,16 @@ function AddSight() {
               variant="standard"
             >
               <option value="">Select</option>
-              {tags.tags.map((item) => (
-                <option
-                  key={item.id}
-                  value={item.id}
-                  disabled={tagIdsSight.includes(item.id)}
-                >
-                  {item.name}
-                </option>
-              ))}
+              {tags.tags &&
+                tags.tags.map((item) => (
+                  <option
+                    key={item.id}
+                    value={item.id}
+                    disabled={tagIdsSight.includes(item.id)}
+                  >
+                    {item.name}
+                  </option>
+                ))}
             </NativeSelect>
             <CloseIcon
               className={styles.select__delete}

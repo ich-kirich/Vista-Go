@@ -3,7 +3,6 @@ import { useState } from "react";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import styles from "./AdminPage.module.scss";
 import AdminEntityPanel from "./components/AdminEntityPanel/AdminEntityPanel";
-import { AdminEntity } from "../../libs/constants";
 import AddCity from "./components/AddCity/AddCity";
 import DeleteCity from "./components/DeleteCity/DeleteCity.tsx";
 import DeleteGuide from "./components/DeleteGuide/DeleteGuide";
@@ -18,13 +17,14 @@ import AddGuide from "./components/AddGuide/AddGuide";
 import AddRecommend from "./components/AddRecommend/AddRecommend";
 import AddSight from "./components/AddSight/AddSight";
 import AddTag from "./components/AddTag/AddTag";
+import { ADMIN_ENTITY } from "../../libs/constants";
 
 function AdminPage() {
-  const [visiblePanel, setVisiblePanel] = useState<AdminEntity | null>(null);
+  const [visiblePanel, setVisiblePanel] = useState<ADMIN_ENTITY | null>(null);
 
   const adminPanels = [
     {
-      entity: AdminEntity.CITY,
+      entity: ADMIN_ENTITY.CITY,
       label: "Edit cities",
       components: {
         add: <AddCity />,
@@ -33,12 +33,12 @@ function AdminPage() {
       },
     },
     {
-      entity: AdminEntity.RECOMMEND,
+      entity: ADMIN_ENTITY.RECOMMEND,
       label: "Edit recommends",
       components: { add: <AddRecommend />, delete: <DeleteRecommend /> },
     },
     {
-      entity: AdminEntity.SIGHT,
+      entity: ADMIN_ENTITY.SIGHT,
       label: "Edit sights",
       components: {
         add: <AddSight />,
@@ -47,7 +47,7 @@ function AdminPage() {
       },
     },
     {
-      entity: AdminEntity.TAG,
+      entity: ADMIN_ENTITY.TAG,
       label: "Edit tags of sights",
       components: {
         add: <AddTag />,
@@ -56,7 +56,7 @@ function AdminPage() {
       },
     },
     {
-      entity: AdminEntity.GUIDE,
+      entity: ADMIN_ENTITY.GUIDE,
       label: "Edit guides",
       components: {
         add: <AddGuide />,

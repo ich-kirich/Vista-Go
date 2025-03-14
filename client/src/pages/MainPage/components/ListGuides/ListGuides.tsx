@@ -22,15 +22,16 @@ function ListGuides() {
         </Box>
       </Box>
       <Box className={styles.guide__wrapper}>
-        {guides.slice(0, 3).map((item) => (
-          <Box
-            key={item.id}
-            className={styles.guide__img}
-            sx={{
-              backgroundImage: `url(${item.image})`,
-            }}
-          />
-        ))}
+        {guides &&
+          guides.slice(0, 3).map((item) => (
+            <Box
+              key={item.id}
+              className={styles.guide__img}
+              sx={{
+                backgroundImage: `url(${item.image})`,
+              }}
+            />
+          ))}
         <Button variant="text" className={styles.guide__joing}>
           Join them.
         </Button>

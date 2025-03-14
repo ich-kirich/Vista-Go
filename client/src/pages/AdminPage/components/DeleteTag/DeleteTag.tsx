@@ -36,11 +36,12 @@ function DeleteTag() {
         variant="standard"
       >
         <option value="">Select</option>
-        {tags.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {tags &&
+          tags.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
       </NativeSelect>
       <Button variant="contained" fullWidth onClick={deleteTag}>
         Delete Tag

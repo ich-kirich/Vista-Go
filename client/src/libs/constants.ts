@@ -134,10 +134,22 @@ export enum ERROR {
   REENTERED_PASSWORD = "Reentered password did not match.",
 }
 
-export enum AdminEntity {
+export enum ADMIN_ENTITY {
   TAG = "Tag",
   SIGHT = "Sight",
   GUIDE = "Guide",
   CITY = "City",
   RECOMMEND = "Recommend",
+}
+
+export enum ROUTES {
+  HOME = "/home",
+  CITY = "/city/:id",
+  CABINET = "/cabinet",
+  SIGHTS = "/city/:id/sights",
+  SIGHT_DETAILS = "/city/:id/sights/:sightId",
+  LOGIN = "/",
+  REGISTRATION = "/registration",
+  ERROR = "/error",
+  ADMIN = "/admin",
 }

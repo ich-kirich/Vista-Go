@@ -2,13 +2,15 @@ import { Box, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import MustSights from "../MustSights/MustSights";
 import styles from "./MustGo.module.scss";
+import { getRoute } from "../../../../libs/utils";
+import { ROUTES } from "../../../../libs/constants";
 
 function MustGo() {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const viewSightsPage = () => {
-    navigate(`/city/${id}/sights`);
+    if (id) navigate(getRoute(ROUTES.SIGHTS, { id }));
   };
 
   return (

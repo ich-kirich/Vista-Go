@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CONTEXT } from "../../../../libs/constants";
-import { getFindCities } from "../../../../libs/utils";
+import { CONTEXT, ROUTES } from "../../../../libs/constants";
+import { getFindCities, getRoute } from "../../../../libs/utils";
 import { IListCitiesProps } from "../../../../types/types";
 import ListCountryCities from "../ListCountryCities/ListCountryCities";
 import styles from "./CityCart.module.scss";
@@ -15,7 +15,7 @@ function CityCart(props: IListCitiesProps) {
   const findCities = getFindCities(cities, nameCity);
 
   const viewCity = (id: number) => {
-    navigate(`/city/${id}`);
+    navigate(getRoute(ROUTES.CITY, { id }));
   };
 
   return (

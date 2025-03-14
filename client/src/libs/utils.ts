@@ -1,4 +1,5 @@
 import { ICities } from "../types/types";
+import { ROUTES } from "./constants";
 
 export function createDate(date: Date) {
   return `${date.getUTCDate().toString().padStart(2, "0")}.${(
@@ -37,3 +38,14 @@ export function addFieldsToFormData(
     }
   });
 }
+
+export const getRoute = (
+  route: ROUTES,
+  params: Record<string, string | number>,
+) => {
+  let path: string = route;
+  Object.entries(params).forEach(([key, value]) => {
+    path = path.replace(`:${key}`, String(value));
+  });
+  return path;
+};

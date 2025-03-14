@@ -33,9 +33,9 @@ function UpdateSight() {
     fetchAllSights();
   }, []);
   useEffect(() => {
-    const selectedSight = sights.sights.find(
-      (elem) => elem.id === Number(chooseSight),
-    );
+    const selectedSight =
+      sights.sights &&
+      sights.sights.find((elem) => elem.id === Number(chooseSight));
     if (selectedSight) {
       const updatedTagIdsSight = selectedSight.tags.map((item) => item.id);
       setTagIdsSight(updatedTagIdsSight);
@@ -133,11 +133,12 @@ function UpdateSight() {
           variant="standard"
         >
           <option value="">Select</option>
-          {sights.sights.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {sights.sights &&
+            sights.sights.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </NativeSelect>
         <TextField
           label="Enter new name (optional)"
@@ -201,15 +202,16 @@ function UpdateSight() {
                 variant="standard"
               >
                 <option value="">Select</option>
-                {tags.map((item) => (
-                  <option
-                    key={item.id}
-                    value={item.id}
-                    disabled={tagIdsSight.includes(item.id)}
-                  >
-                    {item.name}
-                  </option>
-                ))}
+                {tags &&
+                  tags.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      disabled={tagIdsSight.includes(item.id)}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
               </NativeSelect>
               <CloseIcon
                 className={styles.select__delete}

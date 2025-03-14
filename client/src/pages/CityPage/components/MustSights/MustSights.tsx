@@ -5,6 +5,8 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./MustSights.module.scss";
+import { getRoute } from "../../../../libs/utils";
+import { ROUTES } from "../../../../libs/constants";
 
 function MustSights() {
   const navigate = useNavigate();
@@ -16,45 +18,65 @@ function MustSights() {
     if (id) fetchSights(id);
   }, [id]);
 
-  if (!sights.length) return null;
+  if (!sights || !sights.length) return null;
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.sights__wrapper}>
-        <Box
-          sx={{ backgroundImage: `url(${sights[0]?.image})` }}
-          className={styles.sight__first}
-          onClick={() => navigate(`/city/${id}/sights/${sights[0].id}`)}
-        />
-        <Box className={styles.wrapper}>
-          {sights.length > 1 && (
-            <Box
-              sx={{ backgroundImage: `url(${sights[1]?.image})` }}
-              className={styles.sight__second}
-              onClick={() => navigate(`/city/${id}/sights/${sights[1].id}`)}
-            />
-          )}
-          <Box className={styles.sight__wrapper}>
-            {sights.length > 2 && (
+      {sights && id && (
+        <Box className={styles.sights__wrapper}>
+          <Box
+            sx={{ backgroundImage: `url(${sights[0]?.image})` }}
+            className={styles.sight__first}
+            onClick={() =>
+              navigate(
+                getRoute(ROUTES.SIGHT_DETAILS, { id, sightId: sights[0].id }),
+              )
+            }
+          />
+          <Box className={styles.wrapper}>
+            {sights.length > 1 && (
               <Box
-                sx={{ backgroundImage: `url(${sights[2]?.image})` }}
-                className={styles.sight__third}
-                onClick={() => navigate(`/city/${id}/sights/${sights[2].id}`)}
+                sx={{ backgroundImage: `url(${sights[1]?.image})` }}
+                className={styles.sight__second}
+                onClick={() =>
+                  navigate(
+                    getRoute(ROUTES.SIGHT_DETAILS, {
+                      id,
+                      sightId: sights[1].id,
+                    }),
+                  )
+                }
               />
             )}
-            {sights.length > 3 && (
-              <Box
-                className={styles.sight__amount}
-                onClick={() => navigate(`/city/${id}/sights`)}
-              >
-                <Typography variant="h6" className={styles.amount__text}>
-                  {sights.length}+
-                </Typography>
-              </Box>
-            )}
+            <Box className={styles.sight__wrapper}>
+              {sights.length > 2 && (
+                <Box
+                  sx={{ backgroundImage: `url(${sights[2]?.image})` }}
+                  className={styles.sight__third}
+                  onClick={() =>
+                    navigate(
+                      getRoute(ROUTES.SIGHT_DETAILS, {
+                        id,
+                        sightId: sights[2].id,
+                      }),
+                    )
+                  }
+                />
+              )}
+              {sights.length > 3 && (
+                <Box
+                  className={styles.sight__amount}
+                  onClick={() => navigate(getRoute(ROUTES.SIGHTS, { id }))}
+                >
+                  <Typography variant="h6" className={styles.amount__text}>
+                    {sights.length}+
+                  </Typography>
+                </Box>
+              )}
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </FetchWrapper>
   );
 }

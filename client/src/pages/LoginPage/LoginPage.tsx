@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { AUTH } from "../../libs/constants";
+import { AUTH, ROUTES } from "../../libs/constants";
 import Loader from "../../components/Loader/Loader";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import RecoveryPassword from "./components/RecoveryPassword/RecoveryPassword";
@@ -35,7 +35,7 @@ function LoginPage() {
   useEffect(() => {
     if (loginClicked && !loading && !error) {
       dispatch({ type: AUTH.LOGIN });
-      navigate("/home");
+      navigate(ROUTES.HOME);
     }
   }, [loginClicked, loading, error, dispatch, navigate]);
 
@@ -83,7 +83,7 @@ function LoginPage() {
               >
                 Log In
               </Button>
-              <Link className={styles.login__link} to="/registration">
+              <Link className={styles.login__link} to={ROUTES.REGISTRATION}>
                 You don't have an account?
               </Link>
               <Button onClick={changePassword} className={styles.login__forgot}>

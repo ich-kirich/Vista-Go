@@ -9,8 +9,6 @@ import { useState, useEffect, ChangeEvent } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 import styles from "./UpdateGuide.module.scss";
 
 function UpdateGuide() {
@@ -58,11 +56,12 @@ function UpdateGuide() {
           variant="standard"
         >
           <option value="">Select</option>
-          {guides.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {guides &&
+            guides.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </NativeSelect>
         <TextField
           label="Enter new name (optional)"

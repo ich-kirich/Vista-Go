@@ -1,10 +1,8 @@
-import { Box, Typography, NativeSelect, Button } from "@mui/material";
+import { Typography, NativeSelect, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 
 function DeleteGuide() {
   const [chooseGuide, setChooseGuide] = useState("");
@@ -38,11 +36,12 @@ function DeleteGuide() {
         variant="standard"
       >
         <option value="">Select</option>
-        {guides.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {guides &&
+          guides.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
       </NativeSelect>
       <Button variant="contained" fullWidth onClick={deleteTag}>
         Delete Tag

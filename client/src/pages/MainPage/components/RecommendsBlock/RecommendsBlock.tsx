@@ -25,26 +25,30 @@ function RecommendsBlock() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.header__wrapper}>
-        <Box className={styles.title__wrapper}>
-          <Typography variant="h6" component="h2" className={styles.title}>
-            Daily Scenery
-          </Typography>
-          <Box className={styles.hot}>Updated</Box>
-        </Box>
-        <Typography
-          variant="h6"
-          component="h5"
-          className={styles.more}
-          onClick={changeVisible}
-        >
-          More
-        </Typography>
-      </Box>
-      <RecommendsCart recommends={recommends} />
-      <ModalComponent visible={visible} setVisible={setVisible}>
-        <PopupList cities={recommends} />
-      </ModalComponent>
+      {recommends && (
+        <>
+          <Box className={styles.header__wrapper}>
+            <Box className={styles.title__wrapper}>
+              <Typography variant="h6" component="h2" className={styles.title}>
+                Daily Scenery
+              </Typography>
+              <Box className={styles.hot}>Updated</Box>
+            </Box>
+            <Typography
+              variant="h6"
+              component="h5"
+              className={styles.more}
+              onClick={changeVisible}
+            >
+              More
+            </Typography>
+          </Box>
+          <RecommendsCart recommends={recommends} />
+          <ModalComponent visible={visible} setVisible={setVisible}>
+            <PopupList cities={recommends} />
+          </ModalComponent>
+        </>
+      )}
     </FetchWrapper>
   );
 }

@@ -185,15 +185,16 @@ function AddCity() {
               variant="standard"
             >
               <option value="">Select</option>
-              {sights.map((item) => (
-                <option
-                  key={item.id}
-                  value={item.id}
-                  disabled={sightIdsCity.includes(item.id)}
-                >
-                  {item.name}
-                </option>
-              ))}
+              {sights &&
+                sights.map((item) => (
+                  <option
+                    key={item.id}
+                    value={item.id}
+                    disabled={sightIdsCity.includes(item.id)}
+                  >
+                    {item.name}
+                  </option>
+                ))}
             </NativeSelect>
             <CloseIcon
               className={styles.select__delete}
@@ -214,15 +215,16 @@ function AddCity() {
               variant="standard"
             >
               <option value="">Select</option>
-              {guides.guides.map((item) => (
-                <option
-                  key={item.id}
-                  value={item.id}
-                  disabled={guideIdsCity.includes(item.id)}
-                >
-                  {item.name}
-                </option>
-              ))}
+              {guides.guides &&
+                guides.guides.map((item) => (
+                  <option
+                    key={item.id}
+                    value={item.id}
+                    disabled={guideIdsCity.includes(item.id)}
+                  >
+                    {item.name}
+                  </option>
+                ))}
             </NativeSelect>
             <CloseIcon
               className={styles.select__delete}

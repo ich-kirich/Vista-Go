@@ -6,6 +6,8 @@ import useTypedSelector from "../../hooks/useTypedSelector";
 import DetailsPopular from "./components/DetailsSight/DetailsSight";
 import FetchWrapper from "../../components/FetchWrapper/FetchWrapper";
 import styles from "./SightPage.module.scss";
+import { getRoute } from "../../libs/utils";
+import { ROUTES } from "../../libs/constants";
 
 function SightPage() {
   const { id, sightId } = useParams();
@@ -18,16 +20,18 @@ function SightPage() {
   const { sight, error, loading } = useTypedSelector((state) => state.sight);
 
   const closePage = () => {
-    navigate(`/city/${id}/sights`);
+    if (id) navigate(getRoute(ROUTES.SIGHTS, { id }));
   };
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.sights_wrapper} onClick={closePage}>
-        <Box className={styles.sights_content}>
-          <DetailsPopular sight={sight} />
+      {sight && (
+        <Box className={styles.sights_wrapper} onClick={closePage}>
+          <Box className={styles.sights_content}>
+            <DetailsPopular sight={sight} />
+          </Box>
         </Box>
-      </Box>
+      )}
     </FetchWrapper>
   );
 }

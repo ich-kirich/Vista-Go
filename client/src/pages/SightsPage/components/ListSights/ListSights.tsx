@@ -3,6 +3,8 @@ import { MouseEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ISights } from "../../../../types/types";
 import styles from "./ListSights.module.scss";
+import { getRoute } from "../../../../libs/utils";
+import { ROUTES } from "../../../../libs/constants";
 
 interface IListSightsProps {
   sights: ISights[];
@@ -14,7 +16,7 @@ function ListSights({ sights }: IListSightsProps) {
 
   const changeVisible = (e: MouseEvent, sight: ISights) => {
     e.stopPropagation();
-    navigate(`/city/${id}/sights/${sight.id}`);
+    if (id) navigate(getRoute(ROUTES.SIGHT_DETAILS, { id, sightId: sight.id }));
   };
 
   return (

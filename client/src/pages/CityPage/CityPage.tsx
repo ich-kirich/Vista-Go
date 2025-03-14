@@ -21,17 +21,19 @@ function CityPage() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Container maxWidth="sm" className={styles.app__wrapper}>
-        <CityPanel city={city} />
-        <Box>
-          {city.sights.length > 0 ? (
-            <CityPopular sight={city.sights[0]} />
-          ) : (
-            <ViewError>No sights Found</ViewError>
-          )}
-        </Box>
-        <MustGo />
-      </Container>
+      {city && (
+        <Container maxWidth="sm" className={styles.app__wrapper}>
+          <CityPanel city={city} />
+          <Box>
+            {city.sights.length > 0 ? (
+              <CityPopular sight={city.sights[0]} />
+            ) : (
+              <ViewError>No sights Found</ViewError>
+            )}
+          </Box>
+          <MustGo />
+        </Container>
+      )}
     </FetchWrapper>
   );
 }

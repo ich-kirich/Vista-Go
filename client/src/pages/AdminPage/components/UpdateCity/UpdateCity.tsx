@@ -9,8 +9,6 @@ import { useState, useEffect, ChangeEvent } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 import styles from "./UpdateCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 
@@ -38,9 +36,9 @@ function UpdateCity() {
     fetchCities();
   }, []);
   useEffect(() => {
-    const selectedCity = cities.cities.find(
-      (elem) => elem.id === Number(chooseCity),
-    );
+    const selectedCity =
+      cities.cities &&
+      cities.cities.find((elem) => elem.id === Number(chooseCity));
     if (selectedCity) {
       const updatedSightIdsCity = selectedCity.sights.map((item) => item.id);
       setSightIdsCity(updatedSightIdsCity);
@@ -180,11 +178,12 @@ function UpdateCity() {
           variant="standard"
         >
           <option value="">Select</option>
-          {cities.cities.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {cities.cities &&
+            cities.cities.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </NativeSelect>
         <Typography variant="h6" component="h2">
           Enter a name for the city:
@@ -251,15 +250,16 @@ function UpdateCity() {
                 variant="standard"
               >
                 <option value="">Select</option>
-                {sights.map((item) => (
-                  <option
-                    key={item.id}
-                    value={item.id}
-                    disabled={sightIdsCity.includes(item.id)}
-                  >
-                    {item.name}
-                  </option>
-                ))}
+                {sights &&
+                  sights.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      disabled={sightIdsCity.includes(item.id)}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
               </NativeSelect>
               <CloseIcon
                 className={styles.select__delete}
@@ -280,15 +280,16 @@ function UpdateCity() {
                 variant="standard"
               >
                 <option value="">Select</option>
-                {guides.guides.map((item) => (
-                  <option
-                    key={item.id}
-                    value={item.id}
-                    disabled={guideIdsCity.includes(item.id)}
-                  >
-                    {item.name}
-                  </option>
-                ))}
+                {guides.guides &&
+                  guides.guides.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      disabled={guideIdsCity.includes(item.id)}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
               </NativeSelect>
               <CloseIcon
                 className={styles.select__delete}

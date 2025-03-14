@@ -23,26 +23,30 @@ function CitiesBlock() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <ModalComponent visible={visible} setVisible={setVisible}>
-        <PopupList cities={cities} />
-      </ModalComponent>
-      <Box className={styles.header__wrapper}>
-        <Box className={styles.title__wrapper}>
-          <Typography variant="h6" component="h2" className={styles.title}>
-            City
-          </Typography>
-          <Box className={styles.hot}>Hot</Box>
-        </Box>
-        <Typography
-          variant="h6"
-          component="h5"
-          className={styles.more}
-          onClick={changeVisible}
-        >
-          More
-        </Typography>
-      </Box>
-      <CityCart cities={cities} />
+      {cities && (
+        <>
+          <ModalComponent visible={visible} setVisible={setVisible}>
+            <PopupList cities={cities} />
+          </ModalComponent>
+          <Box className={styles.header__wrapper}>
+            <Box className={styles.title__wrapper}>
+              <Typography variant="h6" component="h2" className={styles.title}>
+                City
+              </Typography>
+              <Box className={styles.hot}>Hot</Box>
+            </Box>
+            <Typography
+              variant="h6"
+              component="h5"
+              className={styles.more}
+              onClick={changeVisible}
+            >
+              More
+            </Typography>
+          </Box>
+          <CityCart cities={cities} />
+        </>
+      )}
     </FetchWrapper>
   );
 }

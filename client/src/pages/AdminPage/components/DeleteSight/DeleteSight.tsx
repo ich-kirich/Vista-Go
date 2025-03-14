@@ -1,10 +1,8 @@
-import { Box, Typography, NativeSelect, Button } from "@mui/material";
+import { Typography, NativeSelect, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 
 function DeleteSight() {
   const [chooseSight, setChooseSight] = useState("");
@@ -38,11 +36,12 @@ function DeleteSight() {
         variant="standard"
       >
         <option value="">Select</option>
-        {sights.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {sights &&
+          sights.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
       </NativeSelect>
       <Button variant="contained" fullWidth onClick={deleteSight}>
         Delete Sight

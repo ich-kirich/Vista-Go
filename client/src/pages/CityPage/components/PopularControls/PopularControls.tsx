@@ -3,13 +3,15 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./PopularControls.module.scss";
 import { ISightProps } from "../../../../types/types";
+import { ROUTES } from "../../../../libs/constants";
+import { getRoute } from "../../../../libs/utils";
 
 function PopularControls({ sight }: ISightProps) {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const closePage = () => {
-    navigate(`/city/${id}/sights/${sight.id}`);
+    if (id) navigate(getRoute(ROUTES.SIGHT_DETAILS, { id, sightId: sight.id }));
   };
 
   const buttons = [{ label: "Details" }, { label: "Navigation" }];

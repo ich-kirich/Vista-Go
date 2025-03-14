@@ -8,25 +8,25 @@ import SightPage from "../../pages/SightPage/SightPage";
 import SightsPage from "../../pages/SightsPage/SightsPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import CabinetPage from "../../pages/CabinetPage/CabinetPage";
-import { ADMIN_ROLE } from "../../libs/constants";
+import { ADMIN_ROLE, ROUTES } from "../../libs/constants";
 import AdminPage from "../../pages/AdminPage/AdminPage";
 
 function AppRouter() {
   const isAuth = useTypedSelector((state) => state.auth.isAuth);
   const { user } = useTypedSelector((state) => state.user);
   const authRouters = [
-    { path: "/home", element: <MainPage /> },
-    { path: "/city/:id", element: <CityPage /> },
-    { path: "/cabinet", element: <CabinetPage /> },
-    { path: "/city/:id/sights", element: <SightsPage /> },
-    { path: "/city/:id/sights/:sightId", element: <SightPage /> },
+    { path: ROUTES.HOME, element: <MainPage /> },
+    { path: ROUTES.CITY, element: <CityPage /> },
+    { path: ROUTES.CABINET, element: <CabinetPage /> },
+    { path: ROUTES.SIGHTS, element: <SightsPage /> },
+    { path: ROUTES.SIGHT_DETAILS, element: <SightPage /> },
   ];
   const publicRouters = [
-    { path: "/", element: <LoginPage /> },
-    { path: "/registration", element: <RegistrationPage /> },
-    { path: "/error", element: <ErrorPage /> },
+    { path: ROUTES.LOGIN, element: <LoginPage /> },
+    { path: ROUTES.REGISTRATION, element: <RegistrationPage /> },
+    { path: ROUTES.ERROR, element: <ErrorPage /> },
   ];
-  const adminRouters = [{ path: "/admin", element: <AdminPage /> }];
+  const adminRouters = [{ path: ROUTES.ADMIN, element: <AdminPage /> }];
   return (
     <Routes>
       {isAuth && user && (
@@ -43,7 +43,7 @@ function AppRouter() {
       {publicRouters.map((item) => (
         <Route element={item.element} path={item.path} key={item.path} />
       ))}
-      <Route path="*" element={<Navigate replace to="/error" />} />
+      <Route path="*" element={<Navigate replace to={ROUTES.ERROR} />} />
     </Routes>
   );
 }

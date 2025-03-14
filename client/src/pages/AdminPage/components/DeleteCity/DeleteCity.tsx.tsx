@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 
 function DeleteCity() {
   const [chooseCity, setChooseCity] = useState("");
@@ -38,11 +36,12 @@ function DeleteCity() {
         variant="standard"
       >
         <option value="">Select</option>
-        {cities.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {cities &&
+          cities.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
       </NativeSelect>
       <Button variant="contained" fullWidth onClick={deleteCity}>
         Delete City
