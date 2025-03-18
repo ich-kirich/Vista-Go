@@ -7,7 +7,7 @@ import {
 import { USER, ERROR } from "../../libs/constants";
 import { IAction, CustomError } from "../../types/types";
 
-export const fetchUpdateUserImage = (id: number, file: File) => {
+export const fetchUpdateUserImage = (file: File) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: USER.FETCH_USER });
@@ -33,7 +33,7 @@ export const fetchUpdateUserImage = (id: number, file: File) => {
   };
 };
 
-export const fetchUpdateUsername = (id: number, name: string) => {
+export const fetchUpdateUsername = (name: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: USER.FETCH_USER });

@@ -136,5 +136,4 @@ export interface ISightProps {
 export interface IChangeUsernameProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  userId: number | undefined;
 }

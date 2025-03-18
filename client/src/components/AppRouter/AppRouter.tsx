@@ -17,16 +17,17 @@ function AppRouter() {
   const authRouters = [
     { path: ROUTES.HOME, element: <MainPage /> },
     { path: ROUTES.CITY, element: <CityPage /> },
-    { path: ROUTES.CABINET, element: <CabinetPage /> },
     { path: ROUTES.SIGHTS, element: <SightsPage /> },
     { path: ROUTES.SIGHT_DETAILS, element: <SightPage /> },
   ];
   const publicRouters = [
     { path: ROUTES.LOGIN, element: <LoginPage /> },
     { path: ROUTES.REGISTRATION, element: <RegistrationPage /> },
+    { path: ROUTES.CABINET, element: <CabinetPage /> },
     { path: ROUTES.ERROR, element: <ErrorPage /> },
   ];
   const adminRouters = [{ path: ROUTES.ADMIN, element: <AdminPage /> }];
+
   return (
     <Routes>
       {isAuth && user && (

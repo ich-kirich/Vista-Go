@@ -72,18 +72,10 @@ function CabinetPage() {
       </Box>
 
       {activeField === "name" && (
-        <ChangeUsername
-          visible
-          setVisible={() => setActiveField(null)}
-          userId={userInfo?.id}
-        />
+        <ChangeUsername visible setVisible={() => setActiveField(null)} />
       )}
       {activeField === "image" && (
-        <ChangeImage
-          visible
-          setVisible={() => setActiveField(null)}
-          userId={userInfo?.id}
-        />
+        <ChangeImage visible setVisible={() => setActiveField(null)} />
       )}
       {activeField === "password" && (
         <ChangePassword

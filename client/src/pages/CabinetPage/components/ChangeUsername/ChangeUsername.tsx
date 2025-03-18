@@ -8,7 +8,7 @@ import ViewError from "../../../../components/ViewError/ViewError";
 import styles from "./ChangeUsername.module.scss";
 
 function ChangeUsername(props: IChangeUsernameProps) {
-  const { visible, setVisible, userId } = props;
+  const { visible, setVisible } = props;
   const [newName, setNewName] = useState("");
   const [displayError, setDisplayError] = useState(false);
 
@@ -18,7 +18,7 @@ function ChangeUsername(props: IChangeUsernameProps) {
   const updateName = () => {
     setVisible(!visible);
     setDisplayError(true);
-    fetchUpdateUsername(userId!, newName!);
+    fetchUpdateUsername(newName!);
   };
 
   const closeNameField = () => {

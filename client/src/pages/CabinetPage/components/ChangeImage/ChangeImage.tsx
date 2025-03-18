@@ -8,7 +8,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 
 function ChangeImage(props: IChangeUsernameProps) {
-  const { visible, setVisible, userId } = props;
+  const { visible, setVisible } = props;
   const [displayError, setDisplayError] = useState(false);
 
   const { fetchUpdateUserImage } = useActions();
@@ -21,7 +21,7 @@ function ChangeImage(props: IChangeUsernameProps) {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
     setDisplayError(true);
-    fetchUpdateUserImage(userId!, file);
+    fetchUpdateUserImage(file);
   };
 
   useEffect(() => {
