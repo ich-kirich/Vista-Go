@@ -17,7 +17,7 @@ function RecommendsBlock() {
 
   const { fetchRecommends } = useActions();
   useEffect(() => {
-    fetchRecommends();
+    if (!recommends) fetchRecommends();
   }, []);
   const { recommends, error, loading } = useTypedSelector(
     (state) => state.recommends,

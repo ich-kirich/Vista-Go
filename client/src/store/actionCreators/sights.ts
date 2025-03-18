@@ -14,8 +14,13 @@ export const fetchSights = (id: string) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: SIGHTS.FETCH_SIGHTS_ERROR,
         payload: errorMessage,
@@ -35,8 +40,13 @@ export const fetchAllSights = () => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: SIGHTS.FETCH_SIGHTS_ERROR,
         payload: errorMessage,
@@ -56,8 +66,13 @@ export const fetchSight = (id: string) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: SIGHT.FETCH_SIGHT_ERROR,
         payload: errorMessage,

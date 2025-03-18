@@ -14,8 +14,13 @@ export const fetchAddRecommend = (cityId: number) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: RECOMMEND.FETCH_RECOMMEND_ERROR,
         payload: errorMessage,
@@ -35,8 +40,13 @@ export const fetchDeleteRecommend = (id: number) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: RECOMMEND.FETCH_RECOMMEND_ERROR,
         payload: errorMessage,

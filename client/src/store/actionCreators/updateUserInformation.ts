@@ -16,10 +16,15 @@ export const fetchUpdateUserImage = (id: number, file: File) => {
         type: USER.FETCH_USER_SUCCESS,
         payload: response,
       });
-    } catch (e) {
+    } catch (e: any) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: USER.FETCH_USER_ERROR,
         payload: errorMessage,
@@ -39,8 +44,13 @@ export const fetchUpdateUsername = (id: number, name: string) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: USER.FETCH_USER_ERROR,
         payload: errorMessage,
@@ -60,8 +70,13 @@ export const fetchUpdateUserPassword = (code: string, email: string) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: USER.FETCH_USER_ERROR,
         payload: errorMessage,

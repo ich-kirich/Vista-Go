@@ -13,7 +13,7 @@ function CitiesBlock() {
 
   const { fetchCities } = useActions();
   useEffect(() => {
-    fetchCities();
+    if (!cities) fetchCities();
   }, []);
   const { cities, error, loading } = useTypedSelector((state) => state.cities);
 

@@ -15,7 +15,7 @@ function MustSights() {
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
 
   useEffect(() => {
-    if (id) fetchSights(id);
+    if (id && !sights) fetchSights(id);
   }, [id]);
 
   if (!sights || !sights.length) return null;

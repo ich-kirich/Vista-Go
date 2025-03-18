@@ -14,8 +14,13 @@ const fetchRegistration = (name: string, email: string, password: string) => {
       });
     } catch (e) {
       const error = e as CustomError;
-      const errorMessage =
-        ERROR[error.response.data.message] || error.response.data.message;
+      let errorMessage = ERROR.UNEXPECTED_ERROR;
+
+      if (error.response?.data?.message) {
+        errorMessage =
+          ERROR[error.response.data.message] || error.response?.data?.message;
+      }
+
       dispatch({
         type: REGISTRATION.FETCH_REGISTRATION_ERROR,
         payload: errorMessage,

@@ -132,6 +132,7 @@ export enum ERROR {
   RECOMMEND_FOUND = "Recommend with this city is exist.",
   LOADING_USER = "Error loading user information.",
   REENTERED_PASSWORD = "Reentered password did not match.",
+  UNEXPECTED_ERROR = "An unexpected error occurred.",
 }
 
 export enum ADMIN_ENTITY {

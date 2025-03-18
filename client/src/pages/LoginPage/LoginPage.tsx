@@ -19,7 +19,7 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const { fetchUser } = useActions();
-  const { error, loading } = useTypedSelector((state) => state.user);
+  const { user, error, loading } = useTypedSelector((state) => state.user);
 
   const changePassword = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -35,6 +35,9 @@ function LoginPage() {
   useEffect(() => {
     if (loginClicked && !loading && !error) {
       dispatch({ type: AUTH.LOGIN });
+      navigate(ROUTES.HOME);
+    }
+    if (user) {
       navigate(ROUTES.HOME);
     }
   }, [loginClicked, loading, error, dispatch, navigate]);

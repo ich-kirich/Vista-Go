@@ -1,6 +1,6 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../../components/Loader/Loader";
@@ -17,6 +17,7 @@ function RegistrationPage() {
   });
   const [registrationClicked, setRegistrationClicked] = useState(false);
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
   const formFields = [
     { label: "Enter your Name", name: "name", type: "text" },
@@ -26,6 +27,7 @@ function RegistrationPage() {
 
   const { fetchRegistration } = useActions();
   const { error, loading } = useTypedSelector((state) => state.registration);
+  const { user } = useTypedSelector((state) => state.user);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -40,6 +42,9 @@ function RegistrationPage() {
   useEffect(() => {
     if (registrationClicked && !loading && !error) {
       setVisible(true);
+    }
+    if (user) {
+      navigate(ROUTES.HOME);
     }
   }, [registrationClicked, loading, error]);
 

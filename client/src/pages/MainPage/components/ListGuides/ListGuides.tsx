@@ -8,7 +8,7 @@ import styles from "./ListGuides.module.scss";
 function ListGuides() {
   const { fetchGuides } = useActions();
   useEffect(() => {
-    fetchGuides();
+    if (!guides) fetchGuides();
   }, []);
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
 

@@ -65,7 +65,7 @@ function AdminPage() {
       },
     },
   ];
-  console.log(visiblePanel);
+
   return (
     <Box className={styles.panel__wrapper}>
       {adminPanels.map(({ entity, components }) => (
