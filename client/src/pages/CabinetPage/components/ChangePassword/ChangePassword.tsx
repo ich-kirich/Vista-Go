@@ -30,6 +30,9 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const sendCode = () => {
     if (newPassword === repeatPassword) {
       fetchCodePassword(email!, newPassword);
+      if (!loading && !error) {
+        setVisibleFieldCode(true);
+      }
     } else {
       setErrorRepeat(ERROR.REENTERED_PASSWORD);
     }
@@ -47,12 +50,6 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
       clearTimeout(timer);
     };
   }, [error, errorRepeat]);
-
-  useEffect(() => {
-    if (!loading && !error) {
-      setVisibleFieldCode(true);
-    }
-  }, [loading, error]);
 
   return (
     <FetchWrapper loading={loading} error={error || errorRepeat}>

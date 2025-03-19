@@ -18,3 +18,4 @@ It is a sightseeing search app
 ## Api
 - To store images: [imgbb](https://imgbb.com)
 - To get the weather: [Open Weather Map](https://openweathermap.org)
+- To send Emails: [Zoho](https://www.zoho.com)
