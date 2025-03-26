@@ -1,4 +1,4 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -7,6 +7,8 @@ import VerificationPassword from "../../../../components/VerificationPassword/Ve
 import styles from "./ChangePassword.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { AppError } from "../../../../libs/enums";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface IChangePasswordProps {
   visible: boolean;
@@ -19,6 +21,8 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [visibleFieldCode, setVisibleFieldCode] = useState(false);
   const [errorRepeat, setErrorRepeat] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const { fetchCodePassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.codepass);
@@ -51,6 +55,18 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
     };
   }, [error, errorRepeat]);
 
+  const handleClickShowNewPassword = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  const handleClickShowRepeatPassword = () => {
+    setShowRepeatPassword(!showRepeatPassword);
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent) => {
+    event.preventDefault();
+  };
+
   return (
     <FetchWrapper loading={loading} error={error || errorRepeat}>
       {visible && (
@@ -67,19 +83,41 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
           <Box className={styles.inputs__wrapper}>
             <TextField
               label="Enter your password"
-              type="password"
+              type={showNewPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowNewPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                ),
+              }}
             />
             <TextField
               label="Repeat password"
-              type="password"
+              type={showRepeatPassword ? "text" : "password"}
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
               required
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowRepeatPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showRepeatPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                ),
+              }}
             />
           </Box>
           <Box className={styles.btns__wrapper}>

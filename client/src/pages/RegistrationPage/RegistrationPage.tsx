@@ -1,4 +1,4 @@
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
@@ -8,6 +8,7 @@ import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import VerificationField from "./components/VerificationField/VerificationField";
 import styles from "./RegistrationPage.module.scss";
 import { Routes } from "../../libs/enums";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ function RegistrationPage() {
   });
   const [registrationClicked, setRegistrationClicked] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const formFields = [
@@ -37,6 +39,10 @@ function RegistrationPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   useEffect(() => {
@@ -81,11 +87,21 @@ function RegistrationPage() {
                   key={name}
                   label={label}
                   name={name}
-                  type={type}
+                  type={name === "password" && showPassword ? "text" : type}
                   value={formData[name as keyof typeof formData]}
                   onChange={handleChange}
                   required
                   fullWidth
+                  InputProps={{
+                    endAdornment: name === "password" && (
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    ),
+                  }}
                 />
               ))}
               <Button variant="contained" fullWidth onClick={handleSubmit}>

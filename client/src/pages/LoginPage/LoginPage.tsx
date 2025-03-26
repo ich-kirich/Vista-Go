@@ -1,4 +1,4 @@
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box, Typography, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import RecoveryPassword from "./components/RecoveryPassword/RecoveryPassword";
 import styles from "./LoginPage.module.scss";
 import { Auth, Routes } from "../../libs/enums";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [visibleChangePass, setVisibleChangePass] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
   const { fetchUser } = useActions();
@@ -30,6 +32,10 @@ function LoginPage() {
     event.preventDefault();
     fetchUser(username, password);
     setLoginClicked(true);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   useEffect(() => {
@@ -71,13 +77,26 @@ function LoginPage() {
                 variant="outlined"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                fullWidth
               />
               <TextField
                 label="Enter your Password"
                 variant="outlined"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={togglePasswordVisibility}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  ),
+                }}
               />
               <Button
                 variant="contained"
