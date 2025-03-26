@@ -8,10 +8,10 @@ function DeleteRecommend() {
   const [chooseRecommend, setChooseRecommend] = useState("");
   const [isClick, setIsClick] = useState(false);
 
-  const { fetchCities, fetchDeleteRecommend } = useActions();
+  const { fetchRecommends, fetchDeleteRecommend } = useActions();
   const recommend = useTypedSelector((state) => state.recommend);
   useEffect(() => {
-    fetchCities();
+    fetchRecommends();
   }, [recommend.loading]);
   const { recommends, error, loading } = useTypedSelector(
     (state) => state.recommends,

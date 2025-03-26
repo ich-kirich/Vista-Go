@@ -45,6 +45,9 @@ export enum AppError {
   LOADING_USER = "Error loading user information.",
   REENTERED_PASSWORD = "Reentered password did not match.",
   UNEXPECTED_ERROR = "An unexpected error occurred.",
+  INVALID_NAME = "Invalid input. Only letters, spaces, and hyphens are allowed.",
+  INVALID_LATITUDE = "Latitude must be between -90 and 90.",
+  INVALID_LONGITUDE = "Longitude must be between -180 and 180.",
 }
 
 export enum CodePass {

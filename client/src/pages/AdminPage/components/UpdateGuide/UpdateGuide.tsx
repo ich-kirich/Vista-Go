@@ -10,12 +10,14 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UpdateGuide.module.scss";
+import { validateName } from "../../../../libs/utils";
 
 function UpdateGuide() {
   const [chooseGuide, setChooseGuide] = useState("");
   const [nameGuide, setNameGuide] = useState("");
   const [isClick, setIsClick] = useState(false);
   const [imageGuide, setImageGuide] = useState<File>();
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const { fetchGuides, fetchUpdateGuide } = useActions();
   const guide = useTypedSelector((state) => state.guide);
@@ -35,6 +37,8 @@ function UpdateGuide() {
   };
 
   const newNameGuide = (value: string) => {
+    const error = validateName(value);
+    setValidationError(error);
     setNameGuide(value);
   };
 
@@ -77,6 +81,8 @@ function UpdateGuide() {
             onChange={(e) => newNameGuide(e.target.value)}
             required
             fullWidth
+            error={!!validationError}
+            helperText={validationError}
           />
           <Typography variant="h6" component="h2">
             Enter a image for the guide (optional):
@@ -91,7 +97,7 @@ function UpdateGuide() {
             variant="contained"
             fullWidth
             onClick={updateGuide}
-            disabled={!imageGuide && !nameGuide}
+            disabled={!!validationError || (!imageGuide && !nameGuide)}
           >
             Edit Guide
           </Button>

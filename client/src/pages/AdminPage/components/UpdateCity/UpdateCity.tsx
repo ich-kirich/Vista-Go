@@ -11,6 +11,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./UpdateCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { validateLat, validateLon, validateName } from "../../../../libs/utils";
 
 function UpdateCity() {
   const [isClick, setIsClick] = useState(false);
@@ -25,6 +26,9 @@ function UpdateCity() {
   const [numberGuides, setNumberGuides] = useState<number[]>([]);
   const [imageCity, setImageCity] = useState<File>();
   const cities = useTypedSelector((state) => state.cities);
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string | null;
+  }>({});
 
   const city = useTypedSelector((state) => state.city);
   const { fetchAllSights, fetchCities, fetchUpdateCity, fetchGuides } =
@@ -81,18 +85,26 @@ function UpdateCity() {
   };
 
   const newNameCity = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, nameCity: error }));
     setNameCity(value);
   };
 
   const newCountryCity = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, countryCity: error }));
     setCountryCity(value);
   };
 
   const newLatCity = (value: string) => {
+    const error = validateLat(value);
+    setValidationErrors((prev) => ({ ...prev, latCity: error }));
     setLatCity(value);
   };
 
   const newLonCity = (value: string) => {
+    const error = validateLon(value);
+    setValidationErrors((prev) => ({ ...prev, lonCity: error }));
     setLonCity(value);
   };
 
@@ -202,6 +214,8 @@ function UpdateCity() {
             onChange={(e) => newNameCity(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.nameCity}
+            helperText={validationErrors.nameCity}
           />
           <Typography variant="h6" component="h2">
             Enter a country for the city:
@@ -213,6 +227,8 @@ function UpdateCity() {
             onChange={(e) => newCountryCity(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.countryCity}
+            helperText={validationErrors.countryCity}
           />
           <Typography variant="h6" component="h2">
             Enter a lat of city:
@@ -224,6 +240,8 @@ function UpdateCity() {
             onChange={(e) => newLatCity(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.latCity}
+            helperText={validationErrors.latCity}
           />
           <Typography variant="h6" component="h2">
             Enter a lon of city:
@@ -235,6 +253,8 @@ function UpdateCity() {
             onChange={(e) => newLonCity(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.lonCity}
+            helperText={validationErrors.lonCity}
           />
           <Typography variant="h6" component="h2">
             Enter a image for the city:
@@ -310,13 +330,14 @@ function UpdateCity() {
             fullWidth
             onClick={updateCity}
             disabled={
-              !imageCity &&
-              !nameCity &&
-              !countryCity &&
-              !latCity &&
-              !lonCity &&
-              sightIdsCity.length === 0 &&
-              guideIdsCity.length === 0
+              (!imageCity &&
+                !nameCity &&
+                !countryCity &&
+                !latCity &&
+                !lonCity &&
+                sightIdsCity.length === 0 &&
+                guideIdsCity.length === 0) ||
+              Object.values(validationErrors).some((error) => error !== null)
             }
           >
             Edit City

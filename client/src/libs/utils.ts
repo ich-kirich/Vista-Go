@@ -1,6 +1,6 @@
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { ICities, IUser } from "../types/types";
-import { LocalStorageKeys, Routes } from "./enums";
+import { AppError, LocalStorageKeys, Routes } from "./enums";
 
 export function createDate(date: Date) {
   return `${date.getUTCDate().toString().padStart(2, "0")}.${(
@@ -71,3 +71,30 @@ export function getValidToken(): (IUser & JwtPayload) | null {
     return null;
   }
 }
+
+export function validateName(name: string): string | null {
+  // eslint-disable-next-line no-useless-escape
+  const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]+$/;
+
+  if (!nameRegex.test(name) || /^[-\s]+$/.test(name)) {
+    return AppError.INVALID_NAME;
+  }
+
+  return null;
+}
+
+export const validateLat = (value: string): string | null => {
+  const lat = parseFloat(value);
+  if (isNaN(lat) || lat < -90 || lat > 90) {
+    return AppError.INVALID_LATITUDE;
+  }
+  return null;
+};
+
+export const validateLon = (value: string): string | null => {
+  const lon = parseFloat(value);
+  if (isNaN(lon) || lon < -180 || lon > 180) {
+    return AppError.INVALID_LONGITUDE;
+  }
+  return null;
+};

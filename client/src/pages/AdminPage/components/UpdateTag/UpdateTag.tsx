@@ -10,11 +10,13 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UpdateTag.module.scss";
+import { validateName } from "../../../../libs/utils";
 
 function UpdateTag() {
   const [chooseTag, setChooseTag] = useState("");
   const [nameTag, setNameTag] = useState("");
   const [isClick, setIsClick] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const { fetchTags, fetchUpdateTag } = useActions();
   const tag = useTypedSelector((state) => state.tag);
@@ -34,6 +36,8 @@ function UpdateTag() {
   };
 
   const newNameTag = (value: string) => {
+    const error = validateName(value);
+    setValidationError(error);
     setNameTag(value);
   };
 
@@ -70,8 +74,15 @@ function UpdateTag() {
             onChange={(e) => newNameTag(e.target.value)}
             required
             fullWidth
+            error={!!validationError}
+            helperText={validationError}
           />
-          <Button variant="contained" fullWidth onClick={deleteTag}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={deleteTag}
+            disabled={!!validationError || !nameTag}
+          >
             Edit Tag
           </Button>
         </Box>

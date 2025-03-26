@@ -11,6 +11,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./UpdateSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { validateName } from "../../../../libs/utils";
 
 function UpdateSight() {
   const [chooseSight, setChooseSight] = useState("");
@@ -23,6 +24,9 @@ function UpdateSight() {
   const [imageSight, setImageSight] = useState<File>();
   const [isClick, setIsClick] = useState(false);
   const sights = useTypedSelector((state) => state.sights);
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string | null;
+  }>({});
 
   const sight = useTypedSelector((state) => state.sight);
   const { fetchTags, fetchAllSights, fetchUpdateSight } = useActions();
@@ -68,10 +72,14 @@ function UpdateSight() {
   };
 
   const newNameSight = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, nameSight: error }));
     setNameSight(value);
   };
 
   const newDescriptionSight = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, descriptionSight: error }));
     setDescriptionSight(value);
   };
 
@@ -154,6 +162,8 @@ function UpdateSight() {
             onChange={(e) => newNameSight(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.nameSight}
+            helperText={validationErrors.nameSight}
           />
           <Typography variant="h6" component="h2">
             Enter a description for the sight (optional):
@@ -165,6 +175,8 @@ function UpdateSight() {
             onChange={(e) => newDescriptionSight(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.descriptionSight}
+            helperText={validationErrors.descriptionSight}
           />
           <Typography variant="h6" component="h2">
             Enter a price for the sight (optional):
@@ -232,12 +244,13 @@ function UpdateSight() {
             fullWidth
             onClick={updateSight}
             disabled={
-              !imageSight &&
-              !nameSight &&
-              !descriptionSight &&
-              !priceSight &&
-              !distanceSight &&
-              tagIdsSight.length === 0
+              (!imageSight &&
+                !nameSight &&
+                !descriptionSight &&
+                !priceSight &&
+                !distanceSight &&
+                tagIdsSight.length === 0) ||
+              Object.values(validationErrors).some((error) => error !== null)
             }
           >
             Edit Sight

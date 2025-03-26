@@ -25,7 +25,7 @@ class AdminControllers {
     try {
       const { cityId } = req.body;
       const recommend = await createRecordRecommend(cityId);
-      logger.info("Recomendation was successfully created", recommend);
+      logger.info("Recommendation was successfully created", recommend);
       return res.json(recommend);
     } catch (e) {
       logger.error("Error during creating a recommendation", e);

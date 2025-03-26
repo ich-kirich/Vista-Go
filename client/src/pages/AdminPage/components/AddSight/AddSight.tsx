@@ -11,6 +11,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./AddSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { validateName } from "../../../../libs/utils";
 
 function AddSight() {
   const [isClick, setIsClick] = useState(false);
@@ -21,16 +22,23 @@ function AddSight() {
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [numberTags, setNumberTags] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string | null;
+  }>({});
 
   const { fetchCreateSight, fetchTags } = useActions();
   const { error, loading } = useTypedSelector((state) => state.sight);
   const tags = useTypedSelector((state) => state.tags);
 
   const newNameSight = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, nameSight: error }));
     setNameSight(value);
   };
 
   const newDescriptionSight = (value: string) => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({ ...prev, descriptionSight: error }));
     setDescriptionSight(value);
   };
 
@@ -107,6 +115,8 @@ function AddSight() {
             onChange={(e) => newNameSight(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.nameSight}
+            helperText={validationErrors.nameSight}
           />
           <Typography variant="h6" component="h2">
             Enter a description for the sight:
@@ -118,6 +128,8 @@ function AddSight() {
             onChange={(e) => newDescriptionSight(e.target.value)}
             required
             fullWidth
+            error={!!validationErrors.descriptionSight}
+            helperText={validationErrors.descriptionSight}
           />
           <Typography variant="h6" component="h2">
             Enter a price for the sight:
@@ -190,7 +202,8 @@ function AddSight() {
               !descriptionSight ||
               !priceSight ||
               !distanceSight ||
-              tagIdsSight.length === 0
+              tagIdsSight.length === 0 ||
+              Object.values(validationErrors).some((error) => error !== null)
             }
           >
             Add sight

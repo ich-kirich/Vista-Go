@@ -15,11 +15,11 @@ function DeleteGuide() {
   }, [guide.loading]);
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
 
-  const selectTag = (value: string) => {
+  const selectGuide = (value: string) => {
     setChooseGuide(value);
   };
 
-  const deleteTag = (e: React.MouseEvent) => {
+  const deleteGuide = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsClick(true);
     fetchDeleteGuide(Number(chooseGuide));
@@ -35,13 +35,12 @@ function DeleteGuide() {
         </FetchWrapper>
       ) : (
         <>
-          {" "}
           <Typography variant="h6" component="h2">
             Select a guide for deleting:
           </Typography>
           <NativeSelect
             value={chooseGuide}
-            onChange={(e) => selectTag(e.target.value)}
+            onChange={(e) => selectGuide(e.target.value)}
             variant="standard"
           >
             <option value="">Select</option>
@@ -52,7 +51,7 @@ function DeleteGuide() {
                 </option>
               ))}
           </NativeSelect>
-          <Button variant="contained" fullWidth onClick={deleteTag}>
+          <Button variant="contained" fullWidth onClick={deleteGuide}>
             Delete Guide
           </Button>
         </>

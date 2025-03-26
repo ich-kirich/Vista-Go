@@ -4,16 +4,20 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./AddGuide.module.scss";
+import { validateName } from "../../../../libs/utils";
 
 function AddGuide() {
   const [isClick, setIsClick] = useState(false);
   const [nameGuide, setNameGuide] = useState("");
   const [imageGuide, setImageGuide] = useState<File>();
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const { fetchCreateGuide } = useActions();
   const { error, loading } = useTypedSelector((state) => state.guide);
 
   const newNameGuide = (value: string) => {
+    const error = validateName(value);
+    setValidationError(error);
     setNameGuide(value);
   };
 
@@ -48,6 +52,8 @@ function AddGuide() {
             onChange={(e) => newNameGuide(e.target.value)}
             required
             fullWidth
+            error={!!validationError}
+            helperText={validationError}
           />
           <Typography variant="h6" component="h2">
             Enter a image for the guide:
@@ -62,7 +68,7 @@ function AddGuide() {
             variant="contained"
             fullWidth
             onClick={addGuide}
-            disabled={!imageGuide || !nameGuide}
+            disabled={!!validationError || !imageGuide || !nameGuide}
           >
             Add Guide
           </Button>
