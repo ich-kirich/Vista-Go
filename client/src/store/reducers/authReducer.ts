@@ -1,4 +1,5 @@
 import { AUTH } from "../../libs/constants";
+import { getValidToken } from "../../libs/utils";
 import { IAction } from "../../types/types";
 
 interface IAuthState {
@@ -6,7 +7,7 @@ interface IAuthState {
 }
 
 const initialState: IAuthState = {
-  isAuth: !!localStorage.getItem("token"),
+  isAuth: getValidToken() ? true : false,
 };
 
 const authReducer = (

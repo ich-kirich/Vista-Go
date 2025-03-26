@@ -1,17 +1,16 @@
-import jwt_decode from "jwt-decode";
 import { USER } from "../../libs/constants";
 import { IAction, IUser } from "../../types/types";
+import { getValidToken } from "../../libs/utils";
+import { JwtPayload } from "jwt-decode";
 
 interface IUserState {
-  user: IUser | null;
+  user: (IUser & JwtPayload) | null;
   loading: boolean;
   error: null | string;
 }
 
-const token = localStorage.getItem("token");
-
 const initialState: IUserState = {
-  user: token ? jwt_decode(token) : null,
+  user: getValidToken(),
   loading: false,
   error: null,
 };

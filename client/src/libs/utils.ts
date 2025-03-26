@@ -1,4 +1,5 @@
-import { ICities } from "../types/types";
+import jwt_decode, { JwtPayload } from "jwt-decode";
+import { ICities, IUser } from "../types/types";
 import { ROUTES } from "./constants";
 
 export function createDate(date: Date) {
@@ -49,3 +50,24 @@ export const getRoute = (
   });
   return path;
 };
+
+export function getValidToken(): (IUser & JwtPayload) | null {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const decoded: IUser & JwtPayload = jwt_decode(token);
+
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp && decoded.exp < currentTime) {
+      return null;
+    }
+
+    return decoded;
+  } catch {
+    return null;
+  }
+}
