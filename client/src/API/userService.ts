@@ -63,5 +63,6 @@ export async function checkCodePassword(email: string, code: string) {
     email,
     code,
   });
-  return data;
+  localStorage.setItem(LocalStorageKeys.TOKEN, data);
+  return jwt_decode(data);
 }
