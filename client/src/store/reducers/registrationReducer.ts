@@ -1,4 +1,4 @@
-import { REGISTRATION } from "../../libs/constants";
+import { Registration } from "../../libs/enums";
 import { IAction } from "../../types/types";
 
 interface IRegistrationState {
@@ -16,11 +16,11 @@ const registrationReducer = (
   action: IAction,
 ): IRegistrationState => {
   switch (action.type) {
-    case REGISTRATION.FETCH_REGISTRATION:
+    case Registration.FETCH_REGISTRATION:
       return { loading: true, error: null };
-    case REGISTRATION.FETCH_REGISTRATION_SUCCESS:
+    case Registration.FETCH_REGISTRATION_SUCCESS:
       return { loading: false, error: null };
-    case REGISTRATION.FETCH_REGISTRATION_ERROR:
+    case Registration.FETCH_REGISTRATION_ERROR:
       return {
         loading: false,
         error: action.payload,

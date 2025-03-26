@@ -5,7 +5,7 @@ import PopularControls from "../PopularControls/PopularControls";
 import PopularSight from "../PopularSight/PopularSight";
 import styles from "./CityPopular.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { ROUTES } from "../../../../libs/constants";
+import { Routes } from "../../../../libs/enums";
 
 function CityPopular(props: ISightProps) {
   const { sight } = props;
@@ -13,7 +13,7 @@ function CityPopular(props: ISightProps) {
   const navigate = useNavigate();
 
   const changeVisible = () => {
-    if (id) navigate(getRoute(ROUTES.SIGHTS, { id }));
+    if (id) navigate(getRoute(Routes.SIGHTS, { id }));
   };
 
   return (

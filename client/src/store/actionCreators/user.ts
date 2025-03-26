@@ -1,28 +1,29 @@
 import { Dispatch } from "redux";
 import { loginUser } from "../../api/userService";
-import { ERROR, USER } from "../../libs/constants";
 import { CustomError, IAction } from "../../types/types";
+import { AppError, User } from "../../libs/enums";
 
 const fetchUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: USER.FETCH_USER });
+      dispatch({ type: User.FETCH_USER });
       const response = await loginUser(email, password);
       dispatch({
-        type: USER.FETCH_USER_SUCCESS,
+        type: User.FETCH_USER_SUCCESS,
         payload: response,
       });
     } catch (e: any) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: USER.FETCH_USER_ERROR,
+        type: User.FETCH_USER_ERROR,
         payload: errorMessage,
       });
     }

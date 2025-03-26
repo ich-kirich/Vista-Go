@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { useState, useMemo, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { CONTEXT, ERROR } from "../../libs/constants";
+import { CONTEXT } from "../../libs/constants";
 import { IUser } from "../../types/types";
 import CitiesBlock from "./components/CitiesBlock/CitiesBlock";
 import ListGuides from "./components/ListGuides/ListGuides";
@@ -10,6 +10,7 @@ import RecommendsBlock from "./components/RecommendsBlock/RecommendsBlock";
 import SearchField from "./components/SearchFieid/SearchField";
 import styles from "./MainPage.module.scss";
 import ViewError from "../../components/ViewError/ViewError";
+import { AppError } from "../../libs/enums";
 
 function MainPage() {
   const [city, setCity] = useState("");
@@ -34,10 +35,10 @@ function MainPage() {
         const info: IUser = jwt_decode(data);
         setUsername(info.name);
       } catch {
-        setError(ERROR.LOADING_USER);
+        setError(AppError.LOADING_USER);
       }
     } else {
-      setError(ERROR.LOADING_USER);
+      setError(AppError.LOADING_USER);
     }
   };
 

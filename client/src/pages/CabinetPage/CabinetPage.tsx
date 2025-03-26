@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
 import ViewError from "../../components/ViewError/ViewError";
-import { ADMIN_ROLE, ERROR, ROUTES } from "../../libs/constants";
+import { ADMIN_ROLE } from "../../libs/constants";
 import ChangeUsername from "./components/ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
+import { AppError, Routes } from "../../libs/enums";
 
 function CabinetPage() {
   const [error, setError] = useState("");
@@ -26,10 +27,10 @@ function CabinetPage() {
       try {
         setUserInfo(jwt_decode<IUser>(token));
       } catch {
-        setError(ERROR.LOADING_USER);
+        setError(AppError.LOADING_USER);
       }
     } else {
-      setError(ERROR.LOADING_USER);
+      setError(AppError.LOADING_USER);
     }
   }, [user]);
 
@@ -64,7 +65,7 @@ function CabinetPage() {
           <Button
             variant="contained"
             fullWidth
-            onClick={() => navigate(ROUTES.ADMIN)}
+            onClick={() => navigate(Routes.ADMIN)}
           >
             Go to the admin panel
           </Button>

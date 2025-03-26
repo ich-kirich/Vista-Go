@@ -1,4 +1,4 @@
-import { CODE } from "../../libs/constants";
+import { Code } from "../../libs/enums";
 import { IAction, ICode } from "../../types/types";
 
 interface ICodeState {
@@ -18,11 +18,11 @@ const codeReducer = (
   action: IAction,
 ): ICodeState => {
   switch (action.type) {
-    case CODE.FETCH_CODE:
+    case Code.FETCH_CODE:
       return { loading: true, error: null, code: null };
-    case CODE.FETCH_CODE_SUCCESS:
+    case Code.FETCH_CODE_SUCCESS:
       return { loading: false, error: null, code: action.payload };
-    case CODE.FETCH_CODE_ERROR:
+    case Code.FETCH_CODE_ERROR:
       return {
         loading: false,
         error: action.payload,

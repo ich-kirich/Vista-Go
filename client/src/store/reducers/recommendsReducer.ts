@@ -1,4 +1,4 @@
-import { RECOMMENDS } from "../../libs/constants";
+import { Recommends } from "../../libs/enums";
 import { IAction, IRecommends } from "../../types/types";
 
 interface IRecommendsState {
@@ -18,11 +18,11 @@ const recommendsReducer = (
   action: IAction,
 ): IRecommendsState => {
   switch (action.type) {
-    case RECOMMENDS.FETCH_RECOMMENDS:
+    case Recommends.FETCH_RECOMMENDS:
       return { loading: true, error: null, recommends: null };
-    case RECOMMENDS.FETCH_RECOMMENDS_SUCCESS:
+    case Recommends.FETCH_RECOMMENDS_SUCCESS:
       return { loading: false, error: null, recommends: action.payload };
-    case RECOMMENDS.FETCH_RECOMMENDS_ERROR:
+    case Recommends.FETCH_RECOMMENDS_ERROR:
       return {
         loading: false,
         error: action.payload,

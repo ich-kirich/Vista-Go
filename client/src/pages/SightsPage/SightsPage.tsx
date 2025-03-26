@@ -7,7 +7,7 @@ import ListSights from "./components/ListSights/ListSights";
 import styles from "./SightsPage.module.scss";
 import FetchWrapper from "../../components/FetchWrapper/FetchWrapper";
 import { getRoute } from "../../libs/utils";
-import { ROUTES } from "../../libs/constants";
+import { Routes } from "../../libs/enums";
 
 function SightsPage() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ function SightsPage() {
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
 
   const closePage = () => {
-    if (id) navigate(getRoute(ROUTES.CITY, { id }));
+    if (id) navigate(getRoute(Routes.CITY, { id }));
   };
 
   return (

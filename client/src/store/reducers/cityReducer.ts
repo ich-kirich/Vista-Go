@@ -1,4 +1,4 @@
-import { CITY } from "../../libs/constants";
+import { City } from "../../libs/enums";
 import { IAction, ICities } from "../../types/types";
 
 interface ICityState {
@@ -18,11 +18,11 @@ const cityReducer = (
   action: IAction,
 ): ICityState => {
   switch (action.type) {
-    case CITY.FETCH_CITY:
+    case City.FETCH_CITY:
       return { loading: true, error: null, city: null };
-    case CITY.FETCH_CITY_SUCCESS:
+    case City.FETCH_CITY_SUCCESS:
       return { loading: false, error: null, city: action.payload };
-    case CITY.FETCH_CITY_ERROR:
+    case City.FETCH_CITY_ERROR:
       return {
         loading: false,
         error: action.payload,

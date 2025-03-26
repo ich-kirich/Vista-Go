@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import MustSights from "../MustSights/MustSights";
 import styles from "./MustGo.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { ROUTES } from "../../../../libs/constants";
+import { Routes } from "../../../../libs/enums";
 
 function MustGo() {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const viewSightsPage = () => {
-    if (id) navigate(getRoute(ROUTES.SIGHTS, { id }));
+    if (id) navigate(getRoute(Routes.SIGHTS, { id }));
   };
 
   return (

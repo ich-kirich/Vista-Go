@@ -5,7 +5,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import classNames from "classnames";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./ControlPanel.module.scss";
-import { ROUTES } from "../../libs/constants";
+import { Routes } from "../../libs/enums";
 
 function ControlPanel() {
   const navigate = useNavigate();
@@ -15,10 +15,10 @@ function ControlPanel() {
       <IconButton
         color="default"
         className={classNames(
-          location.pathname === ROUTES.HOME && styles.icon_active,
+          location.pathname === Routes.HOME && styles.icon_active,
         )}
         onClick={() => {
-          navigate(ROUTES.HOME);
+          navigate(Routes.HOME);
         }}
       >
         <WidgetsIcon />
@@ -34,10 +34,10 @@ function ControlPanel() {
       <IconButton
         color="default"
         className={classNames(
-          location.pathname === ROUTES.CABINET && styles.icon_active,
+          location.pathname === Routes.CABINET && styles.icon_active,
         )}
         onClick={() => {
-          navigate(ROUTES.CABINET);
+          navigate(Routes.CABINET);
         }}
       >
         <PersonIcon />

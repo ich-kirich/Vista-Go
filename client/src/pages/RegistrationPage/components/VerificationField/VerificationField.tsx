@@ -5,7 +5,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import Loader from "../../../../components/Loader/Loader";
 import styles from "./VerificationField.module.scss";
-import { ROUTES } from "../../../../libs/constants";
+import { Routes } from "../../../../libs/enums";
 
 interface IVerificationFieldProps {
   name: string;
@@ -28,7 +28,7 @@ function VerificationField({ name, email }: IVerificationFieldProps) {
 
   useEffect(() => {
     if (sendClicked && !loading && !error) {
-      navigate(ROUTES.LOGIN);
+      navigate(Routes.LOGIN);
     }
   }, [sendClicked, loading, error]);
 

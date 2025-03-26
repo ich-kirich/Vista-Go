@@ -1,28 +1,29 @@
 import { Dispatch } from "redux";
 import { getRecommends } from "../../api/postService";
-import { ERROR, RECOMMENDS } from "../../libs/constants";
 import { CustomError, IAction } from "../../types/types";
+import { AppError, Recommends } from "../../libs/enums";
 
 const fetchRecommends = () => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: RECOMMENDS.FETCH_RECOMMENDS });
+      dispatch({ type: Recommends.FETCH_RECOMMENDS });
       const response = await getRecommends();
       dispatch({
-        type: RECOMMENDS.FETCH_RECOMMENDS_SUCCESS,
+        type: Recommends.FETCH_RECOMMENDS_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: RECOMMENDS.FETCH_RECOMMENDS_ERROR,
+        type: Recommends.FETCH_RECOMMENDS_ERROR,
         payload: errorMessage,
       });
     }

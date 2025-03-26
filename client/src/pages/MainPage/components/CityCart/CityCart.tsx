@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CONTEXT, ROUTES } from "../../../../libs/constants";
+import { CONTEXT } from "../../../../libs/constants";
 import { getFindCities, getRoute } from "../../../../libs/utils";
 import { IListCitiesProps } from "../../../../types/types";
 import ListCountryCities from "../ListCountryCities/ListCountryCities";
 import styles from "./CityCart.module.scss";
+import { Routes } from "../../../../libs/enums";
 
 function CityCart(props: IListCitiesProps) {
   const { cities } = props;
@@ -15,7 +16,7 @@ function CityCart(props: IListCitiesProps) {
   const findCities = getFindCities(cities, nameCity);
 
   const viewCity = (id: number) => {
-    navigate(getRoute(ROUTES.CITY, { id }));
+    navigate(getRoute(Routes.CITY, { id }));
   };
 
   return (
@@ -23,7 +24,7 @@ function CityCart(props: IListCitiesProps) {
       {cities.slice(0, 3).map((item) => (
         <Box
           key={item.id}
-          className={styles.counrty__img}
+          className={styles.country__img}
           sx={{
             backgroundImage: `url(${item.image})`,
           }}
@@ -32,7 +33,7 @@ function CityCart(props: IListCitiesProps) {
           <Typography
             variant="h6"
             component="h5"
-            className={styles.coutry__name}
+            className={styles.country__name}
           >
             {item.country}
           </Typography>

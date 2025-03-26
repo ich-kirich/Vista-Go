@@ -1,18 +1,18 @@
 import { Dispatch } from "react";
 import { createCity, deleteCity, updateCity } from "../../api/adminService";
-import { CITY, ERROR } from "../../libs/constants";
 import {
   ICreateCity,
   IAction,
   CustomError,
   IUpdateCity,
 } from "../../types/types";
+import { AppError, City } from "../../libs/enums";
 
 export const fetchCreateCity = (params: ICreateCity) => {
   const { country, name, lat, lon, sightIds, guideIds, image } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: CITY.FETCH_CITY });
+      dispatch({ type: City.FETCH_CITY });
       const response = await createCity({
         country,
         name,
@@ -23,20 +23,21 @@ export const fetchCreateCity = (params: ICreateCity) => {
         image,
       });
       dispatch({
-        type: CITY.FETCH_CITY_SUCCESS,
+        type: City.FETCH_CITY_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: CITY.FETCH_CITY_ERROR,
+        type: City.FETCH_CITY_ERROR,
         payload: errorMessage,
       });
     }
@@ -46,23 +47,24 @@ export const fetchCreateCity = (params: ICreateCity) => {
 export const fetchDeleteCity = (id: number) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: CITY.FETCH_CITY });
+      dispatch({ type: City.FETCH_CITY });
       const response = await deleteCity(id);
       dispatch({
-        type: CITY.FETCH_CITY_SUCCESS,
+        type: City.FETCH_CITY_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: CITY.FETCH_CITY_ERROR,
+        type: City.FETCH_CITY_ERROR,
         payload: errorMessage,
       });
     }
@@ -73,7 +75,7 @@ export const fetchUpdateCity = (params: IUpdateCity) => {
   const { id, country, name, lat, lon, sightIds, guideIds, image } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: CITY.FETCH_CITY });
+      dispatch({ type: City.FETCH_CITY });
       const response = await updateCity({
         id,
         country,
@@ -85,20 +87,21 @@ export const fetchUpdateCity = (params: IUpdateCity) => {
         image,
       });
       dispatch({
-        type: CITY.FETCH_CITY_SUCCESS,
+        type: City.FETCH_CITY_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: CITY.FETCH_CITY_ERROR,
+        type: City.FETCH_CITY_ERROR,
         payload: errorMessage,
       });
     }

@@ -6,7 +6,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./MustSights.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { ROUTES } from "../../../../libs/constants";
+import { Routes } from "../../../../libs/enums";
 
 function MustSights() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function MustSights() {
             className={styles.sight__first}
             onClick={() =>
               navigate(
-                getRoute(ROUTES.SIGHT_DETAILS, { id, sightId: sights[0].id }),
+                getRoute(Routes.SIGHT_DETAILS, { id, sightId: sights[0].id }),
               )
             }
           />
@@ -40,7 +40,7 @@ function MustSights() {
                 className={styles.sight__second}
                 onClick={() =>
                   navigate(
-                    getRoute(ROUTES.SIGHT_DETAILS, {
+                    getRoute(Routes.SIGHT_DETAILS, {
                       id,
                       sightId: sights[1].id,
                     }),
@@ -55,7 +55,7 @@ function MustSights() {
                   className={styles.sight__third}
                   onClick={() =>
                     navigate(
-                      getRoute(ROUTES.SIGHT_DETAILS, {
+                      getRoute(Routes.SIGHT_DETAILS, {
                         id,
                         sightId: sights[2].id,
                       }),
@@ -66,7 +66,7 @@ function MustSights() {
               {sights.length > 3 && (
                 <Box
                   className={styles.sight__amount}
-                  onClick={() => navigate(getRoute(ROUTES.SIGHTS, { id }))}
+                  onClick={() => navigate(getRoute(Routes.SIGHTS, { id }))}
                 >
                   <Typography variant="h6" className={styles.amount__text}>
                     {sights.length}+

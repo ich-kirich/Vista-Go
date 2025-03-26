@@ -6,7 +6,7 @@ import PopupComponent from "../../../../components/PopupComponent/PopupComponent
 import VerificationPassword from "../../../../components/VerificationPassword/VerificationPassword";
 import styles from "./ChangePassword.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import { ERROR } from "../../../../libs/constants";
+import { AppError } from "../../../../libs/enums";
 
 interface IChangePasswordProps {
   visible: boolean;
@@ -34,7 +34,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
         setVisibleFieldCode(true);
       }
     } else {
-      setErrorRepeat(ERROR.REENTERED_PASSWORD);
+      setErrorRepeat(AppError.REENTERED_PASSWORD);
     }
   };
 

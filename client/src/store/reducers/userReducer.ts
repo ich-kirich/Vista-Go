@@ -1,7 +1,7 @@
-import { USER } from "../../libs/constants";
 import { IAction, IUser } from "../../types/types";
 import { getValidToken } from "../../libs/utils";
 import { JwtPayload } from "jwt-decode";
+import { User } from "../../libs/enums";
 
 interface IUserState {
   user: (IUser & JwtPayload) | null;
@@ -20,11 +20,11 @@ const userReducer = (
   action: IAction,
 ): IUserState => {
   switch (action.type) {
-    case USER.FETCH_USER:
+    case User.FETCH_USER:
       return { loading: true, error: null, user: null };
-    case USER.FETCH_USER_SUCCESS:
+    case User.FETCH_USER_SUCCESS:
       return { loading: false, error: null, user: action.payload };
-    case USER.FETCH_USER_ERROR:
+    case User.FETCH_USER_ERROR:
       return {
         loading: false,
         error: action.payload,

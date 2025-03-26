@@ -1,9 +1,9 @@
-import { ERROR } from "../libs/constants";
+import { AppError } from "../libs/enums";
 
 export type CustomError = {
   response: {
     data: {
-      message: keyof typeof ERROR;
+      message: keyof typeof AppError;
     };
   };
 };
@@ -69,7 +69,7 @@ export interface IContext {
   setVisible: (visible: boolean) => void;
 }
 
-export interface IVerificateUser {
+export interface IVerifyUser {
   name: string;
   email: string;
   code: string;
@@ -115,7 +115,7 @@ export interface IUpdateCity {
   image: File | undefined;
 }
 
-export interface IChildernProps {
+export interface IChildrenProps {
   children: React.ReactNode;
   className?: string;
 }
@@ -124,7 +124,7 @@ export interface IListCitiesProps {
   cities: ICities[];
 }
 
-export interface IModalComponentProps extends IChildernProps {
+export interface IModalComponentProps extends IChildrenProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }

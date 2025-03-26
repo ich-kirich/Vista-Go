@@ -7,7 +7,7 @@ import Loader from "../../components/Loader/Loader";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import VerificationField from "./components/VerificationField/VerificationField";
 import styles from "./RegistrationPage.module.scss";
-import { ROUTES } from "../../libs/constants";
+import { Routes } from "../../libs/enums";
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -44,7 +44,7 @@ function RegistrationPage() {
       setVisible(true);
     }
     if (user) {
-      navigate(ROUTES.HOME);
+      navigate(Routes.HOME);
     }
   }, [registrationClicked, loading, error]);
 
@@ -91,7 +91,7 @@ function RegistrationPage() {
               <Button variant="contained" fullWidth onClick={handleSubmit}>
                 Register account
               </Button>
-              <Link className={styles.registration__link} to={ROUTES.LOGIN}>
+              <Link className={styles.registration__link} to={Routes.LOGIN}>
                 You have account?
               </Link>
             </Box>

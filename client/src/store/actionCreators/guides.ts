@@ -1,28 +1,29 @@
 import { Dispatch } from "redux";
 import { getGuides } from "../../api/postService";
-import { ERROR, GUIDES } from "../../libs/constants";
 import { CustomError, IAction } from "../../types/types";
+import { AppError, Guides } from "../../libs/enums";
 
 const fetchGuides = () => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: GUIDES.FETCH_GUIDES });
+      dispatch({ type: Guides.FETCH_GUIDES });
       const response = await getGuides();
       dispatch({
-        type: GUIDES.FETCH_GUIDES_SUCCESS,
+        type: Guides.FETCH_GUIDES_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: GUIDES.FETCH_GUIDES_ERROR,
+        type: Guides.FETCH_GUIDES_ERROR,
         payload: errorMessage,
       });
     }

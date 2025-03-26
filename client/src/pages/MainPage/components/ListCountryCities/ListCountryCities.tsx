@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CONTEXT, ROUTES } from "../../../../libs/constants";
+import { CONTEXT } from "../../../../libs/constants";
 import { ICities, IListCitiesProps } from "../../../../types/types";
 import ModalComponent from "../ModalComponent/ModalComponent";
 import styles from "./ListCountryCities.module.scss";
 import { getRoute } from "../../../../libs/utils";
+import { Routes } from "../../../../libs/enums";
 
 function ListCountryCities(props: IListCitiesProps) {
   const { cities } = props;
@@ -15,7 +16,7 @@ function ListCountryCities(props: IListCitiesProps) {
   const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
   const viewCity = (city: ICities) => {
-    navigate(getRoute(ROUTES.CITY, { id: city.id }));
+    navigate(getRoute(Routes.CITY, { id: city.id }));
   };
 
   return (

@@ -1,4 +1,4 @@
-import { TAGS } from "../../libs/constants";
+import { Tags } from "../../libs/enums";
 import { IAction, ITag } from "../../types/types";
 
 interface ITagsState {
@@ -18,11 +18,11 @@ const tagsReducer = (
   action: IAction,
 ): ITagsState => {
   switch (action.type) {
-    case TAGS.FETCH_TAGS:
+    case Tags.FETCH_TAGS:
       return { loading: true, error: null, tags: null };
-    case TAGS.FETCH_TAGS_SUCCESS:
+    case Tags.FETCH_TAGS_SUCCESS:
       return { loading: false, error: null, tags: action.payload };
-    case TAGS.FETCH_TAGS_ERROR:
+    case Tags.FETCH_TAGS_ERROR:
       return {
         loading: false,
         error: action.payload,

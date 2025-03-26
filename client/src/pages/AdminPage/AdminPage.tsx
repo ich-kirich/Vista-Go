@@ -17,14 +17,14 @@ import AddGuide from "./components/AddGuide/AddGuide";
 import AddRecommend from "./components/AddRecommend/AddRecommend";
 import AddSight from "./components/AddSight/AddSight";
 import AddTag from "./components/AddTag/AddTag";
-import { ADMIN_ENTITY } from "../../libs/constants";
+import { AdminEntity } from "../../libs/enums";
 
 function AdminPage() {
-  const [visiblePanel, setVisiblePanel] = useState<ADMIN_ENTITY | null>(null);
+  const [visiblePanel, setVisiblePanel] = useState<AdminEntity | null>(null);
 
   const adminPanels = [
     {
-      entity: ADMIN_ENTITY.CITY,
+      entity: AdminEntity.CITY,
       label: "Edit cities",
       components: {
         add: <AddCity />,
@@ -33,12 +33,12 @@ function AdminPage() {
       },
     },
     {
-      entity: ADMIN_ENTITY.RECOMMEND,
+      entity: AdminEntity.RECOMMEND,
       label: "Edit recommends",
       components: { add: <AddRecommend />, delete: <DeleteRecommend /> },
     },
     {
-      entity: ADMIN_ENTITY.SIGHT,
+      entity: AdminEntity.SIGHT,
       label: "Edit sights",
       components: {
         add: <AddSight />,
@@ -47,7 +47,7 @@ function AdminPage() {
       },
     },
     {
-      entity: ADMIN_ENTITY.TAG,
+      entity: AdminEntity.TAG,
       label: "Edit tags of sights",
       components: {
         add: <AddTag />,
@@ -56,7 +56,7 @@ function AdminPage() {
       },
     },
     {
-      entity: ADMIN_ENTITY.GUIDE,
+      entity: AdminEntity.GUIDE,
       label: "Edit guides",
       components: {
         add: <AddGuide />,

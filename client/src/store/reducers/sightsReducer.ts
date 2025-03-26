@@ -1,4 +1,4 @@
-import { SIGHTS } from "../../libs/constants";
+import { Sights } from "../../libs/enums";
 import { IAction, ISights } from "../../types/types";
 
 interface ISightsState {
@@ -18,11 +18,11 @@ const sightsReducer = (
   action: IAction,
 ): ISightsState => {
   switch (action.type) {
-    case SIGHTS.FETCH_SIGHTS:
+    case Sights.FETCH_SIGHTS:
       return { loading: true, error: null, sights: null };
-    case SIGHTS.FETCH_SIGHTS_SUCCESS:
+    case Sights.FETCH_SIGHTS_SUCCESS:
       return { loading: false, error: null, sights: action.payload };
-    case SIGHTS.FETCH_SIGHTS_ERROR:
+    case Sights.FETCH_SIGHTS_ERROR:
       return {
         loading: false,
         error: action.payload,

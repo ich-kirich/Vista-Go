@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { IVerificateUser } from "../types/types";
+import { IVerifyUser } from "../types/types";
 import { adminHost } from "./axiosConfig";
 
 export async function registrationUser(
@@ -39,7 +39,7 @@ export async function changeImageUser(image: File) {
   return jwt_decode(data);
 }
 
-export async function verificateUser(params: IVerificateUser) {
+export async function verifyUser(params: IVerifyUser) {
   const { email, code } = params;
   const { data } = await adminHost.post("user/verification/check", {
     email,

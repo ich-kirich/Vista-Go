@@ -1,4 +1,4 @@
-import { GUIDES } from "../../libs/constants";
+import { Guides } from "../../libs/enums";
 import { IAction, IGuide } from "../../types/types";
 
 interface IGuidesState {
@@ -18,11 +18,11 @@ const guidesReducer = (
   action: IAction,
 ): IGuidesState => {
   switch (action.type) {
-    case GUIDES.FETCH_GUIDES:
+    case Guides.FETCH_GUIDES:
       return { loading: true, error: null, guides: null };
-    case GUIDES.FETCH_GUIDES_SUCCESS:
+    case Guides.FETCH_GUIDES_SUCCESS:
       return { loading: false, error: null, guides: action.payload };
-    case GUIDES.FETCH_GUIDES_ERROR:
+    case Guides.FETCH_GUIDES_ERROR:
       return {
         loading: false,
         error: action.payload,

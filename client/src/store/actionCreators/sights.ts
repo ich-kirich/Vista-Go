@@ -1,28 +1,29 @@
 import { Dispatch } from "redux";
 import { getAllSights, getSight, getCitySights } from "../../api/postService";
-import { ERROR, SIGHT, SIGHTS } from "../../libs/constants";
 import { CustomError, IAction } from "../../types/types";
+import { AppError, Sight, Sights } from "../../libs/enums";
 
 export const fetchSights = (id: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHTS.FETCH_SIGHTS });
+      dispatch({ type: Sights.FETCH_SIGHTS });
       const response = await getCitySights(id);
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_SUCCESS,
+        type: Sights.FETCH_SIGHTS_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_ERROR,
+        type: Sights.FETCH_SIGHTS_ERROR,
         payload: errorMessage,
       });
     }
@@ -32,23 +33,24 @@ export const fetchSights = (id: string) => {
 export const fetchAllSights = () => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHTS.FETCH_SIGHTS });
+      dispatch({ type: Sights.FETCH_SIGHTS });
       const response = await getAllSights();
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_SUCCESS,
+        type: Sights.FETCH_SIGHTS_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: SIGHTS.FETCH_SIGHTS_ERROR,
+        type: Sights.FETCH_SIGHTS_ERROR,
         payload: errorMessage,
       });
     }
@@ -58,23 +60,24 @@ export const fetchAllSights = () => {
 export const fetchSight = (id: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: SIGHT.FETCH_SIGHT });
+      dispatch({ type: Sight.FETCH_SIGHT });
       const response = await getSight(id);
       dispatch({
-        type: SIGHT.FETCH_SIGHT_SUCCESS,
+        type: Sight.FETCH_SIGHT_SUCCESS,
         payload: response.data,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: SIGHT.FETCH_SIGHT_ERROR,
+        type: Sight.FETCH_SIGHT_ERROR,
         payload: errorMessage,
       });
     }

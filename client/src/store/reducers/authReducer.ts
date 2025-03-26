@@ -1,4 +1,4 @@
-import { AUTH } from "../../libs/constants";
+import { Auth } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import { IAction } from "../../types/types";
 
@@ -15,9 +15,9 @@ const authReducer = (
   action: IAction,
 ): IAuthState => {
   switch (action.type) {
-    case AUTH.LOGIN:
+    case Auth.LOGIN:
       return { ...state, isAuth: true };
-    case AUTH.LOGOUT:
+    case Auth.LOGOUT:
       return { ...state, isAuth: false };
     default:
       return state;

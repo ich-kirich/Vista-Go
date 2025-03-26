@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import { createDate, getRoute } from "../../../../libs/utils";
 import styles from "./RecommendCart.module.scss";
 import { IRecommends } from "../../../../types/types";
-import { ROUTES } from "../../../../libs/constants";
+import { Routes } from "../../../../libs/enums";
 
 interface IRecommendCartProps {
   recommend: IRecommends;
@@ -22,7 +22,7 @@ function RecommendCart(props: IRecommendCartProps) {
   const viewCity = () => {
     const index = idsRecommends.indexOf(recommend.id) + 1;
     if (index === currentSlide) {
-      navigate(getRoute(ROUTES.CITY, { id: recommend.CityId }));
+      navigate(getRoute(Routes.CITY, { id: recommend.CityId }));
     } else {
       sliderRef.current?.slickGoTo(index - 1);
       setTimeout(() => {

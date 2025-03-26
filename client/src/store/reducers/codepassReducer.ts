@@ -1,4 +1,4 @@
-import { CODEPASS } from "../../libs/constants";
+import { CodePass } from "../../libs/enums";
 import { IAction } from "../../types/types";
 
 interface ICodepassState {
@@ -18,11 +18,11 @@ const codepassReducer = (
   action: IAction,
 ): ICodepassState => {
   switch (action.type) {
-    case CODEPASS.FETCH_CODEPASS:
+    case CodePass.FETCH_CODEPASS:
       return { loading: true, error: null, res: null };
-    case CODEPASS.FETCH_CODEPASS_SUCCESS:
+    case CodePass.FETCH_CODEPASS_SUCCESS:
       return { loading: false, error: null, res: action.payload };
-    case CODEPASS.FETCH_CODEPASS_ERROR:
+    case CodePass.FETCH_CODEPASS_ERROR:
       return {
         loading: false,
         error: action.payload,

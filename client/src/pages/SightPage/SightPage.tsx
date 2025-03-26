@@ -7,7 +7,7 @@ import DetailsPopular from "./components/DetailsSight/DetailsSight";
 import FetchWrapper from "../../components/FetchWrapper/FetchWrapper";
 import styles from "./SightPage.module.scss";
 import { getRoute } from "../../libs/utils";
-import { ROUTES } from "../../libs/constants";
+import { Routes } from "../../libs/enums";
 
 function SightPage() {
   const { id, sightId } = useParams();
@@ -20,7 +20,7 @@ function SightPage() {
   const { sight, error, loading } = useTypedSelector((state) => state.sight);
 
   const closePage = () => {
-    if (id) navigate(getRoute(ROUTES.SIGHTS, { id }));
+    if (id) navigate(getRoute(Routes.SIGHTS, { id }));
   };
 
   return (

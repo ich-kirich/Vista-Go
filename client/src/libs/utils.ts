@@ -1,6 +1,6 @@
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { ICities, IUser } from "../types/types";
-import { ROUTES } from "./constants";
+import { Routes } from "./enums";
 
 export function createDate(date: Date) {
   return `${date.getUTCDate().toString().padStart(2, "0")}.${(
@@ -41,7 +41,7 @@ export function addFieldsToFormData(
 }
 
 export const getRoute = (
-  route: ROUTES,
+  route: Routes,
   params: Record<string, string | number>,
 ) => {
   let path: string = route;

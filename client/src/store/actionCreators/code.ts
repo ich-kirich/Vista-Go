@@ -1,29 +1,30 @@
 import { Dispatch } from "redux";
-import { createCodePassword, verificateUser } from "../../api/userService";
-import { CODE, CODEPASS, ERROR } from "../../libs/constants";
-import { CustomError, IAction, IVerificateUser } from "../../types/types";
+import { createCodePassword, verifyUser } from "../../api/userService";
+import { CustomError, IAction, IVerifyUser } from "../../types/types";
+import { AppError, Code, CodePass } from "../../libs/enums";
 
-export const fetchCodeUser = (params: IVerificateUser) => {
+export const fetchCodeUser = (params: IVerifyUser) => {
   const { name, email, code } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: CODE.FETCH_CODE });
-      const response = await verificateUser({ name, email, code });
+      dispatch({ type: Code.FETCH_CODE });
+      const response = await verifyUser({ name, email, code });
       dispatch({
-        type: CODE.FETCH_CODE_SUCCESS,
+        type: Code.FETCH_CODE_SUCCESS,
         payload: response,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: CODE.FETCH_CODE_ERROR,
+        type: Code.FETCH_CODE_ERROR,
         payload: errorMessage,
       });
     }
@@ -33,23 +34,24 @@ export const fetchCodeUser = (params: IVerificateUser) => {
 export const fetchCodePassword = (email: string, password: string) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
-      dispatch({ type: CODEPASS.FETCH_CODEPASS });
+      dispatch({ type: CodePass.FETCH_CODEPASS });
       const response = await createCodePassword(email, password);
       dispatch({
-        type: CODEPASS.FETCH_CODEPASS_SUCCESS,
+        type: CodePass.FETCH_CODEPASS_SUCCESS,
         payload: response,
       });
     } catch (e) {
       const error = e as CustomError;
-      let errorMessage = ERROR.UNEXPECTED_ERROR;
+      let errorMessage = AppError.UNEXPECTED_ERROR;
 
       if (error.response?.data?.message) {
         errorMessage =
-          ERROR[error.response.data.message] || error.response?.data?.message;
+          AppError[error.response.data.message] ||
+          error.response?.data?.message;
       }
 
       dispatch({
-        type: CODEPASS.FETCH_CODEPASS_ERROR,
+        type: CodePass.FETCH_CODEPASS_ERROR,
         payload: errorMessage,
       });
     }

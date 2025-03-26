@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { AUTH, ROUTES } from "../../libs/constants";
 import Loader from "../../components/Loader/Loader";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import RecoveryPassword from "./components/RecoveryPassword/RecoveryPassword";
 import styles from "./LoginPage.module.scss";
+import { Auth, Routes } from "../../libs/enums";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -34,11 +34,11 @@ function LoginPage() {
 
   useEffect(() => {
     if (loginClicked && !loading && !error) {
-      dispatch({ type: AUTH.LOGIN });
-      navigate(ROUTES.HOME);
+      dispatch({ type: Auth.LOGIN });
+      navigate(Routes.HOME);
     }
     if (user) {
-      navigate(ROUTES.HOME);
+      navigate(Routes.HOME);
     }
   }, [loginClicked, loading, error, dispatch, navigate]);
 
@@ -86,7 +86,7 @@ function LoginPage() {
               >
                 Log In
               </Button>
-              <Link className={styles.login__link} to={ROUTES.REGISTRATION}>
+              <Link className={styles.login__link} to={Routes.REGISTRATION}>
                 You don't have an account?
               </Link>
               <Button onClick={changePassword} className={styles.login__forgot}>

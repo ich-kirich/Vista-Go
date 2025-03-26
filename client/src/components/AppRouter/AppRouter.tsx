@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes as RouterRoutes, Navigate } from "react-router-dom";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
 import CityPage from "../../pages/CityPage/CityPage";
@@ -8,28 +8,29 @@ import SightPage from "../../pages/SightPage/SightPage";
 import SightsPage from "../../pages/SightsPage/SightsPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import CabinetPage from "../../pages/CabinetPage/CabinetPage";
-import { ADMIN_ROLE, ROUTES } from "../../libs/constants";
+import { ADMIN_ROLE } from "../../libs/constants";
 import AdminPage from "../../pages/AdminPage/AdminPage";
+import { Routes } from "../../libs/enums";
 
 function AppRouter() {
   const isAuth = useTypedSelector((state) => state.auth.isAuth);
   const { user } = useTypedSelector((state) => state.user);
   const authRouters = [
-    { path: ROUTES.HOME, element: <MainPage /> },
-    { path: ROUTES.CITY, element: <CityPage /> },
-    { path: ROUTES.SIGHTS, element: <SightsPage /> },
-    { path: ROUTES.SIGHT_DETAILS, element: <SightPage /> },
+    { path: Routes.HOME, element: <MainPage /> },
+    { path: Routes.CITY, element: <CityPage /> },
+    { path: Routes.SIGHTS, element: <SightsPage /> },
+    { path: Routes.SIGHT_DETAILS, element: <SightPage /> },
   ];
   const publicRouters = [
-    { path: ROUTES.LOGIN, element: <LoginPage /> },
-    { path: ROUTES.REGISTRATION, element: <RegistrationPage /> },
-    { path: ROUTES.CABINET, element: <CabinetPage /> },
-    { path: ROUTES.ERROR, element: <ErrorPage /> },
+    { path: Routes.LOGIN, element: <LoginPage /> },
+    { path: Routes.REGISTRATION, element: <RegistrationPage /> },
+    { path: Routes.CABINET, element: <CabinetPage /> },
+    { path: Routes.ERROR, element: <ErrorPage /> },
   ];
-  const adminRouters = [{ path: ROUTES.ADMIN, element: <AdminPage /> }];
+  const adminRouters = [{ path: Routes.ADMIN, element: <AdminPage /> }];
 
   return (
-    <Routes>
+    <RouterRoutes>
       {isAuth && user && (
         <>
           {authRouters.map((item) => (
@@ -44,8 +45,8 @@ function AppRouter() {
       {publicRouters.map((item) => (
         <Route element={item.element} path={item.path} key={item.path} />
       ))}
-      <Route path="*" element={<Navigate replace to={ROUTES.ERROR} />} />
-    </Routes>
+      <Route path="*" element={<Navigate replace to={Routes.ERROR} />} />
+    </RouterRoutes>
   );
 }
 

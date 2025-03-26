@@ -1,10 +1,10 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import styles from "./AdminEntityPanel.module.scss";
-import { ADMIN_ENTITY } from "../../../../libs/constants";
+import { AdminEntity } from "../../../../libs/enums";
 
 interface AdminEntityPanelProps {
-  entity: ADMIN_ENTITY;
+  entity: AdminEntity;
   components: Partial<Record<"add" | "update" | "delete", JSX.Element>>;
 }
 

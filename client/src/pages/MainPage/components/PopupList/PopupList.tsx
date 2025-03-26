@@ -2,15 +2,15 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { IListCitiesProps } from "../../../../types/types";
 import styles from "./PopupList.module.scss";
-import { ROUTES } from "../../../../libs/constants";
 import { getRoute } from "../../../../libs/utils";
+import { Routes } from "../../../../libs/enums";
 
 function PopupList(props: IListCitiesProps) {
   const { cities } = props;
   const navigate = useNavigate();
 
   const viewCity = (id: number) => {
-    navigate(getRoute(ROUTES.CITY, { id }));
+    navigate(getRoute(Routes.CITY, { id }));
   };
 
   return (
