@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
@@ -11,6 +10,7 @@ import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import { AppError, Routes } from "../../libs/enums";
+import { getValidToken } from "../../libs/utils";
 
 function CabinetPage() {
   const [error, setError] = useState("");
@@ -22,10 +22,10 @@ function CabinetPage() {
   const { user } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = user || getValidToken();
     if (token) {
       try {
-        setUserInfo(jwt_decode<IUser>(token));
+        setUserInfo(token);
       } catch {
         setError(AppError.LOADING_USER);
       }
@@ -38,17 +38,19 @@ function CabinetPage() {
 
   return (
     <Box className={styles.user__wrapper}>
-      <Box className={styles.user__information}>
-        <Box
-          className={styles.user__img}
-          sx={{ backgroundImage: `url(${userInfo?.image})` }}
-        />
-        <Box>
-          <Typography variant="h6">Login: {userInfo?.email}</Typography>
-          <Typography variant="h6">Name: {userInfo?.name}</Typography>
-          <Typography variant="h6">Password: ••••••••</Typography>
+      {userInfo && (
+        <Box className={styles.user__information}>
+          <Box
+            className={styles.user__img}
+            sx={{ backgroundImage: `url(${userInfo.image})` }}
+          />
+          <Box>
+            <Typography variant="h6">Login: {userInfo.email}</Typography>
+            <Typography variant="h6">Name: {userInfo.name}</Typography>
+            <Typography variant="h6">Password: ••••••••</Typography>
+          </Box>
         </Box>
-      </Box>
+      )}
 
       <Box className={styles.user__controls}>
         {["name", "image", "password"].map((field) => (

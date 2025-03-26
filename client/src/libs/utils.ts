@@ -1,6 +1,6 @@
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { ICities, IUser } from "../types/types";
-import { Routes } from "./enums";
+import { LocalStorageKeys, Routes } from "./enums";
 
 export function createDate(date: Date) {
   return `${date.getUTCDate().toString().padStart(2, "0")}.${(
@@ -52,7 +52,7 @@ export const getRoute = (
 };
 
 export function getValidToken(): (IUser & JwtPayload) | null {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem(LocalStorageKeys.TOKEN);
 
   if (!token) {
     return null;

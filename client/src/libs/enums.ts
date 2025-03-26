@@ -135,3 +135,7 @@ export enum Cities {
   FETCH_CITIES_SUCCESS = "FETCH_CITIES_SUCCESS",
   FETCH_CITIES_ERROR = "FETCH_CITIES_ERROR",
 }
+
+export enum LocalStorageKeys {
+  TOKEN = "vista_go_token",
+}
