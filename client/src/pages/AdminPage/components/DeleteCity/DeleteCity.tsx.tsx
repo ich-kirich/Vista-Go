@@ -27,31 +27,35 @@ function DeleteCity() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Typography variant="h6" component="h2">
-        Select a city for deleting:
-      </Typography>
-      <NativeSelect
-        value={chooseCity}
-        onChange={(e) => selectCity(e.target.value)}
-        variant="standard"
-      >
-        <option value="">Select</option>
-        {cities &&
-          cities.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-      </NativeSelect>
-      <Button variant="contained" fullWidth onClick={deleteCity}>
-        Delete City
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={city.loading} error={city.error}>
           <Typography variant="h6" component="h5">
             The city was successfully deleted
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          {" "}
+          <Typography variant="h6" component="h2">
+            Select a city for deleting:
+          </Typography>
+          <NativeSelect
+            value={chooseCity}
+            onChange={(e) => selectCity(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {cities &&
+              cities.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <Button variant="contained" fullWidth onClick={deleteCity}>
+            Delete City
+          </Button>
+        </>
       )}
     </FetchWrapper>
   );

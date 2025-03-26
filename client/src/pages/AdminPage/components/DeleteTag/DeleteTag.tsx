@@ -27,31 +27,34 @@ function DeleteTag() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Typography variant="h6" component="h2">
-        Select a tag for deleting:
-      </Typography>
-      <NativeSelect
-        value={chooseTag}
-        onChange={(e) => selectTag(e.target.value)}
-        variant="standard"
-      >
-        <option value="">Select</option>
-        {tags &&
-          tags.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-      </NativeSelect>
-      <Button variant="contained" fullWidth onClick={deleteTag}>
-        Delete Tag
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={tag.loading} error={tag.error}>
           <Typography variant="h6" component="h5">
             The tag was successfully deleted
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          <Typography variant="h6" component="h2">
+            Select a tag for deleting:
+          </Typography>
+          <NativeSelect
+            value={chooseTag}
+            onChange={(e) => selectTag(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {tags &&
+              tags.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <Button variant="contained" fullWidth onClick={deleteTag}>
+            Delete Tag
+          </Button>
+        </>
       )}
     </FetchWrapper>
   );

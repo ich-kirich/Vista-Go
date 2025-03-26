@@ -123,126 +123,127 @@ function UpdateSight() {
 
   return (
     <FetchWrapper loading={sights.loading} error={sights.error}>
-      <Box className={styles.controls__wrapper}>
-        <Typography variant="h6" component="h2">
-          Select a sight for editing:
-        </Typography>
-        <NativeSelect
-          value={chooseSight}
-          onChange={(e) => selectSight(e.target.value)}
-          variant="standard"
-        >
-          <option value="">Select</option>
-          {sights.sights &&
-            sights.sights.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-        </NativeSelect>
-        <TextField
-          label="Enter new name (optional)"
-          type="text"
-          value={nameSight}
-          onChange={(e) => newNameSight(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a description for the sight (optional):
-        </Typography>
-        <TextField
-          label="Enter description"
-          type="text"
-          value={descriptionSight}
-          onChange={(e) => newDescriptionSight(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a price for the sight (optional):
-        </Typography>
-        <TextField
-          label="Enter price"
-          type="text"
-          value={priceSight}
-          onChange={(e) => newPriceSight(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a distance for the sight:
-        </Typography>
-        <TextField
-          label="Enter distance"
-          type="text"
-          value={distanceSight}
-          onChange={(e) => newDistanceSight(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a image for the sight:
-        </Typography>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          id="file-upload"
-          className={styles.image__upload}
-        />
-        <Button variant="text" fullWidth onClick={addTag}>
-          Add tag for sight
-        </Button>
-        <FetchWrapper loading={loading} error={error}>
-          {numberTags.map((elem) => (
-            <Box key={elem}>
-              <NativeSelect
-                value={tagIdsSight[elem - 1]}
-                onChange={(e) => selectTag(e.target.value, elem)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {tags &&
-                  tags.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      disabled={tagIdsSight.includes(item.id)}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-              </NativeSelect>
-              <CloseIcon
-                className={styles.select__delete}
-                onClick={(e) => deleteBlocksSelect(elem, e)}
-              />
-            </Box>
-          ))}
+      {isClick ? (
+        <FetchWrapper loading={sight.loading} error={sight.error}>
+          <Typography variant="h6" component="h5">
+            The sight was successfully edited
+          </Typography>
         </FetchWrapper>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={updateSight}
-          disabled={
-            !imageSight &&
-            !nameSight &&
-            !descriptionSight &&
-            !priceSight &&
-            !distanceSight &&
-            tagIdsSight.length === 0
-          }
-        >
-          Edit Sight
-        </Button>
-        {isClick && (
-          <FetchWrapper loading={sight.loading} error={sight.error}>
-            <Typography variant="h6" component="h5">
-              The sight was successfully edited
-            </Typography>
+      ) : (
+        <Box className={styles.controls__wrapper}>
+          <Typography variant="h6" component="h2">
+            Select a sight for editing:
+          </Typography>
+          <NativeSelect
+            value={chooseSight}
+            onChange={(e) => selectSight(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {sights.sights &&
+              sights.sights.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <TextField
+            label="Enter new name (optional)"
+            type="text"
+            value={nameSight}
+            onChange={(e) => newNameSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a description for the sight (optional):
+          </Typography>
+          <TextField
+            label="Enter description"
+            type="text"
+            value={descriptionSight}
+            onChange={(e) => newDescriptionSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a price for the sight (optional):
+          </Typography>
+          <TextField
+            label="Enter price"
+            type="text"
+            value={priceSight}
+            onChange={(e) => newPriceSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a distance for the sight:
+          </Typography>
+          <TextField
+            label="Enter distance"
+            type="text"
+            value={distanceSight}
+            onChange={(e) => newDistanceSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a image for the sight:
+          </Typography>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
+          />
+          <Button variant="text" fullWidth onClick={addTag}>
+            Add tag for sight
+          </Button>
+          <FetchWrapper loading={loading} error={error}>
+            {numberTags.map((elem) => (
+              <Box key={elem}>
+                <NativeSelect
+                  value={tagIdsSight[elem - 1]}
+                  onChange={(e) => selectTag(e.target.value, elem)}
+                  variant="standard"
+                >
+                  <option value="">Select</option>
+                  {tags &&
+                    tags.map((item) => (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        disabled={tagIdsSight.includes(item.id)}
+                      >
+                        {item.name}
+                      </option>
+                    ))}
+                </NativeSelect>
+                <CloseIcon
+                  className={styles.select__delete}
+                  onClick={(e) => deleteBlocksSelect(elem, e)}
+                />
+              </Box>
+            ))}
           </FetchWrapper>
-        )}
-      </Box>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={updateSight}
+            disabled={
+              !imageSight &&
+              !nameSight &&
+              !descriptionSight &&
+              !priceSight &&
+              !distanceSight &&
+              tagIdsSight.length === 0
+            }
+          >
+            Edit Sight
+          </Button>
+        </Box>
+      )}
     </FetchWrapper>
   );
 }

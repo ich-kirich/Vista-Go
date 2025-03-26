@@ -39,42 +39,43 @@ function UpdateTag() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.controls__wrapper}>
-        <Typography variant="h6" component="h2">
-          Select a tag for editing:
-        </Typography>
-        <NativeSelect
-          value={chooseTag}
-          onChange={(e) => selectTag(e.target.value)}
-          variant="standard"
-        >
-          <option value="">Select</option>
-          {tags &&
-            tags.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-        </NativeSelect>
-        <TextField
-          label="Enter new name"
-          type="text"
-          value={nameTag}
-          onChange={(e) => newNameTag(e.target.value)}
-          required
-          fullWidth
-        />
-        <Button variant="contained" fullWidth onClick={deleteTag}>
-          Edit Tag
-        </Button>
-        {isClick && (
-          <FetchWrapper loading={tag.loading} error={tag.error}>
-            <Typography variant="h6" component="h5">
-              The tag was successfully edited
-            </Typography>
-          </FetchWrapper>
-        )}
-      </Box>
+      {isClick ? (
+        <FetchWrapper loading={tag.loading} error={tag.error}>
+          <Typography variant="h6" component="h5">
+            The tag was successfully edited
+          </Typography>
+        </FetchWrapper>
+      ) : (
+        <Box className={styles.controls__wrapper}>
+          <Typography variant="h6" component="h2">
+            Select a tag for editing:
+          </Typography>
+          <NativeSelect
+            value={chooseTag}
+            onChange={(e) => selectTag(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {tags &&
+              tags.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <TextField
+            label="Enter new name"
+            type="text"
+            value={nameTag}
+            onChange={(e) => newNameTag(e.target.value)}
+            required
+            fullWidth
+          />
+          <Button variant="contained" fullWidth onClick={deleteTag}>
+            Edit Tag
+          </Button>
+        </Box>
+      )}
     </FetchWrapper>
   );
 }

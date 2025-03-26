@@ -46,56 +46,57 @@ function UpdateGuide() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.controls__wrapper}>
-        <Typography variant="h6" component="h2">
-          Select a guide for editing:
-        </Typography>
-        <NativeSelect
-          value={chooseGuide}
-          onChange={(e) => selectGuide(e.target.value)}
-          variant="standard"
-        >
-          <option value="">Select</option>
-          {guides &&
-            guides.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-        </NativeSelect>
-        <TextField
-          label="Enter new name (optional)"
-          type="text"
-          value={nameGuide}
-          onChange={(e) => newNameGuide(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a image for the guide (optional):
-        </Typography>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          id="file-upload"
-          className={styles.image__upload}
-        />
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={updateGuide}
-          disabled={!imageGuide && !nameGuide}
-        >
-          Edit Guide
-        </Button>
-        {isClick && (
-          <FetchWrapper loading={guide.loading} error={guide.error}>
-            <Typography variant="h6" component="h5">
-              The guide was successfully edited
-            </Typography>
-          </FetchWrapper>
-        )}
-      </Box>
+      {isClick ? (
+        <FetchWrapper loading={guide.loading} error={guide.error}>
+          <Typography variant="h6" component="h5">
+            The guide was successfully edited
+          </Typography>
+        </FetchWrapper>
+      ) : (
+        <Box className={styles.controls__wrapper}>
+          <Typography variant="h6" component="h2">
+            Select a guide for editing:
+          </Typography>
+          <NativeSelect
+            value={chooseGuide}
+            onChange={(e) => selectGuide(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {guides &&
+              guides.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <TextField
+            label="Enter new name (optional)"
+            type="text"
+            value={nameGuide}
+            onChange={(e) => newNameGuide(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a image for the guide (optional):
+          </Typography>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
+          />
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={updateGuide}
+            disabled={!imageGuide && !nameGuide}
+          >
+            Edit Guide
+          </Button>
+        </Box>
+      )}
     </FetchWrapper>
   );
 }

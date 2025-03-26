@@ -27,31 +27,34 @@ function DeleteSight() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Typography variant="h6" component="h2">
-        Select a sight for deleting:
-      </Typography>
-      <NativeSelect
-        value={chooseSight}
-        onChange={(e) => selectSight(e.target.value)}
-        variant="standard"
-      >
-        <option value="">Select</option>
-        {sights &&
-          sights.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-      </NativeSelect>
-      <Button variant="contained" fullWidth onClick={deleteSight}>
-        Delete Sight
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={sight.loading} error={sight.error}>
           <Typography variant="h6" component="h5">
             The sight was successfully deleted
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          <Typography variant="h6" component="h2">
+            Select a sight for deleting:
+          </Typography>
+          <NativeSelect
+            value={chooseSight}
+            onChange={(e) => selectSight(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {sights &&
+              sights.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <Button variant="contained" fullWidth onClick={deleteSight}>
+            Delete Sight
+          </Button>
+        </>
       )}
     </FetchWrapper>
   );

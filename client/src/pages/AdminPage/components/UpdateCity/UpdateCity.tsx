@@ -168,160 +168,161 @@ function UpdateCity() {
 
   return (
     <FetchWrapper loading={cities.loading} error={cities.error}>
-      <Box className={styles.controls__wrapper}>
-        <Typography variant="h6" component="h2">
-          Select a city for editing:
-        </Typography>
-        <NativeSelect
-          value={chooseCity}
-          onChange={(e) => selectCity(e.target.value)}
-          variant="standard"
-        >
-          <option value="">Select</option>
-          {cities.cities &&
-            cities.cities.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
+      {isClick ? (
+        <FetchWrapper loading={city.loading} error={city.error}>
+          <Typography variant="h6" component="h5">
+            The city was successfully edited
+          </Typography>
+        </FetchWrapper>
+      ) : (
+        <Box className={styles.controls__wrapper}>
+          <Typography variant="h6" component="h2">
+            Select a city for editing:
+          </Typography>
+          <NativeSelect
+            value={chooseCity}
+            onChange={(e) => selectCity(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {cities.cities &&
+              cities.cities.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <Typography variant="h6" component="h2">
+            Enter a name for the city:
+          </Typography>
+          <TextField
+            label="Enter name"
+            type="text"
+            value={nameCity}
+            onChange={(e) => newNameCity(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a country for the city:
+          </Typography>
+          <TextField
+            label="Enter country"
+            type="text"
+            value={countryCity}
+            onChange={(e) => newCountryCity(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a lat of city:
+          </Typography>
+          <TextField
+            label="Enter lat"
+            type="text"
+            value={latCity}
+            onChange={(e) => newLatCity(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a lon of city:
+          </Typography>
+          <TextField
+            label="Enter lon"
+            type="text"
+            value={lonCity}
+            onChange={(e) => newLonCity(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a image for the city:
+          </Typography>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
+          />
+          <Button variant="text" fullWidth onClick={addSight}>
+            Add sight for city
+          </Button>
+          <FetchWrapper loading={loading} error={error}>
+            {numberSights.map((elem) => (
+              <Box key={elem}>
+                <NativeSelect
+                  value={sightIdsCity[elem - 1]}
+                  onChange={(e) => selectSight(e.target.value, elem)}
+                  variant="standard"
+                >
+                  <option value="">Select</option>
+                  {sights &&
+                    sights.map((item) => (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        disabled={sightIdsCity.includes(item.id)}
+                      >
+                        {item.name}
+                      </option>
+                    ))}
+                </NativeSelect>
+                <CloseIcon
+                  className={styles.select__delete}
+                  onClick={(e) => deleteSightsSelect(elem, e)}
+                />
+              </Box>
             ))}
-        </NativeSelect>
-        <Typography variant="h6" component="h2">
-          Enter a name for the city:
-        </Typography>
-        <TextField
-          label="Enter name"
-          type="text"
-          value={nameCity}
-          onChange={(e) => newNameCity(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a country for the city:
-        </Typography>
-        <TextField
-          label="Enter country"
-          type="text"
-          value={countryCity}
-          onChange={(e) => newCountryCity(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a lat of city:
-        </Typography>
-        <TextField
-          label="Enter lat"
-          type="text"
-          value={latCity}
-          onChange={(e) => newLatCity(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a lon of city:
-        </Typography>
-        <TextField
-          label="Enter lon"
-          type="text"
-          value={lonCity}
-          onChange={(e) => newLonCity(e.target.value)}
-          required
-          fullWidth
-        />
-        <Typography variant="h6" component="h2">
-          Enter a image for the city:
-        </Typography>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          id="file-upload"
-          className={styles.image__upload}
-        />
-        <Button variant="text" fullWidth onClick={addSight}>
-          Add sight for city
-        </Button>
-        <FetchWrapper loading={loading} error={error}>
-          {numberSights.map((elem) => (
-            <Box key={elem}>
-              <NativeSelect
-                value={sightIdsCity[elem - 1]}
-                onChange={(e) => selectSight(e.target.value, elem)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {sights &&
-                  sights.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      disabled={sightIdsCity.includes(item.id)}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-              </NativeSelect>
-              <CloseIcon
-                className={styles.select__delete}
-                onClick={(e) => deleteSightsSelect(elem, e)}
-              />
-            </Box>
-          ))}
-        </FetchWrapper>
-        <Button variant="text" fullWidth onClick={addGuide}>
-          Add guide for city
-        </Button>
-        <FetchWrapper loading={guides.loading} error={guides.error}>
-          {numberGuides.map((elem) => (
-            <Box key={elem}>
-              <NativeSelect
-                value={guideIdsCity[elem - 1]}
-                onChange={(e) => selectGuide(e.target.value, elem)}
-                variant="standard"
-              >
-                <option value="">Select</option>
-                {guides.guides &&
-                  guides.guides.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      disabled={guideIdsCity.includes(item.id)}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-              </NativeSelect>
-              <CloseIcon
-                className={styles.select__delete}
-                onClick={(e) => deleteGuideSelect(elem, e)}
-              />
-            </Box>
-          ))}
-        </FetchWrapper>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={updateCity}
-          disabled={
-            !imageCity &&
-            !nameCity &&
-            !countryCity &&
-            !latCity &&
-            !lonCity &&
-            sightIdsCity.length === 0 &&
-            guideIdsCity.length === 0
-          }
-        >
-          Edit City
-        </Button>
-        {isClick && (
-          <FetchWrapper loading={city.loading} error={city.error}>
-            <Typography variant="h6" component="h5">
-              The city was successfully edited
-            </Typography>
           </FetchWrapper>
-        )}
-      </Box>
+          <Button variant="text" fullWidth onClick={addGuide}>
+            Add guide for city
+          </Button>
+          <FetchWrapper loading={guides.loading} error={guides.error}>
+            {numberGuides.map((elem) => (
+              <Box key={elem}>
+                <NativeSelect
+                  value={guideIdsCity[elem - 1]}
+                  onChange={(e) => selectGuide(e.target.value, elem)}
+                  variant="standard"
+                >
+                  <option value="">Select</option>
+                  {guides.guides &&
+                    guides.guides.map((item) => (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        disabled={guideIdsCity.includes(item.id)}
+                      >
+                        {item.name}
+                      </option>
+                    ))}
+                </NativeSelect>
+                <CloseIcon
+                  className={styles.select__delete}
+                  onClick={(e) => deleteGuideSelect(elem, e)}
+                />
+              </Box>
+            ))}
+          </FetchWrapper>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={updateCity}
+            disabled={
+              !imageCity &&
+              !nameCity &&
+              !countryCity &&
+              !latCity &&
+              !lonCity &&
+              sightIdsCity.length === 0 &&
+              guideIdsCity.length === 0
+            }
+          >
+            Edit City
+          </Button>
+        </Box>
+      )}
     </FetchWrapper>
   );
 }

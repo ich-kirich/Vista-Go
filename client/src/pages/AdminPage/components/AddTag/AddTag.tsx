@@ -23,26 +23,29 @@ function AddTag() {
 
   return (
     <Box className={styles.controls__wrapper}>
-      <Typography variant="h6" component="h2">
-        Enter a name for the tag:
-      </Typography>
-      <TextField
-        label="Enter name"
-        type="text"
-        value={nameTag}
-        onChange={(e) => newNameTag(e.target.value)}
-        required
-        fullWidth
-      />
-      <Button variant="contained" fullWidth onClick={addTag}>
-        Add Tag
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6" component="h5">
             The tag was successfully added
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          <Typography variant="h6" component="h2">
+            Enter a name for the tag:
+          </Typography>
+          <TextField
+            label="Enter name"
+            type="text"
+            value={nameTag}
+            onChange={(e) => newNameTag(e.target.value)}
+            required
+            fullWidth
+          />
+          <Button variant="contained" fullWidth onClick={addTag}>
+            Add Tag
+          </Button>
+        </>
       )}
     </Box>
   );

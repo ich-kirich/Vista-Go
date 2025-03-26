@@ -88,113 +88,116 @@ function AddSight() {
   };
 
   return (
-    <Box className={styles.controls__wrapper}>
-      <Typography variant="h6" component="h2">
-        Enter a name for the sight:
-      </Typography>
-      <TextField
-        label="Enter name"
-        type="text"
-        value={nameSight}
-        onChange={(e) => newNameSight(e.target.value)}
-        required
-        fullWidth
-      />
-      <Typography variant="h6" component="h2">
-        Enter a description for the sight:
-      </Typography>
-      <TextField
-        label="Enter description"
-        type="text"
-        value={descriptionSight}
-        onChange={(e) => newDescriptionSight(e.target.value)}
-        required
-        fullWidth
-      />
-      <Typography variant="h6" component="h2">
-        Enter a price for the sight:
-      </Typography>
-      <TextField
-        label="Enter price"
-        type="text"
-        value={priceSight}
-        onChange={(e) => newPriceSight(e.target.value)}
-        required
-        fullWidth
-      />
-      <Typography variant="h6" component="h2">
-        Enter a distance for the sight:
-      </Typography>
-      <TextField
-        label="Enter distance"
-        type="text"
-        value={distanceSight}
-        onChange={(e) => newDistanceSight(e.target.value)}
-        required
-        fullWidth
-      />
-      <Typography variant="h6" component="h2">
-        Enter a image for the sight:
-      </Typography>
-      <input
-        type="file"
-        onChange={handleFileChange}
-        id="file-upload"
-        className={styles.image__upload}
-      />
-      <Button variant="text" fullWidth onClick={addTag}>
-        Add tag for sight
-      </Button>
-      <FetchWrapper loading={tags.loading} error={tags.error}>
-        {numberTags.map((elem) => (
-          <Box key={elem}>
-            <NativeSelect
-              value={tagIdsSight[elem - 1]}
-              onChange={(e) => selectTag(e.target.value, elem)}
-              variant="standard"
-            >
-              <option value="">Select</option>
-              {tags.tags &&
-                tags.tags.map((item) => (
-                  <option
-                    key={item.id}
-                    value={item.id}
-                    disabled={tagIdsSight.includes(item.id)}
-                  >
-                    {item.name}
-                  </option>
-                ))}
-            </NativeSelect>
-            <CloseIcon
-              className={styles.select__delete}
-              onClick={(e) => deleteBlocksSelect(elem, e)}
-            />
-          </Box>
-        ))}
-      </FetchWrapper>
-      <Button
-        variant="contained"
-        fullWidth
-        onClick={addSight}
-        disabled={
-          !imageSight ||
-          !nameSight ||
-          !descriptionSight ||
-          !priceSight ||
-          !distanceSight ||
-          tagIdsSight.length === 0
-        }
-      >
-        Add sight
-      </Button>
-      {isClick && (
+    <>
+      {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6" component="h5">
             The sight was successfully added
           </Typography>
         </FetchWrapper>
+      ) : (
+        <Box className={styles.controls__wrapper}>
+          <Typography variant="h6" component="h2">
+            Enter a name for the sight:
+          </Typography>
+          <TextField
+            label="Enter name"
+            type="text"
+            value={nameSight}
+            onChange={(e) => newNameSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a description for the sight:
+          </Typography>
+          <TextField
+            label="Enter description"
+            type="text"
+            value={descriptionSight}
+            onChange={(e) => newDescriptionSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a price for the sight:
+          </Typography>
+          <TextField
+            label="Enter price"
+            type="text"
+            value={priceSight}
+            onChange={(e) => newPriceSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a distance for the sight:
+          </Typography>
+          <TextField
+            label="Enter distance"
+            type="text"
+            value={distanceSight}
+            onChange={(e) => newDistanceSight(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a image for the sight:
+          </Typography>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
+          />
+          <Button variant="text" fullWidth onClick={addTag}>
+            Add tag for sight
+          </Button>
+          <FetchWrapper loading={tags.loading} error={tags.error}>
+            {numberTags.map((elem) => (
+              <Box key={elem}>
+                <NativeSelect
+                  value={tagIdsSight[elem - 1]}
+                  onChange={(e) => selectTag(e.target.value, elem)}
+                  variant="standard"
+                >
+                  <option value="">Select</option>
+                  {tags.tags &&
+                    tags.tags.map((item) => (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        disabled={tagIdsSight.includes(item.id)}
+                      >
+                        {item.name}
+                      </option>
+                    ))}
+                </NativeSelect>
+                <CloseIcon
+                  className={styles.select__delete}
+                  onClick={(e) => deleteBlocksSelect(elem, e)}
+                />
+              </Box>
+            ))}
+          </FetchWrapper>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={addSight}
+            disabled={
+              !imageSight ||
+              !nameSight ||
+              !descriptionSight ||
+              !priceSight ||
+              !distanceSight ||
+              tagIdsSight.length === 0
+            }
+          >
+            Add sight
+          </Button>
+        </Box>
       )}
-    </Box>
+    </>
   );
 }
 

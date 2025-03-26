@@ -28,31 +28,34 @@ function DeleteRecommend() {
 
   return (
     <FetchWrapper loading={loading} error={error}>
-      <Typography variant="h6" component="h2">
-        Select a recommendation:
-      </Typography>
-      <NativeSelect
-        value={chooseRecommend}
-        onChange={(e) => selectRecommend(e.target.value)}
-        variant="standard"
-      >
-        <option value="">Select</option>
-        {recommends &&
-          recommends.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-      </NativeSelect>
-      <Button variant="contained" fullWidth onClick={deleteRecommend}>
-        Delete Recommend
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={recommend.loading} error={recommend.error}>
           <Typography variant="h6" component="h5">
             The recommendation was successfully deleted
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          <Typography variant="h6" component="h2">
+            Select a recommendation:
+          </Typography>
+          <NativeSelect
+            value={chooseRecommend}
+            onChange={(e) => selectRecommend(e.target.value)}
+            variant="standard"
+          >
+            <option value="">Select</option>
+            {recommends &&
+              recommends.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </NativeSelect>
+          <Button variant="contained" fullWidth onClick={deleteRecommend}>
+            Delete Recommend
+          </Button>
+        </>
       )}
     </FetchWrapper>
   );

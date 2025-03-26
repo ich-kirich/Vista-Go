@@ -30,40 +30,43 @@ function AddGuide() {
 
   return (
     <Box className={styles.controls__wrapper}>
-      <Typography variant="h6" component="h2">
-        Enter a name for the guide:
-      </Typography>
-      <TextField
-        label="Enter name"
-        type="text"
-        value={nameGuide}
-        onChange={(e) => newNameGuide(e.target.value)}
-        required
-        fullWidth
-      />
-      <Typography variant="h6" component="h2">
-        Enter a image for the guide:
-      </Typography>
-      <input
-        type="file"
-        onChange={handleFileChange}
-        id="file-upload"
-        className={styles.image__upload}
-      />
-      <Button
-        variant="contained"
-        fullWidth
-        onClick={addGuide}
-        disabled={!imageGuide || !nameGuide}
-      >
-        Add Guide
-      </Button>
-      {isClick && (
+      {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6" component="h5">
             The guide was successfully added
           </Typography>
         </FetchWrapper>
+      ) : (
+        <>
+          <Typography variant="h6" component="h2">
+            Enter a name for the guide:
+          </Typography>
+          <TextField
+            label="Enter name"
+            type="text"
+            value={nameGuide}
+            onChange={(e) => newNameGuide(e.target.value)}
+            required
+            fullWidth
+          />
+          <Typography variant="h6" component="h2">
+            Enter a image for the guide:
+          </Typography>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            id="file-upload"
+            className={styles.image__upload}
+          />
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={addGuide}
+            disabled={!imageGuide || !nameGuide}
+          >
+            Add Guide
+          </Button>
+        </>
       )}
     </Box>
   );
