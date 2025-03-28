@@ -1,7 +1,7 @@
 import { IAction, IUser } from "../../types/types";
 import { getValidToken } from "../../libs/utils";
 import { JwtPayload } from "jwt-decode";
-import { User } from "../../libs/enums";
+import { LocalStorageKeys, User } from "../../libs/enums";
 
 interface IUserState {
   user: (IUser & JwtPayload) | null;
@@ -28,6 +28,12 @@ const userReducer = (
       return {
         loading: false,
         error: action.payload,
+        user: null,
+      };
+    case User.FETCH_USER_LOGOUT:
+      localStorage.removeItem(LocalStorageKeys.TOKEN);
+      return {
+        ...state,
         user: null,
       };
     default:

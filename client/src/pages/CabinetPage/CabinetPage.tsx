@@ -9,8 +9,15 @@ import ChangeUsername from "./components/ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
-import { AppError, Routes } from "../../libs/enums";
+import {
+  AppError,
+  Auth,
+  LocalStorageKeys,
+  Routes,
+  User,
+} from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
+import { useDispatch } from "react-redux";
 
 function CabinetPage() {
   const [error, setError] = useState("");
@@ -20,6 +27,7 @@ function CabinetPage() {
   >(null);
   const navigate = useNavigate();
   const { user } = useTypedSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const token = user || getValidToken();
@@ -33,6 +41,13 @@ function CabinetPage() {
       setError(AppError.LOADING_USER);
     }
   }, [user]);
+
+  const logout = () => {
+    navigate(Routes.LOGIN);
+    localStorage.removeItem(LocalStorageKeys.TOKEN);
+    dispatch({ type: Auth.LOGOUT });
+    dispatch({ type: User.FETCH_USER_LOGOUT });
+  };
 
   if (error) return <ViewError>{error}</ViewError>;
 
@@ -72,6 +87,9 @@ function CabinetPage() {
             Go to the admin panel
           </Button>
         )}
+        <Button variant="contained" fullWidth onClick={logout}>
+          Logout
+        </Button>
       </Box>
 
       {activeField === "name" && (
