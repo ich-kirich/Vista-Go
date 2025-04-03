@@ -23,6 +23,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const [errorRepeat, setErrorRepeat] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const { fetchCodePassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.codepass);
@@ -32,6 +33,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   };
 
   const sendCode = () => {
+    setShowError(true);
     if (newPassword === repeatPassword) {
       fetchCodePassword(email!, newPassword);
       if (!loading && !error) {
@@ -47,6 +49,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
     if (error || errorRepeat) {
       timer = setTimeout(() => {
         setErrorRepeat("");
+        setShowError(false);
       }, 5000);
     }
 
@@ -68,7 +71,10 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   };
 
   return (
-    <FetchWrapper loading={loading} error={error || errorRepeat}>
+    <FetchWrapper
+      loading={loading}
+      error={showError ? error || errorRepeat : null}
+    >
       {visible && (
         <Box>
           <PopupComponent
