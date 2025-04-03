@@ -11,6 +11,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UpdateGuide.module.scss";
 import { validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function UpdateGuide() {
   const [chooseGuide, setChooseGuide] = useState("");
@@ -18,6 +19,7 @@ function UpdateGuide() {
   const [isClick, setIsClick] = useState(false);
   const [imageGuide, setImageGuide] = useState<File>();
   const [validationError, setValidationError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const { fetchGuides, fetchUpdateGuide } = useActions();
   const guide = useTypedSelector((state) => state.guide);
@@ -53,20 +55,19 @@ function UpdateGuide() {
       {isClick ? (
         <FetchWrapper loading={guide.loading} error={guide.error}>
           <Typography variant="h6" component="h5">
-            The guide was successfully edited
+            {t("admin_page.update.guide.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
           <Typography variant="h6" component="h2">
-            Select a guide for editing:
+            {t("admin_page.update.guide.select_label")}
           </Typography>
           <NativeSelect
             value={chooseGuide}
             onChange={(e) => selectGuide(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {guides &&
               guides.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -75,17 +76,17 @@ function UpdateGuide() {
               ))}
           </NativeSelect>
           <TextField
-            label="Enter new name (optional)"
+            label={t("admin_page.update.guide.name")}
             type="text"
             value={nameGuide}
             onChange={(e) => newNameGuide(e.target.value)}
             required
             fullWidth
             error={!!validationError}
-            helperText={validationError}
+            helperText={validationError && t(`${validationError}`)}
           />
           <Typography variant="h6" component="h2">
-            Enter a image for the guide (optional):
+            {t("admin_page.update.guide.image_label")}
           </Typography>
           <input
             type="file"
@@ -99,7 +100,7 @@ function UpdateGuide() {
             onClick={updateGuide}
             disabled={!!validationError || (!imageGuide && !nameGuide)}
           >
-            Edit Guide
+            {t("admin_page.update.guide.button")}
           </Button>
         </Box>
       )}

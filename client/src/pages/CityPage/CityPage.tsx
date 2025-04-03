@@ -8,11 +8,13 @@ import CityPopular from "./components/CityPopular/CityPopular";
 import FetchWrapper from "../../components/FetchWrapper/FetchWrapper";
 import MustGo from "./components/MustGo/MustGo";
 import ViewError from "../../components/ViewError/ViewError";
+import { useTranslation } from "react-i18next";
 import styles from "./CityPage.module.scss";
 
 function CityPage() {
   const { fetchCity } = useActions();
   const { id } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (id) fetchCity(id);
@@ -28,7 +30,7 @@ function CityPage() {
             {city.sights.length > 0 ? (
               <CityPopular sight={city.sights[0]} />
             ) : (
-              <ViewError>No sights Found</ViewError>
+              <ViewError>{t("city_page.no_sights_found")}</ViewError>
             )}
           </Box>
           <MustGo />

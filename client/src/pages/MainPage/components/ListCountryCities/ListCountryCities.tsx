@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CONTEXT } from "../../../../libs/constants";
 import { ICities, IListCitiesProps } from "../../../../types/types";
 import ModalComponent from "../ModalComponent/ModalComponent";
+import { useTranslation } from "react-i18next";
 import styles from "./ListCountryCities.module.scss";
 import { getRoute } from "../../../../libs/utils";
 import { Routes } from "../../../../libs/enums";
@@ -15,6 +16,8 @@ function ListCountryCities(props: IListCitiesProps) {
     .sort((a, b) => a.name.localeCompare(b.name));
   const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const viewCity = (city: ICities) => {
     navigate(getRoute(Routes.CITY, { id: city.id }));
   };
@@ -23,7 +26,9 @@ function ListCountryCities(props: IListCitiesProps) {
     <ModalComponent visible={visible} setVisible={setVisible}>
       <Box>
         <Typography variant="h6" component="h5">
-          {sortCities.length === 0 ? "No city found" : "Choose city:"}
+          {sortCities.length === 0
+            ? t("list_country_cities.no_city_found")
+            : t("list_country_cities.choose_city")}
         </Typography>
         {sortCities.map((item) => (
           <Typography

@@ -11,43 +11,43 @@ export enum Routes {
 }
 
 export enum AdminEntity {
-  TAG = "Tag",
-  SIGHT = "Sight",
-  GUIDE = "Guide",
-  CITY = "City",
-  RECOMMEND = "Recommend",
+  TAG = "tag",
+  SIGHT = "sight",
+  GUIDE = "guide",
+  CITY = "city",
+  RECOMMEND = "recommend",
 }
 
 export enum AppError {
-  INCORRECT_INPUT = "Incorrect email, password or name.",
-  USER_EXIST = "User with this email exists.",
-  PASSWORD_REQUIREMENTS = "The password must contain at least one number, one letter in upper and lower case, and one special character.",
-  NO_PERSONAL_DATA = "The password must not contain the username, last name or email address.",
-  SIMPLE_PASSWORD = "The password is too easy.",
-  INCORRECT_EMAIL = "Incorrect email format.",
-  USER_NOT_FOUND = "User with this email was not found.",
-  INCORRECT_PASSWORD = "Incorrect password.",
-  USERNAME_NOT_FOUND = "User was not found.",
-  FILE_NOT_IMAGE = "The file is not an image.",
-  INCORRECT_NAME = "An invalid name was entered.",
-  INCORRECT_CODE = "Incorrect code.",
-  NOT_AUTHORIZED = "User is not logged in.",
-  NO_ACCESS = "No access.",
-  GUIDE_NOT_FOUND = "The guide was not found.",
-  TAG_NOT_FOUND = "The tag was not found.",
-  SIGHT_NOT_FOUND = "The sight was not found.",
-  CITY_NOT_FOUND = "The city was not found.",
-  RECOMMEND_NOT_FOUND = "The recommend was not found.",
-  INVALID_TYPE_TOKEN = "Invalid token type. Bearer token expected.",
-  LONG_NAME = "The name must be no more than 10 characters long.",
-  SHORT_PASSWORD = "The password must be at least 8 characters.",
-  RECOMMEND_FOUND = "Recommend with this city is exist.",
-  LOADING_USER = "Error loading user information.",
-  REENTERED_PASSWORD = "Reentered password did not match.",
-  UNEXPECTED_ERROR = "An unexpected error occurred.",
-  INVALID_NAME = "Invalid input. Only letters, spaces, and hyphens are allowed.",
-  INVALID_LATITUDE = "Latitude must be between -90 and 90.",
-  INVALID_LONGITUDE = "Longitude must be between -180 and 180.",
+  INCORRECT_INPUT = "app_error.incorrect_input",
+  USER_EXIST = "app_error.user_exists",
+  PASSWORD_REQUIREMENTS = "app_error.password_requirements",
+  NO_PERSONAL_DATA = "app_error.no_personal_data",
+  SIMPLE_PASSWORD = "app_error.simple_password",
+  INCORRECT_EMAIL = "app_error.incorrect_email",
+  USER_NOT_FOUND = "app_error.user_not_found",
+  INCORRECT_PASSWORD = "app_error.incorrect_password",
+  USERNAME_NOT_FOUND = "app_error.username_not_found",
+  FILE_NOT_IMAGE = "app_error.file_not_image",
+  INCORRECT_NAME = "app_error.incorrect_name",
+  INCORRECT_CODE = "app_error.incorrect_code",
+  NOT_AUTHORIZED = "app_error.not_authorized",
+  NO_ACCESS = "app_error.no_access",
+  GUIDE_NOT_FOUND = "app_error.guide_not_found",
+  TAG_NOT_FOUND = "app_error.tag_not_found",
+  SIGHT_NOT_FOUND = "app_error.sight_not_found",
+  CITY_NOT_FOUND = "app_error.city_not_found",
+  RECOMMEND_NOT_FOUND = "app_error.recommend_not_found",
+  INVALID_TYPE_TOKEN = "app_error.invalid_type_token",
+  LONG_NAME = "app_error.long_name",
+  SHORT_PASSWORD = "app_error.short_password",
+  RECOMMEND_FOUND = "app_error.recommend_found",
+  LOADING_USER = "app_error.loading_user",
+  REENTERED_PASSWORD = "app_error.reentered_password",
+  UNEXPECTED_ERROR = "app_error.unexpected_error",
+  INVALID_NAME = "app_error.invalid_name",
+  INVALID_LATITUDE = "app_error.invalid_latitude",
+  INVALID_LONGITUDE = "app_error.invalid_longitude",
 }
 
 export enum CodePass {
@@ -142,4 +142,9 @@ export enum Cities {
 
 export enum LocalStorageKeys {
   TOKEN = "vista_go_token",
+}
+
+export enum Locales {
+  RU = "ru",
+  EN = "en",
 }

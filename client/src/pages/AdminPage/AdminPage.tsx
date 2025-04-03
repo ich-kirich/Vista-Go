@@ -18,14 +18,16 @@ import AddRecommend from "./components/AddRecommend/AddRecommend";
 import AddSight from "./components/AddSight/AddSight";
 import AddTag from "./components/AddTag/AddTag";
 import { AdminEntity } from "../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 function AdminPage() {
   const [visiblePanel, setVisiblePanel] = useState<AdminEntity | null>(null);
+  const { t } = useTranslation();
 
   const adminPanels = [
     {
       entity: AdminEntity.CITY,
-      label: "Edit cities",
+      label: t("admin_page.edit.cities"),
       components: {
         add: <AddCity />,
         update: <UpdateCity />,
@@ -34,12 +36,12 @@ function AdminPage() {
     },
     {
       entity: AdminEntity.RECOMMEND,
-      label: "Edit recommends",
+      label: t("admin_page.edit.recommends"),
       components: { add: <AddRecommend />, delete: <DeleteRecommend /> },
     },
     {
       entity: AdminEntity.SIGHT,
-      label: "Edit sights",
+      label: t("admin_page.edit.sights"),
       components: {
         add: <AddSight />,
         update: <UpdateSight />,
@@ -48,7 +50,7 @@ function AdminPage() {
     },
     {
       entity: AdminEntity.TAG,
-      label: "Edit tags of sights",
+      label: t("admin_page.edit.tags"),
       components: {
         add: <AddTag />,
         update: <UpdateTag />,
@@ -57,7 +59,7 @@ function AdminPage() {
     },
     {
       entity: AdminEntity.GUIDE,
-      label: "Edit guides",
+      label: t("admin_page.edit.guides"),
       components: {
         add: <AddGuide />,
         update: <UpdateGuide />,
@@ -80,7 +82,7 @@ function AdminPage() {
 
       <Box>
         <Typography variant="h3" component="h2">
-          Welcome to Admin Panel
+          {t("admin_page.welcome")}
         </Typography>
       </Box>
 

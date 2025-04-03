@@ -5,12 +5,14 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./AddGuide.module.scss";
 import { validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function AddGuide() {
   const [isClick, setIsClick] = useState(false);
   const [nameGuide, setNameGuide] = useState("");
   const [imageGuide, setImageGuide] = useState<File>();
   const [validationError, setValidationError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const { fetchCreateGuide } = useActions();
   const { error, loading } = useTypedSelector((state) => state.guide);
@@ -37,26 +39,26 @@ function AddGuide() {
       {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6" component="h5">
-            The guide was successfully added
+            {t("admin_page.add.guide.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
           <Typography variant="h6" component="h2">
-            Enter a name for the guide:
+            {t("admin_page.add.guide.name")}:
           </Typography>
           <TextField
-            label="Enter name"
+            label={t("admin_page.add.guide.name_label")}
             type="text"
             value={nameGuide}
             onChange={(e) => newNameGuide(e.target.value)}
             required
             fullWidth
-            error={!!validationError}
-            helperText={validationError}
+            error={!!validationError && t(`${validationError}`)}
+            helperText={validationError && t(`${validationError}`)}
           />
           <Typography variant="h6" component="h2">
-            Enter a image for the guide:
+            {t("admin_page.add.guide.image_label")}:
           </Typography>
           <input
             type="file"
@@ -70,7 +72,7 @@ function AddGuide() {
             onClick={addGuide}
             disabled={!!validationError || !imageGuide || !nameGuide}
           >
-            Add Guide
+            {t("admin_page.add.guide")}
           </Button>
         </>
       )}

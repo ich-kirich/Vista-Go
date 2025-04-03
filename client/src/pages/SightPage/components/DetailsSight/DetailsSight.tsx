@@ -1,8 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { ISightProps } from "../../../../types/types";
+import { useTranslation } from "react-i18next";
 import styles from "./DetailsSight.module.scss";
 
 function DetailsPopular({ sight }: ISightProps) {
+  const { t } = useTranslation();
+
   return (
     <Box className={styles.details__wrapper}>
       <Box
@@ -14,7 +17,7 @@ function DetailsPopular({ sight }: ISightProps) {
       {sight.tags && (
         <Box className={styles.details__tags}>
           <Typography variant="h6" component="h5">
-            Tags:
+            {t("details_sight.tags")}
           </Typography>
           <Typography
             variant="h6"
@@ -28,7 +31,7 @@ function DetailsPopular({ sight }: ISightProps) {
       {sight.description && (
         <Box>
           <Typography variant="h6" component="h5">
-            Description:
+            {t("details_sight.description")}
           </Typography>
           <Typography
             variant="h6"

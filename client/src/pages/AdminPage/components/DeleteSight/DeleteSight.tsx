@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { useTranslation } from "react-i18next";
 
 function DeleteSight() {
   const [chooseSight, setChooseSight] = useState("");
   const [isClick, setIsClick] = useState(false);
+  const { t } = useTranslation();
 
   const { fetchAllSights, fetchDeleteSight } = useActions();
   const sight = useTypedSelector((state) => state.sight);
@@ -30,20 +32,19 @@ function DeleteSight() {
       {isClick ? (
         <FetchWrapper loading={sight.loading} error={sight.error}>
           <Typography variant="h6" component="h5">
-            The sight was successfully deleted
+            {t("admin_page.delete.sight.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
           <Typography variant="h6" component="h2">
-            Select a sight for deleting:
+            {t("admin_page.delete.sight.select_label")}:
           </Typography>
           <NativeSelect
             value={chooseSight}
             onChange={(e) => selectSight(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {sights &&
               sights.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -52,7 +53,7 @@ function DeleteSight() {
               ))}
           </NativeSelect>
           <Button variant="contained" fullWidth onClick={deleteSight}>
-            Delete Sight
+            {t("admin_page.delete.sight.button")}
           </Button>
         </>
       )}

@@ -5,6 +5,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import { IChangeUsernameProps } from "../../../../types/types";
 import Loader from "../../../../components/Loader/Loader";
 import ViewError from "../../../../components/ViewError/ViewError";
+import { useTranslation } from "react-i18next";
 import styles from "./ChangeUsername.module.scss";
 
 function ChangeUsername(props: IChangeUsernameProps) {
@@ -14,6 +15,7 @@ function ChangeUsername(props: IChangeUsernameProps) {
 
   const { fetchUpdateUsername } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const updateName = () => {
     setVisible(!visible);
@@ -43,7 +45,7 @@ function ChangeUsername(props: IChangeUsernameProps) {
       {visible && (
         <Box className={styles.input__wrapper}>
           <TextField
-            label="Enter your Name"
+            label={t("change_username.enter_name")}
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             required
@@ -51,10 +53,10 @@ function ChangeUsername(props: IChangeUsernameProps) {
           />
           <Box className={styles.btns__wrapper}>
             <Button variant="contained" fullWidth onClick={updateName}>
-              Save Name
+              {t("change_username.save_name")}
             </Button>
             <Button variant="contained" fullWidth onClick={closeNameField}>
-              Cancel
+              {t("change_username.cancel")}
             </Button>
           </Box>
         </Box>

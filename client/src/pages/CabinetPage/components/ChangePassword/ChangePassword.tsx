@@ -9,6 +9,7 @@ import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { AppError } from "../../../../libs/enums";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useTranslation } from "react-i18next";
 
 interface IChangePasswordProps {
   visible: boolean;
@@ -24,6 +25,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [showError, setShowError] = useState(false);
+  const { t } = useTranslation();
 
   const { fetchCodePassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.codepass);
@@ -73,7 +75,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   return (
     <FetchWrapper
       loading={loading}
-      error={showError ? error || errorRepeat : null}
+      error={showError ? error || t(`${error}`) || t(`${errorRepeat}`) : null}
     >
       {visible && (
         <Box>
@@ -88,7 +90,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
           </PopupComponent>
           <Box className={styles.inputs__wrapper}>
             <TextField
-              label="Enter your password"
+              label={t("change_password.enter_new_password")}
               type={showNewPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
@@ -107,7 +109,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
               }}
             />
             <TextField
-              label="Repeat password"
+              label={t("change_password.repeat_password")}
               type={showRepeatPassword ? "text" : "password"}
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
@@ -128,10 +130,10 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
           </Box>
           <Box className={styles.btns__wrapper}>
             <Button variant="contained" fullWidth onClick={sendCode}>
-              Send Verification code on email
+              {t("change_password.send_verification_code")}
             </Button>
             <Button variant="contained" fullWidth onClick={closeNameField}>
-              Cancel
+              {t("change_password.cancel")}
             </Button>
           </Box>
         </Box>

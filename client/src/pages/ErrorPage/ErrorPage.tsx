@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import styles from "./ErrorPage.module.scss";
 import { Routes } from "../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 function ErrorPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const goHome = () => {
     navigate(Routes.LOGIN);
@@ -27,10 +29,10 @@ function ErrorPage() {
           component="h2"
           className={styles.errorPage__subtitle}
         >
-          Page Not Found
+          {t("error_page.not_found")}
         </Typography>
         <Typography variant="body1" className={styles.errorPage__message}>
-          Sorry, the page you’re looking for doesn’t exist or has been moved.
+          {t("error_page.message")}
         </Typography>
         <Button
           variant="contained"
@@ -38,7 +40,7 @@ function ErrorPage() {
           className={styles.errorPage__button}
           onClick={goHome}
         >
-          Go to Home
+          {t("error_page.go_home")}
         </Button>
       </div>
     </Box>

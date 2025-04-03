@@ -12,6 +12,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./UpdateSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function UpdateSight() {
   const [chooseSight, setChooseSight] = useState("");
@@ -27,6 +28,7 @@ function UpdateSight() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
+  const { t } = useTranslation();
 
   const sight = useTypedSelector((state) => state.sight);
   const { fetchTags, fetchAllSights, fetchUpdateSight } = useActions();
@@ -134,20 +136,19 @@ function UpdateSight() {
       {isClick ? (
         <FetchWrapper loading={sight.loading} error={sight.error}>
           <Typography variant="h6" component="h5">
-            The sight was successfully edited
+            {t("admin_page.update.sight.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
           <Typography variant="h6" component="h2">
-            Select a sight for editing:
+            {t("admin_page.update.sight.select_label")}
           </Typography>
           <NativeSelect
             value={chooseSight}
             onChange={(e) => selectSight(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {sights.sights &&
               sights.sights.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -156,33 +157,38 @@ function UpdateSight() {
               ))}
           </NativeSelect>
           <TextField
-            label="Enter new name (optional)"
+            label={t("admin_page.update.sight.name")}
             type="text"
             value={nameSight}
             onChange={(e) => newNameSight(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.nameSight}
-            helperText={validationErrors.nameSight}
+            helperText={
+              validationErrors.nameSight && t(`${validationErrors.nameSight}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a description for the sight (optional):
+            {t("admin_page.update.sight.description_label")}
           </Typography>
           <TextField
-            label="Enter description"
+            label={t("admin_page.update.sight.description")}
             type="text"
             value={descriptionSight}
             onChange={(e) => newDescriptionSight(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.descriptionSight}
-            helperText={validationErrors.descriptionSight}
+            helperText={
+              validationErrors.descriptionSight &&
+              t(`${validationErrors.descriptionSight}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a price for the sight (optional):
+            {t("admin_page.update.sight.price_label")}
           </Typography>
           <TextField
-            label="Enter price"
+            label={t("admin_page.update.sight.price")}
             type="text"
             value={priceSight}
             onChange={(e) => newPriceSight(e.target.value)}
@@ -190,10 +196,10 @@ function UpdateSight() {
             fullWidth
           />
           <Typography variant="h6" component="h2">
-            Enter a distance for the sight:
+            {t("admin_page.update.sight.distance_label")}
           </Typography>
           <TextField
-            label="Enter distance"
+            label={t("admin_page.update.sight.distance")}
             type="text"
             value={distanceSight}
             onChange={(e) => newDistanceSight(e.target.value)}
@@ -201,7 +207,7 @@ function UpdateSight() {
             fullWidth
           />
           <Typography variant="h6" component="h2">
-            Enter a image for the sight:
+            {t("admin_page.update.sight.image_label")}
           </Typography>
           <input
             type="file"
@@ -210,7 +216,7 @@ function UpdateSight() {
             className={styles.image__upload}
           />
           <Button variant="text" fullWidth onClick={addTag}>
-            Add tag for sight
+            {t("admin_page.update.sight.tag_button")}
           </Button>
           <FetchWrapper loading={loading} error={error}>
             {numberTags.map((elem) => (
@@ -220,7 +226,6 @@ function UpdateSight() {
                   onChange={(e) => selectTag(e.target.value, elem)}
                   variant="standard"
                 >
-                  <option value="">Select</option>
                   {tags &&
                     tags.map((item) => (
                       <option
@@ -253,7 +258,7 @@ function UpdateSight() {
               Object.values(validationErrors).some((error) => error !== null)
             }
           >
-            Edit Sight
+            {t("admin_page.update.sight.button")}
           </Button>
         </Box>
       )}

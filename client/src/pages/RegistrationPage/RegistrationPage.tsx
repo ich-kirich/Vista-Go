@@ -6,9 +6,10 @@ import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../../components/Loader/Loader";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 import VerificationField from "./components/VerificationField/VerificationField";
-import styles from "./RegistrationPage.module.scss";
 import { Routes } from "../../libs/enums";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
+import styles from "./RegistrationPage.module.scss";
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -20,11 +21,16 @@ function RegistrationPage() {
   const [visible, setVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const formFields = [
-    { label: "Enter your Name", name: "name", type: "text" },
-    { label: "Enter your Email", name: "email", type: "email" },
-    { label: "Enter your Password", name: "password", type: "password" },
+    { label: t("registration_page.enter_name"), name: "name", type: "text" },
+    { label: t("registration_page.enter_email"), name: "email", type: "email" },
+    {
+      label: t("registration_page.enter_password"),
+      name: "password",
+      type: "password",
+    },
   ];
 
   const { fetchRegistration } = useActions();
@@ -79,7 +85,7 @@ function RegistrationPage() {
                 component="h2"
                 className={styles.registration__title}
               >
-                Registration
+                {t("registration_page.registration")}
               </Typography>
 
               {formFields.map(({ label, name, type }) => (
@@ -105,10 +111,10 @@ function RegistrationPage() {
                 />
               ))}
               <Button variant="contained" fullWidth onClick={handleSubmit}>
-                Register account
+                {t("registration_page.register_account")}
               </Button>
               <Link className={styles.registration__link} to={Routes.LOGIN}>
-                You have account?
+                {t("registration_page.have_account")}
               </Link>
             </Box>
           </Box>

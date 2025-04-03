@@ -12,6 +12,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./AddCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateLat, validateLon, validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function AddCity() {
   const [isClick, setIsClick] = useState(false);
@@ -27,6 +28,7 @@ function AddCity() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
+  const { t } = useTranslation();
 
   const { fetchCreateCity, fetchAllSights, fetchGuides } = useActions();
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
@@ -135,65 +137,74 @@ function AddCity() {
       {isClick ? (
         <FetchWrapper loading={city.loading} error={city.error}>
           <Typography variant="h6" component="h5">
-            The city was successfully added
+            {t("admin_page.add.city.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
           <Typography variant="h6" component="h2">
-            Enter a name for the city:
+            {t("admin_page.add.city.name")}:
           </Typography>
           <TextField
-            label="Enter name"
+            label={t("admin_page.add.city.name")}
             type="text"
             value={nameCity}
             onChange={(e) => newNameCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.nameCity}
-            helperText={validationErrors.nameCity}
+            helperText={
+              validationErrors.nameCity && t(`${validationErrors.nameCity}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a country for the city:
+            {t("admin_page.add.city.country_label")}:
           </Typography>
           <TextField
-            label="Enter country"
+            label={t("admin_page.add.city.country")}
             type="text"
             value={countryCity}
             onChange={(e) => newCountryCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.countryCity}
-            helperText={validationErrors.countryCity}
+            helperText={
+              validationErrors.countryCity &&
+              t(`${validationErrors.countryCity}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a lat of city:
+            {t("admin_page.add.city.lat_label")}:
           </Typography>
           <TextField
-            label="Enter lat"
+            label={t("admin_page.add.city.lat")}
             type="text"
             value={latCity}
             onChange={(e) => newLatCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.latCity}
-            helperText={validationErrors.latCity}
+            helperText={
+              validationErrors.latCity && t(`${validationErrors.latCity}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a lon of city:
+            {t("admin_page.add.city.lon_label")}:
           </Typography>
           <TextField
-            label="Enter lon"
+            label={t("admin_page.add.city.lon")}
             type="text"
             value={lonCity}
             onChange={(e) => newLonCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.lonCity}
-            helperText={validationErrors.lonCity}
+            helperText={
+              validationErrors.lonCity && t(`${validationErrors.lonCity}`)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a image for the city:
+            {t("admin_page.add.city.image_label")}:
           </Typography>
           <input
             type="file"
@@ -202,7 +213,7 @@ function AddCity() {
             className={styles.image__upload}
           />
           <Button variant="text" fullWidth onClick={addSight}>
-            Add sight for city
+            {t("admin_page.add.city.sight")}
           </Button>
           <FetchWrapper loading={loading} error={error}>
             {numberSights.map((elem) => (
@@ -212,7 +223,6 @@ function AddCity() {
                   onChange={(e) => selectSight(e.target.value)}
                   variant="standard"
                 >
-                  <option value="">Select</option>
                   {sights &&
                     sights.map((item) => (
                       <option
@@ -232,7 +242,7 @@ function AddCity() {
             ))}
           </FetchWrapper>
           <Button variant="text" fullWidth onClick={addGuide}>
-            Add guide for city
+            {t("admin_page.add.city.guide")}
           </Button>
           <FetchWrapper loading={guides.loading} error={guides.error}>
             {numberGuides.map((elem) => (
@@ -242,7 +252,6 @@ function AddCity() {
                   onChange={(e) => selectGuide(e.target.value)}
                   variant="standard"
                 >
-                  <option value="">Select</option>
                   {guides.guides &&
                     guides.guides.map((item) => (
                       <option
@@ -275,7 +284,7 @@ function AddCity() {
               guideIdsCity.length === 0
             }
           >
-            Add City
+            {t("admin_page.add.city")}
           </Button>
         </>
       )}

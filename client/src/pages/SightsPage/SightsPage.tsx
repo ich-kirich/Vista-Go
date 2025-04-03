@@ -15,7 +15,7 @@ function SightsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (id) fetchSights(id!);
+    if (id) fetchSights(id);
   }, [id]);
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
 

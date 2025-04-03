@@ -3,10 +3,13 @@ import { useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { useTranslation } from "react-i18next";
 import styles from "./ListGuides.module.scss";
 
 function ListGuides() {
   const { fetchGuides } = useActions();
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!guides) fetchGuides();
   }, []);
@@ -17,7 +20,7 @@ function ListGuides() {
       <Box className={styles.header__wrapper}>
         <Box className={styles.title__wrapper}>
           <Typography variant="h6" component="h2" className={styles.title}>
-            Master
+            {t("list_guides.guides")}
           </Typography>
         </Box>
       </Box>
@@ -32,8 +35,8 @@ function ListGuides() {
               }}
             />
           ))}
-        <Button variant="text" className={styles.guide__joing}>
-          Join them.
+        <Button variant="text" className={styles.guide__joying}>
+          {t("list_guides.join")}
         </Button>
       </Box>
     </FetchWrapper>

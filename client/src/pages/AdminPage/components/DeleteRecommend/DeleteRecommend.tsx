@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { useTranslation } from "react-i18next";
 
 function DeleteRecommend() {
   const [chooseRecommend, setChooseRecommend] = useState("");
   const [isClick, setIsClick] = useState(false);
+  const { t } = useTranslation();
 
   const { fetchRecommends, fetchDeleteRecommend } = useActions();
   const recommend = useTypedSelector((state) => state.recommend);
@@ -31,20 +33,19 @@ function DeleteRecommend() {
       {isClick ? (
         <FetchWrapper loading={recommend.loading} error={recommend.error}>
           <Typography variant="h6" component="h5">
-            The recommendation was successfully deleted
+            {t("admin_page.delete.recommend.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
           <Typography variant="h6" component="h2">
-            Select a recommendation:
+            {t("admin_page.delete.recommend.select_label")}:
           </Typography>
           <NativeSelect
             value={chooseRecommend}
             onChange={(e) => selectRecommend(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {recommends &&
               recommends.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -53,7 +54,7 @@ function DeleteRecommend() {
               ))}
           </NativeSelect>
           <Button variant="contained" fullWidth onClick={deleteRecommend}>
-            Delete Recommend
+            {t("admin_page.delete.recommend.button")}
           </Button>
         </>
       )}

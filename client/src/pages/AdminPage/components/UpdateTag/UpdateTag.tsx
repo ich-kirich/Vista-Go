@@ -11,12 +11,14 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UpdateTag.module.scss";
 import { validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function UpdateTag() {
   const [chooseTag, setChooseTag] = useState("");
   const [nameTag, setNameTag] = useState("");
   const [isClick, setIsClick] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const { fetchTags, fetchUpdateTag } = useActions();
   const tag = useTypedSelector((state) => state.tag);
@@ -29,7 +31,7 @@ function UpdateTag() {
     setChooseTag(value);
   };
 
-  const deleteTag = (e: React.MouseEvent) => {
+  const updateTag = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsClick(true);
     fetchUpdateTag(Number(chooseTag), nameTag);
@@ -46,20 +48,19 @@ function UpdateTag() {
       {isClick ? (
         <FetchWrapper loading={tag.loading} error={tag.error}>
           <Typography variant="h6" component="h5">
-            The tag was successfully edited
+            {t("admin_page.update.tag.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
           <Typography variant="h6" component="h2">
-            Select a tag for editing:
+            {t("admin_page.update.tag.select_label")}
           </Typography>
           <NativeSelect
             value={chooseTag}
             onChange={(e) => selectTag(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {tags &&
               tags.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -68,22 +69,22 @@ function UpdateTag() {
               ))}
           </NativeSelect>
           <TextField
-            label="Enter new name"
+            label={t("admin_page.update.tag.name")}
             type="text"
             value={nameTag}
             onChange={(e) => newNameTag(e.target.value)}
             required
             fullWidth
             error={!!validationError}
-            helperText={validationError}
+            helperText={validationError && t(`${validationError}`)}
           />
           <Button
             variant="contained"
             fullWidth
-            onClick={deleteTag}
+            onClick={updateTag}
             disabled={!!validationError || !nameTag}
           >
-            Edit Tag
+            {t("admin_page.update.tag.button")}
           </Button>
         </Box>
       )}

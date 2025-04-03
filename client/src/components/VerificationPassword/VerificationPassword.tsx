@@ -4,6 +4,7 @@ import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import Loader from "../Loader/Loader";
 import styles from "./VerificationPassword.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface IVerificationPasswordProps {
   email: string;
@@ -16,6 +17,7 @@ function VerificationPassword({
 }: IVerificationPasswordProps) {
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
+  const { t } = useTranslation();
 
   const { fetchUpdateUserPassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.user);
@@ -49,7 +51,7 @@ function VerificationPassword({
           )}
           <Box className={styles.verification__controls}>
             <TextField
-              label="Enter your code"
+              label={t("verification_password.label")}
               type="text"
               value={userCode}
               onChange={(e) => setUserCode(e.target.value)}
@@ -58,7 +60,7 @@ function VerificationPassword({
             />
             <Box>
               <Button variant="contained" fullWidth onClick={sendCode}>
-                Send Code
+                {t("verification_password.send")}
               </Button>
             </Box>
           </Box>

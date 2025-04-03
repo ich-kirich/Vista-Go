@@ -2,6 +2,7 @@ import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import styles from "./AdminEntityPanel.module.scss";
 import { AdminEntity } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 interface AdminEntityPanelProps {
   entity: AdminEntity;
@@ -12,6 +13,13 @@ function AdminEntityPanel({ entity, components }: AdminEntityPanelProps) {
   const [visiblePanel, setVisiblePanel] = useState<
     keyof typeof components | null
   >(null);
+  const { t } = useTranslation();
+
+  const actionTranslations = {
+    add: t("admin_entity.actions.add"),
+    update: t("admin_entity.actions.update"),
+    delete: t("admin_entity.actions.delete"),
+  };
 
   return (
     <Box className={styles.panel__wrapper}>
@@ -23,7 +31,8 @@ function AdminEntityPanel({ entity, components }: AdminEntityPanelProps) {
             fullWidth
             onClick={() => setVisiblePanel(key as keyof typeof components)}
           >
-            {key.charAt(0).toUpperCase() + key.slice(1)} {entity}
+            {actionTranslations[key as keyof typeof actionTranslations]}{" "}
+            {t(`admin_entity.${entity}`)}
           </Button>
         ))}
       </Box>

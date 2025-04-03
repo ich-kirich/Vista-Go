@@ -6,6 +6,7 @@ import CityCart from "../CityCart/CityCart";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import ModalComponent from "../ModalComponent/ModalComponent";
 import PopupList from "../PopupList/PopupList";
+import { useTranslation } from "react-i18next";
 import styles from "./CitiesBlock.module.scss";
 
 function CitiesBlock() {
@@ -16,6 +17,8 @@ function CitiesBlock() {
     if (!cities) fetchCities();
   }, []);
   const { cities, error, loading } = useTypedSelector((state) => state.cities);
+
+  const { t } = useTranslation();
 
   const changeVisible = () => {
     setVisible(true);
@@ -31,9 +34,9 @@ function CitiesBlock() {
           <Box className={styles.header__wrapper}>
             <Box className={styles.title__wrapper}>
               <Typography variant="h6" component="h2" className={styles.title}>
-                City
+                {t("cities_block.city")}
               </Typography>
-              <Box className={styles.hot}>Hot</Box>
+              <Box className={styles.hot}>{t("cities_block.hot")}</Box>
             </Box>
             <Typography
               variant="h6"
@@ -41,7 +44,7 @@ function CitiesBlock() {
               className={styles.more}
               onClick={changeVisible}
             >
-              More
+              {t("cities_block.more")}
             </Typography>
           </Box>
           <CityCart cities={cities} />

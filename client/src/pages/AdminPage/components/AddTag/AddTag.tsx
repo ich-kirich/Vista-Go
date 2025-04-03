@@ -5,11 +5,13 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./AddTag.module.scss";
 import { validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function AddTag() {
   const [isClick, setIsClick] = useState(false);
   const [nameTag, setNameTag] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const { fetchAddTag } = useActions();
   const { error, loading } = useTypedSelector((state) => state.tag);
@@ -30,23 +32,23 @@ function AddTag() {
       {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6" component="h5">
-            The tag was successfully added
+            {t("admin_page.add.tag.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
           <Typography variant="h6" component="h2">
-            Enter a name for the tag:
+            {t("admin_page.add.tag.name_label")}:
           </Typography>
           <TextField
-            label="Enter name"
+            label={t("admin_page.add.tag.name")}
             type="text"
             value={nameTag}
             onChange={(e) => newNameTag(e.target.value)}
             required
             fullWidth
             error={!!validationError}
-            helperText={validationError}
+            helperText={validationError && t(validationError)}
           />
           <Button
             variant="contained"
@@ -54,7 +56,7 @@ function AddTag() {
             onClick={addTag}
             disabled={!!validationError || !nameTag}
           >
-            Add Tag
+            {t("admin_page.add.tag")}
           </Button>
         </>
       )}

@@ -4,6 +4,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import VerificationPassword from "../../../../components/VerificationPassword/VerificationPassword";
+import { useTranslation } from "react-i18next";
 import styles from "./RecoveryPassword.module.scss";
 
 interface IRecoveryPasswordProps {
@@ -17,6 +18,7 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
 
   const { fetchCodePassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.codepass);
+  const { t } = useTranslation();
 
   const sendCode = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,7 +30,7 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
     <Box className={styles.recovery__wrapper}>
       <Box className={styles.inputs__wrapper}>
         <TextField
-          label="Enter your email"
+          label={t("recovery_password.enter_email")}
           type="email"
           value={emailUser}
           onChange={(e) => setEmailUser(e.target.value)}
@@ -36,7 +38,7 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
           fullWidth
         />
         <TextField
-          label="Enter new password"
+          label={t("recovery_password.enter_new_password")}
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
@@ -46,7 +48,7 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
       </Box>
       <Box className={styles.btns__wrapper}>
         <Button variant="contained" fullWidth onClick={sendCode}>
-          Send Verification code on email
+          {t("recovery_password.send_verification_code")}
         </Button>
       </Box>
       <Box>

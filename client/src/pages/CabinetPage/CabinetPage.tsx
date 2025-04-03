@@ -1,4 +1,13 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
@@ -12,12 +21,14 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import {
   AppError,
   Auth,
+  Locales,
   LocalStorageKeys,
   Routes,
   User,
 } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function CabinetPage() {
   const [error, setError] = useState("");
@@ -25,9 +36,11 @@ function CabinetPage() {
   const [activeField, setActiveField] = useState<
     "name" | "image" | "password" | null
   >(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(Locales.EN);
   const navigate = useNavigate();
   const { user } = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation(); // Используем i18n для смены языка
 
   useEffect(() => {
     const token = user || getValidToken();
@@ -49,7 +62,13 @@ function CabinetPage() {
     dispatch({ type: User.FETCH_USER_LOGOUT });
   };
 
-  if (error) return <ViewError>{error}</ViewError>;
+  const handleLanguageChange = (event: SelectChangeEvent<string>) => {
+    const newLanguage = event.target.value;
+    setSelectedLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+  };
+
+  if (error) return <ViewError>{t(`${error}`)}</ViewError>;
 
   return (
     <Box className={styles.user__wrapper}>
@@ -60,9 +79,32 @@ function CabinetPage() {
             sx={{ backgroundImage: `url(${userInfo.image})` }}
           />
           <Box>
-            <Typography variant="h6">Login: {userInfo.email}</Typography>
-            <Typography variant="h6">Name: {userInfo.name}</Typography>
-            <Typography variant="h6">Password: ••••••••</Typography>
+            <Typography variant="h6">
+              {t("cabinet.login")}: {userInfo.email}
+            </Typography>
+            <Typography variant="h6">
+              {t("cabinet.name")}: {userInfo.name}
+            </Typography>
+            <Typography variant="h6">
+              {t("cabinet.password")}: ••••••••
+            </Typography>
+            <Box className={styles.language__selector}>
+              <FormControl fullWidth>
+                <InputLabel>{t("cabinet.select_language")}</InputLabel>
+                <Select
+                  value={selectedLanguage}
+                  onChange={handleLanguageChange}
+                  label={t("cabinet.select_language")}
+                >
+                  <MenuItem value={Locales.EN}>
+                    {t("cabinet.language_english")}
+                  </MenuItem>
+                  <MenuItem value={Locales.RU}>
+                    {t("cabinet.language_russian")}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
         </Box>
       )}
@@ -75,7 +117,7 @@ function CabinetPage() {
             fullWidth
             onClick={() => setActiveField(field as typeof activeField)}
           >
-            Change {field.charAt(0).toUpperCase() + field.slice(1)}
+            {t(`cabinet.change_${field}`)}
           </Button>
         ))}
         {user && user.role === ADMIN_ROLE && (
@@ -84,11 +126,11 @@ function CabinetPage() {
             fullWidth
             onClick={() => navigate(Routes.ADMIN)}
           >
-            Go to the admin panel
+            {t("cabinet.admin_panel")}
           </Button>
         )}
         <Button variant="contained" fullWidth onClick={logout}>
-          Logout
+          {t("cabinet.logout")}
         </Button>
       </Box>
 

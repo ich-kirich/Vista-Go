@@ -10,6 +10,7 @@ import styles from "./MainPage.module.scss";
 import ViewError from "../../components/ViewError/ViewError";
 import { AppError } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function MainPage() {
   const [city, setCity] = useState("");
@@ -17,6 +18,7 @@ function MainPage() {
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const { user } = useTypedSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const contextValue = useMemo(
     () => ({
@@ -47,14 +49,14 @@ function MainPage() {
   return (
     <Container maxWidth="sm">
       {error ? (
-        <ViewError>{error}</ViewError>
+        <ViewError>{t(`${error}`)}</ViewError>
       ) : (
         <Box className={styles.app__wrapper}>
           <Typography variant="h6" component="h2" className={styles.app__title}>
-            Hi {username},
+            {t("main_page.greeting")} {username}
           </Typography>
           <Typography variant="h6" component="h2" className={styles.app__title}>
-            Where do you want to go?
+            {t("main_page.destination_question")}
           </Typography>
           <CONTEXT.Provider value={contextValue}>
             <SearchField nameCity={city} setNameCity={setCity} />

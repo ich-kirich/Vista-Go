@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { useTranslation } from "react-i18next";
 
 function DeleteCity() {
   const [chooseCity, setChooseCity] = useState("");
   const [isClick, setIsClick] = useState(false);
+  const { t } = useTranslation();
 
   const { fetchCities, fetchDeleteCity } = useActions();
   const city = useTypedSelector((state) => state.city);
@@ -30,21 +32,19 @@ function DeleteCity() {
       {isClick ? (
         <FetchWrapper loading={city.loading} error={city.error}>
           <Typography variant="h6" component="h5">
-            The city was successfully deleted
+            {t("admin_page.delete.city.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <>
-          {" "}
           <Typography variant="h6" component="h2">
-            Select a city for deleting:
+            {t("admin_page.delete.city.select_label")}:
           </Typography>
           <NativeSelect
             value={chooseCity}
             onChange={(e) => selectCity(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {cities &&
               cities.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -53,7 +53,7 @@ function DeleteCity() {
               ))}
           </NativeSelect>
           <Button variant="contained" fullWidth onClick={deleteCity}>
-            Delete City
+            {t("admin_page.delete.city.button")}
           </Button>
         </>
       )}

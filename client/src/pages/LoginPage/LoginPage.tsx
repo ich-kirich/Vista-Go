@@ -10,6 +10,7 @@ import RecoveryPassword from "./components/RecoveryPassword/RecoveryPassword";
 import styles from "./LoginPage.module.scss";
 import { Auth, Routes } from "../../libs/enums";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function LoginPage() {
   const [loginClicked, setLoginClicked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const { fetchUser } = useActions();
   const { user, error, loading } = useTypedSelector((state) => state.user);
@@ -70,17 +72,17 @@ function LoginPage() {
                 component="h2"
                 className={styles.login__title}
               >
-                Login
+                {t("login_page.login")}
               </Typography>
               <TextField
-                label="Enter your Email"
+                label={t("login_page.enter_email")}
                 variant="outlined"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 fullWidth
               />
               <TextField
-                label="Enter your Password"
+                label={t("login_page.enter_password")}
                 variant="outlined"
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -103,13 +105,13 @@ function LoginPage() {
                 color="primary"
                 onClick={handleSubmit}
               >
-                Log In
+                {t("login_page.log_in")}
               </Button>
               <Link className={styles.login__link} to={Routes.REGISTRATION}>
-                You don't have an account?
+                {t("login_page.no_account")}
               </Link>
               <Button onClick={changePassword} className={styles.login__forgot}>
-                Forgot your password?
+                {t("login_page.forgot_password")}
               </Button>
             </Box>
           </Box>

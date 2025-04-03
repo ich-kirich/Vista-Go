@@ -12,6 +12,7 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./UpdateCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateLat, validateLon, validateName } from "../../../../libs/utils";
+import { useTranslation } from "react-i18next";
 
 function UpdateCity() {
   const [isClick, setIsClick] = useState(false);
@@ -29,6 +30,7 @@ function UpdateCity() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
+  const { t } = useTranslation();
 
   const city = useTypedSelector((state) => state.city);
   const { fetchAllSights, fetchCities, fetchUpdateCity, fetchGuides } =
@@ -183,20 +185,19 @@ function UpdateCity() {
       {isClick ? (
         <FetchWrapper loading={city.loading} error={city.error}>
           <Typography variant="h6" component="h5">
-            The city was successfully edited
+            {t("admin_page.update.city.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
           <Typography variant="h6" component="h2">
-            Select a city for editing:
+            {t("admin_page.update.city.select_label")}:
           </Typography>
           <NativeSelect
             value={chooseCity}
             onChange={(e) => selectCity(e.target.value)}
             variant="standard"
           >
-            <option value="">Select</option>
             {cities.cities &&
               cities.cities.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -205,59 +206,63 @@ function UpdateCity() {
               ))}
           </NativeSelect>
           <Typography variant="h6" component="h2">
-            Enter a name for the city:
+            {t("admin_page.update.city.name_label")}:
           </Typography>
           <TextField
-            label="Enter name"
+            label={t("admin_page.update.city.name")}
             type="text"
             value={nameCity}
             onChange={(e) => newNameCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.nameCity}
-            helperText={validationErrors.nameCity}
+            helperText={
+              validationErrors.nameCity && t(validationErrors.nameCity)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a country for the city:
+            {t("admin_page.update.city.country_label")}:
           </Typography>
           <TextField
-            label="Enter country"
+            label={t("admin_page.update.city.country")}
             type="text"
             value={countryCity}
             onChange={(e) => newCountryCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.countryCity}
-            helperText={validationErrors.countryCity}
+            helperText={
+              validationErrors.countryCity && t(validationErrors.countryCity)
+            }
           />
           <Typography variant="h6" component="h2">
-            Enter a lat of city:
+            {t("admin_page.update.city.lat_label")}:
           </Typography>
           <TextField
-            label="Enter lat"
+            label={t("admin_page.update.city.lat")}
             type="text"
             value={latCity}
             onChange={(e) => newLatCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.latCity}
-            helperText={validationErrors.latCity}
+            helperText={validationErrors.latCity && t(validationErrors.latCity)}
           />
           <Typography variant="h6" component="h2">
-            Enter a lon of city:
+            {t("admin_page.update.city.lon_label")}:
           </Typography>
           <TextField
-            label="Enter lon"
+            label={t("admin_page.update.city.lon")}
             type="text"
             value={lonCity}
             onChange={(e) => newLonCity(e.target.value)}
             required
             fullWidth
             error={!!validationErrors.lonCity}
-            helperText={validationErrors.lonCity}
+            helperText={validationErrors.lonCity && t(validationErrors.lonCity)}
           />
           <Typography variant="h6" component="h2">
-            Enter a image for the city:
+            {t("admin_page.update.city.image_label")}:
           </Typography>
           <input
             type="file"
@@ -266,7 +271,7 @@ function UpdateCity() {
             className={styles.image__upload}
           />
           <Button variant="text" fullWidth onClick={addSight}>
-            Add sight for city
+            {t("admin_page.update.city.sight_button")}
           </Button>
           <FetchWrapper loading={loading} error={error}>
             {numberSights.map((elem) => (
@@ -276,7 +281,6 @@ function UpdateCity() {
                   onChange={(e) => selectSight(e.target.value, elem)}
                   variant="standard"
                 >
-                  <option value="">Select</option>
                   {sights &&
                     sights.map((item) => (
                       <option
@@ -296,7 +300,7 @@ function UpdateCity() {
             ))}
           </FetchWrapper>
           <Button variant="text" fullWidth onClick={addGuide}>
-            Add guide for city
+            {t("admin_page.update.city.guide_button")}
           </Button>
           <FetchWrapper loading={guides.loading} error={guides.error}>
             {numberGuides.map((elem) => (
@@ -306,7 +310,6 @@ function UpdateCity() {
                   onChange={(e) => selectGuide(e.target.value, elem)}
                   variant="standard"
                 >
-                  <option value="">Select</option>
                   {guides.guides &&
                     guides.guides.map((item) => (
                       <option
@@ -340,7 +343,7 @@ function UpdateCity() {
               Object.values(validationErrors).some((error) => error !== null)
             }
           >
-            Edit City
+            {t("admin_page.update.city.button")}
           </Button>
         </Box>
       )}

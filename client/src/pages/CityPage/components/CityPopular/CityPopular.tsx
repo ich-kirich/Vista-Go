@@ -6,11 +6,13 @@ import PopularSight from "../PopularSight/PopularSight";
 import styles from "./CityPopular.module.scss";
 import { getRoute } from "../../../../libs/utils";
 import { Routes } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 function CityPopular(props: ISightProps) {
   const { sight } = props;
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const changeVisible = () => {
     if (id) navigate(getRoute(Routes.SIGHTS, { id }));
@@ -20,7 +22,7 @@ function CityPopular(props: ISightProps) {
     <Box className={styles.popular__wrapper}>
       <Box className={styles.city__wrapper}>
         <Typography variant="h6" component="h5" className={styles.title}>
-          Popular
+          {t("city_popular.popular")}
         </Typography>
         <Typography
           variant="h6"
@@ -28,7 +30,7 @@ function CityPopular(props: ISightProps) {
           className={styles.more}
           onClick={changeVisible}
         >
-          More
+          {t("city_popular.more")}
         </Typography>
       </Box>
       <PopularSight sight={sight} />

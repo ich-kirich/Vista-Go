@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import { useTranslation } from "react-i18next";
 
 function AddRecommend() {
   const [isClick, setIsClick] = useState(false);
   const [city, setCity] = useState("");
+  const { t } = useTranslation();
 
   const { fetchCities, fetchAddRecommend } = useActions();
   useEffect(() => {
@@ -30,20 +32,19 @@ function AddRecommend() {
         {isClick ? (
           <FetchWrapper loading={recommend.loading} error={recommend.error}>
             <Typography variant="h6" component="h5">
-              The recommendation was successfully added
+              {t("admin_page.add.recommend.success")}
             </Typography>
           </FetchWrapper>
         ) : (
           <>
             <Typography variant="h6" component="h2">
-              Select a city for a recommendation:
+              {t("admin_page.add.recommend.city")}:
             </Typography>
             <NativeSelect
               value={city}
               onChange={(e) => selectCity(e.target.value)}
               variant="standard"
             >
-              <option value="">Select</option>
               {cities &&
                 cities.map((item) => (
                   <option key={item.id} value={item.id}>
@@ -52,7 +53,7 @@ function AddRecommend() {
                 ))}
             </NativeSelect>
             <Button variant="contained" fullWidth onClick={addRecommend}>
-              Add Recommend
+              {t("admin_page.add.recommend")}
             </Button>
           </>
         )}

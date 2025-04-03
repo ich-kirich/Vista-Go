@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import Loader from "../../../../components/Loader/Loader";
+import { useTranslation } from "react-i18next";
 import styles from "./VerificationField.module.scss";
 import { Routes } from "../../../../libs/enums";
 
@@ -16,6 +17,7 @@ function VerificationField({ name, email }: IVerificationFieldProps) {
   const [userCode, setUserCode] = useState("");
   const [sendClicked, setSendClicked] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { fetchCodeUser } = useActions();
   const { error, loading } = useTypedSelector((state) => state.code);
@@ -49,7 +51,7 @@ function VerificationField({ name, email }: IVerificationFieldProps) {
           )}
           <Box className={styles.verification__controls}>
             <TextField
-              label="Enter your code"
+              label={t("verification_field.enter_code")}
               type="text"
               value={userCode}
               onChange={(e) => setUserCode(e.target.value)}
@@ -58,7 +60,7 @@ function VerificationField({ name, email }: IVerificationFieldProps) {
             />
             <Box>
               <Button variant="contained" fullWidth onClick={handleSubmit}>
-                Send Code
+                {t("verification_field.send_code")}
               </Button>
             </Box>
           </Box>
