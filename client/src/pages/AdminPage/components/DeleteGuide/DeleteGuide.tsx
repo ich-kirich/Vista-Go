@@ -4,11 +4,13 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../../libs/enums";
 
 function DeleteGuide() {
   const [chooseGuide, setChooseGuide] = useState("");
   const [isClick, setIsClick] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language as Locales;
 
   const { fetchGuides, fetchDeleteGuide } = useActions();
   const guide = useTypedSelector((state) => state.guide);
@@ -48,7 +50,7 @@ function DeleteGuide() {
             {guides &&
               guides.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name}
+                  {item.name[language] || item.name.en}
                 </option>
               ))}
           </NativeSelect>

@@ -3,7 +3,10 @@ import { createGuide, deleteGuide, updateGuide } from "../../api/adminService";
 import { IAction, CustomError } from "../../types/types";
 import { AppError, Guide } from "../../libs/enums";
 
-export const fetchCreateGuide = (name: string, file: File) => {
+export const fetchCreateGuide = (
+  name: { en: string; ru: string },
+  file: File,
+) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Guide.FETCH_GUIDE });
@@ -59,7 +62,10 @@ export const fetchDeleteGuide = (id: number) => {
 
 export const fetchUpdateGuide = (
   id: number,
-  name: string,
+  name: {
+    en: string;
+    ru: string;
+  },
   file: File | undefined,
 ) => {
   return async (dispatch: Dispatch<IAction>) => {

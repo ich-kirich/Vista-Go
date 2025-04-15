@@ -6,7 +6,8 @@ function ViewError({ children }: IChildrenProps) {
 
   return (
     <h1>
-      {t("app_error.title")}: {children}
+      {t("app_error.title")}:{" "}
+      {typeof children === "string" ? t(children) : children}
     </h1>
   );
 }

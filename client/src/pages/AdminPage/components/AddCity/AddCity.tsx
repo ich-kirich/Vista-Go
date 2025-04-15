@@ -15,6 +15,7 @@ import styles from "./AddCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateLat, validateLon, validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../../libs/enums";
 
 function AddCity() {
   const [isClick, setIsClick] = useState(false);
@@ -37,7 +38,9 @@ function AddCity() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const language = i18n.language as Locales;
 
   const { fetchCreateCity, fetchAllSights, fetchGuides } = useActions();
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
@@ -97,7 +100,6 @@ function AddCity() {
     });
   };
 
-  // Остальные методы остаются без изменений
   const addSight = () => {
     setNumberSights([...numberSights, numberSights.length + 1]);
     fetchAllSights();
@@ -349,7 +351,7 @@ function AddCity() {
                         value={item.id}
                         disabled={guideIdsCity.includes(item.id)}
                       >
-                        {item.name}
+                        {item.name[language] || item.name.en}
                       </option>
                     ))}
                 </NativeSelect>

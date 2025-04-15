@@ -39,7 +39,10 @@ export async function updateTag(id: number, name: string) {
   return data;
 }
 
-export async function createGuide(name: string, image: File) {
+export async function createGuide(
+  name: { en: string; ru: string },
+  image: File,
+) {
   const formData = new FormData();
   addFieldsToFormData(formData, { name, image });
   const { data } = await adminHost.post("admin/create/guide/", formData, {
@@ -57,7 +60,10 @@ export async function deleteGuide(id: number) {
 
 export async function updateGuide(
   id: number,
-  name: string,
+  name: {
+    en: string;
+    ru: string;
+  },
   image: File | undefined,
 ) {
   const formData = new FormData();

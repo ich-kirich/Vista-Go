@@ -9,8 +9,12 @@ export default {
         primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull: false,
+        defaultValue: {
+          en: "",
+          ru: "",
+        },
       },
       image: {
         type: DataTypes.STRING,

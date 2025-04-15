@@ -20,7 +20,10 @@ export interface ITag {
 
 export interface IGuide {
   id: number;
-  name: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   image: string;
 }
 
@@ -134,7 +137,7 @@ export interface IUpdateCity {
 }
 
 export interface IChildrenProps {
-  children: React.ReactNode;
+  children: React.ReactNode | string;
   className?: string;
 }
 

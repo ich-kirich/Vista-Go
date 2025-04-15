@@ -241,8 +241,10 @@ class AdminControllers {
 
   async createGuide(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name } = req.body;
       const { image } = req.files;
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
       const guide = await createRecordGuide(image as UploadedFile, name);
       logger.info("Guide was successfully created", guide);
       return res.json(guide);
@@ -256,8 +258,11 @@ class AdminControllers {
 
   async updateGuide(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, name } = req.body;
+      const { id } = req.body;
       const { image } = req.files || {};
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
       const guide = await updateRecordGuide(id, name, image as UploadedFile);
       logger.info("Guide was successfully updated", guide);
       return res.json(guide);

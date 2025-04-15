@@ -31,16 +31,18 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 function CabinetPage() {
+  const { t, i18n } = useTranslation();
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [activeField, setActiveField] = useState<
     "name" | "image" | "password" | null
   >(null);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(Locales.EN);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(
+    i18n.language as Locales,
+  );
   const navigate = useNavigate();
   const { user } = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation(); // Используем i18n для смены языка
 
   useEffect(() => {
     const token = user || getValidToken();
