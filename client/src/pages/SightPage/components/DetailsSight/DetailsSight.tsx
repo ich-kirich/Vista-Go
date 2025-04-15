@@ -2,9 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { ISightProps } from "../../../../types/types";
 import { useTranslation } from "react-i18next";
 import styles from "./DetailsSight.module.scss";
+import { Locales } from "../../../../libs/enums";
 
 function DetailsPopular({ sight }: ISightProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language as Locales;
 
   return (
     <Box className={styles.details__wrapper}>
@@ -24,7 +26,9 @@ function DetailsPopular({ sight }: ISightProps) {
             component="h5"
             className={styles.details__tag}
           >
-            {sight.tags.map((tag) => tag.name).join(", ")}
+            {sight.tags
+              .map((tag) => tag.name[language] || tag.name.en)
+              .join(", ")}
           </Typography>
         </Box>
       )}
@@ -38,7 +42,7 @@ function DetailsPopular({ sight }: ISightProps) {
             component="h5"
             className={styles.details__text}
           >
-            {sight.description}
+            {sight.description[language] || sight.description.en}
           </Typography>
         </Box>
       )}

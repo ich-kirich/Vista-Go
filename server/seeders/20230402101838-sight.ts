@@ -1,13 +1,24 @@
 import { QueryInterface } from "sequelize";
 
+const prepareTranslations = (en: string, ru: string) => {
+  if (en.length > 2048 || ru.length > 2048) {
+    throw new Error(
+      `Description exceeds 2048 characters limit. EN length: ${en.length}, RU length: ${ru.length}`,
+    );
+  }
+  return { en, ru };
+};
+
 export default {
   up: async (queryInterface: QueryInterface) => {
     const sights = [
       {
-        name: "Brandenburg Gate",
+        name: prepareTranslations("Brandenburg Gate", "Бранденбургские ворота"),
         image: "https://i.ibb.co/4nM5s1PV/brandenburg-gate.png",
-        description:
-          "The Brandenburg Gate is a famous architectural monument located in the center of Berlin, at the eastern end of Pariser Platz. Like the Colosseum in Rome, Big Ben in London, St. Stephen's Cathedral in Vienna or the Eiffel Tower in Paris, the Brandenburg Gate has long been the trademark of Berlin, the symbol of the united Germany and one of the main tourist attractions of the German capital.",
+        description: prepareTranslations(
+          "The Brandenburg Gate is an 18th-century neoclassical monument in Berlin, built on the orders of Prussian king Frederick William II after the successful restoration of order during the early Batavian Revolution. One of the best-known landmarks of Germany, it was built on the site of a former city gate that marked the start of the road from Berlin to the town of Brandenburg an der Havel.",
+          "Бранденбургские ворота — архитектурный памятник в центре Берлина в районе Митте. Возведены в 1788—1791 годах по проекту архитектора Карла Готтхарда Лангганса. Являются символом объединённой Германии и одной из самых узнаваемых достопримечательностей страны.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 1,
@@ -15,10 +26,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Kaiser Wilhelm Memorial Church",
+        name: prepareTranslations(
+          "Kaiser Wilhelm Memorial Church",
+          "Мемориальная церковь кайзера Вильгельма",
+        ),
         image: "https://i.ibb.co/1JmpGjmP/kaiser-wilhelm-memorial-church.png",
-        description:
-          "The Kaiser Wilhelm Memorial Church is a famous landmark located in Berlin, Germany. The original church was built in the late 19th century in honor of Kaiser Wilhelm I, but was heavily damaged during World War II. The remains of the old church were preserved and a new modernist building was added next to it in the 1960s, creating a striking contrast between the old and the new. Today, the Kaiser Wilhelm Memorial Church serves as a memorial and a symbol of peace and reconciliation.",
+        description: prepareTranslations(
+          "The Kaiser Wilhelm Memorial Church is a Protestant church affiliated with the Evangelical Church in Berlin. The original church on the site was built in the 1890s. It was badly damaged in a bombing raid in 1943. The present building, which consists of a church with an attached foyer and a separate belfry with an attached chapel, was built between 1959 and 1963.",
+          "Мемориальная церковь кайзера Вильгельма — протестантская церковь в Берлине на площади Брайтшайдплац. Первоначальное здание было построено в 1890-х годах, сильно повреждено при бомбардировке в 1943 году. Современный мемориальный комплекс был возведён в 1959-1963 годах.",
+        ),
         distance: "6.2 km",
         price: "3$",
         CityId: 1,
@@ -26,10 +42,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Checkpoint Charlie",
+        name: prepareTranslations("Checkpoint Charlie", "КПП Чарли"),
         image: "https://i.ibb.co/RpRCn4Wq/checkpoint-charlie.png",
-        description:
-          "Checkpoint Charlie was a famous border crossing point in Berlin, Germany during the Cold War. It was located on the intersection of Friedrichstraße and Zimmerstraße and served as a crossing point for allied military personnel, diplomats, and foreigners between the Soviet-controlled East Berlin and the Western part of the city. The checkpoint was named after the third letter of the NATO phonetic alphabet, 'Charlie'. It became a symbol of the divide between East and West during the Cold War and was the site of several tense standoffs between Soviet and American forces. Today, a replica of the guardhouse and a small museum stand at the site to commemorate its historical significance.",
+        description: prepareTranslations(
+          "Checkpoint Charlie was the best-known Berlin Wall crossing point between East Berlin and West Berlin during the Cold War. It became a symbol of the Cold War, representing the separation of East and West. Soviet and American tanks briefly faced each other at the location during the Berlin Crisis of 1961.",
+          "КПП Чарли — самый известный пропускной пункт Берлинской стены между Восточным и Западным Берлином во время холодной войны. Стал символом противостояния Востока и Запада. В 1961 году здесь произошло танковое противостояние между советскими и американскими войсками.",
+        ),
         distance: "6.2 km",
         price: "2$",
         CityId: 1,
@@ -37,10 +55,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Victory Column",
+        name: prepareTranslations("Victory Column", "Колонна Победы"),
         image: "https://i.ibb.co/LDFn7qyC/victory-column.png",
-        description:
+        description: prepareTranslations(
           "The Victory Column, also known as the Berliner Siegessäule in German, is a famous monument located in Berlin, Germany. It was designed by Heinrich Strack and completed in 1873 to commemorate Prussia's victory over Denmark in the Second Schleswig War. Later, after Germany's unification, the monument was used to celebrate the country's military victories in the Austro-Prussian War and the Franco-Prussian War.",
+          "Колонна Победы, также известная как Berliner Siegessäule на немецком языке, - знаменитый памятник, расположенный в Берлине, Германия. Он был спроектирован Генрихом Штраком и построен в 1873 году в честь победы Пруссии над Данией во Второй Шлезвигской войне. Позже, после объединения Германии, памятник использовался для празднования военных побед страны в Австро-прусской и Франко-прусской войнах.",
+        ),
         distance: "6.2 km",
         price: "1$",
         CityId: 1,
@@ -48,10 +68,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Fish market",
+        name: prepareTranslations("Fish Market", "Рыбный рынок"),
         image: "https://i.ibb.co/Kz0HXDh8/fish-market.png",
-        description:
-          "The Fish Market in Hamburg, Germany is a famous open-air market that takes place every Sunday morning in the St. Pauli district, near the harbor. The market has a long history, dating back to the 16th century, and is a popular attraction for both locals and tourists.",
+        description: prepareTranslations(
+          "The Hamburg Fish Market is located in the Altona district and is a traditional market that has existed since 1703. Every Sunday morning, thousands of visitors come to buy fresh fish, fruits, vegetables and other goods. The market is also known for its lively atmosphere with music and entertainment.",
+          "Гамбургский рыбный рынок расположен в районе Альтона и существует с 1703 года. Каждое воскресное утро тысячи посетителей приходят сюда за свежей рыбой, фруктами, овощами и другими товарами. Рынок также известен своей оживлённой атмосферой с музыкой и развлечениями.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 2,
@@ -59,10 +81,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "International Maritime Museum",
+        name: prepareTranslations(
+          "International Maritime Museum",
+          "Международный морской музей",
+        ),
         image: "https://i.ibb.co/7tdXLv9m/international-maritime-museum.png",
-        description:
-          "The International Maritime Museum is located in Hamburg, Germany and is one of the largest maritime museums in the world. The museum is housed in an old brick warehouse in the historic Speicherstadt district, which was once the center of Hamburg's shipping industry.",
+        description: prepareTranslations(
+          "The International Maritime Museum Hamburg is a private museum located in the HafenCity quarter. It opened in 2008 and presents over 3,000 years of maritime history across nine floors with more than 40,000 exhibits and over one million photographs. The museum is housed in the historic Kaispeicher B warehouse built in 1878.",
+          "Международный морской музей в Гамбурге — частный музей в районе Хафенсити. Открыт в 2008 году, представляет более 3000 лет морской истории на девяти этажах с более чем 40 000 экспонатов. Музей расположен в историческом здании склада Кайшпайхер B, построенном в 1878 году.",
+        ),
         distance: "6.2 km",
         price: "6$",
         CityId: 2,
@@ -70,10 +97,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Hagenbeck Zoo",
+        name: prepareTranslations("Hagenbeck Zoo", "Зоопарк Хагенбек"),
         image: "https://i.ibb.co/5hqyJBqv/hagenbeck-zoo.png",
-        description:
+        description: prepareTranslations(
           "The Hagenbeck Zoo, also known as Tierpark Hagenbeck, is a zoo located in Hamburg, Germany. The zoo was founded in 1907 by Carl Hagenbeck, a renowned animal trainer and dealer, and is known for its unique open-air enclosures that allow visitors to observe the animals in a natural habitat.",
+          "Зоопарк Хагенбека, также известный как Тирпарк Хагенбека, - это зоопарк, расположенный в Гамбурге, Германия. Зоопарк был основан в 1907 году Карлом Хагенбеком, известным дрессировщиком и торговцем животными, и известен своими уникальными вольерами под открытым небом, позволяющими посетителям наблюдать за животными в естественной среде обитания.",
+        ),
         distance: "6.2 km",
         price: "10$",
         CityId: 2,
@@ -81,10 +110,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Dialogue in the Dark Museum",
+        name: prepareTranslations(
+          "Dialogue in the Dark Museum",
+          "Диалог в темном музее",
+        ),
         image: "https://i.ibb.co/j9JnYdRS/dialogue-dark-museum.png",
-        description:
+        description: prepareTranslations(
           "The Dialogue in the Dark Museum in Hamburg, Germany is a unique museum that offers visitors an immersive experience of what it's like to be blind. Visitors are led through a series of exhibits and interactive installations in complete darkness, accompanied by guides who are blind or visually impaired.",
+          "Музей «Диалог в темноте» в Гамбурге (Германия) - это уникальный музей, который предлагает посетителям погрузиться в мир слепоты. Посетители проходят через ряд экспонатов и интерактивных инсталляций в полной темноте в сопровождении слепых или слабовидящих гидов.",
+        ),
         distance: "6.2 km",
         price: "8$",
         CityId: 2,
@@ -92,10 +126,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Minsk city hall",
+        name: prepareTranslations("Minsk city hall", "Минская ратуша"),
         image: "https://i.ibb.co/v67BdDMp/minsk-city-hall.png",
-        description:
+        description: prepareTranslations(
           "The Minsk City Hall is the seat of the local government in Minsk, the capital city of Belarus. It is located in the center of the city on Independence Square and serves as the headquarters for the Minsk City Executive Committee, which is responsible for governing the city.",
+          "Минская ратуша является резиденцией местных органов власти в Минске, столице Беларуси. Она расположена в центре города на площади Независимости и служит штаб-квартирой Минского городского исполнительного комитета, который отвечает за управление городом.",
+        ),
         distance: "6.2 km",
         price: "6$",
         CityId: 3,
@@ -103,10 +139,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Cathedral of the Blessed Virgin Mary",
+        name: prepareTranslations(
+          "Cathedral of the Blessed Virgin Mary",
+          "Собор Пресвятой Девы Марии",
+        ),
         image: "https://i.ibb.co/cS6jyKqM/cathedral-blessed-virgin-mary.png",
-        description:
+        description: prepareTranslations(
           "The Cathedral of the Blessed Virgin Mary in Minsk, also known as the Minsk Cathedral, is a Catholic church located in the heart of Minsk, the capital city of Belarus. The cathedral was built in the 17th century in the Baroque style and is considered to be one of the most important landmarks in Minsk.",
+          "Кафедральный собор Пресвятой Девы Марии в Минске, также известный как Минский собор, - это католический храм, расположенный в самом центре Минска, столицы Беларуси. Собор был построен в XVII веке в стиле барокко и считается одной из самых важных достопримечательностей Минска.",
+        ),
         distance: "6.2 km",
         price: "2$",
         CityId: 3,
@@ -114,10 +155,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Gates of Minsk",
+        name: prepareTranslations("Gates of Minsk", "Ворота Минска"),
         image: "https://i.ibb.co/jkMsDffs/gates-minsk.png",
-        description:
+        description: prepareTranslations(
           "The Gates of Minsk, also known as the Minsk Gates, are a historic monument located in the capital city of Belarus, Minsk. The gates were built in the 17th century and are one of the few remaining architectural landmarks from the city's medieval period.",
+          "Минские ворота, являются историческим памятником, расположенным в столице Беларуси, Минске. Ворота были построены в XVII веке и являются одной из немногих сохранившихся архитектурных достопримечательностей средневекового города.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 3,
@@ -125,10 +168,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "National Library of Belarus",
+        name: prepareTranslations(
+          "National Library of Belarus",
+          "Национальная библиотека Беларуси",
+        ),
         image: "https://i.ibb.co/q6H4qgs/library-belarus.png",
-        description:
-          "The National Library of Belarus is the main library of the Republic of Belarus, located in the capital city of Minsk. It is one of the largest and most modern libraries in Europe and is known for its unique design and impressive collection of books and documents.",
+        description: prepareTranslations(
+          "The National Library of Belarus is the largest library in the Republic of Belarus. The library building is a rhombicuboctahedron 72.6 meters high with 23 floors. The library has a collection of over 10 million items in various media. At night, its facades turn into a giant LED screen displaying various patterns and advertisements.",
+          "Национальная библиотека Беларуси — крупнейшая библиотека в Республике Беларусь. Здание имеет форму ромбокубооктаэдра высотой 72,6 метра с 23 этажами. В библиотеке хранится более 10 миллионов экземпляров различных медиа. Ночью фасады превращаются в гигантский LED-экран.",
+        ),
         distance: "6.2 km",
         price: "3$",
         CityId: 3,
@@ -136,10 +184,25 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Old Castle",
+        name: prepareTranslations("Republic Square", "Площадь Республики"),
+        image: "https://i.ibb.co/YTWrynSJ/republic-square.png",
+        description: prepareTranslations(
+          "Republic Square is the central town square in Yerevan. The square was designed by architect Alexander Tamanian in 1924. The construction of most of the buildings was completed by the 1950s. The square is surrounded by five major buildings built with pink and yellow tufa stone in neoclassical style with Armenian motifs.",
+          "Площадь Республики — центральная площадь Еревана. Спроектирована архитектором Александром Таманяном в 1924 году. Большинство зданий было построено к 1950-м годам. Площадь окружена пятью зданиями из розового и жёлтого туфа в неоклассическом стиле с армянскими мотивами.",
+        ),
+        distance: "6.2 km",
+        price: "0$",
+        CityId: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Old Castle", "Старый замок"),
         image: "https://i.ibb.co/B5bq2ds8/old-castle.png",
-        description:
+        description: prepareTranslations(
           "The Old Castle in Grodno is a historic landmark located in the city of Grodno, Belarus. The castle was built in the 11th century and served as the residence of the Grand Dukes of Lithuania and the Kings of Poland for several centuries.",
+          "Старый замок в Гродно - историческая достопримечательность, расположенная в городе Гродно, Беларусь. Замок был построен в XI веке и на протяжении нескольких столетий служил резиденцией великих князей литовских и королей польских.",
+        ),
         distance: "6.2 km",
         price: "5$",
         CityId: 4,
@@ -147,10 +210,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Great Choral Synagogue",
+        name: prepareTranslations(
+          "Great Choral Synagogue",
+          "Большая хоральная синагога",
+        ),
         image: "https://i.ibb.co/fYNwN1dz/choral-synagogue.png",
-        description:
+        description: prepareTranslations(
           "The Great Choral Synagogue, also known as the New Synagogue, is a historic synagogue located in the city of Grodno, Belarus. The synagogue was built in the 19th century and is considered to be one of the most important landmarks of Jewish heritage in the country.",
+          "Большая хоральная синагога, также известная как Новая синагога, - историческая синагога, расположенная в городе Гродно, Беларусь. Синагога была построена в XIX веке и считается одной из важнейших достопримечательностей еврейского наследия в стране.",
+        ),
         distance: "6.2 km",
         price: "2$",
         CityId: 4,
@@ -158,10 +226,15 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Grodno State Museum of the History of Religion",
+        name: prepareTranslations(
+          "Grodno State Museum of the History of Religion",
+          "Гродненский государственный музей истории религии",
+        ),
         image: "https://i.ibb.co/k2nfGRZV/museum-history-religion.png",
-        description:
+        description: prepareTranslations(
           "The Grodno State Museum of the History of Religion is a museum located in the city of Grodno, Belarus. The museum was established in 1994 and is dedicated to the study and preservation of the history of religion in Belarus.",
+          "Гродненский государственный музей истории религии - это музей, расположенный в городе Гродно, Беларусь. Музей был основан в 1994 году и занимается изучением и сохранением истории религии в Беларуси.",
+        ),
         distance: "6.2 km",
         price: "4$",
         CityId: 4,
@@ -169,10 +242,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Zhiliber Park",
+        name: prepareTranslations("Zhiliber Park", "Парк Жилибера"),
         image: "https://i.ibb.co/bRzmd8H0/zhiliber-park.png",
-        description:
+        description: prepareTranslations(
           "Zhiliber Park is a public park located in the city of Grodno, Belarus. The park is situated on the banks of the Neman River and covers an area of over 12 hectares. It is considered to be one of the most popular and scenic parks in Grodno.",
+          "Парк Жилибера - общественный парк, расположенный в городе Гродно, Беларусь. Он считается одним из самых популярных и живописных парков Гродно.",
+        ),
         distance: "6.2 km",
         price: "2$",
         CityId: 4,
@@ -180,10 +255,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Mugni Church",
+        name: prepareTranslations("Mugni Church", "Церковь Мугни"),
         image: "https://i.ibb.co/3mmPGMBj/mugni-church.png",
-        description:
+        description: prepareTranslations(
           "The Holy Mother of God Katoghike Church, commonly known as the Mugni Church, is a historic Armenian Apostolic church located in the heart of Yerevan, the capital city of Armenia. The church was built in the 17th century and is considered to be one of the most important landmarks of Armenian culture and heritage in the city.",
+          "Церковь Святой Богородицы Катогике, широко известная как церковь Мугни, - это историческая армянская апостольская церковь, расположенная в самом центре Еревана, столицы Армении. Церковь была построена в XVII веке и считается одной из самых важных достопримечательностей армянской культуры и наследия в городе.",
+        ),
         distance: "6.2 km",
         price: "6$",
         CityId: 5,
@@ -191,10 +268,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Arjeni Winery",
+        name: prepareTranslations("Arjeni Winery", "Винодельня Арджени"),
         image: "https://i.ibb.co/1tygWL7B/arjeni-winery.png",
-        description:
+        description: prepareTranslations(
           "The Ararat-Echmiadzin Winery, also known as the Arjeni Winery, is a winery located in Yerevan, the capital city of Armenia. The winery was established in 1953 and is one of the oldest and most famous wineries in Armenia.",
+          "Арарат-Эчмиадзинский винзавод, также известный как Ардженинский винзавод, - это винодельческое предприятие, расположенное в Ереване, столице Армении. Винодельня была основана в 1953 году и является одной из старейших и самых известных виноделен Армении.",
+        ),
         distance: "6.2 km",
         price: "4$",
         CityId: 5,
@@ -202,10 +281,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Republic Square",
+        name: prepareTranslations("Republic Square", "Республиканская площадь"),
         image: "https://i.ibb.co/YTWrynSJ/republic-square.png",
-        description:
+        description: prepareTranslations(
           "Republic Square is a central public square located in the heart of Yerevan, the capital city of Armenia. The square is one of the main landmarks of the city and is a popular destination for tourists and locals alike.",
+          "Площадь Республики - это центральная общественная площадь, расположенная в самом сердце Еревана, столицы Армении. Площадь является одной из главных достопримечательностей города и популярным местом для посещения как туристами, так и местными жителями.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 5,
@@ -213,10 +294,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Yerevan Cascade",
+        name: prepareTranslations("Yerevan Cascade", "Каскад (Ереван)"),
         image: "https://i.ibb.co/B2mSgn12/yerevan-cascade.png",
-        description:
-          "The Yerevan Cascade is a massive staircase complex located in the capital city of Armenia, Yerevan. The Cascade is an architectural masterpiece that consists of a series of outdoor escalators and staircases, which lead up to a large plaza at the top of the complex.",
+        description: prepareTranslations(
+          "The Cascade is a giant stairway in Yerevan. It links the downtown Kentron area of Yerevan with the Monument neighborhood. Designed by architects Jim Torosyan, Aslan Mkhitaryan and Sargis Gurzadyan, the construction was started in 1971 and partially completed in 1980. The exterior was fully completed by 2009.",
+          "Каскад — гигантская лестница в Ереване, соединяющая центр города с районом Памятника. Спроектирована архитекторами Джимом Торосяном, Асланом Мхитаряном и Саркисом Гурзадяном. Строительство началось в 1971 году, полностью завершено в 2009 году.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 5,
@@ -224,21 +307,25 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Black Fortress",
+        name: prepareTranslations("Black Fortress", "Чёрная крепость"),
         image: "https://i.ibb.co/7thnkj3S/black-fortress.png",
         distance: "6.2 km",
         price: "8$",
         CityId: 6,
-        description:
+        description: prepareTranslations(
           "The Black Fortress, also known as the Sev Berd, is a historic fortress located in Gyumri, the second-largest city in Armenia. The fortress was built in the early 19th century by the Russian Empire as part of a defensive system against the Ottoman Empire.",
+          "Черная крепость, также известная как Сев Берд, - историческая крепость, расположенная в Гюмри, втором по величине городе Армении. Крепость была построена в начале XIX века Российской империей как часть оборонительной системы против Османской империи.",
+        ),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "Vardanants Square",
+        name: prepareTranslations("Vardanants Square", "Площадь Вардананц"),
         image: "https://i.ibb.co/cKJ8FJRy/vardanants-square.png",
-        description:
+        description: prepareTranslations(
           "Vardanants Square is the central square of Gyumri, the second-largest city in Armenia. The square is named after the Battle of Avarayr, which took place in 451 AD and is considered a significant event in Armenian history.",
+          "Площадь Вардананц - центральная площадь Гюмри, второго по величине города Армении. Площадь названа в честь Аварайрской битвы, которая произошла в 451 году нашей эры и считается важным событием в истории Армении.",
+        ),
         distance: "6.2 km",
         price: "6$",
         CityId: 6,
@@ -246,10 +333,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Central Park",
+        name: prepareTranslations("Central Park", "Центральный парк"),
         image: "https://i.ibb.co/YFc5PpcD/central-park.png",
-        description:
+        description: prepareTranslations(
           "Central Park is a public park located in the heart of Gyumri, the second-largest city in Armenia. The park is a popular destination for locals and visitors alike, offering a peaceful retreat from the hustle and bustle of city life.",
+          "Центральный парк - это общественный парк, расположенный в самом центре Гюмри, второго по величине города Армении. Парк является популярным местом отдыха как для местных жителей, так и для приезжих, предлагая спокойное уединение от городской суеты.",
+        ),
         distance: "6.2 km",
         price: "0$",
         CityId: 6,
@@ -257,10 +346,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        name: "Marmashen Monastery",
+        name: prepareTranslations("Marmashen Monastery", "Монастырь Мармашен"),
         image: "https://i.ibb.co/nN79DqWH/marmashen-monastery.png",
-        description:
+        description: prepareTranslations(
           "Marmashen Monastery is a historic Armenian monastery located near the city of Gyumri in the Shirak region of Armenia. The monastery was built in the 10th century and is considered one of the finest examples of Armenian medieval architecture.",
+          "Монастырь Мармашен - исторический армянский монастырь, расположенный недалеко от города Гюмри в Ширакской области Армении. Монастырь был построен в X веке и считается одним из лучших образцов армянской средневековой архитектуры.",
+        ),
         distance: "6.2 km",
         price: "15$",
         CityId: 6,
@@ -269,7 +360,13 @@ export default {
       },
     ];
 
-    await queryInterface.bulkInsert("sights", sights);
+    const preparedSights = sights.map((sight) => ({
+      ...sight,
+      name: JSON.stringify(sight.name),
+      description: JSON.stringify(sight.description),
+    }));
+
+    await queryInterface.bulkInsert("sights", preparedSights);
   },
 
   down: async (queryInterface: QueryInterface) => {

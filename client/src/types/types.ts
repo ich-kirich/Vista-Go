@@ -32,9 +32,15 @@ export interface IGuide {
 
 export interface ISights {
   id: number;
-  name: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   image: string;
-  description: string;
+  description: {
+    en: string;
+    ru: string;
+  };
   distance: string;
   price: string;
   tags: ITag[];
@@ -88,8 +94,14 @@ export interface IVerifyUser {
 }
 
 export interface ICreateSight {
-  name: string;
-  description: string;
+  name: {
+    en: string;
+    ru: string;
+  };
+  description: {
+    en: string;
+    ru: string;
+  };
   price: string;
   distance: string;
   tagIds: number[];
@@ -98,8 +110,14 @@ export interface ICreateSight {
 
 export interface IUpdateSight {
   id: number;
-  name: string;
-  description: string;
+  name: {
+    en: string;
+    ru: string;
+  };
+  description: {
+    en: string;
+    ru: string;
+  };
   price: string;
   distance: string;
   tagIds: number[];

@@ -4,11 +4,11 @@ import sequelize from "../src/db";
 class Sight extends Model {
   public id!: number;
 
-  public name!: string;
+  public name!: object;
 
   public image!: string;
 
-  public description!: string;
+  public description!: object;
 
   public price!: string;
 
@@ -23,16 +23,26 @@ Sight.init(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSONB,
       allowNull: false,
+      defaultValue: { en: "", ru: "" },
+      get() {
+        const rawValue = this.getDataValue("name");
+        return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+      },
     },
     image: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING(2048),
+      type: DataTypes.JSONB,
       allowNull: false,
+      defaultValue: { en: "", ru: "" },
+      get() {
+        const rawValue = this.getDataValue("description");
+        return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+      },
     },
     price: {
       type: DataTypes.STRING,

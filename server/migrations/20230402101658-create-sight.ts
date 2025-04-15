@@ -9,16 +9,24 @@ export default {
         primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull: false,
+        defaultValue: {
+          en: "",
+          ru: "",
+        },
       },
       image: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       description: {
-        type: DataTypes.STRING(2048),
+        type: DataTypes.JSONB,
         allowNull: false,
+        defaultValue: {
+          en: "",
+          ru: "",
+        },
       },
       distance: {
         type: DataTypes.STRING,

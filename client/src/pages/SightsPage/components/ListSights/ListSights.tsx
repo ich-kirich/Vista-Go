@@ -4,7 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ISights } from "../../../../types/types";
 import styles from "./ListSights.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { Routes } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 interface IListSightsProps {
   sights: ISights[];
@@ -13,6 +14,8 @@ interface IListSightsProps {
 function ListSights({ sights }: IListSightsProps) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const language = i18n.language as Locales;
 
   const changeVisible = (e: MouseEvent, sight: ISights) => {
     e.stopPropagation();
@@ -36,7 +39,7 @@ function ListSights({ sights }: IListSightsProps) {
                 component="h5"
                 className={styles.cart__name}
               >
-                {item.name}
+                {item.name[language] || item.name.en}
               </Typography>
             </Box>
           </Box>

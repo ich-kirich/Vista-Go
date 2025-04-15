@@ -321,7 +321,7 @@ function AddCity() {
                         value={item.id}
                         disabled={sightIdsCity.includes(item.id)}
                       >
-                        {item.name}
+                        {item.name[language] || item.name.en}
                       </option>
                     ))}
                 </NativeSelect>

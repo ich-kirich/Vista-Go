@@ -100,9 +100,9 @@
   "admin_page.delete.guide.select_label": "Select a guide for deleting",
   "admin_page.delete.guide.button": "Delete Guide",
 
-  "admin_page.delete.recommendation.success": "The recommendation was successfully deleted",
-  "admin_page.delete.recommendation.select_label": "Select a recommendation for deleting",
-  "admin_page.delete.recommendation.button": "Delete Recommendation",
+  "admin_page.delete.recommend.success": "The recommendation was successfully deleted",
+  "admin_page.delete.recommend.select_label": "Select a recommendation for deleting",
+  "admin_page.delete.recommend.button": "Delete Recommendation",
 
   "admin_page.delete.sight.success": "The sight was successfully deleted",
   "admin_page.delete.sight.select_label": "Select a sight for deleting",

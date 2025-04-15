@@ -4,6 +4,8 @@ import {
   TextField,
   Button,
   NativeSelect,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import React, { useState, ChangeEvent } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -17,16 +19,24 @@ import { Locales } from "../../../../libs/enums";
 
 function AddSight() {
   const [isClick, setIsClick] = useState(false);
-  const [nameSight, setNameSight] = useState("");
-  const [descriptionSight, setDescriptionSight] = useState("");
+  const [currentTab, setCurrentTab] = useState(0);
+  const [nameSight, setNameSight] = useState({
+    en: "",
+    ru: "",
+  });
+  const [descriptionSight, setDescriptionSight] = useState({
+    en: "",
+    ru: "",
+  });
   const [priceSight, setPriceSight] = useState("");
   const [distanceSight, setDistanceSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [numberTags, setNumberTags] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
-  const [validationErrors, setValidationErrors] = useState<{
-    [key: string]: string | null;
-  }>({});
+  const [validationErrors, setValidationErrors] = useState({
+    name: { en: null as string | null, ru: null as string | null },
+    description: { en: null as string | null, ru: null as string | null },
+  });
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
@@ -34,16 +44,21 @@ function AddSight() {
   const { error, loading } = useTypedSelector((state) => state.sight);
   const tags = useTypedSelector((state) => state.tags);
 
-  const newNameSight = (value: string) => {
-    const error = validateName(value);
-    setValidationErrors((prev) => ({ ...prev, nameSight: error }));
-    setNameSight(value);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
   };
 
-  const newDescriptionSight = (value: string) => {
+  const newNameSight = (value: string, lang: "en" | "ru") => {
     const error = validateName(value);
-    setValidationErrors((prev) => ({ ...prev, descriptionSight: error }));
-    setDescriptionSight(value);
+    setValidationErrors((prev) => ({
+      ...prev,
+      name: { ...prev.name, [lang]: error },
+    }));
+    setNameSight((prev) => ({ ...prev, [lang]: value }));
+  };
+
+  const newDescriptionSight = (value: string, lang: "en" | "ru") => {
+    setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
   };
 
   const newPriceSight = (value: string) => {
@@ -94,9 +109,22 @@ function AddSight() {
         updatedArray.pop();
         return updatedArray;
       });
-    } else {
-      setTagIdsSight([...tagIdsSight, Number(idBlock)]);
     }
+  };
+
+  const isFormValid = () => {
+    return (
+      imageSight &&
+      nameSight.en &&
+      nameSight.ru &&
+      descriptionSight.en &&
+      descriptionSight.ru &&
+      priceSight &&
+      distanceSight &&
+      tagIdsSight.length > 0 &&
+      !Object.values(validationErrors.name).some(Boolean) &&
+      !Object.values(validationErrors.description).some(Boolean)
+    );
   };
 
   return (
@@ -109,37 +137,85 @@ function AddSight() {
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.sight.name_label")}:
-          </Typography>
-          <TextField
-            label={t("admin_page.add.sight.name")}
-            type="text"
-            value={nameSight}
-            onChange={(e) => newNameSight(e.target.value)}
-            required
-            fullWidth
-            error={!!validationErrors.nameSight}
-            helperText={
-              validationErrors.nameSight && t(validationErrors.nameSight)
-            }
-          />
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.sight.description_label")}:
-          </Typography>
-          <TextField
-            label={t("admin_page.add.sight.description")}
-            type="text"
-            value={descriptionSight}
-            onChange={(e) => newDescriptionSight(e.target.value)}
-            required
-            fullWidth
-            error={!!validationErrors.descriptionSight}
-            helperText={
-              validationErrors.descriptionSight &&
-              t(validationErrors.descriptionSight)
-            }
-          />
+          <Tabs value={currentTab} onChange={handleTabChange}>
+            <Tab label="English" />
+            <Tab label="Русский" />
+          </Tabs>
+
+          <Box hidden={currentTab !== 0}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.sight.name_label")} (English):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.sight.name")} (English)`}
+              type="text"
+              value={nameSight.en}
+              onChange={(e) => newNameSight(e.target.value, "en")}
+              required
+              fullWidth
+              error={!!validationErrors.name.en}
+              helperText={
+                validationErrors.name.en && t(validationErrors.name.en)
+              }
+            />
+
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.sight.description_label")} (English):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.sight.description")} (English)`}
+              type="text"
+              multiline
+              rows={4}
+              value={descriptionSight.en}
+              onChange={(e) => newDescriptionSight(e.target.value, "en")}
+              required
+              fullWidth
+              error={!!validationErrors.description.en}
+              helperText={
+                validationErrors.description.en &&
+                t(validationErrors.description.en)
+              }
+            />
+          </Box>
+
+          <Box hidden={currentTab !== 1}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.sight.name_label")} (Русский):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.sight.name")} (Русский)`}
+              type="text"
+              value={nameSight.ru}
+              onChange={(e) => newNameSight(e.target.value, "ru")}
+              required
+              fullWidth
+              error={!!validationErrors.name.ru}
+              helperText={
+                validationErrors.name.ru && t(validationErrors.name.ru)
+              }
+            />
+
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.sight.description_label")} (Русский):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.sight.description")} (Русский)`}
+              type="text"
+              multiline
+              rows={4}
+              value={descriptionSight.ru}
+              onChange={(e) => newDescriptionSight(e.target.value, "ru")}
+              required
+              fullWidth
+              error={!!validationErrors.description.ru}
+              helperText={
+                validationErrors.description.ru &&
+                t(validationErrors.description.ru)
+              }
+            />
+          </Box>
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.sight.price_label")}:
           </Typography>
@@ -151,6 +227,7 @@ function AddSight() {
             required
             fullWidth
           />
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.sight.distance_label")}:
           </Typography>
@@ -162,6 +239,7 @@ function AddSight() {
             required
             fullWidth
           />
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.sight.image_label")}:
           </Typography>
@@ -171,9 +249,11 @@ function AddSight() {
             id="file-upload"
             className={styles.image__upload}
           />
+
           <Button variant="text" fullWidth onClick={addTag}>
             {t("admin_page.add.sight.tag_button")}
           </Button>
+
           <FetchWrapper loading={tags.loading} error={tags.error}>
             {numberTags.map((elem) => (
               <Box key={elem}>
@@ -181,6 +261,7 @@ function AddSight() {
                   value={tagIdsSight[elem - 1]}
                   onChange={(e) => selectTag(e.target.value, elem)}
                   variant="standard"
+                  fullWidth
                 >
                   {tags.tags &&
                     tags.tags.map((item) => (
@@ -200,19 +281,12 @@ function AddSight() {
               </Box>
             ))}
           </FetchWrapper>
+
           <Button
             variant="contained"
             fullWidth
             onClick={addSight}
-            disabled={
-              !imageSight ||
-              !nameSight ||
-              !descriptionSight ||
-              !priceSight ||
-              !distanceSight ||
-              tagIdsSight.length === 0 ||
-              Object.values(validationErrors).some((error) => error !== null)
-            }
+            disabled={!isFormValid()}
           >
             {t("admin_page.add.sight")}
           </Button>

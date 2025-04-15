@@ -130,8 +130,14 @@ class AdminControllers {
 
   async createSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, description, price, distance, tagIds } = req.body;
+      const { price, distance, tagIds } = req.body;
       const { image } = req.files;
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
+      const description = req.body.description
+        ? JSON.parse(req.body.description)
+        : { en: "", ru: "" };
       const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
       const sight = await createRecordSight({
         image: image as UploadedFile,
@@ -153,8 +159,14 @@ class AdminControllers {
 
   async updateSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, name, description, price, distance, tagIds } = req.body;
+      const { id, price, distance, tagIds } = req.body;
       const { image } = req.files || {};
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
+      const description = req.body.description
+        ? JSON.parse(req.body.description)
+        : { en: "", ru: "" };
       const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
       const sight = await updateRecordSight({
         id,
