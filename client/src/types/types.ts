@@ -15,7 +15,10 @@ export interface IAction {
 
 export interface ITag {
   id: number;
-  name: string;
+  name: {
+    en: string;
+    ru: string;
+  };
 }
 
 export interface IGuide {

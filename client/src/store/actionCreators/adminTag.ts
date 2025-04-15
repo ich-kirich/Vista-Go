@@ -3,7 +3,7 @@ import { createTag, deleteTag, updateTag } from "../../api/adminService";
 import { IAction, CustomError } from "../../types/types";
 import { AppError, Tag } from "../../libs/enums";
 
-export const fetchAddTag = (name: string) => {
+export const fetchAddTag = (name: { en: string; ru: string }) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Tag.FETCH_TAG });
@@ -57,7 +57,13 @@ export const fetchDeleteTag = (id: number) => {
   };
 };
 
-export const fetchUpdateTag = (id: number, name: string) => {
+export const fetchUpdateTag = (
+  id: number,
+  name: {
+    en: string;
+    ru: string;
+  },
+) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Tag.FETCH_TAG });

@@ -191,7 +191,9 @@ class AdminControllers {
 
   async createTag(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name } = req.body;
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
       const tag = await Tag.create({ name });
       logger.info("Tag was successfully created", tag);
       return res.json(tag);
@@ -205,7 +207,10 @@ class AdminControllers {
 
   async updateTag(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, name } = req.body;
+      const { id } = req.body;
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
       const tag = await Tag.findByPk(id);
       if (tag) {
         await Tag.update({ name }, { where: { id } });

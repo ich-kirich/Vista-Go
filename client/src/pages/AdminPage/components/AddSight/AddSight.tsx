@@ -13,6 +13,7 @@ import styles from "./AddSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../../libs/enums";
 
 function AddSight() {
   const [isClick, setIsClick] = useState(false);
@@ -26,7 +27,8 @@ function AddSight() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language as Locales;
 
   const { fetchCreateSight, fetchTags } = useActions();
   const { error, loading } = useTypedSelector((state) => state.sight);
@@ -187,7 +189,7 @@ function AddSight() {
                         value={item.id}
                         disabled={tagIdsSight.includes(item.id)}
                       >
-                        {item.name}
+                        {item.name[language] || item.name.en}
                       </option>
                     ))}
                 </NativeSelect>

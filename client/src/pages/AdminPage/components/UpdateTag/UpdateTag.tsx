@@ -4,6 +4,8 @@ import {
   NativeSelect,
   Button,
   TextField,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import useActions from "../../../../hooks/useActions";
@@ -15,19 +17,39 @@ import { useTranslation } from "react-i18next";
 
 function UpdateTag() {
   const [chooseTag, setChooseTag] = useState("");
-  const [nameTag, setNameTag] = useState("");
+  const [currentTab, setCurrentTab] = useState(0);
+  const [nameTag, setNameTag] = useState({
+    en: "",
+    ru: "",
+  });
   const [isClick, setIsClick] = useState(false);
-  const [validationError, setValidationError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState({
+    en: null as string | null,
+    ru: null as string | null,
+  });
   const { t } = useTranslation();
 
   const { fetchTags, fetchUpdateTag } = useActions();
   const tag = useTypedSelector((state) => state.tag);
+
   useEffect(() => {
     fetchTags();
   }, [tag.loading]);
+
   const { tags, error, loading } = useTypedSelector((state) => state.tags);
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
+  };
+
   const selectTag = (value: string) => {
+    const selectedTag = tags?.find((t) => t.id === Number(value));
+    if (selectedTag) {
+      setNameTag({
+        en: selectedTag.name.en || "",
+        ru: selectedTag.name.ru || "",
+      });
+    }
     setChooseTag(value);
   };
 
@@ -37,10 +59,25 @@ function UpdateTag() {
     fetchUpdateTag(Number(chooseTag), nameTag);
   };
 
-  const newNameTag = (value: string) => {
+  const newNameTag = (value: string, lang: "en" | "ru") => {
     const error = validateName(value);
-    setValidationError(error);
-    setNameTag(value);
+    setValidationErrors((prev) => ({
+      ...prev,
+      [lang]: error,
+    }));
+    setNameTag((prev) => ({
+      ...prev,
+      [lang]: value,
+    }));
+  };
+
+  const isFormValid = () => {
+    return (
+      chooseTag &&
+      (nameTag.en || nameTag.ru) &&
+      !validationErrors.en &&
+      !validationErrors.ru
+    );
   };
 
   return (
@@ -60,29 +97,56 @@ function UpdateTag() {
             value={chooseTag}
             onChange={(e) => selectTag(e.target.value)}
             variant="standard"
+            fullWidth
           >
             {tags &&
               tags.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name}
+                  {item.name.en} / {item.name.ru}
                 </option>
               ))}
           </NativeSelect>
-          <TextField
-            label={t("admin_page.update.tag.name")}
-            type="text"
-            value={nameTag}
-            onChange={(e) => newNameTag(e.target.value)}
-            required
-            fullWidth
-            error={!!validationError}
-            helperText={validationError && t(`${validationError}`)}
-          />
+
+          <Tabs value={currentTab} onChange={handleTabChange}>
+            <Tab label="English" />
+            <Tab label="Русский" />
+          </Tabs>
+
+          <Box hidden={currentTab !== 0}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.update.tag.name")} (English):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.update.tag.name")} (English)`}
+              type="text"
+              value={nameTag.en}
+              onChange={(e) => newNameTag(e.target.value, "en")}
+              fullWidth
+              error={!!validationErrors.en}
+              helperText={validationErrors.en && t(`${validationErrors.en}`)}
+            />
+          </Box>
+
+          <Box hidden={currentTab !== 1}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.update.tag.name")} (Русский):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.update.tag.name")} (Русский)`}
+              type="text"
+              value={nameTag.ru}
+              onChange={(e) => newNameTag(e.target.value, "ru")}
+              fullWidth
+              error={!!validationErrors.ru}
+              helperText={validationErrors.ru && t(`${validationErrors.ru}`)}
+            />
+          </Box>
+
           <Button
             variant="contained"
             fullWidth
             onClick={updateTag}
-            disabled={!!validationError || !nameTag}
+            disabled={!isFormValid()}
           >
             {t("admin_page.update.tag.button")}
           </Button>

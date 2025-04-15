@@ -1,42 +1,176 @@
 import { QueryInterface } from "sequelize";
 
+const prepareTranslations = (en: string, ru: string) => ({
+  en,
+  ru,
+});
+
 export default {
   up: async (queryInterface: QueryInterface) => {
     const tags = [
-      { name: "Landmark", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Architecture", createdAt: new Date(), updatedAt: new Date() },
-      { name: "History", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Religion", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Empire", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Checkpoint", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Berlin Wall", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Column", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Victory", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Fish", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Market", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Meal", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Sea", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Museum", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Zoo", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Animals", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Science", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Life", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Hall", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Administration", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Gates", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Library", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Castle", createdAt: new Date(), updatedAt: new Date() },
-      { name: "The Middle Ages", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Park", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Nature", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Winery", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Wine", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Square", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Beauty", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Fortress", createdAt: new Date(), updatedAt: new Date() },
+      {
+        name: prepareTranslations("Landmark", "Достопримечательность"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Architecture", "Архитектура"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("History", "История"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Religion", "Религия"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Empire", "Империя"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Checkpoint", "КПП"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Berlin Wall", "Берлинская стена"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Column", "Колонна"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Victory", "Победа"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Fish", "Рыба"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Market", "Рынок"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Meal", "Еда"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Sea", "Море"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Museum", "Музей"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Zoo", "Зоопарк"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Animals", "Животные"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Science", "Наука"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Life", "Жизнь"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Hall", "Зал"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Administration", "Администрация"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Gates", "Ворота"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Library", "Библиотека"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Castle", "Замок"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("The Middle Ages", "Средние века"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Park", "Парк"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Nature", "Природа"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Winery", "Винодельня"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Wine", "Вино"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Square", "Площадь"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Beauty", "Красота"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: prepareTranslations("Fortress", "Крепость"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
 
-    await queryInterface.bulkInsert("tags", tags);
+    const preparedTags = tags.map((tag) => ({
+      ...tag,
+      name: JSON.stringify(tag.name),
+    }));
+
+    await queryInterface.bulkInsert("tags", preparedTags);
   },
 
   down: async (queryInterface: QueryInterface) => {

@@ -19,9 +19,13 @@ export async function deleteRecommend(id: number) {
   return data;
 }
 
-export async function createTag(name: string) {
-  const { data } = await adminHost.post("admin/create/tag/", {
-    name,
+export async function createTag(name: { en: string; ru: string }) {
+  const formData = new FormData();
+  addFieldsToFormData(formData, { name });
+  const { data } = await adminHost.post("admin/create/tag/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
   return data;
 }
@@ -31,10 +35,19 @@ export async function deleteTag(id: number) {
   return data;
 }
 
-export async function updateTag(id: number, name: string) {
-  const { data } = await adminHost.post("admin/update/tag/", {
-    id,
-    name,
+export async function updateTag(
+  id: number,
+  name: {
+    en: string;
+    ru: string;
+  },
+) {
+  const formData = new FormData();
+  addFieldsToFormData(formData, { id, name });
+  const { data } = await adminHost.post("admin/update/tag/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
   return data;
 }

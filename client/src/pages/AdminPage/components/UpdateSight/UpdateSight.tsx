@@ -13,6 +13,7 @@ import styles from "./UpdateSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../../libs/enums";
 
 function UpdateSight() {
   const [chooseSight, setChooseSight] = useState("");
@@ -28,7 +29,8 @@ function UpdateSight() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language as Locales;
 
   const sight = useTypedSelector((state) => state.sight);
   const { fetchTags, fetchAllSights, fetchUpdateSight } = useActions();
@@ -233,7 +235,7 @@ function UpdateSight() {
                         value={item.id}
                         disabled={tagIdsSight.includes(item.id)}
                       >
-                        {item.name}
+                        {item.name[language] || item.name.en}
                       </option>
                     ))}
                 </NativeSelect>

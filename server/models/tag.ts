@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db";
 
 class Tag extends Model {
-  public name!: string;
+  public name!: object;
 }
 
 Tag.init(
@@ -13,8 +13,13 @@ Tag.init(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSONB,
       allowNull: false,
+      defaultValue: { en: "", ru: "" },
+      get() {
+        const rawValue = this.getDataValue("name");
+        return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+      },
     },
   },
   {
