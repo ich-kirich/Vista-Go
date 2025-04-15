@@ -13,6 +13,7 @@ import styles from "./UpdateCity.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { validateLat, validateLon, validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../../libs/enums";
 
 function UpdateCity() {
   const [isClick, setIsClick] = useState(false);
@@ -30,7 +31,9 @@ function UpdateCity() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const language = i18n.language as Locales;
 
   const city = useTypedSelector((state) => state.city);
   const { fetchAllSights, fetchCities, fetchUpdateCity, fetchGuides } =
@@ -74,10 +77,20 @@ function UpdateCity() {
   const updateCity = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsClick(true);
+    const translatedCountry = {
+      en: countryCity,
+      ru: countryCity,
+    };
+
+    const translatedName = {
+      en: nameCity,
+      ru: nameCity,
+    };
+
     fetchUpdateCity({
       id: Number(chooseCity),
-      country: countryCity,
-      name: nameCity,
+      country: translatedCountry,
+      name: translatedName,
       lat: latCity,
       lon: lonCity,
       sightIds: sightIdsCity,
@@ -201,7 +214,7 @@ function UpdateCity() {
             {cities.cities &&
               cities.cities.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name}
+                  {item.name[language] || item.name.en}
                 </option>
               ))}
           </NativeSelect>

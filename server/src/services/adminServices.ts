@@ -195,7 +195,7 @@ export async function createRecordCity(params: ICreateRecordCity) {
     },
   });
   if (findSights.length !== sightIds.length) {
-    logger.error("Sigths were not found");
+    logger.error("Sights were not found");
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
   }
   await Sight.update(

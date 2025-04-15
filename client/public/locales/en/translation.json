@@ -32,6 +32,7 @@
   "app_error.invalid_name": "Invalid input. Only letters, spaces, and hyphens are allowed.",
   "app_error.invalid_latitude": "Latitude must be between -90 and 90.",
   "app_error.invalid_longitude": "Longitude must be between -180 and 180.",
+  "app_error.title": "Error",
 
   "admin_entity.actions.add": "Add",
   "admin_entity.actions.update": "Update",

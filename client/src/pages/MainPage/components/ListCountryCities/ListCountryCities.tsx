@@ -7,16 +7,18 @@ import ModalComponent from "../ModalComponent/ModalComponent";
 import { useTranslation } from "react-i18next";
 import styles from "./ListCountryCities.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { Routes } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
 
 function ListCountryCities(props: IListCitiesProps) {
   const { cities } = props;
+  const { i18n, t } = useTranslation();
+
+  const language = i18n.language as Locales;
   const sortCities = cities
     .slice()
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => a.name[language].localeCompare(b.name[language]));
   const { visible, setVisible } = useContext(CONTEXT);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const viewCity = (city: ICities) => {
     navigate(getRoute(Routes.CITY, { id: city.id }));
@@ -38,7 +40,7 @@ function ListCountryCities(props: IListCitiesProps) {
             className={styles.city}
             onClick={() => viewCity(item)}
           >
-            {item.name}
+            {item.name[language]}
           </Typography>
         ))}
       </Box>

@@ -4,19 +4,12 @@ import sequelize from "../src/db";
 
 class City extends Model {
   public id!: number;
-
-  public country!: string;
-
-  public name!: string;
-
+  public country!: object;
+  public name!: object;
   public weather!: string;
-
   public image!: string;
-
   public lat!: string;
-
   public lon!: string;
-
   public weatherLastRequest!: Date;
 }
 
@@ -28,12 +21,22 @@ City.init(
       primaryKey: true,
     },
     country: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: { en: "", ru: "" },
+      get() {
+        const rawValue = this.getDataValue("country");
+        return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+      },
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSONB,
       allowNull: false,
+      defaultValue: { en: "", ru: "" },
+      get() {
+        const rawValue = this.getDataValue("name");
+        return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+      },
     },
     weather: {
       type: DataTypes.STRING,

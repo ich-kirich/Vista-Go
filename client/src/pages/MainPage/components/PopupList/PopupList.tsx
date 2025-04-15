@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { IListCitiesProps } from "../../../../types/types";
 import styles from "./PopupList.module.scss";
 import { getRoute } from "../../../../libs/utils";
-import { Routes } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 function PopupList(props: IListCitiesProps) {
   const { cities } = props;
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+
+  const language = i18n.language as Locales;
 
   const viewCity = (id: number) => {
     navigate(getRoute(Routes.CITY, { id }));
@@ -30,7 +34,7 @@ function PopupList(props: IListCitiesProps) {
                 component="h5"
                 className={styles.cart__name}
               >
-                {item.name}, {item.country}
+                {item.name[language]}, {item.country[language]}
               </Typography>
             </Box>
           </Box>

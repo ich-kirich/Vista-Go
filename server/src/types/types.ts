@@ -28,14 +28,21 @@ export interface IUpdateRecordSight extends ICreateRecordSight {
 
 export interface ICreateRecordCity {
   image: UploadedFile;
-  country: string;
-  name: string;
+  country: { en: string; ru: string };
+  name: { en: string; ru: string };
   lat: string;
   lon: string;
-  sightIds: string[];
-  guideIds: string[];
+  sightIds: number[];
+  guideIds: number[];
 }
 
-export interface IUpdateRecordCity extends ICreateRecordCity {
+export interface IUpdateRecordCity {
   id: number;
+  image?: UploadedFile;
+  country?: { en: string; ru: string };
+  name?: { en: string; ru: string };
+  lat?: string;
+  lon?: string;
+  sightIds: number[];
+  guideIds: number[];
 }

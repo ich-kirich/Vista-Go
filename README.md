@@ -11,7 +11,7 @@ It is a sightseeing search app
 - npm run build - build the project
 ***
 ## Technology stack
-- Backend: ExpressJs, NodeJs, Typescript, PostgeSQL, Sequalize ORM, Docker, Nodemon, Prettier, Eslint, Postman, Http Status Codes, Node Config, Postman, Nodemailer, Express-fileupload, Axios, Jsonwebtoken, Bcrypt, Uuid, Mime-types, Cors, Node Cron
+- Backend: ExpressJs, NodeJs, Typescript, PostgreSQL, Sequelize ORM, Docker, Nodemon, Prettier, Eslint, Postman, Http Status Codes, Node Config, Postman, Nodemailer, Express-fileupload, Axios, Jsonwebtoken, Bcrypt, Uuid, Mime-types, Cors, Node Cron
 - Frontend: React, Redux, Typescript, Material UI, SCSS, Eslint, Prettier, Axios, Normalize CSS, Classnames, React Slick, Jwt-decode
 - NodeJS 22.14.0
 

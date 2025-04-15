@@ -36,8 +36,14 @@ export interface ISights {
 
 export interface ICities {
   id: number;
-  country: string;
-  name: string;
+  country: {
+    en: string;
+    ru: string;
+  };
+  name: {
+    en: string;
+    ru: string;
+  };
   weather: string;
   image: string;
   sights: ISights[];
@@ -95,8 +101,14 @@ export interface IUpdateSight {
 }
 
 export interface ICreateCity {
-  country: string;
-  name: string;
+  country: {
+    en: string;
+    ru: string;
+  };
+  name: {
+    en: string;
+    ru: string;
+  };
   lat: string;
   lon: string;
   sightIds: number[];
@@ -106,8 +118,14 @@ export interface ICreateCity {
 
 export interface IUpdateCity {
   id: number;
-  country: string;
-  name: string;
+  country: {
+    en: string;
+    ru: string;
+  };
+  name: {
+    en: string;
+    ru: string;
+  };
   lat: string;
   lon: string;
   sightIds: number[];

@@ -9,12 +9,20 @@ export default {
         primaryKey: true,
       },
       country: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull: true,
+        defaultValue: {
+          en: "",
+          ru: "",
+        },
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull: false,
+        defaultValue: {
+          en: "",
+          ru: "",
+        },
       },
       weather: {
         type: DataTypes.STRING,
@@ -46,6 +54,7 @@ export default {
       },
     });
   },
+
   down: async (queryInterface: QueryInterface) => {
     await queryInterface.dropTable("cities");
   },

@@ -4,6 +4,8 @@ import {
   TextField,
   Button,
   NativeSelect,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import React, { useState, ChangeEvent } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,8 +18,15 @@ import { useTranslation } from "react-i18next";
 
 function AddCity() {
   const [isClick, setIsClick] = useState(false);
-  const [countryCity, setCountryCity] = useState("");
-  const [nameCity, setNameCity] = useState("");
+  const [currentTab, setCurrentTab] = useState(0);
+  const [countryCity, setCountryCity] = useState({
+    en: "",
+    ru: "",
+  });
+  const [nameCity, setNameCity] = useState({
+    en: "",
+    ru: "",
+  });
   const [latCity, setLatCity] = useState("");
   const [lonCity, setLonCity] = useState("");
   const [sightIdsCity, setSightIdsCity] = useState<number[]>([]);
@@ -35,16 +44,32 @@ function AddCity() {
   const city = useTypedSelector((state) => state.city);
   const guides = useTypedSelector((state) => state.guides);
 
-  const newNameCity = (value: string) => {
-    const error = validateName(value);
-    setValidationErrors((prev) => ({ ...prev, nameCity: error }));
-    setNameCity(value);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
   };
 
-  const newCountryCity = (value: string) => {
+  const newNameCity = (value: string, lang: "en" | "ru") => {
     const error = validateName(value);
-    setValidationErrors((prev) => ({ ...prev, countryCity: error }));
-    setCountryCity(value);
+    setValidationErrors((prev) => ({
+      ...prev,
+      [`nameCity_${lang}`]: error,
+    }));
+    setNameCity((prev) => ({
+      ...prev,
+      [lang]: value,
+    }));
+  };
+
+  const newCountryCity = (value: string, lang: "en" | "ru") => {
+    const error = validateName(value);
+    setValidationErrors((prev) => ({
+      ...prev,
+      [`countryCity_${lang}`]: error,
+    }));
+    setCountryCity((prev) => ({
+      ...prev,
+      [lang]: value,
+    }));
   };
 
   const newLatCity = (value: string) => {
@@ -72,6 +97,7 @@ function AddCity() {
     });
   };
 
+  // Остальные методы остаются без изменений
   const addSight = () => {
     setNumberSights([...numberSights, numberSights.length + 1]);
     fetchAllSights();
@@ -132,6 +158,20 @@ function AddCity() {
     }
   };
 
+  const isFormValid = () => {
+    return (
+      imageCity &&
+      nameCity.en &&
+      nameCity.ru &&
+      countryCity.en &&
+      countryCity.ru &&
+      latCity &&
+      lonCity &&
+      sightIdsCity.length > 0 &&
+      guideIdsCity.length > 0
+    );
+  };
+
   return (
     <Box className={styles.controls__wrapper}>
       {isClick ? (
@@ -142,37 +182,83 @@ function AddCity() {
         </FetchWrapper>
       ) : (
         <>
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.city.name")}:
-          </Typography>
-          <TextField
-            label={t("admin_page.add.city.name")}
-            type="text"
-            value={nameCity}
-            onChange={(e) => newNameCity(e.target.value)}
-            required
-            fullWidth
-            error={!!validationErrors.nameCity}
-            helperText={
-              validationErrors.nameCity && t(`${validationErrors.nameCity}`)
-            }
-          />
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.city.country_label")}:
-          </Typography>
-          <TextField
-            label={t("admin_page.add.city.country")}
-            type="text"
-            value={countryCity}
-            onChange={(e) => newCountryCity(e.target.value)}
-            required
-            fullWidth
-            error={!!validationErrors.countryCity}
-            helperText={
-              validationErrors.countryCity &&
-              t(`${validationErrors.countryCity}`)
-            }
-          />
+          <Tabs value={currentTab} onChange={handleTabChange}>
+            <Tab label="English" />
+            <Tab label="Русский" />
+          </Tabs>
+
+          <Box hidden={currentTab !== 0}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.city.name")} (English):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.city.name")} (English)`}
+              type="text"
+              value={nameCity.en}
+              onChange={(e) => newNameCity(e.target.value, "en")}
+              required
+              fullWidth
+              error={!!validationErrors.nameCity_en}
+              helperText={
+                validationErrors.nameCity_en &&
+                t(`${validationErrors.nameCity_en}`)
+              }
+            />
+
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.city.country_label")} (English):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.city.country")} (English)`}
+              type="text"
+              value={countryCity.en}
+              onChange={(e) => newCountryCity(e.target.value, "en")}
+              required
+              fullWidth
+              error={!!validationErrors.countryCity_en}
+              helperText={
+                validationErrors.countryCity_en &&
+                t(`${validationErrors.countryCity_en}`)
+              }
+            />
+          </Box>
+
+          <Box hidden={currentTab !== 1}>
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.city.name")} (Русский):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.city.name")} (Русский)`}
+              type="text"
+              value={nameCity.ru}
+              onChange={(e) => newNameCity(e.target.value, "ru")}
+              required
+              fullWidth
+              error={!!validationErrors.nameCity_ru}
+              helperText={
+                validationErrors.nameCity_ru &&
+                t(`${validationErrors.nameCity_ru}`)
+              }
+            />
+
+            <Typography variant="h6" component="h2">
+              {t("admin_page.add.city.country_label")} (Русский):
+            </Typography>
+            <TextField
+              label={`${t("admin_page.add.city.country")} (Русский)`}
+              type="text"
+              value={countryCity.ru}
+              onChange={(e) => newCountryCity(e.target.value, "ru")}
+              required
+              fullWidth
+              error={!!validationErrors.countryCity_ru}
+              helperText={
+                validationErrors.countryCity_ru &&
+                t(`${validationErrors.countryCity_ru}`)
+              }
+            />
+          </Box>
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.city.lat_label")}:
           </Typography>
@@ -188,6 +274,7 @@ function AddCity() {
               validationErrors.latCity && t(`${validationErrors.latCity}`)
             }
           />
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.city.lon_label")}:
           </Typography>
@@ -203,6 +290,7 @@ function AddCity() {
               validationErrors.lonCity && t(`${validationErrors.lonCity}`)
             }
           />
+
           <Typography variant="h6" component="h2">
             {t("admin_page.add.city.image_label")}:
           </Typography>
@@ -212,6 +300,7 @@ function AddCity() {
             id="file-upload"
             className={styles.image__upload}
           />
+
           <Button variant="text" fullWidth onClick={addSight}>
             {t("admin_page.add.city.sight")}
           </Button>
@@ -241,6 +330,7 @@ function AddCity() {
               </Box>
             ))}
           </FetchWrapper>
+
           <Button variant="text" fullWidth onClick={addGuide}>
             {t("admin_page.add.city.guide")}
           </Button>
@@ -270,19 +360,12 @@ function AddCity() {
               </Box>
             ))}
           </FetchWrapper>
+
           <Button
             variant="contained"
             fullWidth
             onClick={addCity}
-            disabled={
-              !imageCity ||
-              !nameCity ||
-              !countryCity ||
-              !latCity ||
-              !lonCity ||
-              sightIdsCity.length === 0 ||
-              guideIdsCity.length === 0
-            }
+            disabled={!isFormValid()}
           >
             {t("admin_page.add.city")}
           </Button>

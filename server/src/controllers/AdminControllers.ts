@@ -53,10 +53,16 @@ class AdminControllers {
 
   async createCity(req: Request, res: Response, next: NextFunction) {
     try {
-      const { country, name, lat, lon, sightIds, guideIds } = req.body;
+      const { lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files;
       const sightIdsArr = sightIds ? JSON.parse(sightIds) : [];
       const guideIdsArr = guideIds ? JSON.parse(guideIds) : [];
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
+      const country = req.body.name
+        ? JSON.parse(req.body.country)
+        : { en: "", ru: "" };
       const city = await createRecordCity({
         image: image as UploadedFile,
         country,
@@ -78,10 +84,16 @@ class AdminControllers {
 
   async updateCity(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, country, name, lat, lon, sightIds, guideIds } = req.body;
+      const { id, lat, lon, sightIds, guideIds } = req.body;
       const { image } = req.files || {};
       const sightIdsArr = sightIds ? JSON.parse(sightIds) : [];
       const guideIdsArr = guideIds ? JSON.parse(guideIds) : [];
+      const name = req.body.name
+        ? JSON.parse(req.body.name)
+        : { en: "", ru: "" };
+      const country = req.body.name
+        ? JSON.parse(req.body.country)
+        : { en: "", ru: "" };
       const city = await updateRecordCity({
         id,
         image: image as UploadedFile,

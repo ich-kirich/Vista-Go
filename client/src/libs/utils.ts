@@ -1,6 +1,6 @@
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { ICities, IUser } from "../types/types";
-import { AppError, LocalStorageKeys, Routes } from "./enums";
+import { AppError, Locales, LocalStorageKeys, Routes } from "./enums";
 
 export function createDate(date: Date) {
   return `${date.getUTCDate().toString().padStart(2, "0")}.${(
@@ -10,10 +10,14 @@ export function createDate(date: Date) {
     .padStart(2, "0")}.${date.getUTCFullYear()}`;
 }
 
-export function getFindCities(cities: ICities[], nameCity: string) {
+export function getFindCities(
+  cities: ICities[],
+  nameCity: string,
+  language: Locales,
+) {
   if (nameCity) {
     return cities.filter((item) =>
-      item.name.toLowerCase().includes(nameCity.toLowerCase()),
+      item.name[language]?.toLowerCase().includes(nameCity.toLowerCase()),
     );
   }
   return cities;
@@ -24,18 +28,12 @@ export function addFieldsToFormData(
   params: Record<string, any>,
 ) {
   Object.entries(params).forEach(([key, value]) => {
-    if (
-      value !== undefined &&
-      value !== null &&
-      value !== "" &&
-      value.length !== 0
-    ) {
-      if (Array.isArray(value)) {
-        const arrayValue = JSON.stringify(value);
-        formData.append(key, String(arrayValue));
-      } else {
-        formData.append(key, value);
-      }
+    if (value == null || value === "") return;
+
+    if (typeof value === "object" && !(value instanceof File)) {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, value);
     }
   });
 }

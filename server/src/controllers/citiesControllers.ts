@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { Sequelize } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import logger from "../libs/logger";
 import ApiError from "../error/apiError";
 import City from "../../models/city";
@@ -24,13 +24,15 @@ class CitiesControllers {
   async getCount(req: Request, res: Response, next: NextFunction) {
     try {
       const { country } = req.body;
-      const city = await City.count({
+      const cityCount = await City.count({
         where: {
-          country,
+          country: {
+            [Op.contains]: { en: country },
+          },
         },
       });
       logger.info("City fetched successfully");
-      return res.json(city);
+      return res.json(cityCount);
     } catch (e) {
       logger.error("Error occurred while fetching cities:", e);
       return next(

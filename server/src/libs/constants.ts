@@ -41,3 +41,8 @@ export enum ERROR {
   SHORT_PASSWORD = "SHORT_PASSWORD",
   RECOMMEND_FOUND = "RECOMMEND_FOUND",
 }
+
+export enum Locales {
+  RU = "ru",
+  EN = "en",
+}

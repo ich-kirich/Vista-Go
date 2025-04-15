@@ -4,7 +4,8 @@ import Slider from "react-slick";
 import { createDate, getRoute } from "../../../../libs/utils";
 import styles from "./RecommendCart.module.scss";
 import { IRecommends } from "../../../../types/types";
-import { Routes } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 interface IRecommendCartProps {
   recommend: IRecommends;
@@ -18,6 +19,9 @@ function RecommendCart(props: IRecommendCartProps) {
   const { recommend, sliderRef, currentSlide, setCurrentSlide, idsRecommends } =
     props;
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+
+  const language = i18n.language as Locales;
 
   const viewCity = () => {
     const index = idsRecommends.indexOf(recommend.id) + 1;
@@ -53,7 +57,7 @@ function RecommendCart(props: IRecommendCartProps) {
             component="h5"
             className={styles.recommends__name}
           >
-            {recommend.name}, {recommend.country}
+            {recommend.name[language]}, {recommend.country[language]}
           </Typography>
         </Box>
         <Box className={styles.guide__wrapper}>

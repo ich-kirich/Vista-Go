@@ -32,6 +32,7 @@
   "app_error.invalid_name": "Неверный ввод. Допустимы только буквы, пробелы и дефисы.",
   "app_error.invalid_latitude": "Широта должна быть в диапазоне от -90 до 90.",
   "app_error.invalid_longitude": "Долгота должна быть в диапазоне от -180 до 180.",
+  "app_error.title": "Ошибка",
 
   "admin_entity.actions.add": "Добавить",
   "admin_entity.actions.update": "Обновить",

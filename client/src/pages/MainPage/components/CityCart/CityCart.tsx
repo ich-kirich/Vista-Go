@@ -6,14 +6,18 @@ import { getFindCities, getRoute } from "../../../../libs/utils";
 import { IListCitiesProps } from "../../../../types/types";
 import ListCountryCities from "../ListCountryCities/ListCountryCities";
 import styles from "./CityCart.module.scss";
-import { Routes } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
+import { useTranslation } from "react-i18next";
 
 function CityCart(props: IListCitiesProps) {
   const { cities } = props;
   const { nameCity } = useContext(CONTEXT);
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
 
-  const findCities = getFindCities(cities, nameCity);
+  const language = i18n.language as Locales;
+
+  const findCities = getFindCities(cities, nameCity, language);
 
   const viewCity = (id: number) => {
     navigate(getRoute(Routes.CITY, { id }));
@@ -35,7 +39,7 @@ function CityCart(props: IListCitiesProps) {
             component="h5"
             className={styles.country__name}
           >
-            {item.country}
+            {item.country[language] || item.country.en}
           </Typography>
         </Box>
       ))}
