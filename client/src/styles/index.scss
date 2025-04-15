@@ -5,9 +5,9 @@ html {
   margin: 0;
 }
 
-.slick-slide{
+.slick-slide {
   width: 370px;
-  padding: 0 15px;
+  padding: 15px 15px;
 
   @media screen and (max-width: 550px) {
     width: 300px;
@@ -19,5 +19,12 @@ html {
 
   @media screen and (max-width: 380px) {
     width: 130px;
+  }
+}
+
+.slick-track {
+
+  @media screen and (max-width: 650px) {
+    width: auto !important;
   }
 }

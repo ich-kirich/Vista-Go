@@ -25,9 +25,20 @@ function RecommendCart(props: IRecommendCartProps) {
 
   const viewCity = () => {
     const index = idsRecommends.indexOf(recommend.id) + 1;
+
+    const isMobile = window.innerWidth < 650;
+
     if (index === currentSlide) {
       navigate(getRoute(Routes.CITY, { id: recommend.CityId }));
-    } else {
+      return;
+    }
+
+    if (isMobile) {
+      navigate(getRoute(Routes.CITY, { id: recommend.CityId }));
+      return;
+    }
+
+    if (!isMobile) {
       sliderRef.current?.slickGoTo(index - 1);
       setTimeout(() => {
         setCurrentSlide(index);

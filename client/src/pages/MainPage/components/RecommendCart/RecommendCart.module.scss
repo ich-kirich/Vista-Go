@@ -48,4 +48,9 @@
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    padding-bottom: 5px;
+  }
 }
