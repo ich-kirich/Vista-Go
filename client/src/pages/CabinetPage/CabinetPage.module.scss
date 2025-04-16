@@ -23,6 +23,10 @@
 .user__controls {
   display: flex;
   gap: 15px;
+
+  @media screen and (max-width: 850px) {
+    flex-wrap: wrap;
+  }
 }
 
 .user__img {
