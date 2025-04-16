@@ -1,23 +1,14 @@
-.loader__wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-.loader__animation {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 3px dashed black;
-  animation: rotate 1s infinite linear;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg) scale(1);
+.loading {
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
-  to {
-    transform: rotate(360deg) scale(1.4);
+  &__indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
