@@ -24,7 +24,7 @@ function CityPage() {
   return (
     <FetchWrapper loading={loading} error={error}>
       {city && (
-        <Container maxWidth="sm" className={styles.app__wrapper}>
+        <Container maxWidth="lg" className={styles.app__wrapper}>
           <CityPanel city={city} />
           <Box>
             {city.sights.length > 0 ? (

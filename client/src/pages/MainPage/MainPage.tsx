@@ -47,7 +47,7 @@ function MainPage() {
   }, [user]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       {error ? (
         <ViewError>{t(`${error}`)}</ViewError>
       ) : (

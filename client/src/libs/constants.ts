@@ -8,7 +8,7 @@ export const SLIDER_SETTINGS = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  initialSlide: 0,
+  initialSlide: 1,
   centerMode: true,
   variableWidth: true,
 };
