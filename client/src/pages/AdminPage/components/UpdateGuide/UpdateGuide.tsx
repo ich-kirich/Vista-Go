@@ -38,6 +38,17 @@ function UpdateGuide() {
 
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
 
+  useEffect(() => {
+    if (guides && guides.length > 0) {
+      const firstGuides = guides[0];
+      setChooseGuide(String(firstGuides.id));
+      setNameGuide({
+        en: firstGuides.name.en || "",
+        ru: firstGuides.name.ru || "",
+      });
+    }
+  }, [guides]);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };

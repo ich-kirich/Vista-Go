@@ -58,6 +58,8 @@ export interface ICities {
   };
   weather: string;
   image: string;
+  lat: string;
+  lon: string;
   sights: ISights[];
   guides: IGuide[];
 }

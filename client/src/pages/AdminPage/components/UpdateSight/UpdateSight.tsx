@@ -52,6 +52,21 @@ function UpdateSight() {
   }, [sight.loading]);
 
   useEffect(() => {
+    if (sights.sights && sights.sights.length > 0) {
+      const firstSights = sights.sights[0];
+      setChooseSight(String(firstSights.id));
+      setNameSight({
+        en: firstSights.name.en || "",
+        ru: firstSights.name.ru || "",
+      });
+      setDescriptionSight({
+        en: firstSights.description.en || "",
+        ru: firstSights.description.ru || "",
+      });
+    }
+  }, [sights]);
+
+  useEffect(() => {
     const selectedSight = sights.sights?.find(
       (elem) => elem.id === Number(chooseSight),
     );

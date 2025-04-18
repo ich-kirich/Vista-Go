@@ -38,6 +38,17 @@ function UpdateTag() {
 
   const { tags, error, loading } = useTypedSelector((state) => state.tags);
 
+  useEffect(() => {
+    if (tags && tags.length > 0) {
+      const firstTag = tags[0];
+      setChooseTag(String(firstTag.id));
+      setNameTag({
+        en: firstTag.name.en || "",
+        ru: firstTag.name.ru || "",
+      });
+    }
+  }, [tags]);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
@@ -48,6 +59,10 @@ function UpdateTag() {
       setNameTag({
         en: selectedTag.name.en || "",
         ru: selectedTag.name.ru || "",
+      });
+      setValidationErrors({
+        en: null,
+        ru: null,
       });
     }
     setChooseTag(value);
