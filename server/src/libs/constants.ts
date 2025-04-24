@@ -1,8 +1,8 @@
 export const DEFAULT_URL_IMG = "https://i.ibb.co/JvKSP4t/default.png";
 
-export const MIN_LENGHT_PASSWORD = 8;
+export const MIN_LENGTH_PASSWORD = 8;
 
-export const MIN_LENGHT_NAME = 10;
+export const MIN_LENGTH_NAME = 10;
 
 export const CODE_SEND = `Verification code was successfully sent to the mail.`;
 
@@ -40,6 +40,8 @@ export enum ERROR {
   LONG_NAME = "LONG_NAME",
   SHORT_PASSWORD = "SHORT_PASSWORD",
   RECOMMEND_FOUND = "RECOMMEND_FOUND",
+  USER_IS_BANNED = "USER_IS_BANNED",
+  USER_IS_UNBANNED = "USER_IS_UNBANNED",
 }
 
 export enum Locales {

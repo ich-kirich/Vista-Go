@@ -14,6 +14,8 @@ class User extends Model {
   public image!: string;
 
   public role!: string;
+
+  public isBanned: boolean;
 }
 
 User.init(
@@ -45,6 +47,11 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: USER_ROLE,
+    },
+    isBanned: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {

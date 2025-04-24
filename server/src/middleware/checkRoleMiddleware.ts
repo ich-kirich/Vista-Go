@@ -24,6 +24,11 @@ const checkRole =
         logger.error("Unauthorized access");
         res.status(403).json({ message: ERROR.NO_ACCESS });
       }
+      if (decoded.isBanned || decoded.isBanned === undefined) {
+        logger.error("Banned user tried to access");
+        return res.status(403).json({ message: ERROR.NO_ACCESS });
+      }
+
       req.user = decoded;
       next();
     } catch (e) {

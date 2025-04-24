@@ -76,7 +76,7 @@ function RegistrationPage() {
                 component="h2"
                 className={styles.registration__title}
               >
-                {error}
+                {t(error)}
               </Typography>
             )}
             <Box className={styles.registration__form}>

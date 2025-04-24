@@ -3,6 +3,7 @@ import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
 import logger from "../libs/logger";
 import Tag from "../../models/tag";
+import User from "../../models/user";
 import ApiError from "../error/apiError";
 import { ERROR, RECORD_DELETED } from "../libs/constants";
 import {
@@ -299,6 +300,84 @@ class AdminControllers {
       return res.json(RECORD_DELETED);
     } catch (e) {
       logger.error("Error during deleting a guide", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async banUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ where: { email } });
+
+      if (!user) {
+        logger.error(`User with this email: ${email} was not found`);
+        return next(new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND));
+      }
+
+      if (user.isBanned) {
+        logger.error(`User with this email: ${email} is banned`);
+        return next(new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_BANNED));
+      }
+
+      user.isBanned = true;
+      await user.save();
+
+      logger.info(
+        `User with this email: ${email} has been successfully banned`,
+      );
+      return res.json({ success: true });
+    } catch (e) {
+      logger.error("Error during banning user", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async unBanUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ where: { email } });
+
+      if (!user) {
+        logger.error(`User with this email: ${email} was not found`);
+        return next(new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND));
+      }
+
+      if (!user.isBanned) {
+        logger.error(`User with this email: ${email} is unbanned`);
+        return next(
+          new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_UNBANNED),
+        );
+      }
+
+      user.isBanned = false;
+      await user.save();
+
+      logger.info(
+        `User with this email: ${email} has been successfully unbanned`,
+      );
+      return res.json({ success: true });
+    } catch (e) {
+      logger.error("Error during unbanning user", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async getAllUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const users = await User.findAll();
+
+      logger.info("Fetched all users successfully");
+      return res.json(users);
+    } catch (e) {
+      logger.error("Error during getting users", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

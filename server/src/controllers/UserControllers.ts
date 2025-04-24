@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { decodeJwt } from "../libs/jwtUtils";
 import ApiError from "../error/apiError";
 import {
-  сhangeUserPassword,
+  changeUserPassword,
   createUser,
   loginUser,
   updateImageUser,
@@ -113,7 +113,7 @@ class UserControllers {
   ) {
     try {
       const { email, code } = req.body;
-      const updatePassword = await сhangeUserPassword(email, code);
+      const updatePassword = await changeUserPassword(email, code);
       logger.info(
         `The password was successfully changed for a user with this email: ${email}`,
       );

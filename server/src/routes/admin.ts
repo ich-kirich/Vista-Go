@@ -22,4 +22,8 @@ adminRouter.post("/create/guide", AdminControllers.createGuide);
 adminRouter.post("/update/guide", AdminControllers.updateGuide);
 adminRouter.delete("/delete/guide/:id", AdminControllers.deleteGuide);
 
+adminRouter.post("/ban/user", AdminControllers.banUser);
+adminRouter.post("/unban/user", AdminControllers.unBanUser);
+adminRouter.get("/users", AdminControllers.getAllUsers);
+
 export default adminRouter;

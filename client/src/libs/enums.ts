@@ -16,6 +16,7 @@ export enum AdminEntity {
   GUIDE = "guide",
   CITY = "city",
   RECOMMEND = "recommend",
+  USERS = "users",
 }
 
 export enum AppError {
@@ -48,6 +49,8 @@ export enum AppError {
   INVALID_NAME = "app_error.invalid_name",
   INVALID_LATITUDE = "app_error.invalid_latitude",
   INVALID_LONGITUDE = "app_error.invalid_longitude",
+  USER_IS_BANNED = "app_error.user_is_banned",
+  USER_IS_UNBANNED = "app_error.user_is_unbanned",
 }
 
 export enum CodePass {
@@ -132,6 +135,18 @@ export enum City {
   FETCH_CITY = "FETCH_CITY",
   FETCH_CITY_SUCCESS = "FETCH_CITY_SUCCESS",
   FETCH_CITY_ERROR = "FETCH_CITY_ERROR",
+}
+
+export enum UserBan {
+  FETCH_USER_BAN = "FETCH_USER_BAN",
+  FETCH_USER_BAN_SUCCESS = "FETCH_USER_BAN_SUCCESS",
+  FETCH_USER_BAN_ERROR = "FETCH_USER_BAN_ERROR",
+}
+
+export enum Users {
+  FETCH_USERS = "FETCH_USERS",
+  FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS",
+  FETCH_USERS_ERROR = "FETCH_USERS_ERROR",
 }
 
 export enum Cities {

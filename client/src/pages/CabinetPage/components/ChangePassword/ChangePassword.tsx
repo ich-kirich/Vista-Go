@@ -36,8 +36,8 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
 
   const sendCode = () => {
     setShowError(true);
-    if (newPassword === repeatPassword) {
-      fetchCodePassword(email!, newPassword);
+    if (newPassword === repeatPassword && email) {
+      fetchCodePassword(email, newPassword);
       if (!loading && !error) {
         setVisibleFieldCode(true);
       }
@@ -75,16 +75,16 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   return (
     <FetchWrapper
       loading={loading}
-      error={showError ? error || t(`${error}`) || t(`${errorRepeat}`) : null}
+      error={showError ? error || errorRepeat : null}
     >
-      {visible && (
+      {visible && email && (
         <Box>
           <PopupComponent
             visible={visibleFieldCode}
             setVisible={setVisibleFieldCode}
           >
             <VerificationPassword
-              email={email!}
+              email={email}
               setVisible={setVisibleFieldCode}
             />
           </PopupComponent>

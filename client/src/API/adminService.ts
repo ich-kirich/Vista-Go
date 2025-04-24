@@ -143,3 +143,31 @@ export async function updateCity(params: IUpdateCity) {
   });
   return data;
 }
+
+export async function banUser(email: string) {
+  console.log(banUser);
+  const formData = new FormData();
+  addFieldsToFormData(formData, { email });
+  const { data } = await adminHost.post("admin/ban/user/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+}
+
+export async function unBanUser(email: string) {
+  const formData = new FormData();
+  addFieldsToFormData(formData, { email });
+  const { data } = await adminHost.post("admin/unban/user/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+}
+
+export async function getUsers() {
+  const response = await adminHost.get("admin/users/");
+  return response;
+}

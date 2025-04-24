@@ -19,10 +19,17 @@ import AddSight from "./components/AddSight/AddSight";
 import AddTag from "./components/AddTag/AddTag";
 import { AdminEntity } from "../../libs/enums";
 import { useTranslation } from "react-i18next";
+import UsersTable from "./components/UsersTable/UsersTable";
 
 function AdminPage() {
   const [visiblePanel, setVisiblePanel] = useState<AdminEntity | null>(null);
   const { t } = useTranslation();
+
+  const usersTable = {
+    entity: AdminEntity.USERS,
+    label: t("admin_page.users"),
+    components: <UsersTable closeTable={setVisiblePanel} />,
+  };
 
   const adminPanels = [
     {
@@ -70,34 +77,48 @@ function AdminPage() {
 
   return (
     <Box className={styles.panel__wrapper}>
-      {adminPanels.map(({ entity, components }) => (
-        <PopupComponent
-          key={entity}
-          visible={visiblePanel === entity}
-          setVisible={() => setVisiblePanel(null)}
-        >
-          <AdminEntityPanel entity={entity} components={components} />
-        </PopupComponent>
-      ))}
+      {visiblePanel === usersTable.entity ? (
+        <>{usersTable.components}</>
+      ) : (
+        <>
+          {adminPanels.map(({ entity, components }) => (
+            <PopupComponent
+              key={entity}
+              visible={visiblePanel === entity}
+              setVisible={() => setVisiblePanel(null)}
+            >
+              <AdminEntityPanel entity={entity} components={components} />
+            </PopupComponent>
+          ))}
 
-      <Box>
-        <Typography variant="h3" component="h2">
-          {t("admin_page.welcome")}
-        </Typography>
-      </Box>
+          <Box>
+            <Typography variant="h3" component="h2">
+              {t("admin_page.welcome")}
+            </Typography>
+          </Box>
 
-      <Box className={styles.controls__wrapper}>
-        {adminPanels.map(({ entity, label }) => (
-          <Button
-            key={entity}
-            variant="contained"
-            fullWidth
-            onClick={() => setVisiblePanel(entity)}
-          >
-            {label}
-          </Button>
-        ))}
-      </Box>
+          <Box className={styles.controls__wrapper}>
+            {adminPanels.map(({ entity, label }) => (
+              <Button
+                key={entity}
+                variant="contained"
+                fullWidth
+                onClick={() => setVisiblePanel(entity)}
+              >
+                {label}
+              </Button>
+            ))}
+            <Button
+              key={usersTable.entity}
+              variant="contained"
+              fullWidth
+              onClick={() => setVisiblePanel(usersTable.entity)}
+            >
+              {usersTable.label}
+            </Button>
+          </Box>
+        </>
+      )}
     </Box>
   );
 }

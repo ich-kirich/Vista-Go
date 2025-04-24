@@ -11,6 +11,7 @@ export interface IGenerateJwt {
   name: string;
   image: string;
   role: string;
+  isBanned: string;
 }
 
 export interface ICreateRecordSight {

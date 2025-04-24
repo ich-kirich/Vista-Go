@@ -49,7 +49,7 @@ function MainPage() {
   return (
     <Container maxWidth="lg">
       {error ? (
-        <ViewError>{t(`${error}`)}</ViewError>
+        <ViewError>{error}</ViewError>
       ) : (
         <Box className={styles.app__wrapper}>
           <Typography variant="h6" component="h2" className={styles.app__title}>

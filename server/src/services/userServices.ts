@@ -4,7 +4,7 @@ import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
-import { ERROR, MIN_LENGHT_NAME, MIN_LENGHT_PASSWORD } from "../libs/constants";
+import { ERROR, MIN_LENGTH_NAME, MIN_LENGTH_PASSWORD } from "../libs/constants";
 import { generateJwt } from "../libs/jwtUtils";
 import VerificationPassword from "../../models/verificationPassword";
 import sendEmail from "../libs/sendEmails";
@@ -17,7 +17,7 @@ function generateVerificationCode() {
   return code;
 }
 
-async function checkVereficationPassword(email: string, code: string) {
+async function checkVerificationPassword(email: string, code: string) {
   const verificationExist = await VerificationPassword.findOne({
     where: { email },
   });
@@ -35,7 +35,7 @@ async function checkVereficationPassword(email: string, code: string) {
   throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.USER_NOT_FOUND);
 }
 
-async function checkVereficationUser(email: string, code: string) {
+async function checkVerificationUser(email: string, code: string) {
   const verificationExist = await VerificationUser.findOne({
     where: { email },
   });
@@ -64,7 +64,7 @@ function validatePassword(password: string, email: string) {
     password,
   );
 
-  if (password.length < MIN_LENGHT_PASSWORD) {
+  if (password.length < MIN_LENGTH_PASSWORD) {
     logger.error("Too short a password");
     throw new ApiError(StatusCodes.BAD_REQUEST, ERROR.SHORT_PASSWORD);
   }
@@ -96,7 +96,7 @@ function validateEmail(email: string) {
 }
 
 function validateName(name: string) {
-  if (name.length > MIN_LENGHT_NAME) {
+  if (name.length > MIN_LENGTH_NAME) {
     logger.error("Too long a name", name);
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.LONG_NAME);
   }
@@ -124,7 +124,7 @@ async function validationRegistration(
   }
   const checkEmail = validateEmail(email);
   const checkName = validateName(name);
-  const checkPasssword = validatePassword(password, email);
+  const checkPassword = validatePassword(password, email);
   logger.info("Validation of all entered data was successful");
   return true;
 }
@@ -134,6 +134,10 @@ async function validateLogin(email: string, password: string) {
   if (!userExist) {
     logger.error("There is no user with this email", email);
     throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.USER_NOT_FOUND);
+  }
+  if (userExist.dataValues.isBanned) {
+    logger.error("Try to login banned user", userExist.dataValues.email);
+    throw new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_BANNED);
   }
   const comparePassword = bcrypt.compareSync(
     password,
@@ -146,10 +150,11 @@ async function validateLogin(email: string, password: string) {
       ERROR.INCORRECT_PASSWORD,
     );
   }
+
   return userExist.dataValues;
 }
 
-async function createVerefication(
+async function createVerification(
   email: string,
   name: string,
   password: string,
@@ -177,7 +182,7 @@ async function createVerefication(
   return verificationCode;
 }
 
-async function createVereficationPassword(email: string, password: string) {
+async function createVerificationPassword(email: string, password: string) {
   const verificationCode = generateVerificationCode();
   const verificationExist = await VerificationPassword.findOne({
     where: { email },
@@ -207,7 +212,7 @@ async function createVereficationPassword(email: string, password: string) {
 }
 
 export async function createUser(email: string, code: string) {
-  const userInformation = await checkVereficationUser(email, code);
+  const userInformation = await checkVerificationUser(email, code);
   const newUser = await User.create({
     name: userInformation.name,
     email,
@@ -219,6 +224,7 @@ export async function createUser(email: string, code: string) {
     name: newUser.dataValues.name,
     image: newUser.dataValues.image,
     role: newUser.dataValues.role,
+    isBanned: newUser.dataValues.isBanned,
   });
   return jwtToken;
 }
@@ -231,6 +237,7 @@ export async function loginUser(email: string, password: string) {
     name: checkLogin.name,
     image: checkLogin.image,
     role: checkLogin.role,
+    isBanned: checkLogin.isBanned,
   });
   return jwtToken;
 }
@@ -245,6 +252,7 @@ export async function updateNameUser(userId: number, username: string) {
     name: username,
     image: user.dataValues.image,
     role: user.dataValues.role,
+    isBanned: user.dataValues.isBanned,
   });
   return jwtToken;
 }
@@ -259,12 +267,13 @@ export async function updateImageUser(userId: number, image: UploadedFile) {
     name: user.dataValues.name,
     image: user.dataValues.image,
     role: user.dataValues.role,
+    isBanned: user.dataValues.isBanned,
   });
   return jwtToken;
 }
 
-export async function сhangeUserPassword(emailUser: string, code: string) {
-  const newPassword = await checkVereficationPassword(emailUser, code);
+export async function changeUserPassword(emailUser: string, code: string) {
+  const newPassword = await checkVerificationPassword(emailUser, code);
   await User.update({ password: newPassword }, { where: { email: emailUser } });
   const user = await User.findOne({
     where: { email: emailUser },
@@ -275,6 +284,7 @@ export async function сhangeUserPassword(emailUser: string, code: string) {
     name: user.dataValues.name,
     image: user.dataValues.image,
     role: user.dataValues.role,
+    isBanned: user.dataValues.isBanned,
   });
   return jwtToken;
 }
@@ -285,14 +295,14 @@ export async function registrationUser(
   name: string,
 ) {
   const checkInput = await validationRegistration(email, password, name);
-  const verificationCode = await createVerefication(email, name, password);
+  const verificationCode = await createVerification(email, name, password);
   const trySend = await sendEmail(verificationCode, email);
   return true;
 }
 
 export async function verificationPassword(password: string, email: string) {
   const checkPassword = validatePassword(password, email);
-  const verificationCode = await createVereficationPassword(email, password);
+  const verificationCode = await createVerificationPassword(email, password);
   const trySend = await sendEmail(verificationCode, email);
   return true;
 }

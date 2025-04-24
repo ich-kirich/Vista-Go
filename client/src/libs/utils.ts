@@ -60,7 +60,11 @@ export function getValidToken(): (IUser & JwtPayload) | null {
     const decoded: IUser & JwtPayload = jwt_decode(token);
 
     const currentTime = Date.now() / 1000;
-    if (decoded.exp && decoded.exp < currentTime) {
+    if (
+      (decoded.exp && decoded.exp < currentTime) ||
+      decoded.isBanned ||
+      decoded.isBanned === undefined
+    ) {
       return null;
     }
 

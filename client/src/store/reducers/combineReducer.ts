@@ -14,6 +14,7 @@ import sightsReducer from "./sightsReducer";
 import tagReducer from "./tagReducer";
 import tagsReducer from "./tagsReducer";
 import userReducer from "./userReducer";
+import usersReducer from "./usersReducer";
 
 export const rootReducer = combineReducers({
   cities: citiesReducer,
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   recommend: recommendReducer,
   tags: tagsReducer,
   tag: tagReducer,
+  users: usersReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

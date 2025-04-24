@@ -63,7 +63,7 @@ function LoginPage() {
                 component="h2"
                 className={styles.login__title}
               >
-                {error}
+                {t(error)}
               </Typography>
             )}
             <Box className={styles.login__form}>

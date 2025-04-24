@@ -41,6 +41,11 @@ import {
 } from "../store/actionCreators/updateUserInformation";
 import fetchUser from "../store/actionCreators/user";
 import { fetchCodeUser, fetchCodePassword } from "../store/actionCreators/code";
+import { fetchUsers } from "../store/actionCreators/users";
+import {
+  fetchBanUser,
+  fetchUnBanUser,
+} from "../store/actionCreators/adminUsers";
 
 const useActions = () => {
   const dispatch = useDispatch();
@@ -75,6 +80,9 @@ const useActions = () => {
       fetchCreateCity,
       fetchDeleteCity,
       fetchUpdateCity,
+      fetchUsers,
+      fetchBanUser,
+      fetchUnBanUser,
     },
     dispatch,
   );

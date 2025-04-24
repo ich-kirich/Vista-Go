@@ -4,6 +4,7 @@ It is a sightseeing search app
 #### Launch server part:
 - npm start - build the project and start the server
 - npm run dev - start the project in developer mode and start the server
+- npx sequelize-cli db:migrate:undo:all - undo all migrations
 - npx sequelize-cli db:migrate - start the migration process
 - npx sequelize-cli db:seed:all - upload seeds
 #### Launch client part:

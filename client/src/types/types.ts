@@ -75,6 +75,7 @@ export interface IUser {
   name: string;
   image: string;
   role: string;
+  isBanned: boolean;
 }
 
 export interface ICode {

@@ -70,7 +70,7 @@ function CabinetPage() {
     i18n.changeLanguage(newLanguage);
   };
 
-  if (error) return <ViewError>{t(`${error}`)}</ViewError>;
+  if (error) return <ViewError>{error}</ViewError>;
 
   return (
     <Box className={styles.user__wrapper}>

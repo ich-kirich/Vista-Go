@@ -33,6 +33,8 @@
   "app_error.invalid_latitude": "Широта должна быть в диапазоне от -90 до 90.",
   "app_error.invalid_longitude": "Долгота должна быть в диапазоне от -180 до 180.",
   "app_error.title": "Ошибка",
+  "app_error.user_is_banned": "Пользователь уже забанен",
+  "app_error.user_is_unbanned": "Пользователь не был забанен",
 
   "admin_entity.actions.add": "Добавить",
   "admin_entity.actions.update": "Обновить",
@@ -42,6 +44,18 @@
   "admin_entity.city": "Город",
   "admin_entity.guide": "Гида",
   "admin_entity.recommend": "Рекомендацию",
+
+  "admin_page.users": "Таблица пользователей",
+  "admin_page.users.close_table": "Закрыть таблицу",
+  "admin_page.users.email": "Email",
+  "admin_page.users.role": "Роль",
+  "admin_page.users.username": "Имя пользователя",
+  "admin_page.users.banned": "Забанен",
+  "admin_page.users.ban": "Забанить",
+  "admin_page.users.unban": "Разбанить",
+  "admin_page.users.user": "Пользователя",
+  "admin_page.users.warning": "Вы точно хотите",
+  "admin_page.users.close_warning": "Закрыть",
 
   "admin_page.edit.cities": "Редактировать города",
   "admin_page.edit.guides": "Редактировать гидов",

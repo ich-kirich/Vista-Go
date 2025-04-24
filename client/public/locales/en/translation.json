@@ -33,6 +33,9 @@
   "app_error.invalid_latitude": "Latitude must be between -90 and 90.",
   "app_error.invalid_longitude": "Longitude must be between -180 and 180.",
   "app_error.title": "Error",
+  "app_error.user_is_banned": "User is banned",
+  "app_error.user_is_unbanned": "User is unbanned",
+  
 
   "admin_entity.actions.add": "Add",
   "admin_entity.actions.update": "Update",
@@ -42,6 +45,18 @@
   "admin_entity.city": "City",
   "admin_entity.guide": "Guide",
   "admin_entity.recommend": "Recommend",
+
+  "admin_page.users": "Users table",
+  "admin_page.users.close_table": "Close table",
+  "admin_page.users.email": "Email",
+  "admin_page.users.role": "Role",
+  "admin_page.users.username": "User name",
+  "admin_page.users.banned": "Banned",
+  "admin_page.users.ban": "Ban",
+  "admin_page.users.unban": "Unban",
+  "admin_page.users.user": "User",
+  "admin_page.users.warning": "Are you sure you want to",
+  "admin_page.users.close_warning": "Close",
 
   "admin_page.welcome": "Welcome to Admin Panel",
   "admin_page.edit.cities": "Edit cities",

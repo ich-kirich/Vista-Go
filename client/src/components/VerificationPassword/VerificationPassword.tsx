@@ -46,7 +46,7 @@ function VerificationPassword({
               component="h2"
               className={styles.verification__title}
             >
-              {error}
+              {t(error)}
             </Typography>
           )}
           <Box className={styles.verification__controls}>
