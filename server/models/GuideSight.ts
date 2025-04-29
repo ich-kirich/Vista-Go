@@ -31,7 +31,6 @@ GuideSight.init(
   {
     sequelize,
     tableName: "guide_sight",
-    timestamps: false,
   },
 );
 

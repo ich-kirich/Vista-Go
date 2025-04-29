@@ -11,8 +11,8 @@ import { useState, useEffect, ChangeEvent } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
-import styles from "./UpdateSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
+import styles from "./UpdateSight.module.scss";
 import { validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
 import { Locales } from "../../../../libs/enums";
@@ -24,8 +24,6 @@ function UpdateSight() {
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
-  const [numberTags, setNumberTags] = useState<number[]>([]);
-  const [numberGuides, setNumberGuides] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
   const [isClick, setIsClick] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
@@ -37,7 +35,7 @@ function UpdateSight() {
   const language = i18n.language as Locales;
   const sights = useTypedSelector((state) => state.sights);
   const sight = useTypedSelector((state) => state.sight);
-  const { tags, error, loading } = useTypedSelector((state) => state.tags);
+  const tags = useTypedSelector((state) => state.tags);
   const guides = useTypedSelector((state) => state.guides);
   const { fetchTags, fetchAllSights, fetchUpdateSight, fetchGuides } =
     useActions();
@@ -54,29 +52,20 @@ function UpdateSight() {
       setChooseSight(String(firstSight.id));
       setNameSight(firstSight.name);
       setDescriptionSight(firstSight.description);
+      setTagIdsSight(firstSight.tags.map((tag) => tag.id));
+      setGuideIdsSight(firstSight.guides?.map((guide) => guide.id) || []);
     }
-  }, [sights]);
+  }, [sights.sights]);
 
   useEffect(() => {
     const selectedSight = sights.sights?.find(
-      (elem) => elem.id === Number(chooseSight),
+      (s) => s.id === Number(chooseSight),
     );
     if (selectedSight) {
       setNameSight(selectedSight.name);
       setDescriptionSight(selectedSight.description);
-
-      const updatedTagIds = selectedSight.tags.map((item) => item.id);
-      setTagIdsSight(updatedTagIds);
-      setNumberTags(
-        Array.from({ length: updatedTagIds.length }, (_, i) => i + 1),
-      );
-
-      const updatedGuideIds =
-        selectedSight.guides?.map((item) => item.id) || [];
-      setGuideIdsSight(updatedGuideIds);
-      setNumberGuides(
-        Array.from({ length: updatedGuideIds.length }, (_, i) => i + 1),
-      );
+      setTagIdsSight(selectedSight.tags.map((tag) => tag.id));
+      setGuideIdsSight(selectedSight.guides?.map((guide) => guide.id) || []);
     }
   }, [chooseSight, sights.sights]);
 
@@ -114,82 +103,77 @@ function UpdateSight() {
     setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
   };
 
-  const addTag = () => {
-    setNumberTags([...numberTags, numberTags.length + 1]);
-  };
-
-  const addGuide = () => {
-    setNumberGuides([...numberGuides, numberGuides.length + 1]);
-  };
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    if (event.target.files) {
-      const file = event.target.files[0];
-      setImageSight(file);
+    if (event.target.files?.length) {
+      setImageSight(event.target.files[0]);
     }
   };
 
-  const selectTag = (value: string, idBlock: number) => {
-    const newTagId = Number(value);
-    setTagIdsSight((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = newTagId;
-      return updated;
-    });
+  const addTag = () => {
+    const availableTag = tags.tags?.find(
+      (tag) => !tagIdsSight.includes(tag.id),
+    );
+    if (availableTag) {
+      setTagIdsSight((prev) => [...prev, availableTag.id]);
+    }
   };
 
-  const selectGuide = (value: string, idBlock: number) => {
-    const newGuideId = Number(value);
-    setGuideIdsSight((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = newGuideId;
-      return updated;
-    });
+  const addGuide = () => {
+    const availableGuide = guides.guides?.find(
+      (guide) => !guideIdsSight.includes(guide.id),
+    );
+    if (availableGuide) {
+      setGuideIdsSight((prev) => [...prev, availableGuide.id]);
+    }
   };
 
-  const deleteTagSelect = (idBlock: number, e: React.MouseEvent) => {
+  const selectTag = (value: string, idx: number) => {
+    const updated = [...tagIdsSight];
+    updated[idx] = Number(value);
+    setTagIdsSight(updated);
+  };
+
+  const selectGuide = (value: string, idx: number) => {
+    const updated = [...guideIdsSight];
+    updated[idx] = Number(value);
+    setGuideIdsSight(updated);
+  };
+
+  const deleteTagSelect = (idx: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setTagIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberTags((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setTagIdsSight((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const deleteGuideSelect = (idBlock: number, e: React.MouseEvent) => {
+  const deleteGuideSelect = (idx: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setGuideIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberGuides((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setGuideIdsSight((prev) => prev.filter((_, i) => i !== idx));
   };
 
   const isFormValid = () => {
-    const hasChanges =
-      nameSight.en ||
-      nameSight.ru ||
-      descriptionSight.en ||
-      descriptionSight.ru ||
-      imageSight ||
-      tagIdsSight.length > 0 ||
-      guideIdsSight.length > 0;
-
-    const noErrors =
+    return (
+      chooseSight &&
+      (nameSight.en || nameSight.ru || imageSight) &&
       !validationErrors.name.en &&
       !validationErrors.name.ru &&
       !validationErrors.description.en &&
-      !validationErrors.description.ru;
-
-    return chooseSight && hasChanges && noErrors;
+      !validationErrors.description.ru
+    );
   };
 
   return (
-    <FetchWrapper loading={sights.loading} error={sights.error}>
+    <FetchWrapper
+      loading={sights.loading || tags.loading || guides.loading}
+      error={sights.error || tags.error || guides.error}
+    >
       {isClick ? (
         <FetchWrapper loading={sight.loading} error={sight.error}>
-          <Typography variant="h6" component="h5">
+          <Typography variant="h6">
             {t("admin_page.update.sight.success")}
           </Typography>
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
-          <Typography variant="h6" component="h2">
+          <Typography variant="h6">
             {t("admin_page.update.sight.select_label")}
           </Typography>
           <NativeSelect
@@ -233,6 +217,7 @@ function UpdateSight() {
               error={!!validationErrors.description.en}
             />
           </Box>
+
           <Box hidden={currentTab !== 1}>
             <Typography variant="h6">
               {t("admin_page.update.sight.name")} (Русский)
@@ -265,77 +250,76 @@ function UpdateSight() {
             onChange={handleFileChange}
             className={styles.image__upload}
           />
-          <Button variant="text" fullWidth onClick={addTag}>
+
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addTag}
+            disabled={!tags.tags?.some((tag) => !tagIdsSight.includes(tag.id))}
+          >
             {t("admin_page.update.sight.tag_button")}
           </Button>
-          <FetchWrapper loading={loading} error={error}>
-            {numberTags.map((elem) => (
-              <Box
-                key={elem}
-                sx={{ display: "flex", alignItems: "center", mb: 1 }}
-              >
-                <NativeSelect
-                  value={tagIdsSight[elem - 1] || ""}
-                  onChange={(e) => selectTag(e.target.value, elem)}
-                  variant="standard"
-                  fullWidth
-                >
-                  {tags?.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      disabled={
-                        tagIdsSight.includes(item.id) &&
-                        tagIdsSight[elem - 1] !== item.id
-                      }
-                    >
-                      {item.name[language] || item.name.en}
-                    </option>
-                  ))}
-                </NativeSelect>
-                <CloseIcon
-                  onClick={(e) => deleteTagSelect(elem, e)}
-                  className={styles.select__delete}
-                />
-              </Box>
-            ))}
-          </FetchWrapper>
 
-          <Button variant="text" fullWidth onClick={addGuide}>
+          {tagIdsSight.map((tagId, idx) => (
+            <Box
+              key={idx}
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            >
+              <NativeSelect
+                value={tagId}
+                onChange={(e) => selectTag(e.target.value, idx)}
+                variant="standard"
+                fullWidth
+              >
+                {tags.tags?.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name[language] || tag.name.en}
+                  </option>
+                ))}
+              </NativeSelect>
+              <CloseIcon
+                onClick={(e) => deleteTagSelect(idx, e)}
+                sx={{ ml: 1, cursor: "pointer" }}
+                className={styles.select__delete}
+              />
+            </Box>
+          ))}
+
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addGuide}
+            disabled={
+              !guides.guides?.some((guide) => !guideIdsSight.includes(guide.id))
+            }
+          >
             {t("admin_page.update.sight.add_guide")}
           </Button>
-          <FetchWrapper loading={guides.loading} error={guides.error}>
-            {numberGuides.map((elem) => (
-              <Box
-                key={elem}
-                sx={{ display: "flex", alignItems: "center", mb: 1 }}
+
+          {guideIdsSight.map((guideId, idx) => (
+            <Box
+              key={idx}
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            >
+              <NativeSelect
+                value={guideId}
+                onChange={(e) => selectGuide(e.target.value, idx)}
+                variant="standard"
+                fullWidth
               >
-                <NativeSelect
-                  value={guideIdsSight[elem - 1] || ""}
-                  onChange={(e) => selectGuide(e.target.value, elem)}
-                  variant="standard"
-                  fullWidth
-                >
-                  {guides.guides?.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      disabled={
-                        guideIdsSight.includes(item.id) &&
-                        guideIdsSight[elem - 1] !== item.id
-                      }
-                    >
-                      {item.name[language] || item.name.en}
-                    </option>
-                  ))}
-                </NativeSelect>
-                <CloseIcon
-                  onClick={(e) => deleteGuideSelect(elem, e)}
-                  className={styles.select__delete}
-                />
-              </Box>
-            ))}
-          </FetchWrapper>
+                {guides.guides?.map((guide) => (
+                  <option key={guide.id} value={guide.id}>
+                    {guide.name[language] || guide.name.en}
+                  </option>
+                ))}
+              </NativeSelect>
+              <CloseIcon
+                onClick={(e) => deleteGuideSelect(idx, e)}
+                sx={{ ml: 1, cursor: "pointer" }}
+                className={styles.select__delete}
+              />
+            </Box>
+          ))}
 
           <Button
             variant="contained"

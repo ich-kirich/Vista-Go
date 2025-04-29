@@ -51,6 +51,7 @@ export enum AppError {
   INVALID_LONGITUDE = "app_error.invalid_longitude",
   USER_IS_BANNED = "app_error.user_is_banned",
   USER_IS_UNBANNED = "app_error.user_is_unbanned",
+  USER_IS_ALREADY_GUIDE = "app_error.user_is_already_guide",
 }
 
 export enum CodePass {

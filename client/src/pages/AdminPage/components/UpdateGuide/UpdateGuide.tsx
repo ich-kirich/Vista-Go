@@ -25,17 +25,13 @@ function UpdateGuide() {
   const [contacts, setContacts] = useState("");
   const [cityIds, setCityIds] = useState<number[]>([]);
   const [sightIds, setSightIds] = useState<number[]>([]);
-  const [numberCities, setNumberCities] = useState<number[]>([]);
-  const [numberSights, setNumberSights] = useState<number[]>([]);
   const [imageGuide, setImageGuide] = useState<File>();
   const [isClick, setIsClick] = useState(false);
   const [validationErrors, setValidationErrors] = useState<{
     nameGuide_en: string | null;
     nameGuide_ru: string | null;
-  }>({
-    nameGuide_en: null,
-    nameGuide_ru: null,
-  });
+  }>({ nameGuide_en: null, nameGuide_ru: null });
+
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
@@ -53,22 +49,14 @@ function UpdateGuide() {
   }, [guide.loading]);
 
   useEffect(() => {
-    if (guides && guides.length > 0) {
+    if (guides?.length) {
       const firstGuide = guides[0];
       setChooseGuide(String(firstGuide.id));
       setNameGuide(firstGuide.name);
       setDescriptionGuide(firstGuide.description);
       setContacts(firstGuide.contacts);
-      const updatedCitiesIds = firstGuide.cities.map((item) => item.id);
-      setCityIds(updatedCitiesIds);
-      setNumberCities(
-        Array.from({ length: updatedCitiesIds.length }, (_, i) => i + 1),
-      );
-      const updatedSightIds = firstGuide.sights.map((item) => item.id);
-      setSightIds(updatedSightIds);
-      setNumberSights(
-        Array.from({ length: updatedSightIds.length }, (_, i) => i + 1),
-      );
+      setCityIds(firstGuide.cities.map((city) => city.id));
+      setSightIds(firstGuide.sights.map((sight) => sight.id));
     }
   }, [guides]);
 
@@ -78,16 +66,8 @@ function UpdateGuide() {
       setNameGuide(selectedGuide.name);
       setDescriptionGuide(selectedGuide.description);
       setContacts(selectedGuide.contacts);
-      const updatedCitiesIds = selectedGuide.cities.map((item) => item.id);
-      setCityIds(updatedCitiesIds);
-      setNumberCities(
-        Array.from({ length: updatedCitiesIds.length }, (_, i) => i + 1),
-      );
-      const updatedSightIds = selectedGuide.sights.map((item) => item.id);
-      setSightIds(updatedSightIds);
-      setNumberSights(
-        Array.from({ length: updatedSightIds.length }, (_, i) => i + 1),
-      );
+      setCityIds(selectedGuide.cities.map((city) => city.id));
+      setSightIds(selectedGuide.sights.map((sight) => sight.id));
     }
   }, [chooseGuide, guides]);
 
@@ -115,21 +95,12 @@ function UpdateGuide() {
 
   const newNameGuide = (value: string, lang: "en" | "ru") => {
     const error = validateName(value);
-    setValidationErrors((prev) => ({
-      ...prev,
-      [`nameGuide_${lang}`]: error,
-    }));
-    setNameGuide((prev) => ({
-      ...prev,
-      [lang]: value,
-    }));
+    setValidationErrors((prev) => ({ ...prev, [`nameGuide_${lang}`]: error }));
+    setNameGuide((prev) => ({ ...prev, [lang]: value }));
   };
 
   const newDescriptionGuide = (value: string, lang: "en" | "ru") => {
-    setDescriptionGuide((prev) => ({
-      ...prev,
-      [lang]: value,
-    }));
+    setDescriptionGuide((prev) => ({ ...prev, [lang]: value }));
   };
 
   const newContactsGuide = (value: string) => {
@@ -137,47 +108,51 @@ function UpdateGuide() {
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    if (event.target.files) {
-      const file = event.target.files[0];
-      setImageGuide(file);
+    if (event.target.files?.length) {
+      setImageGuide(event.target.files[0]);
     }
   };
 
   const addCity = () => {
-    setNumberCities([...numberCities, numberCities.length + 1]);
+    if (!cities.cities?.length) return;
+    const availableCity = cities.cities.find(
+      (city) => !cityIds.includes(city.id),
+    );
+    if (availableCity) {
+      setCityIds((prev) => [...prev, availableCity.id]);
+    }
   };
 
   const addSight = () => {
-    setNumberSights([...numberSights, numberSights.length + 1]);
+    if (!sights.sights?.length) return;
+    const availableSight = sights.sights.find(
+      (sight) => !sightIds.includes(sight.id),
+    );
+    if (availableSight) {
+      setSightIds((prev) => [...prev, availableSight.id]);
+    }
   };
 
-  const selectCity = (value: string, idBlock: number) => {
-    setCityIds((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = Number(value);
-      return updated;
-    });
+  const selectCity = (value: string, idx: number) => {
+    const updated = [...cityIds];
+    updated[idx] = Number(value);
+    setCityIds(updated);
   };
 
-  const selectSight = (value: string, idBlock: number) => {
-    setSightIds((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = Number(value);
-      return updated;
-    });
+  const selectSight = (value: string, idx: number) => {
+    const updated = [...sightIds];
+    updated[idx] = Number(value);
+    setSightIds(updated);
   };
 
-  const deleteCitySelect = (idBlock: number, e: React.MouseEvent) => {
+  const deleteCitySelect = (idx: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setCityIds((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberCities((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setCityIds((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const deleteSightSelect = (idBlock: number, e: React.MouseEvent) => {
+  const deleteSightSelect = (idx: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSightIds((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberSights((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setSightIds((prev) => prev.filter((_, i) => i !== idx));
   };
 
   const isFormValid = () => {
@@ -199,7 +174,7 @@ function UpdateGuide() {
         </FetchWrapper>
       ) : (
         <Box className={styles.controls__wrapper}>
-          <Typography variant="h6" component="h2">
+          <Typography variant="h6">
             {t("admin_page.update.guide.select_label")}
           </Typography>
           <NativeSelect
@@ -222,7 +197,7 @@ function UpdateGuide() {
 
           <Box hidden={currentTab !== 0}>
             <Typography variant="h6">
-              {t("admin_page.update.guide.name")} (English):
+              {t("admin_page.update.guide.name")} (English)
             </Typography>
             <TextField
               value={nameGuide.en}
@@ -230,7 +205,7 @@ function UpdateGuide() {
               fullWidth
             />
             <Typography variant="h6">
-              {t("admin_page.update.guide.description")} (English):
+              {t("admin_page.update.guide.description")} (English)
             </Typography>
             <TextField
               value={descriptionGuide.en}
@@ -243,7 +218,7 @@ function UpdateGuide() {
 
           <Box hidden={currentTab !== 1}>
             <Typography variant="h6">
-              {t("admin_page.update.guide.name")} (Русский):
+              {t("admin_page.update.guide.name")} (Русский)
             </Typography>
             <TextField
               value={nameGuide.ru}
@@ -251,7 +226,7 @@ function UpdateGuide() {
               fullWidth
             />
             <Typography variant="h6">
-              {t("admin_page.update.guide.description")} (Русский):
+              {t("admin_page.update.guide.description")} (Русский)
             </Typography>
             <TextField
               value={descriptionGuide.ru}
@@ -280,18 +255,25 @@ function UpdateGuide() {
             className={styles.image__upload}
           />
 
-          <Button variant="text" fullWidth onClick={addCity}>
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addCity}
+            disabled={
+              !cities.cities?.some((city) => !cityIds.includes(city.id))
+            }
+          >
             {t("admin_page.update.guide.add_city")}
           </Button>
 
-          {numberCities.map((elem) => (
+          {cityIds.map((cityId, idx) => (
             <Box
-              key={elem}
+              key={idx}
               sx={{ display: "flex", alignItems: "center", mb: 1 }}
             >
               <NativeSelect
-                value={cityIds[elem - 1] || ""}
-                onChange={(e) => selectCity(e.target.value, elem)}
+                value={cityId}
+                onChange={(e) => selectCity(e.target.value, idx)}
                 variant="standard"
                 fullWidth
               >
@@ -303,24 +285,31 @@ function UpdateGuide() {
               </NativeSelect>
               <CloseIcon
                 className={styles.select__delete}
-                onClick={(e) => deleteCitySelect(elem, e)}
+                onClick={(e) => deleteCitySelect(idx, e)}
                 sx={{ ml: 1, cursor: "pointer" }}
               />
             </Box>
           ))}
 
-          <Button variant="text" fullWidth onClick={addSight}>
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addSight}
+            disabled={
+              !sights.sights?.some((sight) => !sightIds.includes(sight.id))
+            }
+          >
             {t("admin_page.update.guide.add_sight")}
           </Button>
 
-          {numberSights.map((elem) => (
+          {sightIds.map((sightId, idx) => (
             <Box
-              key={elem}
+              key={idx}
               sx={{ display: "flex", alignItems: "center", mb: 1 }}
             >
               <NativeSelect
-                value={sightIds[elem - 1] || ""}
-                onChange={(e) => selectSight(e.target.value, elem)}
+                value={sightId}
+                onChange={(e) => selectSight(e.target.value, idx)}
                 variant="standard"
                 fullWidth
               >
@@ -332,7 +321,7 @@ function UpdateGuide() {
               </NativeSelect>
               <CloseIcon
                 className={styles.select__delete}
-                onClick={(e) => deleteSightSelect(elem, e)}
+                onClick={(e) => deleteSightSelect(idx, e)}
                 sx={{ ml: 1, cursor: "pointer" }}
               />
             </Box>

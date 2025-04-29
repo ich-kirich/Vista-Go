@@ -26,8 +26,6 @@ function AddGuide() {
   const [contacts, setContacts] = useState("");
   const [cityIds, setCityIds] = useState<number[]>([]);
   const [sightIds, setSightIds] = useState<number[]>([]);
-  const [numberCities, setNumberCities] = useState<number[]>([]);
-  const [numberSights, setNumberSights] = useState<number[]>([]);
   const [imageGuide, setImageGuide] = useState<File>();
   const [validationErrors, setValidationErrors] = useState({
     nameGuide_en: null as string | null,
@@ -39,20 +37,20 @@ function AddGuide() {
 
   const { fetchAllSights, fetchCities, fetchUsers, fetchCreateGuide } =
     useActions();
-  const sights = useTypedSelector((state) => state.sights.sights);
-  const cities = useTypedSelector((state) => state.cities.cities);
-  const { users, error, loading } = useTypedSelector((state) => state.users);
+  const sights = useTypedSelector((state) => state.sights);
+  const cities = useTypedSelector((state) => state.cities);
+  const users = useTypedSelector((state) => state.users);
   const guide = useTypedSelector((state) => state.guide);
 
   useEffect(() => {
     fetchAllSights();
     fetchCities();
-    if (!users) fetchUsers();
+    fetchUsers();
   }, []);
 
   useEffect(() => {
-    if (users && users.length > 0) {
-      setUserId(String(users[0].id));
+    if (users.users && users.users.length > 0) {
+      setUserId(String(users.users[0].id));
     }
   }, [users]);
 
@@ -77,47 +75,49 @@ function AddGuide() {
     setContacts(value);
   };
 
-  const addCity = () => {
-    setNumberCities([...numberCities, numberCities.length + 1]);
-  };
-
-  const addSight = () => {
-    setNumberSights([...numberSights, numberSights.length + 1]);
-  };
-
-  const selectCity = (value: string, idBlock: number) => {
-    setCityIds((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = Number(value);
-      return updated;
-    });
-  };
-
-  const selectSight = (value: string, idBlock: number) => {
-    setSightIds((prev) => {
-      const updated = [...prev];
-      updated[idBlock - 1] = Number(value);
-      return updated;
-    });
-  };
-
-  const deleteCitySelect = (idBlock: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCityIds((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberCities((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-  };
-
-  const deleteSightSelect = (idBlock: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSightIds((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberSights((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-  };
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (event.target.files) {
       setImageGuide(event.target.files[0]);
     }
+  };
+
+  const addCity = () => {
+    const availableCity = cities.cities?.find(
+      (city) => !cityIds.includes(city.id),
+    );
+    if (availableCity) {
+      setCityIds((prev) => [...prev, availableCity.id]);
+    }
+  };
+
+  const addSight = () => {
+    const availableSight = sights.sights?.find(
+      (sight) => !sightIds.includes(sight.id),
+    );
+    if (availableSight) {
+      setSightIds((prev) => [...prev, availableSight.id]);
+    }
+  };
+
+  const selectCity = (value: string, index: number) => {
+    const updated = [...cityIds];
+    updated[index] = Number(value);
+    setCityIds(updated);
+  };
+
+  const deleteCitySelect = (index: number) => {
+    setCityIds((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const selectSight = (value: string, index: number) => {
+    const updated = [...sightIds];
+    updated[index] = Number(value);
+    setSightIds(updated);
+  };
+
+  const deleteSightSelect = (index: number) => {
+    setSightIds((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addGuide = () => {
@@ -148,7 +148,12 @@ function AddGuide() {
 
   return (
     <Box className={styles.controls__wrapper}>
-      <FetchWrapper loading={loading} error={error}>
+      <FetchWrapper
+        loading={
+          users.loading || guide.loading || cities.loading || sights.loading
+        }
+        error={users.error || guide.error || cities.error || sights.error}
+      >
         <>
           {isClick ? (
             <FetchWrapper loading={guide.loading} error={guide.error}>
@@ -167,7 +172,7 @@ function AddGuide() {
                 variant="standard"
                 fullWidth
               >
-                {users?.map((user) => (
+                {users.users?.map((user) => (
                   <option key={user.id} value={user.id}>
                     {user.email}
                   </option>
@@ -260,22 +265,29 @@ function AddGuide() {
                 className={styles.image__upload}
               />
 
-              <Button variant="text" fullWidth onClick={addCity}>
+              <Button
+                variant="text"
+                fullWidth
+                onClick={addCity}
+                disabled={
+                  !cities.cities?.some((city) => !cityIds.includes(city.id))
+                }
+              >
                 {t("admin_page.add.guide.city_button")}
               </Button>
 
-              {numberCities.map((elem) => (
+              {cityIds.map((cityId, index) => (
                 <Box
-                  key={elem}
+                  key={index}
                   sx={{ display: "flex", alignItems: "center", mb: 1 }}
                 >
                   <NativeSelect
-                    value={cityIds[elem - 1] || ""}
-                    onChange={(e) => selectCity(e.target.value, elem)}
+                    value={cityId}
+                    onChange={(e) => selectCity(e.target.value, index)}
                     variant="standard"
                     fullWidth
                   >
-                    {cities?.map((city) => (
+                    {cities.cities?.map((city) => (
                       <option key={city.id} value={city.id}>
                         {city.name[language] || city.name.en}
                       </option>
@@ -283,28 +295,35 @@ function AddGuide() {
                   </NativeSelect>
                   <CloseIcon
                     className={styles.select__delete}
-                    onClick={(e) => deleteCitySelect(elem, e)}
+                    onClick={() => deleteCitySelect(index)}
                     sx={{ ml: 1, cursor: "pointer" }}
                   />
                 </Box>
               ))}
 
-              <Button variant="text" fullWidth onClick={addSight}>
+              <Button
+                variant="text"
+                fullWidth
+                onClick={addSight}
+                disabled={
+                  !sights.sights?.some((sight) => !sightIds.includes(sight.id))
+                }
+              >
                 {t("admin_page.add.guide.sight_button")}
               </Button>
 
-              {numberSights.map((elem) => (
+              {sightIds.map((sightId, index) => (
                 <Box
-                  key={elem}
+                  key={index}
                   sx={{ display: "flex", alignItems: "center", mb: 1 }}
                 >
                   <NativeSelect
-                    value={sightIds[elem - 1] || ""}
-                    onChange={(e) => selectSight(e.target.value, elem)}
+                    value={sightId}
+                    onChange={(e) => selectSight(e.target.value, index)}
                     variant="standard"
                     fullWidth
                   >
-                    {sights?.map((sight) => (
+                    {sights.sights?.map((sight) => (
                       <option key={sight.id} value={sight.id}>
                         {sight.name[language] || sight.name.en}
                       </option>
@@ -312,7 +331,7 @@ function AddGuide() {
                   </NativeSelect>
                   <CloseIcon
                     className={styles.select__delete}
-                    onClick={(e) => deleteSightSelect(elem, e)}
+                    onClick={() => deleteSightSelect(index)}
                     sx={{ ml: 1, cursor: "pointer" }}
                   />
                 </Box>

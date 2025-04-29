@@ -109,6 +109,7 @@ export async function updateGuide(
     cityIds,
     sightIds,
   });
+
   const { data } = await adminHost.post("admin/update/guide/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -173,7 +174,6 @@ export async function updateCity(params: IUpdateCity) {
 }
 
 export async function banUser(email: string) {
-  console.log(banUser);
   const formData = new FormData();
   addFieldsToFormData(formData, { email });
   const { data } = await adminHost.post("admin/ban/user/", formData, {

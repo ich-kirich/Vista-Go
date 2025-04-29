@@ -24,8 +24,6 @@ function AddSight() {
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
-  const [numberTags, setNumberTags] = useState<number[]>([]);
-  const [numberGuides, setNumberGuides] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
   const [validationErrors, setValidationErrors] = useState({
     name: { en: null as string | null, ru: null as string | null },
@@ -76,11 +74,21 @@ function AddSight() {
   };
 
   const addTag = () => {
-    setNumberTags([...numberTags, numberTags.length + 1]);
+    const availableTag = tags.tags?.find(
+      (tag) => !tagIdsSight.includes(tag.id),
+    );
+    if (availableTag) {
+      setTagIdsSight((prev) => [...prev, availableTag.id]);
+    }
   };
 
   const addGuide = () => {
-    setNumberGuides([...numberGuides, numberGuides.length + 1]);
+    const availableGuide = guides.guides?.find(
+      (g) => !guideIdsSight.includes(g.id),
+    );
+    if (availableGuide) {
+      setGuideIdsSight((prev) => [...prev, availableGuide.id]);
+    }
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -91,28 +99,24 @@ function AddSight() {
     }
   };
 
-  const selectTag = (value: string, selectId: number) => {
+  const selectTag = (value: string, index: number) => {
     const updated = [...tagIdsSight];
-    updated[selectId - 1] = Number(value);
+    updated[index] = Number(value);
     setTagIdsSight(updated);
   };
 
-  const selectGuide = (value: string, selectId: number) => {
+  const selectGuide = (value: string, index: number) => {
     const updated = [...guideIdsSight];
-    updated[selectId - 1] = Number(value);
+    updated[index] = Number(value);
     setGuideIdsSight(updated);
   };
 
-  const deleteTagSelect = (idBlock: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setTagIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberTags((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+  const deleteTagSelect = (index: number) => {
+    setTagIdsSight((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const deleteGuideSelect = (idBlock: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setGuideIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
-    setNumberGuides((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+  const deleteGuideSelect = (index: number) => {
+    setGuideIdsSight((prev) => prev.filter((_, i) => i !== index));
   };
 
   const isFormValid = () => {
@@ -206,18 +210,23 @@ function AddSight() {
             className={styles.image__upload}
           />
 
-          <Button variant="text" fullWidth onClick={addTag}>
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addTag}
+            disabled={!tags.tags?.some((tag) => !tagIdsSight.includes(tag.id))}
+          >
             {t("admin_page.add.sight.tag_button")}
           </Button>
           <FetchWrapper loading={tags.loading} error={tags.error}>
-            {numberTags.map((elem) => (
+            {tagIdsSight.map((tagId, index) => (
               <Box
-                key={elem}
+                key={tagId}
                 sx={{ display: "flex", alignItems: "center", mb: 1 }}
               >
                 <NativeSelect
-                  value={tagIdsSight[elem - 1] || ""}
-                  onChange={(e) => selectTag(e.target.value, elem)}
+                  value={tagId}
+                  onChange={(e) => selectTag(e.target.value, index)}
                   variant="standard"
                   fullWidth
                 >
@@ -227,7 +236,7 @@ function AddSight() {
                       value={item.id}
                       disabled={
                         tagIdsSight.includes(item.id) &&
-                        tagIdsSight[elem - 1] !== item.id
+                        tagIdsSight[index] !== item.id
                       }
                     >
                       {item.name[language] || item.name.en}
@@ -235,25 +244,32 @@ function AddSight() {
                   ))}
                 </NativeSelect>
                 <CloseIcon
-                  onClick={(e) => deleteTagSelect(elem, e)}
+                  onClick={() => deleteTagSelect(index)}
                   className={styles.select__delete}
                 />
               </Box>
             ))}
           </FetchWrapper>
 
-          <Button variant="text" fullWidth onClick={addGuide}>
+          <Button
+            variant="text"
+            fullWidth
+            onClick={addGuide}
+            disabled={
+              !guides.guides?.some((guide) => !guideIdsSight.includes(guide.id))
+            }
+          >
             {t("admin_page.add.sight.guide_button")}
           </Button>
           <FetchWrapper loading={guides.loading} error={guides.error}>
-            {numberGuides.map((elem) => (
+            {guideIdsSight.map((guideId, index) => (
               <Box
-                key={elem}
+                key={guideId}
                 sx={{ display: "flex", alignItems: "center", mb: 1 }}
               >
                 <NativeSelect
-                  value={guideIdsSight[elem - 1] || ""}
-                  onChange={(e) => selectGuide(e.target.value, elem)}
+                  value={guideId}
+                  onChange={(e) => selectGuide(e.target.value, index)}
                   variant="standard"
                   fullWidth
                 >
@@ -263,7 +279,7 @@ function AddSight() {
                       value={item.id}
                       disabled={
                         guideIdsSight.includes(item.id) &&
-                        guideIdsSight[elem - 1] !== item.id
+                        guideIdsSight[index] !== item.id
                       }
                     >
                       {item.name[language] || item.name.en}
@@ -271,7 +287,7 @@ function AddSight() {
                   ))}
                 </NativeSelect>
                 <CloseIcon
-                  onClick={(e) => deleteGuideSelect(elem, e)}
+                  onClick={() => deleteGuideSelect(index)}
                   className={styles.select__delete}
                 />
               </Box>
