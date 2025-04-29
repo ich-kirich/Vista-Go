@@ -99,10 +99,6 @@
   "admin_page.add.sight.name": "Введите название",
   "admin_page.add.sight.description_label": "Введите описание достопримечательности",
   "admin_page.add.sight.description": "Введите описание",
-  "admin_page.add.sight.price_label": "Введите цену для достопримечательности",
-  "admin_page.add.sight.price": "Введите цену",
-  "admin_page.add.sight.distance_label": "Введите расстояние до достопримечательности",
-  "admin_page.add.sight.distance": "Введите расстояние",
   "admin_page.add.sight.image_label": "Добавьте изображение достопримечательности",
   "admin_page.add.sight.tag_button": "Добавить тег для достопримечательности",
   "admin_page.add.sight.select_option": "Выберите",
@@ -164,10 +160,6 @@
   "admin_page.update.sight.name": "Введите новое имя (необязательно)",
   "admin_page.update.sight.description_label": "Введите описание для достопримечательности (необязательно)",
   "admin_page.update.sight.description": "Введите описание",
-  "admin_page.update.sight.price_label": "Введите цену для достопримечательности (необязательно)",
-  "admin_page.update.sight.price": "Введите цену",
-  "admin_page.update.sight.distance_label": "Введите расстояние для достопримечательности",
-  "admin_page.update.sight.distance": "Введите расстояние",
   "admin_page.update.sight.image_label": "Загрузите изображение для достопримечательности",
   "admin_page.update.sight.tag_button": "Добавить тег для достопримечательности",
   "admin_page.update.sight.add_guide": "Добавить гида для достопримечательности",
@@ -259,5 +251,8 @@
   "verification_field.send_code": "Отправить код",
 
   "details_sight.tags": "Теги:",
-  "details_sight.description": "Описание:"
+  "details_sight.description": "Описание:",
+  "details_sight.guides": "Гиды этой достопримечательности:",
+
+  "city_guides.guides": "Гиды города:"
 }

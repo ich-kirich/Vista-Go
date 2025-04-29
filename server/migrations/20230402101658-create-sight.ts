@@ -28,14 +28,6 @@ export default {
           ru: "",
         },
       },
-      distance: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

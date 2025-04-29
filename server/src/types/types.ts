@@ -28,8 +28,6 @@ export interface ICreateRecordSight {
   image: UploadedFile;
   name: string;
   description: string;
-  price: string;
-  distance: string;
   tagIds: string[];
   guideIds: string[];
 }

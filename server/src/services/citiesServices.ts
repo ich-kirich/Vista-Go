@@ -19,6 +19,19 @@ export async function findCity(cityId: string) {
             model: Tag,
             as: "tags",
           },
+          {
+            model: Guide,
+            as: "guides",
+            include: [
+              {
+                model: User,
+                as: "user",
+                where: { isBanned: false },
+                attributes: [],
+              },
+            ],
+            through: { attributes: [] },
+          },
         ],
       },
       {

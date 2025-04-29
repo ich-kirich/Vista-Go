@@ -46,6 +46,24 @@ function DetailsPopular({ sight }: ISightProps) {
           </Typography>
         </Box>
       )}
+      {sight.guides && (
+        <>
+          <Typography variant="h6" component="h5">
+            {t("details_sight.guides")}
+          </Typography>
+          <Box className={styles.guide__wrapper}>
+            {sight.guides.map((item) => (
+              <Box
+                key={item.id}
+                className={styles.guide__img}
+                sx={{
+                  backgroundImage: `url(${item.image})`,
+                }}
+              />
+            ))}
+          </Box>
+        </>
+      )}
     </Box>
   );
 }

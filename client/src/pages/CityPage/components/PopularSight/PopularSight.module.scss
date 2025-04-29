@@ -32,14 +32,17 @@
   font-size: 16px;
 }
 
-.sight__price {
-  margin-right: 20px;
-  color: #e466a1;
-  font-size: 25px;
+.guide__wrapper {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
 }
 
-.sight__distance {
-  display: flex;
-  align-items: baseline;
-  margin-top: 20px;
+.guide__img {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
 }

@@ -101,10 +101,6 @@
   "admin_page.add.sight.name": "Enter name",
   "admin_page.add.sight.description_label": "Enter a description for the sight",
   "admin_page.add.sight.description": "Enter description",
-  "admin_page.add.sight.price_label": "Enter a price for the sight",
-  "admin_page.add.sight.price": "Enter price",
-  "admin_page.add.sight.distance_label": "Enter a distance for the sight",
-  "admin_page.add.sight.distance": "Enter distance",
   "admin_page.add.sight.image_label": "Enter an image for the sight",
   "admin_page.add.sight.tag_button": "Add tag for sight",
   "admin_page.add.sight.guide_button": "Add guide",
@@ -165,10 +161,6 @@
   "admin_page.update.sight.name": "Enter new name (optional)",
   "admin_page.update.sight.description_label": "Enter a description for the sight (optional)",
   "admin_page.update.sight.description": "Enter description",
-  "admin_page.update.sight.price_label": "Enter a price for the sight (optional)",
-  "admin_page.update.sight.price": "Enter price",
-  "admin_page.update.sight.distance_label": "Enter a distance for the sight",
-  "admin_page.update.sight.distance": "Enter distance",
   "admin_page.update.sight.image_label": "Enter an image for the sight",
   "admin_page.update.sight.tag_button": "Add tag for sight",
   "admin_page.update.sight.add_guide": "Add guide for sight",
@@ -260,5 +252,8 @@
   "verification_field.send_code": "Send Code",
 
   "details_sight.tags": "Tags:",
-  "details_sight.description": "Description:"
+  "details_sight.description": "Description:",
+  "details_sight.guides": "Guides of this sight:",
+
+  "city_guides.guides": "Guides of this city:"
 }

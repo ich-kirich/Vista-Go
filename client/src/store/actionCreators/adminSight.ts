@@ -9,16 +9,13 @@ import {
 import { AppError, Sight } from "../../libs/enums";
 
 export const fetchCreateSight = (params: ICreateSight) => {
-  const { name, description, price, distance, tagIds, image, guideIds } =
-    params;
+  const { name, description, tagIds, image, guideIds } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Sight.FETCH_SIGHT });
       const response = await createSight({
         name,
         description,
-        price,
-        distance,
         tagIds,
         guideIds,
         image,
@@ -73,8 +70,7 @@ export const fetchDeleteSight = (id: number) => {
 };
 
 export const fetchUpdateSight = (params: IUpdateSight) => {
-  const { id, name, description, price, distance, tagIds, guideIds, image } =
-    params;
+  const { id, name, description, tagIds, guideIds, image } = params;
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Sight.FETCH_SIGHT });
@@ -82,8 +78,6 @@ export const fetchUpdateSight = (params: IUpdateSight) => {
         id,
         name,
         description,
-        price,
-        distance,
         tagIds,
         guideIds,
         image,

@@ -22,8 +22,6 @@ function AddSight() {
   const [currentTab, setCurrentTab] = useState(0);
   const [nameSight, setNameSight] = useState({ en: "", ru: "" });
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
-  const [priceSight, setPriceSight] = useState("");
-  const [distanceSight, setDistanceSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
   const [numberTags, setNumberTags] = useState<number[]>([]);
@@ -64,22 +62,12 @@ function AddSight() {
     setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
   };
 
-  const newPriceSight = (value: string) => {
-    setPriceSight(value);
-  };
-
-  const newDistanceSight = (value: string) => {
-    setDistanceSight(value);
-  };
-
   const addSight = () => {
     setIsClick(true);
     if (imageSight) {
       fetchCreateSight({
         name: nameSight,
         description: descriptionSight,
-        price: priceSight,
-        distance: distanceSight,
         tagIds: tagIdsSight,
         guideIds: guideIdsSight,
         image: imageSight,
@@ -134,8 +122,6 @@ function AddSight() {
       nameSight.ru &&
       descriptionSight.en &&
       descriptionSight.ru &&
-      priceSight &&
-      distanceSight &&
       tagIdsSight.length > 0 &&
       !Object.values(validationErrors.name).some(Boolean) &&
       !Object.values(validationErrors.description).some(Boolean)
@@ -210,24 +196,6 @@ function AddSight() {
               error={!!validationErrors.description.ru}
             />
           </Box>
-
-          <Typography variant="h6">
-            {t("admin_page.add.sight.price_label")}
-          </Typography>
-          <TextField
-            fullWidth
-            value={priceSight}
-            onChange={(e) => newPriceSight(e.target.value)}
-          />
-
-          <Typography variant="h6">
-            {t("admin_page.add.sight.distance_label")}
-          </Typography>
-          <TextField
-            fullWidth
-            value={distanceSight}
-            onChange={(e) => newDistanceSight(e.target.value)}
-          />
 
           <Typography variant="h6">
             {t("admin_page.add.sight.image_label")}

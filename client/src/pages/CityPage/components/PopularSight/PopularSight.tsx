@@ -28,17 +28,17 @@ function PopularSight({ sight }: ISightProps) {
           </Typography>
         </Box>
 
-        <Box className={styles.sight__distance}>
-          <Typography
-            variant="h6"
-            component="h5"
-            className={styles.sight__price}
-          >
-            {sight.price}
-          </Typography>
-          <Typography variant="h6" component="h5" className={styles.sight__tag}>
-            {sight.distance}
-          </Typography>
+        <Box className={styles.guide__wrapper}>
+          {sight.guides &&
+            sight.guides.map((item) => (
+              <Box
+                key={item.id}
+                className={styles.guide__img}
+                sx={{
+                  backgroundImage: `url(${item.image})`,
+                }}
+              />
+            ))}
         </Box>
       </Box>
     </Box>

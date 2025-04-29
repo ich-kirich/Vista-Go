@@ -10,6 +10,7 @@ import MustGo from "./components/MustGo/MustGo";
 import ViewError from "../../components/ViewError/ViewError";
 import { useTranslation } from "react-i18next";
 import styles from "./CityPage.module.scss";
+import CityGuides from "./components/CityGuides/CityGuides";
 
 function CityPage() {
   const { fetchCity } = useActions();
@@ -34,6 +35,7 @@ function CityPage() {
             )}
           </Box>
           <MustGo />
+          {city.guides && <CityGuides guides={city.guides} />}
         </Container>
       )}
     </FetchWrapper>

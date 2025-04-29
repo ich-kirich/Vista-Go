@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { Op, Sequelize } from "sequelize";
 import logger from "../libs/logger";
 import ApiError from "../error/apiError";
-import City from "../../models/city";
 import { findCities, findCity } from "../services/citiesServices";
 
 class CitiesControllers {

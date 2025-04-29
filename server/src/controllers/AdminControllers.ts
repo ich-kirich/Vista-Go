@@ -131,7 +131,7 @@ class AdminControllers {
 
   async createSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { price, distance, tagIds, guideIds } = req.body;
+      const { tagIds, guideIds } = req.body;
       const { image } = req.files;
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -145,8 +145,6 @@ class AdminControllers {
         image: image as UploadedFile,
         name,
         description,
-        price,
-        distance,
         tagIds: tagIdsArr,
         guideIds: guideIdsArr,
       });
@@ -162,7 +160,7 @@ class AdminControllers {
 
   async updateSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, price, distance, tagIds, guideIds } = req.body;
+      const { id, tagIds, guideIds } = req.body;
       const { image } = req.files || {};
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -177,8 +175,6 @@ class AdminControllers {
         image: image as UploadedFile,
         name,
         description,
-        price,
-        distance,
         tagIds: tagIdsArr,
         guideIds: guideIdsArr,
       });

@@ -28,3 +28,17 @@
 .details__text {
   font-size: 16px;
 }
+
+.guide__wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.guide__img {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% 100%;
+}

@@ -9,10 +9,6 @@ class Sight extends Model {
   public image!: string;
 
   public description!: object;
-
-  public price!: string;
-
-  public distance!: string;
 }
 
 Sight.init(
@@ -43,14 +39,6 @@ Sight.init(
         const rawValue = this.getDataValue("description");
         return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
       },
-    },
-    price: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    distance: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {

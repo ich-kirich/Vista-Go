@@ -60,8 +60,6 @@ export interface ISights {
     en: string;
     ru: string;
   };
-  distance: string;
-  price: string;
   tags: ITag[];
   guides: IGuide[];
 }
@@ -125,8 +123,6 @@ export interface ICreateSight {
     en: string;
     ru: string;
   };
-  price: string;
-  distance: string;
   tagIds: number[];
   guideIds?: number[];
   image: File;
@@ -142,8 +138,6 @@ export interface IUpdateSight {
     en: string;
     ru: string;
   };
-  price: string;
-  distance: string;
   tagIds: number[];
   guideIds?: number[];
   image: File | undefined;

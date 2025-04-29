@@ -22,8 +22,6 @@ function UpdateSight() {
   const [currentTab, setCurrentTab] = useState(0);
   const [nameSight, setNameSight] = useState({ en: "", ru: "" });
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
-  const [priceSight, setPriceSight] = useState("");
-  const [distanceSight, setDistanceSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
   const [numberTags, setNumberTags] = useState<number[]>([]);
@@ -66,8 +64,6 @@ function UpdateSight() {
     if (selectedSight) {
       setNameSight(selectedSight.name);
       setDescriptionSight(selectedSight.description);
-      setPriceSight(selectedSight.price);
-      setDistanceSight(selectedSight.distance);
 
       const updatedTagIds = selectedSight.tags.map((item) => item.id);
       setTagIdsSight(updatedTagIds);
@@ -99,8 +95,6 @@ function UpdateSight() {
       id: Number(chooseSight),
       name: nameSight,
       description: descriptionSight,
-      price: priceSight,
-      distance: distanceSight,
       tagIds: tagIdsSight,
       guideIds: guideIdsSight,
       image: imageSight,
@@ -118,14 +112,6 @@ function UpdateSight() {
 
   const newDescriptionSight = (value: string, lang: "en" | "ru") => {
     setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
-  };
-
-  const newPriceSight = (value: string) => {
-    setPriceSight(value);
-  };
-
-  const newDistanceSight = (value: string) => {
-    setDistanceSight(value);
   };
 
   const addTag = () => {
@@ -180,8 +166,6 @@ function UpdateSight() {
       nameSight.ru ||
       descriptionSight.en ||
       descriptionSight.ru ||
-      priceSight ||
-      distanceSight ||
       imageSight ||
       tagIdsSight.length > 0 ||
       guideIdsSight.length > 0;
@@ -272,23 +256,6 @@ function UpdateSight() {
               error={!!validationErrors.description.ru}
             />
           </Box>
-          <Typography variant="h6">
-            {t("admin_page.update.sight.price_label")}
-          </Typography>
-          <TextField
-            fullWidth
-            value={priceSight}
-            onChange={(e) => newPriceSight(e.target.value)}
-          />
-
-          <Typography variant="h6">
-            {t("admin_page.update.sight.distance_label")}
-          </Typography>
-          <TextField
-            fullWidth
-            value={distanceSight}
-            onChange={(e) => newDistanceSight(e.target.value)}
-          />
 
           <Typography variant="h6">
             {t("admin_page.update.sight.image_label")}
