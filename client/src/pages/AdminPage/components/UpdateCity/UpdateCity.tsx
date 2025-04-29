@@ -167,8 +167,10 @@ function UpdateCity() {
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const file = event.target.files![0];
-    setImageCity(file);
+    if (event.target.files) {
+      const file = event.target.files[0];
+      setImageCity(file);
+    }
   };
 
   const selectSight = (value: string, idBlock: number) => {

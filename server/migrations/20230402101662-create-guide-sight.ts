@@ -2,46 +2,28 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    await queryInterface.createTable("guides", {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      name: {
-        type: DataTypes.JSONB,
-        allowNull: false,
-        defaultValue: {
-          en: "",
-          ru: "",
-        },
-      },
-      description: {
-        type: DataTypes.JSONB,
-        allowNull: false,
-        defaultValue: {
-          en: "",
-          ru: "",
-        },
-      },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      contacts: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      userId: {
+    await queryInterface.createTable("guide_sight", {
+      GuideId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
         references: {
-          model: "users",
+          model: "guides",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        primaryKey: true,
+      },
+      SightId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "sights",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        primaryKey: true,
       },
       createdAt: {
         allowNull: false,
@@ -55,7 +37,8 @@ export default {
       },
     });
   },
+
   down: async (queryInterface: QueryInterface) => {
-    await queryInterface.dropTable("guides");
+    await queryInterface.dropTable("guide_sight");
   },
 };

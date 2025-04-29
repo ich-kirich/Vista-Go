@@ -83,6 +83,13 @@
   "admin_page.add.guide.name_label": "Enter a name for the guide",
   "admin_page.add.guide.name": "Enter name",
   "admin_page.add.guide.image_label": "Enter a image for the guide",
+  "admin_page.add.guide.description": "Add guide's description",
+  "admin_page.add.guide.contacts": "Add guide's contacts",
+  "admin_page.add.guide.add_city": "Add city for guide",
+  "admin_page.add.guide.add_sight": "Add sight for guide",
+  "admin_page.add.guide.sight_button": "Add sight",
+  "admin_page.add.guide.city_button": "Add city",
+  "admin_page.add.guide.user_label": "Choose user for guide",
   "admin_page.add.guide": "Add guide",
 
   "admin_page.add.recommend.success": "The recommendation was successfully added",
@@ -100,6 +107,7 @@
   "admin_page.add.sight.distance": "Enter distance",
   "admin_page.add.sight.image_label": "Enter an image for the sight",
   "admin_page.add.sight.tag_button": "Add tag for sight",
+  "admin_page.add.sight.guide_button": "Add guide",
   "admin_page.add.sight": "Add sight",
 
   "admin_page.add.tag.success": "The tag was successfully added",
@@ -145,6 +153,10 @@
   "admin_page.update.guide.success": "The guide was successfully edited",
   "admin_page.update.guide.select_label": "Select a guide for editing",
   "admin_page.update.guide.name": "Enter guide's name",
+  "admin_page.update.guide.description": "Enter guide's description",
+  "admin_page.update.guide.contacts": "Enter guide's contacts",
+  "admin_page.update.guide.add_city": "Add city for guide",
+  "admin_page.update.guide.add_sight": "Add sight for guide",
   "admin_page.update.guide.image_label": "Upload an image for the guide",
   "admin_page.update.guide.button": "Edit Guide",
 
@@ -159,6 +171,7 @@
   "admin_page.update.sight.distance": "Enter distance",
   "admin_page.update.sight.image_label": "Enter an image for the sight",
   "admin_page.update.sight.tag_button": "Add tag for sight",
+  "admin_page.update.sight.add_guide": "Add guide for sight",
   "admin_page.update.sight.button": "Edit Sight",
 
   "admin_page.update.tag.success": "The tag was successfully edited",

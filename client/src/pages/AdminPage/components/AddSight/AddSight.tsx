@@ -7,7 +7,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -20,29 +20,32 @@ import { Locales } from "../../../../libs/enums";
 function AddSight() {
   const [isClick, setIsClick] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
-  const [nameSight, setNameSight] = useState({
-    en: "",
-    ru: "",
-  });
-  const [descriptionSight, setDescriptionSight] = useState({
-    en: "",
-    ru: "",
-  });
+  const [nameSight, setNameSight] = useState({ en: "", ru: "" });
+  const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
   const [priceSight, setPriceSight] = useState("");
   const [distanceSight, setDistanceSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
+  const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
   const [numberTags, setNumberTags] = useState<number[]>([]);
+  const [numberGuides, setNumberGuides] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
   const [validationErrors, setValidationErrors] = useState({
     name: { en: null as string | null, ru: null as string | null },
     description: { en: null as string | null, ru: null as string | null },
   });
+
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchCreateSight, fetchTags } = useActions();
+  const { fetchCreateSight, fetchTags, fetchGuides } = useActions();
   const { error, loading } = useTypedSelector((state) => state.sight);
   const tags = useTypedSelector((state) => state.tags);
+  const guides = useTypedSelector((state) => state.guides);
+
+  useEffect(() => {
+    fetchTags();
+    fetchGuides();
+  }, []);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -71,45 +74,57 @@ function AddSight() {
 
   const addSight = () => {
     setIsClick(true);
-    fetchCreateSight({
-      name: nameSight,
-      description: descriptionSight,
-      price: priceSight,
-      distance: distanceSight,
-      tagIds: tagIdsSight,
-      image: imageSight!,
-    });
+    if (imageSight) {
+      fetchCreateSight({
+        name: nameSight,
+        description: descriptionSight,
+        price: priceSight,
+        distance: distanceSight,
+        tagIds: tagIdsSight,
+        guideIds: guideIdsSight,
+        image: imageSight,
+      });
+    }
   };
 
   const addTag = () => {
     setNumberTags([...numberTags, numberTags.length + 1]);
-    fetchTags();
+  };
+
+  const addGuide = () => {
+    setNumberGuides([...numberGuides, numberGuides.length + 1]);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const file = event.target.files![0];
-    setImageSight(file);
+    if (event.target.files) {
+      const file = event.target.files[0];
+      setImageSight(file);
+    }
   };
 
   const selectTag = (value: string, selectId: number) => {
-    if (tagIdsSight.includes(Number(value))) {
-      setTagIdsSight(tagIdsSight.filter((item) => item !== Number(value)));
-    } else {
-      setTagIdsSight([...tagIdsSight, Number(value)]);
-    }
+    const updated = [...tagIdsSight];
+    updated[selectId - 1] = Number(value);
+    setTagIdsSight(updated);
   };
 
-  const deleteBlocksSelect = (idBlock: number, e: React.MouseEvent) => {
+  const selectGuide = (value: string, selectId: number) => {
+    const updated = [...guideIdsSight];
+    updated[selectId - 1] = Number(value);
+    setGuideIdsSight(updated);
+  };
+
+  const deleteTagSelect = (idBlock: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (tagIdsSight.includes(Number(idBlock))) {
-      setTagIdsSight(tagIdsSight.filter((item) => item !== Number(idBlock)));
-      setNumberTags((prevState) => {
-        const updatedArray = [...prevState];
-        updatedArray.pop();
-        return updatedArray;
-      });
-    }
+    setTagIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setNumberTags((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+  };
+
+  const deleteGuideSelect = (idBlock: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setGuideIdsSight((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
+    setNumberGuides((prev) => prev.filter((_, idx) => idx !== idBlock - 1));
   };
 
   const isFormValid = () => {
@@ -131,7 +146,7 @@ function AddSight() {
     <>
       {isClick ? (
         <FetchWrapper loading={loading} error={error}>
-          <Typography variant="h6" component="h5">
+          <Typography variant="h6">
             {t("admin_page.add.sight.success")}
           </Typography>
         </FetchWrapper>
@@ -143,140 +158,153 @@ function AddSight() {
           </Tabs>
 
           <Box hidden={currentTab !== 0}>
-            <Typography variant="h6" component="h2">
-              {t("admin_page.add.sight.name_label")} (English):
+            <Typography variant="h6">
+              {t("admin_page.add.sight.name_label")} (English)
             </Typography>
             <TextField
-              label={`${t("admin_page.add.sight.name")} (English)`}
+              label={t("admin_page.add.sight.name")}
               type="text"
               value={nameSight.en}
               onChange={(e) => newNameSight(e.target.value, "en")}
-              required
               fullWidth
               error={!!validationErrors.name.en}
-              helperText={
-                validationErrors.name.en && t(validationErrors.name.en)
-              }
             />
-
-            <Typography variant="h6" component="h2">
-              {t("admin_page.add.sight.description_label")} (English):
+            <Typography variant="h6">
+              {t("admin_page.add.sight.description_label")} (English)
             </Typography>
             <TextField
-              label={`${t("admin_page.add.sight.description")} (English)`}
+              label={t("admin_page.add.sight.description")}
               type="text"
               multiline
               rows={4}
               value={descriptionSight.en}
               onChange={(e) => newDescriptionSight(e.target.value, "en")}
-              required
               fullWidth
               error={!!validationErrors.description.en}
-              helperText={
-                validationErrors.description.en &&
-                t(validationErrors.description.en)
-              }
             />
           </Box>
 
           <Box hidden={currentTab !== 1}>
-            <Typography variant="h6" component="h2">
-              {t("admin_page.add.sight.name_label")} (Русский):
+            <Typography variant="h6">
+              {t("admin_page.add.sight.name_label")} (Русский)
             </Typography>
             <TextField
-              label={`${t("admin_page.add.sight.name")} (Русский)`}
+              label={t("admin_page.add.sight.name")}
               type="text"
               value={nameSight.ru}
               onChange={(e) => newNameSight(e.target.value, "ru")}
-              required
               fullWidth
               error={!!validationErrors.name.ru}
-              helperText={
-                validationErrors.name.ru && t(validationErrors.name.ru)
-              }
             />
-
-            <Typography variant="h6" component="h2">
-              {t("admin_page.add.sight.description_label")} (Русский):
+            <Typography variant="h6">
+              {t("admin_page.add.sight.description_label")} (Русский)
             </Typography>
             <TextField
-              label={`${t("admin_page.add.sight.description")} (Русский)`}
+              label={t("admin_page.add.sight.description")}
               type="text"
               multiline
               rows={4}
               value={descriptionSight.ru}
               onChange={(e) => newDescriptionSight(e.target.value, "ru")}
-              required
               fullWidth
               error={!!validationErrors.description.ru}
-              helperText={
-                validationErrors.description.ru &&
-                t(validationErrors.description.ru)
-              }
             />
           </Box>
 
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.sight.price_label")}:
+          <Typography variant="h6">
+            {t("admin_page.add.sight.price_label")}
           </Typography>
           <TextField
-            label={t("admin_page.add.sight.price")}
-            type="text"
+            fullWidth
             value={priceSight}
             onChange={(e) => newPriceSight(e.target.value)}
-            required
-            fullWidth
           />
 
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.sight.distance_label")}:
+          <Typography variant="h6">
+            {t("admin_page.add.sight.distance_label")}
           </Typography>
           <TextField
-            label={t("admin_page.add.sight.distance")}
-            type="text"
+            fullWidth
             value={distanceSight}
             onChange={(e) => newDistanceSight(e.target.value)}
-            required
-            fullWidth
           />
 
-          <Typography variant="h6" component="h2">
-            {t("admin_page.add.sight.image_label")}:
+          <Typography variant="h6">
+            {t("admin_page.add.sight.image_label")}
           </Typography>
           <input
             type="file"
             onChange={handleFileChange}
-            id="file-upload"
             className={styles.image__upload}
           />
 
           <Button variant="text" fullWidth onClick={addTag}>
             {t("admin_page.add.sight.tag_button")}
           </Button>
-
           <FetchWrapper loading={tags.loading} error={tags.error}>
             {numberTags.map((elem) => (
-              <Box key={elem}>
+              <Box
+                key={elem}
+                sx={{ display: "flex", alignItems: "center", mb: 1 }}
+              >
                 <NativeSelect
-                  value={tagIdsSight[elem - 1]}
+                  value={tagIdsSight[elem - 1] || ""}
                   onChange={(e) => selectTag(e.target.value, elem)}
                   variant="standard"
                   fullWidth
                 >
-                  {tags.tags &&
-                    tags.tags.map((item) => (
-                      <option
-                        key={item.id}
-                        value={item.id}
-                        disabled={tagIdsSight.includes(item.id)}
-                      >
-                        {item.name[language] || item.name.en}
-                      </option>
-                    ))}
+                  {tags.tags?.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      disabled={
+                        tagIdsSight.includes(item.id) &&
+                        tagIdsSight[elem - 1] !== item.id
+                      }
+                    >
+                      {item.name[language] || item.name.en}
+                    </option>
+                  ))}
                 </NativeSelect>
                 <CloseIcon
+                  onClick={(e) => deleteTagSelect(elem, e)}
                   className={styles.select__delete}
-                  onClick={(e) => deleteBlocksSelect(elem, e)}
+                />
+              </Box>
+            ))}
+          </FetchWrapper>
+
+          <Button variant="text" fullWidth onClick={addGuide}>
+            {t("admin_page.add.sight.guide_button")}
+          </Button>
+          <FetchWrapper loading={guides.loading} error={guides.error}>
+            {numberGuides.map((elem) => (
+              <Box
+                key={elem}
+                sx={{ display: "flex", alignItems: "center", mb: 1 }}
+              >
+                <NativeSelect
+                  value={guideIdsSight[elem - 1] || ""}
+                  onChange={(e) => selectGuide(e.target.value, elem)}
+                  variant="standard"
+                  fullWidth
+                >
+                  {guides.guides?.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      disabled={
+                        guideIdsSight.includes(item.id) &&
+                        guideIdsSight[elem - 1] !== item.id
+                      }
+                    >
+                      {item.name[language] || item.name.en}
+                    </option>
+                  ))}
+                </NativeSelect>
+                <CloseIcon
+                  onClick={(e) => deleteGuideSelect(elem, e)}
+                  className={styles.select__delete}
                 />
               </Box>
             ))}
@@ -287,6 +315,7 @@ function AddSight() {
             fullWidth
             onClick={addSight}
             disabled={!isFormValid()}
+            sx={{ mt: 2 }}
           >
             {t("admin_page.add.sight")}
           </Button>

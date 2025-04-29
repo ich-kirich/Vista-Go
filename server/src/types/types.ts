@@ -14,6 +14,16 @@ export interface IGenerateJwt {
   isBanned: string;
 }
 
+export interface ICreateRecordGuide {
+  image: UploadedFile;
+  name: string;
+  userId: number;
+  cityIds: string[];
+  sightIds: string[];
+  contacts: string;
+  description: string;
+}
+
 export interface ICreateRecordSight {
   image: UploadedFile;
   name: string;
@@ -21,6 +31,7 @@ export interface ICreateRecordSight {
   price: string;
   distance: string;
   tagIds: string[];
+  guideIds: string[];
 }
 
 export interface IUpdateRecordSight extends ICreateRecordSight {

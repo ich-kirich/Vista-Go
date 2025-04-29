@@ -54,10 +54,23 @@ export async function updateTag(
 
 export async function createGuide(
   name: { en: string; ru: string },
+  description: { en: string; ru: string },
+  contacts: string,
+  cityIds: number[],
+  sightIds: number[],
   image: File,
+  userId: number,
 ) {
   const formData = new FormData();
-  addFieldsToFormData(formData, { name, image });
+  addFieldsToFormData(formData, {
+    name,
+    image,
+    description,
+    contacts,
+    cityIds,
+    sightIds,
+    userId,
+  });
   const { data } = await adminHost.post("admin/create/guide/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -78,9 +91,24 @@ export async function updateGuide(
     ru: string;
   },
   image: File | undefined,
+  description: {
+    en: string;
+    ru: string;
+  },
+  contacts: string,
+  cityIds: number[],
+  sightIds: number[],
 ) {
   const formData = new FormData();
-  addFieldsToFormData(formData, { name, id, image });
+  addFieldsToFormData(formData, {
+    name,
+    id,
+    image,
+    description,
+    contacts,
+    cityIds,
+    sightIds,
+  });
   const { data } = await adminHost.post("admin/update/guide/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",

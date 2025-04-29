@@ -5,6 +5,7 @@ import Sight from "../../models/sight";
 import Tag from "../../models/tag";
 import { getWeather } from "../libs/utils";
 import logger from "../libs/logger";
+import User from "../../models/user";
 
 export async function findCity(cityId: string) {
   const city = await City.findOne({
@@ -23,6 +24,14 @@ export async function findCity(cityId: string) {
       {
         model: Guide,
         as: "guides",
+        include: [
+          {
+            model: User,
+            as: "user",
+            where: { isBanned: false },
+            attributes: [],
+          },
+        ],
       },
     ],
   });
@@ -56,6 +65,14 @@ export async function findCities() {
       {
         model: Guide,
         as: "guides",
+        include: [
+          {
+            model: User,
+            as: "user",
+            where: { isBanned: false },
+            attributes: [],
+          },
+        ],
       },
     ],
   });

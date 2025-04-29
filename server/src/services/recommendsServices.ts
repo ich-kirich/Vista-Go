@@ -1,6 +1,7 @@
 import Recommend from "../../models/recommend";
 import Guide from "../../models/guide";
 import City from "../../models/city";
+import User from "../../models/user";
 
 async function findRecommends() {
   const recommends = await Recommend.findAll({
@@ -11,6 +12,14 @@ async function findRecommends() {
           {
             model: Guide,
             as: "guides",
+            include: [
+              {
+                model: User,
+                as: "user",
+                where: { isBanned: false },
+                attributes: [],
+              },
+            ],
           },
         ],
       },

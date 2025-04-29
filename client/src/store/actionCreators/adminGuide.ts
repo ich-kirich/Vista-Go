@@ -5,12 +5,25 @@ import { AppError, Guide } from "../../libs/enums";
 
 export const fetchCreateGuide = (
   name: { en: string; ru: string },
+  description: { en: string; ru: string },
+  contacts: string,
+  cityIds: number[],
+  sightIds: number[],
   file: File,
+  userId: number,
 ) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Guide.FETCH_GUIDE });
-      const response = await createGuide(name, file);
+      const response = await createGuide(
+        name,
+        description,
+        contacts,
+        cityIds,
+        sightIds,
+        file,
+        userId,
+      );
       dispatch({
         type: Guide.FETCH_GUIDE_SUCCESS,
         payload: response.data,
@@ -66,12 +79,27 @@ export const fetchUpdateGuide = (
     en: string;
     ru: string;
   },
+  description: {
+    en: string;
+    ru: string;
+  },
+  contacts: string,
   file: File | undefined,
+  cityIds: number[],
+  sightIds: number[],
 ) => {
   return async (dispatch: Dispatch<IAction>) => {
     try {
       dispatch({ type: Guide.FETCH_GUIDE });
-      const response = await updateGuide(id, name, file);
+      const response = await updateGuide(
+        id,
+        name,
+        file,
+        description,
+        contacts,
+        cityIds,
+        sightIds,
+      );
       dispatch({
         type: Guide.FETCH_GUIDE_SUCCESS,
         payload: response.data,

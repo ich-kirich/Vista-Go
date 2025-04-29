@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { DEFAULT_URL_IMG, USER_ROLE } from "../src/libs/constants";
+import { DEFAULT_URL_IMG, ROLES } from "../src/libs/constants";
 import sequelize from "../src/db";
 
 class User extends Model {
@@ -46,7 +46,7 @@ User.init(
     role: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: USER_ROLE,
+      defaultValue: ROLES.USER,
     },
     isBanned: {
       type: DataTypes.BOOLEAN,

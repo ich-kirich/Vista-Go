@@ -7,8 +7,8 @@ import SightsRouter from "./sights";
 import TagsRouter from "./tags";
 import changeUserRouter from "./changeUser";
 import checkRole from "../middleware/checkRoleMiddleware";
-import { ADMIN_ROLE, USER_ROLE } from "../libs/constants";
 import userRouter from "./user";
+import { ROLES } from "../libs/constants";
 
 const router = Router();
 router.use("/", CitiesRouter);
@@ -19,9 +19,9 @@ router.use("/", TagsRouter);
 router.use("/user", userRouter);
 router.use(
   "/user/update",
-  checkRole([ADMIN_ROLE, USER_ROLE]),
+  checkRole([ROLES.ADMIN, ROLES.USER, ROLES.GUIDE]),
   changeUserRouter,
 );
-router.use("/admin", checkRole([ADMIN_ROLE]), adminRouter);
+router.use("/admin", checkRole([ROLES.ADMIN]), adminRouter);
 
 export default router;

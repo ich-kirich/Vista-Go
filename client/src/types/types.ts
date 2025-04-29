@@ -27,7 +27,26 @@ export interface IGuide {
     en: string;
     ru: string;
   };
+  description: {
+    en: string;
+    ru: string;
+  };
+  contacts: string;
   image: string;
+  cities: {
+    id: number;
+    name: {
+      en: string;
+      ru: string;
+    };
+  }[];
+  sights: {
+    id: number;
+    name: {
+      en: string;
+      ru: string;
+    };
+  }[];
 }
 
 export interface ISights {
@@ -44,6 +63,7 @@ export interface ISights {
   distance: string;
   price: string;
   tags: ITag[];
+  guides: IGuide[];
 }
 
 export interface ICities {
@@ -108,6 +128,7 @@ export interface ICreateSight {
   price: string;
   distance: string;
   tagIds: number[];
+  guideIds?: number[];
   image: File;
 }
 
@@ -124,6 +145,7 @@ export interface IUpdateSight {
   price: string;
   distance: string;
   tagIds: number[];
+  guideIds?: number[];
   image: File | undefined;
 }
 
@@ -139,7 +161,7 @@ export interface ICreateCity {
   lat: string;
   lon: string;
   sightIds: number[];
-  guideIds: number[];
+  guideIds?: number[];
   image: File;
 }
 
@@ -156,7 +178,7 @@ export interface IUpdateCity {
   lat: string;
   lon: string;
   sightIds: number[];
-  guideIds: number[];
+  guideIds?: number[];
   image: File | undefined;
 }
 

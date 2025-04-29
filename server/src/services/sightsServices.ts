@@ -1,5 +1,7 @@
+import User from "../../models/user";
 import Sight from "../../models/sight";
 import Tag from "../../models/tag";
+import Guide from "../../models/guide";
 
 export async function findCitySights(cityId: string) {
   const sights = await Sight.findAll({
@@ -8,6 +10,18 @@ export async function findCitySights(cityId: string) {
       {
         model: Tag,
         as: "tags",
+      },
+      {
+        model: Guide,
+        as: "guides",
+        include: [
+          {
+            model: User,
+            as: "user",
+            where: { isBanned: false },
+            attributes: [],
+          },
+        ],
       },
     ],
   });
@@ -20,6 +34,18 @@ export async function findSight(sightId: string) {
       {
         model: Tag,
         as: "tags",
+      },
+      {
+        model: Guide,
+        as: "guides",
+        include: [
+          {
+            model: User,
+            as: "user",
+            where: { isBanned: false },
+            attributes: [],
+          },
+        ],
       },
     ],
   });

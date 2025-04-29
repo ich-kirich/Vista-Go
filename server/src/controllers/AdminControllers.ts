@@ -131,7 +131,7 @@ class AdminControllers {
 
   async createSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { price, distance, tagIds } = req.body;
+      const { price, distance, tagIds, guideIds } = req.body;
       const { image } = req.files;
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -140,6 +140,7 @@ class AdminControllers {
         ? JSON.parse(req.body.description)
         : { en: "", ru: "" };
       const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
+      const guideIdsArr = tagIds ? JSON.parse(guideIds) : [];
       const sight = await createRecordSight({
         image: image as UploadedFile,
         name,
@@ -147,6 +148,7 @@ class AdminControllers {
         price,
         distance,
         tagIds: tagIdsArr,
+        guideIds: guideIdsArr,
       });
       logger.info("Sight was successfully created", sight);
       return res.json(sight);
@@ -160,7 +162,7 @@ class AdminControllers {
 
   async updateSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, price, distance, tagIds } = req.body;
+      const { id, price, distance, tagIds, guideIds } = req.body;
       const { image } = req.files || {};
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -169,6 +171,7 @@ class AdminControllers {
         ? JSON.parse(req.body.description)
         : { en: "", ru: "" };
       const tagIdsArr = tagIds ? JSON.parse(tagIds) : [];
+      const guideIdsArr = tagIds ? JSON.parse(guideIds) : [];
       const sight = await updateRecordSight({
         id,
         image: image as UploadedFile,
@@ -177,6 +180,7 @@ class AdminControllers {
         price,
         distance,
         tagIds: tagIdsArr,
+        guideIds: guideIdsArr,
       });
       logger.info("Sight was successfully updated", sight);
       return res.json(sight);
@@ -259,11 +263,25 @@ class AdminControllers {
 
   async createGuide(req: Request, res: Response, next: NextFunction) {
     try {
+      const { userId, contacts } = req.body;
       const { image } = req.files;
       const name = req.body.name
         ? JSON.parse(req.body.name)
         : { en: "", ru: "" };
-      const guide = await createRecordGuide(image as UploadedFile, name);
+      const cityIds = req.body.cityIds ? JSON.parse(req.body.cityIds) : [];
+      const sightIds = req.body.sightIds ? JSON.parse(req.body.sightIds) : [];
+      const description = req.body.description
+        ? JSON.parse(req.body.description)
+        : { en: "", ru: "" };
+      const guide = await createRecordGuide({
+        image: image as UploadedFile,
+        contacts,
+        description,
+        cityIds,
+        sightIds,
+        userId,
+        name,
+      });
       logger.info("Guide was successfully created", guide);
       return res.json(guide);
     } catch (e) {
@@ -276,12 +294,25 @@ class AdminControllers {
 
   async updateGuide(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.body;
+      const { id, contacts } = req.body;
       const { image } = req.files || {};
       const name = req.body.name
         ? JSON.parse(req.body.name)
         : { en: "", ru: "" };
-      const guide = await updateRecordGuide(id, name, image as UploadedFile);
+      const cityIds = req.body.cityIds ? JSON.parse(req.body.cityIds) : [];
+      const sightIds = req.body.sightIds ? JSON.parse(req.body.sightIds) : [];
+      const description = req.body.description
+        ? JSON.parse(req.body.description)
+        : { en: "", ru: "" };
+      const guide = await updateRecordGuide(
+        id,
+        name,
+        image as UploadedFile,
+        description,
+        contacts,
+        cityIds,
+        sightIds,
+      );
       logger.info("Guide was successfully updated", guide);
       return res.json(guide);
     } catch (e) {

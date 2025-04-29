@@ -21,50 +21,6 @@ class CitiesControllers {
     }
   }
 
-  async getCount(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { country } = req.body;
-      const cityCount = await City.count({
-        where: {
-          country: {
-            [Op.contains]: { en: country },
-          },
-        },
-      });
-      logger.info("City fetched successfully");
-      return res.json(cityCount);
-    } catch (e) {
-      logger.error("Error occurred while fetching cities:", e);
-      return next(
-        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
-      );
-    }
-  }
-
-  async getCoord(req: Request, res: Response, next: NextFunction) {
-    try {
-      const city = await City.findAll({
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "weather",
-          "country",
-          "lat",
-          "lon",
-          [Sequelize.literal("CONCAT(lat, ', ', lon)"), "location"],
-        ],
-      });
-      logger.info("Cities fetched successfully");
-      return res.json(city);
-    } catch (e) {
-      logger.error("Error occurred while fetching cities:", e);
-      return next(
-        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
-      );
-    }
-  }
-
   async getCities(req: Request, res: Response, next: NextFunction) {
     try {
       const cities = await findCities();

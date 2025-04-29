@@ -12,9 +12,11 @@ export const DEFAULT_WEATHER = "Unknown";
 
 export const TYPE_TOKEN = "Bearer";
 
-export const ADMIN_ROLE = "ADMIN";
-
-export const USER_ROLE = "USER";
+export enum ROLES {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  GUIDE = "GUIDE",
+}
 
 export enum ERROR {
   INCORRECT_INPUT = "INCORRECT_INPUT",

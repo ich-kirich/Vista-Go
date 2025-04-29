@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { UploadedFile } from "express-fileupload";
 import ApiError from "../error/apiError";
-import { ERROR } from "../libs/constants";
+import { ERROR, ROLES } from "../libs/constants";
 import Guide from "../../models/guide";
 import { uploadImage } from "../libs/utils";
 import Tag from "../../models/tag";
@@ -12,61 +12,203 @@ import CityGuide from "../../models/cityGuide";
 import Recommend from "../../models/recommend";
 import {
   ICreateRecordCity,
+  ICreateRecordGuide,
   ICreateRecordSight,
   IUpdateRecordCity,
   IUpdateRecordSight,
 } from "../types/types";
 import logger from "../libs/logger";
+import User from "../../models/user";
+import sequelize from "../db";
+import GuideSight from "../../models/GuideSight";
 
-export async function createRecordGuide(image: UploadedFile, name: string) {
-  const loadImage = await uploadImage(image);
-  const guide = await Guide.create({ name, image: loadImage });
-  return guide;
+export async function createRecordGuide(params: ICreateRecordGuide) {
+  const {
+    image,
+    name,
+    userId,
+    cityIds = [],
+    sightIds = [],
+    contacts,
+    description,
+  } = params;
+
+  const transaction = await sequelize.transaction();
+  console.log(userId);
+  try {
+    const user = await User.findByPk(userId, { transaction });
+
+    if (!user) {
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.USER_NOT_FOUND,
+      );
+    }
+
+    const loadImage = await uploadImage(image);
+
+    const guide = await Guide.create(
+      {
+        name,
+        description,
+        image: loadImage,
+        contacts,
+        userId: user.id,
+      },
+      { transaction },
+    );
+
+    await User.update(
+      { role: ROLES.GUIDE },
+      { where: { id: user.id }, transaction },
+    );
+
+    if (cityIds.length) {
+      const cityGuideRecords = cityIds.map((cityId) => ({
+        CityId: Number(cityId),
+        GuideId: guide.id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await CityGuide.bulkCreate(cityGuideRecords, { transaction });
+    }
+
+    if (sightIds.length) {
+      const guideSightRecords = sightIds.map((sightId) => ({
+        guideId: guide.id,
+        sightId: Number(sightId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await GuideSight.bulkCreate(guideSightRecords, { transaction });
+    }
+
+    await transaction.commit();
+    return guide;
+  } catch (error) {
+    await transaction.rollback();
+    logger.error("Error during guide creation transaction", error);
+    throw error;
+  }
 }
 
 export async function updateRecordGuide(
   id: number,
-  name: string,
-  image: UploadedFile,
+  name?: object,
+  image?: UploadedFile,
+  description?: object,
+  contacts?: string,
+  cityIds: number[] = [],
+  sightIds: number[] = [],
 ) {
-  const findGuide = await Guide.findByPk(id);
-  if (!findGuide) {
-    logger.error(`Guide with this ID: ${id} was not found`);
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
+  const transaction = await sequelize.transaction();
+
+  try {
+    const guide = await Guide.findByPk(id, { transaction });
+
+    if (!guide) {
+      logger.error(`Guide with ID: ${id} was not found`);
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.GUIDE_NOT_FOUND,
+      );
+    }
+
+    const updateData: any = { name };
+
+    if (description) {
+      updateData.description = description;
+    }
+
+    if (contacts) {
+      updateData.contacts = contacts;
+    }
+
+    if (image) {
+      const loadImage = await uploadImage(image);
+      updateData.image = loadImage;
+    }
+
+    await Guide.update(updateData, { where: { id }, transaction });
+
+    if (cityIds.length) {
+      await CityGuide.destroy({ where: { GuideId: id }, transaction });
+      const cityGuideRecords = cityIds.map((cityId) => ({
+        CityId: cityId,
+        GuideId: id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await CityGuide.bulkCreate(cityGuideRecords, { transaction });
+    }
+
+    if (sightIds.length) {
+      await GuideSight.destroy({ where: { guideId: id }, transaction });
+      const guideSightRecords = sightIds.map((sightId) => ({
+        guideId: id,
+        sightId: sightId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await GuideSight.bulkCreate(guideSightRecords, { transaction });
+    }
+
+    await transaction.commit();
+
+    const updatedGuide = await Guide.findByPk(id);
+    return updatedGuide;
+  } catch (error) {
+    await transaction.rollback();
+    logger.error("Error during guide update transaction", error);
+    throw error;
   }
-  if (name) {
-    await Guide.update({ name }, { where: { id } });
-  }
-  if (image) {
-    const loadImage = await uploadImage(image);
-    await Guide.update({ image: loadImage }, { where: { id } });
-  }
-  const guide = await Guide.findByPk(id);
-  return guide;
 }
 
 export async function deleteRecordGuide(id: number) {
-  const guide = await Guide.findByPk(id);
-  if (guide) {
-    const cityGuides = await CityGuide.findAll({
-      where: {
-        GuideId: id,
-      },
-    });
-    for (const cityGuide of cityGuides) {
-      await CityGuide.destroy({
-        where: { id: cityGuide.dataValues.id },
-      });
+  const transaction = await sequelize.transaction();
+
+  try {
+    const guide = await Guide.findByPk(id, { transaction });
+
+    if (!guide) {
+      logger.error(`Guide with ID: ${id} was not found`);
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.GUIDE_NOT_FOUND,
+      );
     }
-    await Guide.destroy({
-      where: {
-        id,
-      },
+
+    const userId = guide.userId;
+
+    if (userId) {
+      await User.update(
+        { role: "USER" },
+        { where: { id: userId }, transaction },
+      );
+    }
+
+    await CityGuide.destroy({
+      where: { GuideId: id },
+      transaction,
     });
+
+    await GuideSight.destroy({
+      where: { GuideId: id },
+      transaction,
+    });
+
+    await Guide.destroy({
+      where: { id },
+      transaction,
+    });
+
+    await transaction.commit();
     return true;
+  } catch (error) {
+    await transaction.rollback();
+    logger.error("Transaction failed during guide deletion", error);
+    throw error;
   }
-  logger.error(`Guide with this ID: ${id} was not found`);
-  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
 }
 
 export async function deleteRecordTag(id: number) {
@@ -94,94 +236,252 @@ export async function deleteRecordTag(id: number) {
 }
 
 export async function createRecordSight(params: ICreateRecordSight) {
-  const { image, name, description, price, distance, tagIds } = params;
-  const loadImage = await uploadImage(image);
-  const findTags = await Tag.findAll({
-    where: {
-      id: tagIds.map(Number),
-    },
-  });
-  if (findTags.length !== tagIds.length) {
-    logger.error("Tags were not found");
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
-  }
-  const sight = await Sight.create({
+  const {
+    image,
     name,
-    image: loadImage,
     description,
     price,
     distance,
-  });
-  for (const tagId of tagIds) {
-    await SightTag.create({
-      SightId: sight.dataValues.id,
-      TagId: Number(tagId),
+    tagIds = [],
+    guideIds = [],
+  } = params;
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    const loadImage = await uploadImage(image);
+
+    const findTags = await Tag.findAll({
+      where: { id: tagIds.map(Number) },
+      transaction,
     });
+
+    if (findTags.length !== tagIds.length) {
+      logger.error("Some tags were not found");
+      throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
+    }
+
+    if (guideIds.length) {
+      const findGuides = await Guide.findAll({
+        where: { id: guideIds.map(Number) },
+        transaction,
+      });
+
+      if (findGuides.length !== guideIds.length) {
+        logger.error("Some guides were not found");
+        throw new ApiError(
+          StatusCodes.UNPROCESSABLE_ENTITY,
+          ERROR.GUIDE_NOT_FOUND,
+        );
+      }
+    }
+
+    const sight = await Sight.create(
+      {
+        name,
+        image: loadImage,
+        description,
+        price,
+        distance,
+      },
+      { transaction },
+    );
+
+    if (tagIds.length) {
+      const sightTagsData = tagIds.map((tagId) => ({
+        SightId: sight.id,
+        TagId: Number(tagId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await SightTag.bulkCreate(sightTagsData, { transaction });
+    }
+
+    if (guideIds.length) {
+      const guideSightData = guideIds.map((guideId) => ({
+        guideId: Number(guideId),
+        sightId: sight.id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await GuideSight.bulkCreate(guideSightData, { transaction });
+    }
+
+    await transaction.commit();
+    return sight;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
   }
-  return sight;
 }
 
 export async function updateRecordSight(params: IUpdateRecordSight) {
-  const { id, image, name, description, price, distance, tagIds } = params;
-  const findSight = await Sight.findByPk(id);
-  if (!findSight) {
-    logger.error(`Sight with this ID: ${id} was not found`);
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
-  }
-  if (image) {
-    const loadImage = await uploadImage(image);
-    await Sight.update({ image: loadImage }, { where: { id } });
-  }
-  await Sight.update({ distance, price, description, name }, { where: { id } });
-  if (tagIds.length !== 0) {
-    const findTags = await Tag.findAll({
-      where: {
-        id: tagIds.map(Number),
-      },
-    });
-    if (findTags.length !== tagIds.length) {
-      logger.error("Tags were not found");
-      throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.TAG_NOT_FOUND);
+  const {
+    id,
+    image,
+    name,
+    description,
+    price,
+    distance,
+    tagIds = [],
+    guideIds = [],
+  } = params;
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    const findSight = await Sight.findByPk(id, { transaction });
+
+    if (!findSight) {
+      logger.error(`Sight with ID: ${id} was not found`);
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.SIGHT_NOT_FOUND,
+      );
     }
-    for (const tagId of tagIds) {
-      await SightTag.findOrCreate({
-        where: {
-          TagId: Number(tagId),
-          SightId: id,
-        },
+
+    const updateData: any = { distance, price, description, name };
+
+    if (image) {
+      const loadImage = await uploadImage(image);
+      updateData.image = loadImage;
+    }
+
+    await Sight.update(updateData, { where: { id }, transaction });
+
+    if (tagIds.length) {
+      const findTags = await Tag.findAll({
+        where: { id: tagIds.map(Number) },
+        transaction,
       });
+
+      if (findTags.length !== tagIds.length) {
+        logger.error("Some tags were not found");
+        throw new ApiError(
+          StatusCodes.UNPROCESSABLE_ENTITY,
+          ERROR.TAG_NOT_FOUND,
+        );
+      }
+
+      await SightTag.destroy({ where: { SightId: id }, transaction });
+
+      const sightTagsData = tagIds.map((tagId) => ({
+        SightId: id,
+        TagId: Number(tagId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+
+      await SightTag.bulkCreate(sightTagsData, { transaction });
     }
+
+    if (guideIds.length) {
+      const findGuides = await Guide.findAll({
+        where: { id: guideIds.map(Number) },
+        transaction,
+      });
+
+      if (findGuides.length !== guideIds.length) {
+        logger.error("Some guides were not found");
+        throw new ApiError(
+          StatusCodes.UNPROCESSABLE_ENTITY,
+          ERROR.GUIDE_NOT_FOUND,
+        );
+      }
+
+      await GuideSight.destroy({ where: { SightId: id }, transaction });
+
+      const guideSightData = guideIds.map((guideId) => ({
+        guideId: Number(guideId),
+        sightId: id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+
+      await GuideSight.bulkCreate(guideSightData, { transaction });
+    }
+
+    await transaction.commit();
+
+    const updatedSight = await Sight.findByPk(id, {
+      include: [
+        {
+          model: Tag,
+          as: "tags",
+        },
+        {
+          model: Guide,
+          as: "guides",
+          include: [
+            {
+              model: User,
+              as: "user",
+              where: { isBanned: false },
+              attributes: [],
+              required: false,
+            },
+          ],
+        },
+      ],
+    });
+
+    return updatedSight;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
   }
-  const sight = await Sight.findByPk(id);
-  return sight;
 }
 
 export async function deleteRecordSight(id: number) {
-  const sight = await Sight.findByPk(id);
-  if (sight) {
-    const sightTags = await SightTag.findAll({
-      where: {
-        SightId: id,
-      },
-    });
-    for (const sightTag of sightTags) {
-      await SightTag.destroy({
-        where: { id: sightTag.dataValues.id },
-      });
+  const transaction = await sequelize.transaction();
+
+  try {
+    const sight = await Sight.findByPk(id, { transaction });
+
+    if (!sight) {
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.SIGHT_NOT_FOUND,
+      );
     }
-    await Sight.destroy({
-      where: {
-        id,
-      },
+
+    await SightTag.destroy({
+      where: { SightId: id },
+      transaction,
     });
+
+    await GuideSight.destroy({
+      where: { SightId: id },
+      transaction,
+    });
+
+    await Sight.destroy({
+      where: { id },
+      transaction,
+    });
+
+    await transaction.commit();
     return true;
+  } catch (error) {
+    await transaction.rollback();
+    logger.error("Transaction failed during sight deletion", error);
+    throw error;
   }
-  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
 }
 
 export async function createRecordCity(params: ICreateRecordCity) {
-  const { image, country, name, lat, lon, sightIds, guideIds } = params;
+  const {
+    image,
+    country,
+    name,
+    lat,
+    lon,
+    sightIds = [],
+    guideIds = [],
+  } = params;
+
   const loadImage = await uploadImage(image);
+
   const city = await City.create({
     country,
     name,
@@ -189,86 +489,120 @@ export async function createRecordCity(params: ICreateRecordCity) {
     lon,
     image: loadImage,
   });
-  const findSights = await Sight.findAll({
-    where: {
-      id: sightIds.map(Number),
-    },
-  });
-  if (findSights.length !== sightIds.length) {
-    logger.error("Sights were not found");
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.SIGHT_NOT_FOUND);
-  }
-  await Sight.update(
-    { CityId: city.dataValues.id },
-    { where: { id: sightIds.map(Number) } },
-  );
-  const findGuides = await Guide.findAll({
-    where: {
-      id: guideIds.map(Number),
-    },
-  });
-  if (findGuides.length !== guideIds.length) {
-    logger.error("Guides were not found");
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.GUIDE_NOT_FOUND);
-  }
-  for (const guideId of guideIds) {
-    await CityGuide.create({
-      CityId: city.dataValues.id,
-      GuideId: Number(guideId),
-    });
-  }
-  return city;
-}
 
-export async function updateRecordCity(params: IUpdateRecordCity) {
-  const { id, image, country, name, lat, lon, sightIds, guideIds } = params;
-  const findCity = await City.findByPk(id);
-  if (!findCity) {
-    logger.error(`City with this ID: ${id} was not found`);
-    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
-  }
-  if (image) {
-    const loadImage = await uploadImage(image);
-    await City.update({ image: loadImage }, { where: { id } });
-  }
-  await City.update({ country, name, lat, lon }, { where: { id } });
-  if (sightIds.length !== 0) {
+  if (sightIds.length) {
     const findSights = await Sight.findAll({
-      where: {
-        id: sightIds.map(Number),
-      },
+      where: { id: sightIds.map(Number) },
     });
+
     if (findSights.length !== sightIds.length) {
-      logger.error(`Sights were not found`);
+      logger.error("Some sights were not found");
       throw new ApiError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         ERROR.SIGHT_NOT_FOUND,
       );
     }
-    await Sight.update({ CityId: id }, { where: { id: sightIds.map(Number) } });
+
+    await Sight.update(
+      { CityId: city.id },
+      { where: { id: sightIds.map(Number) } },
+    );
   }
-  if (guideIds.length !== 0) {
+
+  if (guideIds.length) {
     const findGuides = await Guide.findAll({
-      where: {
-        id: guideIds.map(Number),
-      },
+      where: { id: guideIds.map(Number) },
     });
+
     if (findGuides.length !== guideIds.length) {
-      logger.error(`Guides were not found`);
+      logger.error("Some guides were not found");
       throw new ApiError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         ERROR.GUIDE_NOT_FOUND,
       );
     }
-    for (const guideId of guideIds) {
-      await CityGuide.findOrCreate({
-        where: {
-          CityId: id,
-          GuideId: Number(guideId),
-        },
-      });
-    }
+
+    const cityGuideRecords = guideIds.map((guideId) => ({
+      CityId: city.id,
+      GuideId: Number(guideId),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    await CityGuide.bulkCreate(cityGuideRecords);
   }
+
+  return city;
+}
+
+export async function updateRecordCity(params: IUpdateRecordCity) {
+  const {
+    id,
+    image,
+    country,
+    name,
+    lat,
+    lon,
+    sightIds = [],
+    guideIds = [],
+  } = params;
+
+  const findCity = await City.findByPk(id);
+  if (!findCity) {
+    logger.error(`City with ID ${id} was not found`);
+    throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
+  }
+
+  const updateData: any = { country, name, lat, lon };
+
+  if (image) {
+    const loadImage = await uploadImage(image);
+    updateData.image = loadImage;
+  }
+
+  await City.update(updateData, { where: { id } });
+
+  if (sightIds.length) {
+    const findSights = await Sight.findAll({
+      where: { id: sightIds.map(Number) },
+    });
+
+    if (findSights.length !== sightIds.length) {
+      logger.error(`Some sights were not found`);
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.SIGHT_NOT_FOUND,
+      );
+    }
+
+    await Sight.update({ CityId: id }, { where: { id: sightIds.map(Number) } });
+  }
+
+  if (guideIds.length) {
+    const findGuides = await Guide.findAll({
+      where: { id: guideIds.map(Number) },
+    });
+
+    if (findGuides.length !== guideIds.length) {
+      logger.error(`Some guides were not found`);
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.GUIDE_NOT_FOUND,
+      );
+    }
+
+    await CityGuide.destroy({ where: { CityId: id } });
+
+    const cityGuideRecords = guideIds.map((guideId) => ({
+      CityId: id,
+      GuideId: Number(guideId),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    await CityGuide.bulkCreate(cityGuideRecords);
+  }
+
   const city = await City.findOne({
     where: { id },
     include: [
@@ -285,52 +619,60 @@ export async function updateRecordCity(params: IUpdateRecordCity) {
       {
         model: Guide,
         as: "guides",
+        include: [
+          {
+            model: User,
+            as: "user",
+            where: { isBanned: false },
+            attributes: [],
+            required: false,
+          },
+        ],
       },
     ],
   });
+
   return city;
 }
 
 export async function deleteRecordCity(id: number) {
-  const city = await City.findByPk(id);
-  if (city) {
-    const sights = await Sight.findAll({
-      where: {
-        CityId: id,
-      },
-    });
-    for (const sight of sights) {
-      await Sight.update(
-        { CityId: null },
-        { where: { id: sight.dataValues.id } },
+  const transaction = await sequelize.transaction();
+
+  try {
+    const city = await City.findByPk(id, { transaction });
+    if (!city) {
+      throw new ApiError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        ERROR.CITY_NOT_FOUND,
       );
     }
-    const cityGuides = await CityGuide.findAll({
-      where: {
-        CityId: id,
-      },
+
+    await Sight.update(
+      { CityId: null },
+      { where: { CityId: id }, transaction },
+    );
+
+    await CityGuide.destroy({
+      where: { CityId: id },
+      transaction,
     });
-    for (const cityGuide of cityGuides) {
-      await CityGuide.destroy({
-        where: { id: cityGuide.dataValues.id },
-      });
-    }
+
+    await Recommend.destroy({
+      where: { CityId: id },
+      transaction,
+    });
+
     await City.destroy({
-      where: {
-        id,
-      },
+      where: { id },
+      transaction,
     });
-    const findRecommend = await Recommend.findOne({ where: { CityId: id } });
-    if (findRecommend) {
-      await Recommend.destroy({
-        where: {
-          CityId: id,
-        },
-      });
-    }
+
+    await transaction.commit();
     return true;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
   }
-  throw new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, ERROR.CITY_NOT_FOUND);
 }
 
 export async function createRecordRecommend(id: number) {

@@ -170,7 +170,7 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
             </TableContainer>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[5, 10]}
               component="div"
               count={users.length}
               rowsPerPage={rowsPerPage}

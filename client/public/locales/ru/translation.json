@@ -81,6 +81,13 @@
   "admin_page.add.guide.name_label": "Введите имя гида",
   "admin_page.add.guide.name": "Введите имя",
   "admin_page.add.guide.image_label": "Добавьте изображение гида",
+  "admin_page.add.guide.description": "Добавьте описание для гида",
+  "admin_page.add.guide.contacts": "Добавьте контакты для гида",
+  "admin_page.add.guide.add_city": "Добавьте город для гида",
+  "admin_page.add.guide.add_sight": "Добавьте достопримечательность для гида",
+  "admin_page.add.guide.sight_button": "Добавить достопримечательность",
+  "admin_page.add.guide.city_button": "Добавить город",
+  "admin_page.add.guide.user_label": "Выберите пользователя для гида",
   "admin_page.add.guide": "Добавить гида",
 
   "admin_page.add.recommend.success": "Рекомендация успешно добавлена",
@@ -99,6 +106,7 @@
   "admin_page.add.sight.image_label": "Добавьте изображение достопримечательности",
   "admin_page.add.sight.tag_button": "Добавить тег для достопримечательности",
   "admin_page.add.sight.select_option": "Выберите",
+  "admin_page.add.sight.guide_button": "Добавить гида",
   "admin_page.add.sight": "Добавить достопримечательность",
 
   "admin_page.add.tag.success": "Тег успешно добавлен",
@@ -144,6 +152,10 @@
   "admin_page.update.guide.success": "Гид был успешно отредактирован",
   "admin_page.update.guide.select_label": "Выберите гида для редактирования",
   "admin_page.update.guide.name": "Введите имя гида",
+  "admin_page.update.guide.description": "Введите описание для гида",
+  "admin_page.update.guide.contacts": "Введите контакты для гида",
+  "admin_page.update.guide.add_city": "Добавьте город для гида",
+  "admin_page.update.guide.add_sight": "Добавьте достопримечательность для гида",
   "admin_page.update.guide.image_label": "Загрузите изображение для гида",
   "admin_page.update.guide.button": "Редактировать гида",
 
@@ -158,6 +170,7 @@
   "admin_page.update.sight.distance": "Введите расстояние",
   "admin_page.update.sight.image_label": "Загрузите изображение для достопримечательности",
   "admin_page.update.sight.tag_button": "Добавить тег для достопримечательности",
+  "admin_page.update.sight.add_guide": "Добавить гида для достопримечательности",
   "admin_page.update.sight.button": "Редактировать достопримечательность",
 
   "admin_page.update.tag.success": "Тег был успешно отредактирован",
