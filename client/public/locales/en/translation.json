@@ -36,6 +36,8 @@
   "app_error.user_is_banned": "User is banned",
   "app_error.user_is_unbanned": "User is unbanned",
   "app_error.user_is_already_guide": "User is already a guide",
+  "app_error.guide_request_already_exists": "Guide request already exists",
+  "app_error.guide_request_not_found": "Guide requests were not found",
   
 
   "admin_entity.actions.add": "Add",
@@ -58,6 +60,14 @@
   "admin_page.users.user": "User",
   "admin_page.users.warning": "Are you sure you want to",
   "admin_page.users.close_warning": "Close",
+
+  "admin_page.guides": "Guide requests",
+  "admin_page.guides.close_list": "Close list",
+  "admin_page.guides.contacts": "Contacts",
+  "admin_page.guides.description": "Description",
+  "admin_page.guides.request_text": "Request text",
+  "admin_page.guides.accept": "Accept",
+  "admin_page.guides.reject": "Reject",
 
   "admin_page.welcome": "Welcome to Admin Panel",
   "admin_page.edit.cities": "Edit cities",
@@ -256,5 +266,12 @@
   "details_sight.description": "Description:",
   "details_sight.guides": "Guides of this sight:",
 
-  "city_guides.guides": "Guides of this city:"
+  "city_guides.guides": "Guides of this city:",
+
+  "guide_request_modal.success": "Application successfully submitted!",
+  "guide_request_modal.title": "Application for the role of tour guide",
+  "guide_request_modal.contacts": "Contacts",
+  "guide_request_modal.description": "Description",
+  "guide_request_modal.text_request": "Text of request",
+  "guide_request_modal.send": "Send"
 }

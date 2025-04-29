@@ -11,8 +11,9 @@ import {
   updateNameUser,
   registrationUser,
   verificationPassword,
+  createGuideRequestService,
 } from "../services/userServices";
-import { CODE_SEND } from "../libs/constants";
+import { CODE_SEND, ERROR, ROLES } from "../libs/constants";
 import logger from "../libs/logger";
 
 class UserControllers {
@@ -134,6 +135,35 @@ class UserControllers {
       return res.json(resultCreate);
     } catch (e) {
       logger.error("Error during confirming the verification user code", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async createGuideRequest(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { contacts, description, requestText } = req.body;
+      const token = req.headers.authorization?.split(" ")[1];
+      const decoded = decodeJwt(token);
+
+      if (decoded.role !== ROLES.USER) {
+        logger.error(
+          `Error creating guide request for user with this email: ${decoded.email}`,
+        );
+        return next(new ApiError(StatusCodes.FORBIDDEN, ERROR.NO_ACCESS));
+      }
+
+      const request = await createGuideRequestService({
+        userId: decoded.id,
+        contacts,
+        description,
+        requestText,
+      });
+      logger.info(`Guide request created for user ID ${decoded.id}`);
+      return res.status(StatusCodes.CREATED).json(request);
+    } catch (e) {
+      logger.error("Error creating guide request", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

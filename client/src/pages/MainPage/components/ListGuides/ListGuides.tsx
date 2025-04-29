@@ -1,19 +1,22 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { useTranslation } from "react-i18next";
 import styles from "./ListGuides.module.scss";
+import GuideRequestModal from "../GuideRequestModal/GuideRequestModal";
 
 function ListGuides() {
   const { fetchGuides } = useActions();
   const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { guides, error, loading } = useTypedSelector((state) => state.guides);
 
   useEffect(() => {
     if (!guides) fetchGuides();
   }, []);
-  const { guides, error, loading } = useTypedSelector((state) => state.guides);
 
   return (
     <FetchWrapper loading={loading} error={error}>
@@ -35,10 +38,18 @@ function ListGuides() {
               }}
             />
           ))}
-        <Button variant="text" className={styles.guide__joying}>
+        <Button
+          variant="text"
+          className={styles.guide__joying}
+          onClick={() => setIsModalOpen(true)}
+        >
           {t("list_guides.join")}
         </Button>
       </Box>
+      <GuideRequestModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </FetchWrapper>
   );
 }

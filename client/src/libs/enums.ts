@@ -17,6 +17,7 @@ export enum AdminEntity {
   CITY = "city",
   RECOMMEND = "recommend",
   USERS = "users",
+  GUIDE_REQUESTS = "guide_requests",
 }
 
 export enum AppError {
@@ -52,6 +53,8 @@ export enum AppError {
   USER_IS_BANNED = "app_error.user_is_banned",
   USER_IS_UNBANNED = "app_error.user_is_unbanned",
   USER_IS_ALREADY_GUIDE = "app_error.user_is_already_guide",
+  GUIDE_REQUEST_ALREADY_EXISTS = "app_error.guide_request_already_exists",
+  GUIDE_REQUEST_NOT_FOUND = "app_error.guide_request_not_found",
 }
 
 export enum CodePass {

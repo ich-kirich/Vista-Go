@@ -36,6 +36,8 @@
   "app_error.user_is_banned": "Пользователь уже забанен",
   "app_error.user_is_unbanned": "Пользователь не был забанен",
   "app_error.user_is_already_guide": "Пользователь уже является гидом",
+  "app_error.guide_request_already_exists": "Заявка на получения статуса гида уже в процессе обработки",
+  "app_error.guide_request_not_found": "Заявки на гидов не были получены",
 
   "admin_entity.actions.add": "Добавить",
   "admin_entity.actions.update": "Обновить",
@@ -57,6 +59,8 @@
   "admin_page.users.user": "Пользователя",
   "admin_page.users.warning": "Вы точно хотите",
   "admin_page.users.close_warning": "Закрыть",
+
+  "admin_page.guide_requests": "Заявки гидов",
 
   "admin_page.edit.cities": "Редактировать города",
   "admin_page.edit.guides": "Редактировать гидов",
@@ -255,5 +259,12 @@
   "details_sight.description": "Описание:",
   "details_sight.guides": "Гиды этой достопримечательности:",
 
-  "city_guides.guides": "Гиды города:"
+  "city_guides.guides": "Гиды города:",
+
+  "guide_request_modal.success": "Заявка успешно отправлена!",
+  "guide_request_modal.title": "Заявка на роль гида",
+  "guide_request_modal.contacts": "Контакты",
+  "guide_request_modal.description": "Описание",
+  "guide_request_modal.text_request": "Текст заявки",
+  "guide_request_modal.send": "Отправить"
 }

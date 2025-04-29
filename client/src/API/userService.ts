@@ -66,3 +66,16 @@ export async function checkCodePassword(email: string, code: string) {
   localStorage.setItem(LocalStorageKeys.TOKEN, data);
   return jwt_decode(data);
 }
+
+export async function createGuideRequest(
+  contacts: string,
+  description: string,
+  requestText: string,
+) {
+  const data = await adminHost.post("user/guide/request", {
+    requestText,
+    contacts,
+    description,
+  });
+  return data;
+}

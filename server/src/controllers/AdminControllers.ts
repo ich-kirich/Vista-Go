@@ -5,7 +5,7 @@ import logger from "../libs/logger";
 import Tag from "../../models/tag";
 import User from "../../models/user";
 import ApiError from "../error/apiError";
-import { ERROR, RECORD_DELETED } from "../libs/constants";
+import { ERROR, RECORD_DELETED, ROLES } from "../libs/constants";
 import {
   createRecordCity,
   createRecordGuide,
@@ -20,6 +20,8 @@ import {
   updateRecordGuide,
   updateRecordSight,
 } from "../services/adminServices";
+import GuideRequest from "../../models/guideRequest";
+import Guide from "../../models/guide";
 
 class AdminControllers {
   async createRecommend(req: Request, res: Response, next: NextFunction) {
@@ -405,6 +407,98 @@ class AdminControllers {
       return res.json(users);
     } catch (e) {
       logger.error("Error during getting users", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async getAllGuideRequests(req: Request, res: Response, next: NextFunction) {
+    try {
+      const guideRequests = await GuideRequest.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ["id", "name", "email"],
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+      });
+
+      logger.info("Fetched all guide requests with user info");
+      return res.json(guideRequests);
+    } catch (e) {
+      logger.error("Error during fetching guide requests", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async rejectGuideRequest(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const request = await GuideRequest.findByPk(id);
+      if (!request) {
+        logger.error(`Request with ID: ${id} not found`);
+        return next(
+          new ApiError(StatusCodes.NOT_FOUND, ERROR.GUIDE_REQUEST_NOT_FOUND),
+        );
+      }
+
+      await request.destroy();
+      logger.info(
+        `Application with ID: ${id} successfully rejected and deleted`,
+      );
+      return res.json({ message: "Application rejected and deleted" });
+    } catch (e) {
+      logger.error("Error when rejecting an application", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async acceptGuideRequest(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const request = await GuideRequest.findByPk(id);
+      if (!request) {
+        logger.error(`Application with ID: ${id} not found`);
+        return next(
+          new ApiError(StatusCodes.NOT_FOUND, ERROR.GUIDE_REQUEST_NOT_FOUND),
+        );
+      }
+
+      const user = await User.findByPk(request.userId);
+      if (!user) {
+        logger.error(`User with ID: ${request.userId} not found`);
+        return next(new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND));
+      }
+
+      user.role = ROLES.GUIDE;
+      await user.save();
+
+      await Guide.create({
+        userId: user.id,
+        contacts: request.contacts,
+        description: { en: request.description, ru: request.description },
+        name: { en: user.name, ru: user.name },
+        image: user.image,
+      });
+
+      await request.destroy();
+
+      logger.info(
+        `The application with ID: ${id} is accepted. User with ID: ${user.id} became a guide.`,
+      );
+      return res.json({
+        message: "Application accepted. The user has become a guide.",
+      });
+    } catch (e) {
+      logger.error("Error when accepting an application", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

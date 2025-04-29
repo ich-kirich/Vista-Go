@@ -199,3 +199,18 @@ export async function getUsers() {
   const response = await adminHost.get("admin/users/");
   return response;
 }
+
+export async function getGuidesRequests() {
+  const { data } = await adminHost.get("admin/guide/requests/");
+  return data;
+}
+
+export async function rejectGuideRequest(id: number) {
+  const response = await adminHost.delete(`admin/guide/request/${id}/reject/`);
+  return response;
+}
+
+export async function acceptGuideRequest(id: number) {
+  const response = await adminHost.post(`admin/guide/request/${id}/accept/`);
+  return response;
+}

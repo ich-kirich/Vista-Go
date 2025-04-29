@@ -4,13 +4,19 @@ import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
-import { ERROR, MIN_LENGTH_NAME, MIN_LENGTH_PASSWORD } from "../libs/constants";
+import {
+  ERROR,
+  GUIDES_REQUEST_STATUS,
+  MIN_LENGTH_NAME,
+  MIN_LENGTH_PASSWORD,
+} from "../libs/constants";
 import { generateJwt } from "../libs/jwtUtils";
 import VerificationPassword from "../../models/verificationPassword";
 import sendEmail from "../libs/sendEmails";
 import { uploadImage } from "../libs/utils";
 import logger from "../libs/logger";
 import VerificationUser from "../../models/verificationUser";
+import GuideRequest from "../../models/guideRequest";
 
 function generateVerificationCode() {
   const code = uuidv4().replace(/-/g, "").slice(0, 5);
@@ -305,4 +311,37 @@ export async function verificationPassword(password: string, email: string) {
   const verificationCode = await createVerificationPassword(email, password);
   const trySend = await sendEmail(verificationCode, email);
   return true;
+}
+
+export async function createGuideRequestService({
+  userId,
+  contacts,
+  description,
+  requestText,
+}: {
+  userId: number;
+  contacts: string;
+  description: string;
+  requestText: string;
+}) {
+  const existing = await GuideRequest.findOne({
+    where: { userId },
+  });
+
+  if (existing) {
+    throw new ApiError(
+      StatusCodes.CONFLICT,
+      ERROR.GUIDE_REQUEST_ALREADY_EXISTS,
+    );
+  }
+
+  const newRequest = await GuideRequest.create({
+    userId,
+    contacts,
+    description,
+    requestText,
+    status: GUIDES_REQUEST_STATUS.PENDING,
+  });
+
+  return newRequest;
 }

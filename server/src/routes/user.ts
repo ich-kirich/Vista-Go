@@ -1,5 +1,7 @@
 import { Router } from "express";
 import UserControllers from "../controllers/UserControllers";
+import { ROLES } from "../libs/constants";
+import checkRole from "../middleware/checkRoleMiddleware";
 
 const userRouter = Router();
 
@@ -13,6 +15,11 @@ userRouter.post(
 userRouter.post(
   "/password/check",
   UserControllers.checkVerificationUserPassword,
+);
+userRouter.post(
+  "/guide/request",
+  checkRole([ROLES.USER]),
+  UserControllers.createGuideRequest,
 );
 
 export default userRouter;

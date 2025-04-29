@@ -20,6 +20,7 @@ import AddTag from "./components/AddTag/AddTag";
 import { AdminEntity } from "../../libs/enums";
 import { useTranslation } from "react-i18next";
 import UsersTable from "./components/UsersTable/UsersTable";
+import GuideRequestsTable from "./components/GuideRequestsTable/GuideRequestsTable";
 
 function AdminPage() {
   const [visiblePanel, setVisiblePanel] = useState<AdminEntity | null>(null);
@@ -29,6 +30,12 @@ function AdminPage() {
     entity: AdminEntity.USERS,
     label: t("admin_page.users"),
     components: <UsersTable closeTable={setVisiblePanel} />,
+  };
+
+  const guideRequestsTable = {
+    entity: AdminEntity.GUIDE_REQUESTS,
+    label: t("admin_page.guides"),
+    components: <GuideRequestsTable closeList={setVisiblePanel} />,
   };
 
   const adminPanels = [
@@ -79,6 +86,8 @@ function AdminPage() {
     <Box className={styles.panel__wrapper}>
       {visiblePanel === usersTable.entity ? (
         <>{usersTable.components}</>
+      ) : visiblePanel === guideRequestsTable.entity ? (
+        <>{guideRequestsTable.components}</>
       ) : (
         <>
           {adminPanels.map(({ entity, components }) => (
@@ -115,6 +124,14 @@ function AdminPage() {
               onClick={() => setVisiblePanel(usersTable.entity)}
             >
               {usersTable.label}
+            </Button>
+            <Button
+              key={guideRequestsTable.entity}
+              variant="contained"
+              fullWidth
+              onClick={() => setVisiblePanel(guideRequestsTable.entity)}
+            >
+              {guideRequestsTable.label}
             </Button>
           </Box>
         </>

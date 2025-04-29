@@ -9,6 +9,7 @@ import SightTag from "./sightTag";
 import Tag from "./tag";
 import User from "./user";
 import GuideSight from "./GuideSight";
+import GuideRequest from "./guideRequest";
 
 const initDb = async () => {
   Sight.belongsToMany(Tag, {
@@ -26,6 +27,8 @@ const initDb = async () => {
   City.hasMany(Sight, { as: "sights" });
   User.hasOne(Guide, { foreignKey: "userId", as: "guideProfile" });
   Guide.belongsTo(User, { foreignKey: "userId", as: "user" });
+  GuideRequest.belongsTo(User, { foreignKey: "userId" });
+  User.hasMany(GuideRequest, { foreignKey: "userId" });
 
   await sequelize.authenticate();
   logger.info("Database connection established successfully");
