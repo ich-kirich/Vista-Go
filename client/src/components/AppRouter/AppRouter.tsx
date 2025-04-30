@@ -18,6 +18,7 @@ import AdminPage from "../../pages/AdminPage/AdminPage";
 import { Routes } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import GuidePage from "../../pages/GuidePage/GuidePage";
+import GeoMapPage from "../../pages/GeoMapPage/GeoMapPage";
 
 function AppRouter() {
   const { isAuth } = useTypedSelector((state) => state.auth);
@@ -60,6 +61,7 @@ function AppRouter() {
         <Route path={Routes.SIGHT_DETAILS} element={<SightPage />} />
         <Route path={Routes.CABINET} element={<CabinetPage />} />
         <Route path={Routes.GUIDE} element={<GuidePage />} />
+        <Route path={Routes.MAP} element={<GeoMapPage />} />
       </Route>
 
       <Route element={<AdminRoute />}>

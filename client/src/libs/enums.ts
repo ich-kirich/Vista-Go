@@ -9,6 +9,7 @@ export enum Routes {
   ERROR = "/error",
   ADMIN = "/admin",
   GUIDE = "/guide/:id",
+  MAP = "/map",
 }
 
 export enum AdminEntity {

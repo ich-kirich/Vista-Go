@@ -20,3 +20,4 @@ It is a sightseeing search app
 - To store images: [imgbb](https://imgbb.com)
 - To get the weather: [Open Weather Map](https://openweathermap.org)
 - To send Emails: [Zoho](https://www.zoho.com)
+- Map: [Yandex Map](https://developer.tech.yandex.ru/services)

@@ -4,6 +4,9 @@
     { "directory": "./server", "changeProcessCWD": true }
   ],
   "cSpell.words": [
-    "CODEPASS"
+    "balloonopen",
+    "CODEPASS",
+    "Placemark",
+    "ymaps"
   ]
 }
