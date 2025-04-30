@@ -8,6 +8,7 @@ import mime from "mime-types";
 import ApiError from "../error/apiError";
 import { ERROR } from "./constants";
 import logger from "./logger";
+import User from "../../models/user";
 
 async function uploadImageToApi(image: UploadedFile, name: string) {
   try {
@@ -77,4 +78,59 @@ export async function uploadImage(image: UploadedFile) {
   const fileName = `${uuidv4()}.${checkFile as string}`;
   const loadImage = await uploadImageToApi(image, fileName);
   return loadImage;
+}
+
+export function getCreateGuideRequestEmailTextForUser(
+  user: User,
+  contacts: string,
+  requestText: string,
+) {
+  return `Dear ${user.name},
+  We have received your guide application request and it is currently under review by our administration team.
+
+  The information you sent:
+
+  Email: ${user.email}
+  Contacts: ${contacts}
+  Request Text: ${requestText}
+
+  Thank you for your interest in becoming a guide!
+
+  Best regards,
+  Support Team`;
+}
+
+export function getCreateGuideRequestEmailTextForAdmin(
+  user: User,
+  userId: number,
+  contacts: string,
+  requestText: string,
+) {
+  return `A new guide request has been submitted.
+    User ID: ${userId}
+    Email: ${user.email}
+    Contacts: ${contacts}
+    Request Text: ${requestText}
+
+    Please review and process this request accordingly.`;
+}
+
+export function getRejectGuideRequestEmailTextForUser(userEmail: string) {
+  return `Dear ${userEmail},
+  We regret to inform you that your application to become a guide has been declined.
+
+  Thank you for your interest, and feel free to reapply in the future if your circumstances change.
+
+  Best regards,
+  Support Team`;
+}
+
+export function getAcceptGuideRequestEmailTextForUser(userEmail: string) {
+  return `Dear ${userEmail},
+  Congratulations! Your application to become a guide has been accepted.
+
+  You can now access guide features and begin your journey with us.
+
+  Best regards,
+  Support Team`;
 }

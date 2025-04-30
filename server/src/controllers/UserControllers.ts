@@ -143,7 +143,7 @@ class UserControllers {
 
   async createGuideRequest(req: Request, res: Response, next: NextFunction) {
     try {
-      const { contacts, description, requestText } = req.body;
+      const { contacts, requestText } = req.body;
       const token = req.headers.authorization?.split(" ")[1];
       const decoded = decodeJwt(token);
 
@@ -157,7 +157,6 @@ class UserControllers {
       const request = await createGuideRequestService({
         userId: decoded.id,
         contacts,
-        description,
         requestText,
       });
       logger.info(`Guide request created for user ID ${decoded.id}`);

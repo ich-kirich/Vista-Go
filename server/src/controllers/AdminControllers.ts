@@ -5,7 +5,12 @@ import logger from "../libs/logger";
 import Tag from "../../models/tag";
 import User from "../../models/user";
 import ApiError from "../error/apiError";
-import { ERROR, RECORD_DELETED, ROLES } from "../libs/constants";
+import {
+  EMAIL_SUBJECTS,
+  ERROR,
+  RECORD_DELETED,
+  ROLES,
+} from "../libs/constants";
 import {
   createRecordCity,
   createRecordGuide,
@@ -22,6 +27,11 @@ import {
 } from "../services/adminServices";
 import GuideRequest from "../../models/guideRequest";
 import Guide from "../../models/guide";
+import {
+  getAcceptGuideRequestEmailTextForUser,
+  getRejectGuideRequestEmailTextForUser,
+} from "../libs/utils";
+import sendEmail from "../libs/sendEmails";
 
 class AdminControllers {
   async createRecommend(req: Request, res: Response, next: NextFunction) {
@@ -448,6 +458,20 @@ class AdminControllers {
       }
 
       await request.destroy();
+
+      const user = await User.findByPk(request.dataValues.userId);
+      if (!user) {
+        logger.error("User with this ID not found", request.dataValues.userId);
+        throw new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND);
+      }
+      const userEmailText = getRejectGuideRequestEmailTextForUser(
+        user.dataValues.email,
+      );
+      await sendEmail(
+        [user.dataValues.email],
+        EMAIL_SUBJECTS.REJECT_GUIDE_REQUEST,
+        userEmailText,
+      );
       logger.info(
         `Application with ID: ${id} successfully rejected and deleted`,
       );
@@ -484,12 +508,21 @@ class AdminControllers {
       await Guide.create({
         userId: user.id,
         contacts: request.contacts,
-        description: { en: request.description, ru: request.description },
+        description: { en: "", ru: "" },
         name: { en: user.name, ru: user.name },
         image: user.image,
       });
 
       await request.destroy();
+
+      const userEmailText = getAcceptGuideRequestEmailTextForUser(
+        user.dataValues.email,
+      );
+      await sendEmail(
+        [user.dataValues.email],
+        EMAIL_SUBJECTS.ACCEPT_GUIDE_REQUEST,
+        userEmailText,
+      );
 
       logger.info(
         `The application with ID: ${id} is accepted. User with ID: ${user.id} became a guide.`,

@@ -64,7 +64,6 @@
   "admin_page.guides": "Guide requests",
   "admin_page.guides.close_list": "Close list",
   "admin_page.guides.contacts": "Contacts",
-  "admin_page.guides.description": "Description",
   "admin_page.guides.request_text": "Request text",
   "admin_page.guides.accept": "Accept",
   "admin_page.guides.reject": "Reject",
@@ -271,7 +270,6 @@
   "guide_request_modal.success": "Application successfully submitted!",
   "guide_request_modal.title": "Application for the role of tour guide",
   "guide_request_modal.contacts": "Contacts",
-  "guide_request_modal.description": "Description",
   "guide_request_modal.text_request": "Text of request",
   "guide_request_modal.send": "Send"
 }

@@ -23,10 +23,6 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       requestText: {
         type: DataTypes.STRING,
         allowNull: true,

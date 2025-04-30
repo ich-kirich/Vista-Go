@@ -61,6 +61,11 @@
   "admin_page.users.close_warning": "Закрыть",
 
   "admin_page.guide_requests": "Заявки гидов",
+  "admin_page.guides.close_list": "Закрыть список",
+  "admin_page.guides.contacts": "Контакты",
+  "admin_page.guides.request_text": "Текст заявки",
+  "admin_page.guides.accept": "Принять",
+  "admin_page.guides.reject": "Отклонить",
 
   "admin_page.edit.cities": "Редактировать города",
   "admin_page.edit.guides": "Редактировать гидов",
@@ -264,7 +269,6 @@
   "guide_request_modal.success": "Заявка успешно отправлена!",
   "guide_request_modal.title": "Заявка на роль гида",
   "guide_request_modal.contacts": "Контакты",
-  "guide_request_modal.description": "Описание",
   "guide_request_modal.text_request": "Текст заявки",
   "guide_request_modal.send": "Отправить"
 }

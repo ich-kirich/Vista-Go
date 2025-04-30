@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import ApiError from "../error/apiError";
 import logger from "./logger";
 
-async function sendEmail(code: string, emailToSend: string) {
+async function sendEmail(emailToSend: string[], subject: string, text: string) {
   const transporter = nodemailer.createTransport({
     host: config.get("email.name"),
     port: config.get("email.port"),
@@ -18,13 +18,18 @@ async function sendEmail(code: string, emailToSend: string) {
     const info = await transporter.sendMail({
       from: config.get("email.username"),
       to: emailToSend,
-      subject: "Verification Code Vista go",
-      text: `Verification Code: ${code}`,
+      subject,
+      text,
     });
-    logger.info("Message with verification code sent", info.messageId);
+    logger.info(
+      `Email with this subject: ${subject} and messageId: ${info.messageId} was sent`,
+    );
     return true;
   } catch (e) {
-    logger.error("Error during sent message with verification code", e);
+    logger.error(
+      `Error during sending an email with this subject: ${subject}`,
+      e,
+    );
     throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, e.message);
   }
 }

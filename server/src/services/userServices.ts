@@ -5,15 +5,21 @@ import { v4 as uuidv4 } from "uuid";
 import ApiError from "../error/apiError";
 import User from "../../models/user";
 import {
+  EMAIL_SUBJECTS,
   ERROR,
   GUIDES_REQUEST_STATUS,
   MIN_LENGTH_NAME,
   MIN_LENGTH_PASSWORD,
+  ROLES,
 } from "../libs/constants";
 import { generateJwt } from "../libs/jwtUtils";
 import VerificationPassword from "../../models/verificationPassword";
 import sendEmail from "../libs/sendEmails";
-import { uploadImage } from "../libs/utils";
+import {
+  getCreateGuideRequestEmailTextForAdmin,
+  getCreateGuideRequestEmailTextForUser,
+  uploadImage,
+} from "../libs/utils";
 import logger from "../libs/logger";
 import VerificationUser from "../../models/verificationUser";
 import GuideRequest from "../../models/guideRequest";
@@ -302,26 +308,34 @@ export async function registrationUser(
 ) {
   const checkInput = await validationRegistration(email, password, name);
   const verificationCode = await createVerification(email, name, password);
-  const trySend = await sendEmail(verificationCode, email);
+  const emailText = `Verification Code: ${verificationCode}`;
+  const trySend = await sendEmail(
+    [email],
+    EMAIL_SUBJECTS.VERIFICATION_CODE,
+    emailText,
+  );
   return true;
 }
 
 export async function verificationPassword(password: string, email: string) {
   const checkPassword = validatePassword(password, email);
   const verificationCode = await createVerificationPassword(email, password);
-  const trySend = await sendEmail(verificationCode, email);
+  const emailText = `Verification Code: ${verificationCode}`;
+  const trySend = await sendEmail(
+    [email],
+    EMAIL_SUBJECTS.VERIFICATION_CODE,
+    emailText,
+  );
   return true;
 }
 
 export async function createGuideRequestService({
   userId,
   contacts,
-  description,
   requestText,
 }: {
   userId: number;
   contacts: string;
-  description: string;
   requestText: string;
 }) {
   const existing = await GuideRequest.findOne({
@@ -335,13 +349,48 @@ export async function createGuideRequestService({
     );
   }
 
+  const user = await User.findByPk(userId);
+  if (!user) {
+    logger.error("User with this ID not found", userId);
+    throw new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND);
+  }
+
   const newRequest = await GuideRequest.create({
     userId,
     contacts,
-    description,
     requestText,
     status: GUIDES_REQUEST_STATUS.PENDING,
   });
+
+  const userEmailText = getCreateGuideRequestEmailTextForUser(
+    user,
+    contacts,
+    requestText,
+  );
+
+  await sendEmail(
+    [user.dataValues.email],
+    EMAIL_SUBJECTS.GUIDE_REQUEST,
+    userEmailText,
+  );
+
+  const adminUsers = await User.findAll({ where: { role: ROLES.ADMIN } });
+
+  if (!adminUsers) {
+    logger.error("Admins not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND);
+  }
+
+  const adminEmails = adminUsers.map((user) => user.email);
+
+  const adminEmailText = getCreateGuideRequestEmailTextForAdmin(
+    user,
+    userId,
+    contacts,
+    requestText,
+  );
+
+  await sendEmail(adminEmails, EMAIL_SUBJECTS.GUIDE_REQUEST, adminEmailText);
 
   return newRequest;
 }

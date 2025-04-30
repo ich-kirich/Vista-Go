@@ -59,3 +59,10 @@ export enum GUIDES_REQUEST_STATUS {
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
+
+export enum EMAIL_SUBJECTS {
+  VERIFICATION_CODE = "Verification Code Vista go",
+  GUIDE_REQUEST = "Guide Request Vista go",
+  REJECT_GUIDE_REQUEST = "Reject Guide Request Vista go",
+  ACCEPT_GUIDE_REQUEST = "Accept Guide Request Vista go",
+}

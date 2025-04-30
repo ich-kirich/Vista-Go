@@ -13,7 +13,6 @@ interface GuideRequestModalProps {
 
 function GuideRequestModal({ open, onClose }: GuideRequestModalProps) {
   const [contacts, setContacts] = useState("");
-  const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -24,7 +23,7 @@ function GuideRequestModal({ open, onClose }: GuideRequestModalProps) {
     setLoading(true);
     setError("");
     try {
-      await createGuideRequest(contacts, description, message);
+      await createGuideRequest(contacts, message);
       setSuccess(true);
     } catch (err: any) {
       setError(err?.response?.data?.message || t("app_error.unexpected_error"));
@@ -55,15 +54,6 @@ function GuideRequestModal({ open, onClose }: GuideRequestModalProps) {
               onChange={(e) => setContacts(e.target.value)}
               fullWidth
               margin="normal"
-            />
-            <TextField
-              label={t("guide_request_modal.description")}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              fullWidth
-              margin="normal"
-              multiline
-              rows={3}
             />
             <TextField
               label={t("guide_request_modal.text_request")}

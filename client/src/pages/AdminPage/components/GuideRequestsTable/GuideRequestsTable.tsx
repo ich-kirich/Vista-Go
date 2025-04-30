@@ -75,10 +75,6 @@ function GuideRequestsTable(props: { closeList: (state: null) => void }) {
                 {req.contacts}
               </Typography>
               <Typography sx={{ mt: 1 }}>
-                <strong>{t("admin_page.guides.description")}:</strong>{" "}
-                {req.description}
-              </Typography>
-              <Typography sx={{ mt: 1 }}>
                 <strong>{t("admin_page.guides.request_text")}:</strong>{" "}
                 {req.requestText}
               </Typography>
