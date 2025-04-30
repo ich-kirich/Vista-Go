@@ -270,5 +270,11 @@
   "guide_request_modal.title": "Заявка на роль гида",
   "guide_request_modal.contacts": "Контакты",
   "guide_request_modal.text_request": "Текст заявки",
-  "guide_request_modal.send": "Отправить"
+  "guide_request_modal.send": "Отправить",
+
+  "guide_page.name": "Имя:",
+  "guide_page.description": "Описание:",
+  "guide_page.contacts": "Контакты:",
+  "guide_page.cities": "Города:",
+  "guide_page.sights": "Достопримечательности"
 }

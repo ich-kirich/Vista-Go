@@ -1,0 +1,75 @@
+.guide__wrapper {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  margin: 20px;
+  padding: 10px 0;
+  box-shadow: 4px 4px 8px 5px #faf7f7;
+
+  @media screen and (max-width: 470px) {
+    flex-direction: column;
+  }
+}
+
+.guide__information {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 470px) {
+    flex-direction: column;
+  }
+}
+
+.guide__img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.guide__info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guide__header {
+  margin-top: 20px;
+}
+
+.guide__cities,
+.guide__sights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+}
+
+.city__tile,
+.sight__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 200px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #eaeaea;
+  cursor: pointer;
+}
+
+.tile__name {
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  text-align: center;
+}

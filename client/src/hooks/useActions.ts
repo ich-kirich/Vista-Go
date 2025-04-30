@@ -46,6 +46,7 @@ import {
   fetchBanUser,
   fetchUnBanUser,
 } from "../store/actionCreators/adminUsers";
+import fetchGuide from "../store/actionCreators/guide";
 
 const useActions = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const useActions = () => {
       fetchAllSights,
       fetchSight,
       fetchGuides,
+      fetchGuide,
       fetchRegistration,
       fetchUser,
       fetchUpdateUsername,

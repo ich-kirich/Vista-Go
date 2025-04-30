@@ -271,5 +271,11 @@
   "guide_request_modal.title": "Application for the role of tour guide",
   "guide_request_modal.contacts": "Contacts",
   "guide_request_modal.text_request": "Text of request",
-  "guide_request_modal.send": "Send"
+  "guide_request_modal.send": "Send",
+
+  "guide_page.name": "Name:",
+  "guide_page.description": "Description:",
+  "guide_page.contacts": "Contacts:",
+  "guide_page.cities": "Cities:",
+  "guide_page.sights": "Sights"
 }

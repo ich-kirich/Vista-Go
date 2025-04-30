@@ -39,6 +39,7 @@ export interface IGuide {
       en: string;
       ru: string;
     };
+    image: string;
   }[];
   sights: {
     id: number;
@@ -46,6 +47,8 @@ export interface IGuide {
       en: string;
       ru: string;
     };
+    image: string;
+    CityId: number;
   }[];
 }
 

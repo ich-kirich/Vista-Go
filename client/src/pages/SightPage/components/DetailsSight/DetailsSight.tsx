@@ -2,11 +2,19 @@ import { Box, Typography } from "@mui/material";
 import { ISightProps } from "../../../../types/types";
 import { useTranslation } from "react-i18next";
 import styles from "./DetailsSight.module.scss";
-import { Locales } from "../../../../libs/enums";
+import { Locales, Routes } from "../../../../libs/enums";
+import { useNavigate } from "react-router-dom";
+import { getRoute } from "../../../../libs/utils";
 
 function DetailsPopular({ sight }: ISightProps) {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
+  const navigate = useNavigate();
+
+  const viewGuide = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    navigate(getRoute(Routes.GUIDE, { id }));
+  };
 
   return (
     <Box className={styles.details__wrapper}>
@@ -59,6 +67,7 @@ function DetailsPopular({ sight }: ISightProps) {
                 sx={{
                   backgroundImage: `url(${item.image})`,
                 }}
+                onClick={(e) => viewGuide(e, item.id)}
               />
             ))}
           </Box>

@@ -46,6 +46,11 @@ function RecommendCart(props: IRecommendCartProps) {
     }
   };
 
+  const viewGuide = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    navigate(getRoute(Routes.GUIDE, { id }));
+  };
+
   return (
     <Box
       className={styles.recommends__img}
@@ -79,6 +84,7 @@ function RecommendCart(props: IRecommendCartProps) {
               sx={{
                 backgroundImage: `url(${item.image})`,
               }}
+              onClick={(e) => viewGuide(e, item.id)}
             />
           ))}
         </Box>

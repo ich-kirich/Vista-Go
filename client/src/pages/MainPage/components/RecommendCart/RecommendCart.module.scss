@@ -14,7 +14,13 @@
   height: 42px;
   width: 42px;
   border-radius: 50%;
+  transition: transform 0.3s ease, border 0.3s ease;
   @extend %backimg;
+
+  &:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 }
 
 .recommends__img {

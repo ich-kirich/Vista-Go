@@ -8,6 +8,7 @@ export enum Routes {
   REGISTRATION = "/registration",
   ERROR = "/error",
   ADMIN = "/admin",
+  GUIDE = "/guide/:id",
 }
 
 export enum AdminEntity {

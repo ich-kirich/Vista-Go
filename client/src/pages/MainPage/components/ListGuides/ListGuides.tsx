@@ -6,10 +6,14 @@ import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import { useTranslation } from "react-i18next";
 import styles from "./ListGuides.module.scss";
 import GuideRequestModal from "../GuideRequestModal/GuideRequestModal";
+import { useNavigate } from "react-router-dom";
+import { getRoute } from "../../../../libs/utils";
+import { Routes } from "../../../../libs/enums";
 
 function ListGuides() {
   const { fetchGuides } = useActions();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
@@ -17,6 +21,10 @@ function ListGuides() {
   useEffect(() => {
     if (!guides) fetchGuides();
   }, []);
+
+  const viewGuide = (id: number) => {
+    navigate(getRoute(Routes.GUIDE, { id }));
+  };
 
   return (
     <FetchWrapper loading={loading} error={error}>
@@ -36,6 +44,7 @@ function ListGuides() {
               sx={{
                 backgroundImage: `url(${item.image})`,
               }}
+              onClick={() => viewGuide(item.id)}
             />
           ))}
         <Button

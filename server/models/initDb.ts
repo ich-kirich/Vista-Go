@@ -21,7 +21,7 @@ const initDb = async () => {
   Guide.belongsToMany(City, { through: CityGuide, as: "cities" });
   Guide.belongsToMany(Sight, { through: GuideSight, as: "sights" });
   Sight.belongsToMany(Guide, { through: GuideSight, as: "guides" });
-  Sight.belongsTo(City);
+  Sight.belongsTo(City, { foreignKey: "CityId", as: "city" });
   Recommend.belongsTo(City);
   City.hasMany(Recommend);
   City.hasMany(Sight, { as: "sights" });
