@@ -12,14 +12,13 @@ function PopularControls({ sight }: ISightProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const closePage = () => {
+  const viewSightDetails = () => {
     if (id) navigate(getRoute(Routes.SIGHT_DETAILS, { id, sightId: sight.id }));
   };
 
-  const buttons = [
-    { label: t("popular_controls.details") },
-    { label: t("popular_controls.navigation") },
-  ];
+  const viewMap = () => {
+    navigate(Routes.MAP);
+  };
 
   return (
     <Box className={styles.btns__wrapper}>
@@ -28,21 +27,18 @@ function PopularControls({ sight }: ISightProps) {
         aria-label="text button group"
         className={styles.btns__group}
       >
-        {buttons.map(({ label }) => (
-          <Button key={label} className={styles.btn} onClick={closePage}>
-            <Typography
-              variant="h6"
-              component="h5"
-              className={styles.btn__text}
-            >
-              {label}
-            </Typography>
-            <ArrowForwardIosIcon
-              fontSize="small"
-              className={styles.btn__icon}
-            />
-          </Button>
-        ))}
+        <Button className={styles.btn} onClick={viewSightDetails}>
+          <Typography variant="h6" component="h5" className={styles.btn__text}>
+            {t("popular_controls.details")}
+          </Typography>
+          <ArrowForwardIosIcon fontSize="small" className={styles.btn__icon} />
+        </Button>
+        <Button className={styles.btn} onClick={viewMap}>
+          <Typography variant="h6" component="h5" className={styles.btn__text}>
+            {t("popular_controls.navigation")}
+          </Typography>
+          <ArrowForwardIosIcon fontSize="small" className={styles.btn__icon} />
+        </Button>
       </ButtonGroup>
     </Box>
   );
