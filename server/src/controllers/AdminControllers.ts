@@ -143,7 +143,7 @@ class AdminControllers {
 
   async createSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { tagIds, guideIds } = req.body;
+      const { tagIds, guideIds, lat, lon } = req.body;
       const { image } = req.files;
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -159,6 +159,8 @@ class AdminControllers {
         description,
         tagIds: tagIdsArr,
         guideIds: guideIdsArr,
+        lat,
+        lon,
       });
       logger.info("Sight was successfully created", sight);
       return res.json(sight);
@@ -172,7 +174,7 @@ class AdminControllers {
 
   async updateSight(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, tagIds, guideIds } = req.body;
+      const { id, tagIds, guideIds, lat, lon } = req.body;
       const { image } = req.files || {};
       const name = req.body.name
         ? JSON.parse(req.body.name)
@@ -189,6 +191,8 @@ class AdminControllers {
         description,
         tagIds: tagIdsArr,
         guideIds: guideIdsArr,
+        lat,
+        lon,
       });
       logger.info("Sight was successfully updated", sight);
       return res.json(sight);

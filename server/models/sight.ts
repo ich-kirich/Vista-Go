@@ -9,6 +9,10 @@ class Sight extends Model {
   public image!: string;
 
   public description!: object;
+
+  public lat!: string;
+
+  public lon!: string;
 }
 
 Sight.init(
@@ -39,6 +43,14 @@ Sight.init(
         const rawValue = this.getDataValue("description");
         return typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
       },
+    },
+    lat: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lon: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {

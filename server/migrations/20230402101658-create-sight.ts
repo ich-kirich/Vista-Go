@@ -28,6 +28,14 @@ export default {
           ru: "",
         },
       },
+      lat: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lon: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

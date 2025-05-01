@@ -63,6 +63,9 @@ export interface ISights {
     en: string;
     ru: string;
   };
+  lat: string;
+  lon: string;
+  CityId: number;
   tags: ITag[];
   guides: IGuide[];
 }
@@ -126,6 +129,8 @@ export interface ICreateSight {
     en: string;
     ru: string;
   };
+  lat: string;
+  lon: string;
   tagIds: number[];
   guideIds?: number[];
   image: File;
@@ -141,6 +146,8 @@ export interface IUpdateSight {
     en: string;
     ru: string;
   };
+  lat: string;
+  lon: string;
   tagIds: number[];
   guideIds?: number[];
   image: File | undefined;

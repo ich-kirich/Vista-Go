@@ -38,6 +38,11 @@
   "app_error.user_is_already_guide": "Пользователь уже является гидом",
   "app_error.guide_request_already_exists": "Заявка на получения статуса гида уже в процессе обработки",
   "app_error.guide_request_not_found": "Заявки на гидов не были получены",
+  "app_error.map.error_loading_api": "Не удалось загрузить API Яндекс Карт",
+  "app_error.map.error_building_route": "Ошибка построения маршрута",
+  "app_error.map.error_start_point": "Не удалось определить начальную точку маршрута",
+  "app_error.map.no_end_point" : "Не была найдена конечная точка маршрута",
+  "app_error.map.no_geo_position" : "Не удалось определить ваше местоположение. Убедитесь, что вы разрешили доступ к геолокации",
 
   "admin_entity.actions.add": "Добавить",
   "admin_entity.actions.update": "Обновить",
@@ -114,6 +119,10 @@
   "admin_page.add.sight.select_option": "Выберите",
   "admin_page.add.sight.guide_button": "Добавить гида",
   "admin_page.add.sight": "Добавить достопримечательность",
+  "admin_page.add.sight.lat_label": "Введите новую широту для достопримечательности",
+  "admin_page.add.sight.lat": "Введите новую широту",
+  "admin_page.add.sight.lon_label": "Введите новую долготу для достопримечательности",
+  "admin_page.add.sight.lon": "Введите новую долготу",
 
   "admin_page.add.tag.success": "Тег успешно добавлен",
   "admin_page.add.tag.name_label": "Введите название тега",
@@ -174,6 +183,10 @@
   "admin_page.update.sight.tag_button": "Добавить тег для достопримечательности",
   "admin_page.update.sight.add_guide": "Добавить гида для достопримечательности",
   "admin_page.update.sight.button": "Редактировать достопримечательность",
+  "admin_page.update.sight.lat_label": "Введите новую широту для достопримечательности",
+  "admin_page.update.sight.lat": "Введите новую широту",
+  "admin_page.update.sight.lon_label": "Введите новую долготу для достопримечательности",
+  "admin_page.update.sight.lon": "Введите новую долготу",
 
   "admin_page.update.tag.success": "Тег был успешно отредактирован",
   "admin_page.update.tag.select_label": "Выберите тег для редактирования",
@@ -276,5 +289,18 @@
   "guide_page.description": "Описание:",
   "guide_page.contacts": "Контакты:",
   "guide_page.cities": "Города:",
-  "guide_page.sights": "Достопримечательности"
+  "guide_page.sights": "Достопримечательности",
+
+  "map.point_route": "Точка маршрута",
+  "map.point_route_delete": "Удалить",
+  "map.route_building": "Построение маршрута...",
+  "map.end_point": "Конечная точка",
+  "map.distance": "Расстояние",
+  "map.travel_time": "Время в пути",
+  "map.route_build": "Маршрут построен",
+  "map.my_geo_position": "Мое местоположение",
+  "map.title": "Карта Достопримечательностей",
+  "map.start_route": "Построить маршрут",
+  "map.cancel_route": "Отменить маршрут",
+  "map.sights.tags": "Теги"
 }

@@ -13,7 +13,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import styles from "./AddSight.module.scss";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
-import { validateName } from "../../../../libs/utils";
+import { validateLat, validateLon, validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
 import { Locales } from "../../../../libs/enums";
 
@@ -22,12 +22,16 @@ function AddSight() {
   const [currentTab, setCurrentTab] = useState(0);
   const [nameSight, setNameSight] = useState({ en: "", ru: "" });
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
+  const [latSight, setLatSight] = useState("");
+  const [lonSight, setLonSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
   const [validationErrors, setValidationErrors] = useState({
     name: { en: null as string | null, ru: null as string | null },
     description: { en: null as string | null, ru: null as string | null },
+    latSight: null as string | null,
+    lonSight: null as string | null,
   });
 
   const { t, i18n } = useTranslation();
@@ -60,6 +64,18 @@ function AddSight() {
     setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
   };
 
+  const newLatSight = (value: string) => {
+    const error = validateLat(value);
+    setValidationErrors((prev) => ({ ...prev, latSight: error }));
+    setLatSight(value);
+  };
+
+  const newLonSight = (value: string) => {
+    const error = validateLon(value);
+    setValidationErrors((prev) => ({ ...prev, lonSight: error }));
+    setLonSight(value);
+  };
+
   const addSight = () => {
     setIsClick(true);
     if (imageSight) {
@@ -69,6 +85,8 @@ function AddSight() {
         tagIds: tagIdsSight,
         guideIds: guideIdsSight,
         image: imageSight,
+        lat: latSight,
+        lon: lonSight,
       });
     }
   };
@@ -126,9 +144,13 @@ function AddSight() {
       nameSight.ru &&
       descriptionSight.en &&
       descriptionSight.ru &&
+      latSight &&
+      lonSight &&
       tagIdsSight.length > 0 &&
       !Object.values(validationErrors.name).some(Boolean) &&
-      !Object.values(validationErrors.description).some(Boolean)
+      !Object.values(validationErrors.description).some(Boolean) &&
+      !validationErrors.latSight &&
+      !validationErrors.lonSight
     );
   };
 
@@ -200,6 +222,38 @@ function AddSight() {
               error={!!validationErrors.description.ru}
             />
           </Box>
+
+          <Typography variant="h6">
+            {t("admin_page.add.sight.lat_label")}:
+          </Typography>
+          <TextField
+            label={t("admin_page.add.sight.lat")}
+            type="text"
+            value={latSight}
+            onChange={(e) => newLatSight(e.target.value)}
+            required
+            fullWidth
+            error={!!validationErrors.latSight}
+            helperText={
+              validationErrors.latSight && t(`${validationErrors.latSight}`)
+            }
+          />
+
+          <Typography variant="h6" component="h2">
+            {t("admin_page.add.sight.lon_label")}:
+          </Typography>
+          <TextField
+            label={t("admin_page.add.sight.lon")}
+            type="text"
+            value={lonSight}
+            onChange={(e) => newLonSight(e.target.value)}
+            required
+            fullWidth
+            error={!!validationErrors.lonSight}
+            helperText={
+              validationErrors.lonSight && t(`${validationErrors.lonSight}`)
+            }
+          />
 
           <Typography variant="h6">
             {t("admin_page.add.sight.image_label")}

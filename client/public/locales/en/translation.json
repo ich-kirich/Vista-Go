@@ -38,6 +38,11 @@
   "app_error.user_is_already_guide": "User is already a guide",
   "app_error.guide_request_already_exists": "Guide request already exists",
   "app_error.guide_request_not_found": "Guide requests were not found",
+  "app_error.map.error_loading_api": "Error loading Yandex map API",
+  "app_error.map.error_building_route": "Route construction error",
+  "app_error.map.error_start_point": "The starting point of the route could not be determined",
+  "app_error.map.no_end_point" : "The destination point of the route was not found",
+  "app_error.map.no_geo_position" : "Could not determine your location. Make sure you have enabled geo location access",
   
 
   "admin_entity.actions.add": "Add",
@@ -115,6 +120,10 @@
   "admin_page.add.sight.tag_button": "Add tag for sight",
   "admin_page.add.sight.guide_button": "Add guide",
   "admin_page.add.sight": "Add sight",
+  "admin_page.add.sight.lat_label": "Enter a lat for the sight",
+  "admin_page.add.sight.lat": "Enter lat",
+  "admin_page.add.sight.lon_label": "Enter a lat for the sight",
+  "admin_page.add.sight.lon": "Enter lon",
 
   "admin_page.add.tag.success": "The tag was successfully added",
   "admin_page.add.tag.name_label": "Enter a name for the tag",
@@ -175,6 +184,10 @@
   "admin_page.update.sight.tag_button": "Add tag for sight",
   "admin_page.update.sight.add_guide": "Add guide for sight",
   "admin_page.update.sight.button": "Edit Sight",
+  "admin_page.update.sight.lat_label": "Enter a lat of sight",
+  "admin_page.update.sight.lat": "Enter lat",
+  "admin_page.update.sight.lon_label": "Enter a lon of sight",
+  "admin_page.update.sight.lon": "Enter lon",
 
   "admin_page.update.tag.success": "The tag was successfully edited",
   "admin_page.update.tag.select_label": "Select a tag for editing",
@@ -277,5 +290,18 @@
   "guide_page.description": "Description:",
   "guide_page.contacts": "Contacts:",
   "guide_page.cities": "Cities:",
-  "guide_page.sights": "Sights"
+  "guide_page.sights": "Sights",
+
+  "map.point_route": "Waypoint",
+  "map.point_route_delete": "Delete",
+  "map.route_building": "Route building...",
+  "map.end_point": "End point",
+  "map.distance": "Distance",
+  "map.travel_time": "Travel time",
+  "map.route_build": "Route is build",
+  "map.my_geo_position": "My geo position",
+  "map.title": "Sightseeing Map",
+  "map.start_route": "Build route",
+  "map.cancel_route": "Cancel route",
+  "map.sights.tags": "Tags"
 }

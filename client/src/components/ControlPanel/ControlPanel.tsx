@@ -28,6 +28,9 @@ function ControlPanel() {
         className={classNames(
           location.pathname.includes("/city") && styles.icon_active,
         )}
+        onClick={() => {
+          navigate(Routes.MAP);
+        }}
       >
         <LocationOnIcon />
       </IconButton>

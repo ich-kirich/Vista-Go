@@ -13,7 +13,7 @@ import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UpdateSight.module.scss";
-import { validateName } from "../../../../libs/utils";
+import { validateLat, validateLon, validateName } from "../../../../libs/utils";
 import { useTranslation } from "react-i18next";
 import { Locales } from "../../../../libs/enums";
 
@@ -22,6 +22,8 @@ function UpdateSight() {
   const [currentTab, setCurrentTab] = useState(0);
   const [nameSight, setNameSight] = useState({ en: "", ru: "" });
   const [descriptionSight, setDescriptionSight] = useState({ en: "", ru: "" });
+  const [latSight, setLatSight] = useState("");
+  const [lonSight, setLonSight] = useState("");
   const [tagIdsSight, setTagIdsSight] = useState<number[]>([]);
   const [guideIdsSight, setGuideIdsSight] = useState<number[]>([]);
   const [imageSight, setImageSight] = useState<File>();
@@ -29,6 +31,8 @@ function UpdateSight() {
   const [validationErrors, setValidationErrors] = useState({
     name: { en: null as string | null, ru: null as string | null },
     description: { en: null as string | null, ru: null as string | null },
+    latSight: null as string | null,
+    lonSight: null as string | null,
   });
 
   const { t, i18n } = useTranslation();
@@ -52,6 +56,8 @@ function UpdateSight() {
       setChooseSight(String(firstSight.id));
       setNameSight(firstSight.name);
       setDescriptionSight(firstSight.description);
+      setLatSight(String(firstSight.lat));
+      setLonSight(String(firstSight.lon));
       setTagIdsSight(firstSight.tags.map((tag) => tag.id));
       setGuideIdsSight(firstSight.guides?.map((guide) => guide.id) || []);
     }
@@ -64,6 +70,8 @@ function UpdateSight() {
     if (selectedSight) {
       setNameSight(selectedSight.name);
       setDescriptionSight(selectedSight.description);
+      setLatSight(String(selectedSight.lat));
+      setLonSight(String(selectedSight.lon));
       setTagIdsSight(selectedSight.tags.map((tag) => tag.id));
       setGuideIdsSight(selectedSight.guides?.map((guide) => guide.id) || []);
     }
@@ -87,6 +95,8 @@ function UpdateSight() {
       tagIds: tagIdsSight,
       guideIds: guideIdsSight,
       image: imageSight,
+      lat: latSight,
+      lon: lonSight,
     });
   };
 
@@ -101,6 +111,18 @@ function UpdateSight() {
 
   const newDescriptionSight = (value: string, lang: "en" | "ru") => {
     setDescriptionSight((prev) => ({ ...prev, [lang]: value }));
+  };
+
+  const newLatSight = (value: string) => {
+    const error = validateLat(value);
+    setValidationErrors((prev) => ({ ...prev, latSight: error }));
+    setLatSight(value);
+  };
+
+  const newLonSight = (value: string) => {
+    const error = validateLon(value);
+    setValidationErrors((prev) => ({ ...prev, lonSight: error }));
+    setLonSight(value);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -156,7 +178,11 @@ function UpdateSight() {
       !validationErrors.name.en &&
       !validationErrors.name.ru &&
       !validationErrors.description.en &&
-      !validationErrors.description.ru
+      !validationErrors.description.ru &&
+      latSight !== null &&
+      lonSight !== null &&
+      !validationErrors.latSight &&
+      !validationErrors.lonSight
     );
   };
 
@@ -241,6 +267,38 @@ function UpdateSight() {
               error={!!validationErrors.description.ru}
             />
           </Box>
+
+          <Typography variant="h6">
+            {t("admin_page.update.sight.lat_label")}:
+          </Typography>
+          <TextField
+            label={t("admin_page.update.sight.lat")}
+            type="text"
+            value={latSight}
+            onChange={(e) => newLatSight(e.target.value)}
+            required
+            fullWidth
+            error={!!validationErrors.latSight}
+            helperText={
+              validationErrors.latSight && t(`${validationErrors.latSight}`)
+            }
+          />
+
+          <Typography variant="h6" component="h2">
+            {t("admin_page.update.sight.lon_label")}:
+          </Typography>
+          <TextField
+            label={t("admin_page.update.sight.lon")}
+            type="text"
+            value={lonSight}
+            onChange={(e) => newLonSight(e.target.value)}
+            required
+            fullWidth
+            error={!!validationErrors.lonSight}
+            helperText={
+              validationErrors.lonSight && t(`${validationErrors.lonSight}`)
+            }
+          />
 
           <Typography variant="h6">
             {t("admin_page.update.sight.image_label")}

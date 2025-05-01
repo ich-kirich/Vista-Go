@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
+import styles from "./GeoMapPage.module.scss";
+import Loader from "../../components/Loader/Loader";
+import { Locales, Routes } from "../../libs/enums";
+import useTypedSelector from "../../hooks/useTypedSelector";
+import useActions from "../../hooks/useActions";
+import { ISights } from "../../types/types";
+import { useNavigate } from "react-router-dom";
+import { getRoute } from "../../libs/utils";
 
 const YANDEX_API_URL = process.env.REACT_APP_YANDEX_API_URL || "";
 
@@ -22,6 +30,10 @@ declare global {
 }
 
 function GeoMapPage(): JSX.Element {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language as Locales;
+  const navigate = useNavigate();
+
   const mapRef = useRef<HTMLDivElement | null>(null);
   const ymapsRef = useRef<YMapsApi | null>(null);
   const mapInstanceRef = useRef<YMapInstance | null>(null);
@@ -34,27 +46,32 @@ function GeoMapPage(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [intermediatePoints, setIntermediatePoints] = useState<number[][]>([]);
 
+  const sightsData = useTypedSelector((state) => state.sights);
+  const { fetchAllSights } = useActions();
+
+  useEffect(() => {
+    fetchAllSights();
+  }, []);
+
+  const viewSight = (id: number, sightId: number) => {
+    navigate(getRoute(Routes.SIGHT_DETAILS, { id, sightId }));
+  };
+
   const loadYandexMapsScript = (): Promise<YMapsApi> => {
     return new Promise((resolve, reject) => {
-      if (window.ymaps) {
-        ymapsRef.current = window.ymaps;
-        resolve(window.ymaps);
-        return;
-      }
-
+      const apiLanguage = `&lang=${
+        language === Locales.RU ? "ru_RU" : "en_US"
+      }`;
       const existingScript = document.querySelector(
-        `script[src="${YANDEX_API_URL}"]`,
+        `script[src="${YANDEX_API_URL}${apiLanguage}"]`,
       );
       if (existingScript) {
-        existingScript.addEventListener("load", () => {
-          ymapsRef.current = window.ymaps;
-          resolve(window.ymaps);
-        });
-        return;
+        existingScript?.parentNode?.removeChild(existingScript);
+        window.ymaps = null;
       }
 
       const script = document.createElement("script");
-      script.src = YANDEX_API_URL;
+      script.src = YANDEX_API_URL + apiLanguage;
       script.async = true;
       script.onload = () => {
         window.ymaps.ready(() => {
@@ -63,13 +80,61 @@ function GeoMapPage(): JSX.Element {
         });
       };
       script.onerror = (err) => {
-        console.error("Ошибка загрузки Yandex Maps API:", err);
-        setError("Не удалось загрузить API Яндекс Карт.");
+        console.error(t("app_error.map.error_loading_api"), err);
+        setError(t("app_error.map.error_loading_api"));
         setIsLoading(false);
         reject(err);
       };
       document.body.appendChild(script);
+      setIsLoading(false);
     });
+  };
+
+  const addSightToMap = (
+    sight: ISights,
+    ymaps: YMapsApi,
+    map: YMapInstance,
+  ) => {
+    const coords: [number, number] = [Number(sight.lat), Number(sight.lon)];
+    const placemark = new ymaps.Placemark(
+      coords,
+      {
+        hintContent: sight.name[language] || sight.name.en,
+        balloonContentBody: `
+          <div class="${styles.balloon}">
+          <img src="${sight.image}" alt="${
+          sight.name[language] || sight.name.en
+        }" id="balloon-img-${sight.id}">
+            <h6>${sight.name[language] || sight.name.en}</h6>
+            ${
+              sight.tags && sight.tags.length > 0
+                ? `
+                  <div>
+                    <strong>${t("map.sights.tags")}:</strong> ${sight.tags
+                    .map((tag) => tag.name[language] || tag.name.en)
+                    .join(", ")}
+                  </div>
+                `
+                : ""
+            }
+          </div>
+        `,
+      },
+      {
+        preset: "islands#redDotIcon",
+      },
+    );
+
+    placemark.events.add("balloonopen", () => {
+      const img = document.getElementById(`balloon-img-${sight.id}`);
+      if (img) {
+        img.onclick = () => {
+          viewSight(sight.CityId, sight.id);
+        };
+      }
+    });
+
+    map.geoObjects.add(placemark);
   };
 
   const addRoutePoint = (
@@ -80,10 +145,12 @@ function GeoMapPage(): JSX.Element {
     const newPlacemark = new ymaps.Placemark(
       coords,
       {
-        hintContent: "Точка маршрута",
-        balloonContentBody: `<button id="remove-point-${coords.join(
-          "-",
-        )}">Удалить</button>`,
+        hintContent: t("map.point_route"),
+        balloonContentBody: `<button class="${
+          styles.removeButton
+        }" id="remove-point-${coords.join("-")}">${t(
+          "map.point_route_delete",
+        )}</button>`,
       },
       {
         preset: "islands#blueCircleDotIcon",
@@ -132,7 +199,7 @@ function GeoMapPage(): JSX.Element {
   ) => {
     if (!ymaps || !mapInstanceRef.current) return;
 
-    setRouteInfo("Построение маршрута...");
+    setRouteInfo(t("map.route_building"));
 
     if (currentRouteRef.current && mapInstanceRef.current) {
       mapInstanceRef.current.geoObjects.remove(currentRouteRef.current);
@@ -147,32 +214,35 @@ function GeoMapPage(): JSX.Element {
 
         const points = route.getWayPoints();
         const lastPoint = points.get(points.getLength() - 1);
-        const humanLength = route.getHumanLength();
-        const humanTime = route.getHumanTime();
-
+        const humanLength = route.getHumanLength().replace(/&#160;/g, " ");
+        const humanTime = route.getHumanTime().replace(/&#160;/g, " ");
         lastPoint.properties.set({
-          iconContent: "Конец",
-          balloonContentHeader: "Конечная точка",
-          balloonContentBody: `Расстояние: ${humanLength}<br>Время в пути: ${humanTime}`,
+          balloonContentHeader: t("map.end_point"),
+          balloonContentBody: `${t("map.distance")}: ${humanLength}<br>${t(
+            "map.travel_time",
+          )}: ${humanTime}`,
         });
 
         setRouteInfo(
-          `Маршрут построен. Расстояние: ${humanLength}, Время: ${humanTime}`,
+          `${t("map.route_build")}. ${t("map.distance")}: ${humanLength}, ${t(
+            "map.travel_time",
+          )}: ${humanTime}`,
         );
       })
       .catch((err: YMapError) => {
-        console.error("Ошибка построения маршрута:", err);
-        const message = err.message || "Не удалось построить маршрут.";
+        console.error(t("app_error.map.error_building_route"), err);
+        const message = err.message || t("app_error.map.error_building_route");
         setRouteInfo("");
         setError((prev) =>
           prev
-            ? `${prev}\nОшибка маршрута: ${message}`
-            : `Ошибка маршрута: ${message}`,
+            ? `${prev}\n${t("app_error.map.error_building_route")}: ${message}`
+            : `${t("app_error.map.error_building_route")}: ${message}`,
         );
       });
   };
 
   const cancelRoute = () => {
+    setError(null);
     if (currentRouteRef.current && mapInstanceRef.current) {
       mapInstanceRef.current.geoObjects.remove(currentRouteRef.current);
       currentRouteRef.current = null;
@@ -181,21 +251,32 @@ function GeoMapPage(): JSX.Element {
   };
 
   const handleMapDblClick = (event: any) => {
+    setError(null);
     if (!ymapsRef.current || !mapInstanceRef.current) return;
     const coords = event.get("coords");
     addRoutePoint(coords, ymapsRef.current, mapInstanceRef.current);
   };
 
   const handleStartRoute = () => {
+    setError(null);
     if (!ymapsRef.current || !mapInstanceRef.current || !userLocation) {
-      setError("Не удалось определить начальную точку маршрута.");
+      setError(t("app_error.map.error_start_point"));
       return;
     }
+
+    let endPoint: number[] | undefined;
+    if (intermediatePoints.length > 0) {
+      endPoint = intermediatePoints[intermediatePoints.length - 1];
+    } else {
+      setError(t("app_error.map.no_end_point"));
+      return;
+    }
+
     buildRouteWithPoints(
       ymapsRef.current,
       userLocation,
-      [52.370216, 4.895168],
-      intermediatePoints,
+      endPoint,
+      intermediatePoints.slice(0, -1),
     );
   };
 
@@ -204,81 +285,104 @@ function GeoMapPage(): JSX.Element {
     setError(null);
     setRouteInfo("");
 
-    loadYandexMapsScript()
-      .then((ymaps: YMapsApi) => {
-        if (!mapRef.current) return;
-
-        mapInstanceRef.current = new ymaps.Map(
-          mapRef.current,
-          {
-            center: [52.37, 4.89],
-            zoom: 10,
-            controls: [
-              "zoomControl",
-              "fullscreenControl",
-              "geolocationControl",
-            ],
-          },
-          {
-            minZoom: 3,
-            restrictMapArea: [
-              [80, -179],
-              [-80, 180],
-            ],
-          },
-        );
-        mapInstanceRef.current.events.add("dblclick", handleMapDblClick);
-
-        ymaps.geolocation
-          .get({
-            provider: "browser",
-            mapStateAutoApply: true,
-          })
-          .then((result: YMapGeoLocationResult) => {
-            const coords: number[] = result.geoObjects
+    if (sightsData.sights) {
+      let initialCenter = [49.8, 73.1];
+      loadYandexMapsScript()
+        .then(async (ymaps: YMapsApi) => {
+          try {
+            const result = await ymaps.geolocation.get({
+              provider: "browser",
+              mapStateAutoApply: true,
+            });
+            const userCoords = result.geoObjects
               .get(0)
               .geometry.getCoordinates();
-            setUserLocation(coords);
+            initialCenter = userCoords;
+          } catch (error: any) {
+            console.error(t("app_error.map.no_geo_position"), error);
+            setError(t("app_error.map.no_geo_position"));
+          } finally {
+            if (mapRef.current && !mapInstanceRef.current) {
+              mapInstanceRef.current = new ymaps.Map(
+                mapRef.current,
+                {
+                  center: initialCenter,
+                  zoom: 10,
+                  controls: [
+                    "zoomControl",
+                    "fullscreenControl",
+                    "geolocationControl",
+                  ],
+                },
+                {
+                  minZoom: 3,
+                  restrictMapArea: [
+                    [80, -179],
+                    [-80, 180],
+                  ],
+                },
+              );
+              mapInstanceRef.current.events.add("dblclick", handleMapDblClick);
 
-            result.geoObjects.options.set("preset", "islands#redCircleIcon");
-            result.geoObjects.get(0).properties.set({
-              balloonContentBody: "Мое местоположение",
-            });
-            mapInstanceRef.current.geoObjects.add(result.geoObjects);
+              if (sightsData.sights) {
+                sightsData.sights.forEach((sight) => {
+                  addSightToMap(sight, ymaps, mapInstanceRef.current);
+                });
+              }
 
-            setIsLoading(false);
-          })
-          .catch((err: YMapError) => {
-            console.error("Ошибка геолокации:", err);
-            setError(
-              "Не удалось определить ваше местоположение. Убедитесь, что вы разрешили доступ к геолокации.",
-            );
+              const geolocationControl =
+                mapInstanceRef.current.controls.get("geolocationControl");
+              if (geolocationControl) {
+                geolocationControl.events.add(
+                  "locationchange",
+                  (event: any) => {
+                    const newCoords = event.get("position");
+                    setUserLocation(newCoords);
 
-            if (mapInstanceRef.current) {
-              setIsLoading(false);
+                    if (intermediatePoints.length > 0) {
+                      buildRouteWithPoints(
+                        ymaps,
+                        newCoords,
+                        intermediatePoints[intermediatePoints.length - 1],
+                        intermediatePoints.slice(0, -1),
+                      );
+                    }
+                  },
+                );
+              } else {
+                console.error(t("app_error.map.no_geo_position"));
+                setError(t("app_error.map.no_geo_position"));
+                setIsLoading(false);
+              }
             }
-          });
-      })
-      .catch((err) => {
-        setIsLoading(false);
-      });
+          }
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
 
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.destroy();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, []);
+      return () => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.destroy();
+          mapInstanceRef.current = null;
+        }
+      };
+    }
+  }, [sightsData.sights]);
   return (
-    <Box sx={{ padding: 5 }}>
-      <Typography variant="h5" gutterBottom>
-        Яндекс Карта (React + TS + Mui)
+    <Box className={styles.map}>
+      <Typography
+        variant="h6"
+        component="h2"
+        className={styles.map__title}
+        gutterBottom
+      >
+        {t("map.title")}
       </Typography>
 
-      {error && (
-        <Alert severity="error" sx={{ marginBottom: 2 }}>
-          {error.split("\n").map((line, index) => (
+      {(error || sightsData.error) && (
+        <Alert severity="error" className={styles.map__error}>
+          {(error || sightsData.error)?.split("\n").map((line, index) => (
             <React.Fragment key={index}>
               {line}
               <br />
@@ -287,68 +391,35 @@ function GeoMapPage(): JSX.Element {
         </Alert>
       )}
 
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: "600px",
-          marginBottom: 2,
-          border: "1px solid #ccc",
-        }}
-      >
-        {isLoading && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.7)",
-              zIndex: 10,
-            }}
-          >
-            <CircularProgress />
-            <Typography sx={{ marginLeft: 1 }}>Загрузка карты...</Typography>
+      <Box className={styles.map__wrapper}>
+        {(isLoading || sightsData.loading) && (
+          <Box className={styles.map__loading}>
+            <Loader />
           </Box>
         )}
-        <Box ref={mapRef} sx={{ width: "100%", height: "100%" }} />
+        <Box ref={mapRef} className={styles.map__container} />
       </Box>
 
-      {userLocation && (
-        <Typography variant="body1" gutterBottom>
-          Ваши координаты: {userLocation.join(", ")}
-        </Typography>
-      )}
-      {intermediatePoints.length > 0 && (
-        <Typography variant="body2" gutterBottom>
-          Выбраны точки маршрута:{" "}
-          {intermediatePoints
-            .map((point) => `[${point.join(", ")}]`)
-            .join("; ")}
-        </Typography>
-      )}
-      {routeInfo && (
-        <Typography variant="body1" gutterBottom>
-          {routeInfo}
-        </Typography>
-      )}
+      <Box className={styles.map__info}>
+        {routeInfo && (
+          <Typography variant="body1" gutterBottom>
+            {routeInfo}
+          </Typography>
+        )}
 
-      <Stack direction="row" spacing={2}>
-        {intermediatePoints.length > 0 && userLocation && (
-          <Button variant="contained" onClick={handleStartRoute}>
-            Старт маршрута
-          </Button>
-        )}
-        {currentRouteRef.current && (
-          <Button variant="outlined" onClick={cancelRoute}>
-            Отменить маршрут
-          </Button>
-        )}
-      </Stack>
+        <Stack direction="row" spacing={2}>
+          {intermediatePoints.length > 0 && userLocation && (
+            <Button variant="contained" onClick={handleStartRoute}>
+              {t("map.start_route")}
+            </Button>
+          )}
+          {currentRouteRef.current && (
+            <Button variant="outlined" onClick={cancelRoute}>
+              {t("map.cancel_route")}
+            </Button>
+          )}
+        </Stack>
+      </Box>
     </Box>
   );
 }

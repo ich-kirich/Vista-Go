@@ -241,7 +241,15 @@ export async function deleteRecordTag(id: number) {
 }
 
 export async function createRecordSight(params: ICreateRecordSight) {
-  const { image, name, description, tagIds = [], guideIds = [] } = params;
+  const {
+    image,
+    name,
+    description,
+    tagIds = [],
+    guideIds = [],
+    lat,
+    lon,
+  } = params;
 
   const transaction = await sequelize.transaction();
 
@@ -278,6 +286,8 @@ export async function createRecordSight(params: ICreateRecordSight) {
         name,
         image: loadImage,
         description,
+        lat,
+        lon,
       },
       { transaction },
     );
@@ -307,7 +317,16 @@ export async function createRecordSight(params: ICreateRecordSight) {
 }
 
 export async function updateRecordSight(params: IUpdateRecordSight) {
-  const { id, image, name, description, tagIds = [], guideIds = [] } = params;
+  const {
+    id,
+    image,
+    name,
+    description,
+    tagIds = [],
+    guideIds = [],
+    lat,
+    lon,
+  } = params;
 
   const transaction = await sequelize.transaction();
 
@@ -322,7 +341,7 @@ export async function updateRecordSight(params: IUpdateRecordSight) {
       );
     }
 
-    const updateData: any = { description, name };
+    const updateData: any = { description, name, lat, lon };
 
     if (image) {
       const loadImage = await uploadImage(image);

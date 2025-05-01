@@ -30,6 +30,8 @@ export interface ICreateRecordSight {
   description: string;
   tagIds: string[];
   guideIds: string[];
+  lat: string;
+  lon: string;
 }
 
 export interface IUpdateRecordSight extends ICreateRecordSight {
