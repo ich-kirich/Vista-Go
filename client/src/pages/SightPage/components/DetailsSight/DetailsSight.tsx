@@ -24,7 +24,7 @@ function DetailsPopular({ sight }: ISightProps) {
           backgroundImage: `url(${sight.image})`,
         }}
       />
-      {sight.tags && (
+      {sight.tags.length > 0 && (
         <Box className={styles.details__tags}>
           <Typography variant="h6" component="h5">
             {t("details_sight.tags")}
@@ -54,7 +54,7 @@ function DetailsPopular({ sight }: ISightProps) {
           </Typography>
         </Box>
       )}
-      {sight.guides && (
+      {sight.guides.length > 0 && (
         <>
           <Typography variant="h6" component="h5">
             {t("details_sight.guides")}
