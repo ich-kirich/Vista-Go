@@ -1,5 +1,5 @@
 import { Box, Typography, NativeSelect, Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -12,12 +12,28 @@ function DeleteTag() {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchTags, fetchDeleteTag } = useActions();
+  const { fetchTags, fetchDeleteTag, clearErrors } = useActions();
   const tag = useTypedSelector((state) => state.tag);
   useEffect(() => {
     fetchTags();
   }, [tag.loading]);
   const { tags, error, loading } = useTypedSelector((state) => state.tags);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || tag.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["tags", "tag"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, tag.error]);
 
   const selectTag = (value: string) => {
     setChooseTag(value);

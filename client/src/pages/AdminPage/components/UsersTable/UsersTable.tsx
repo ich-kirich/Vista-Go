@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -36,13 +36,29 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { t } = useTranslation();
 
-  const { fetchUsers, fetchBanUser, fetchUnBanUser } = useActions();
+  const { fetchUsers, fetchBanUser, fetchUnBanUser, clearErrors } =
+    useActions();
 
   const { users, error, loading } = useTypedSelector((state) => state.users);
 
   useEffect(() => {
     if (!users) fetchUsers();
   }, [users]);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["users"]);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error]);
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -114,20 +130,15 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
   );
 
   return (
-    <FetchWrapper
-      loading={loading || loadingAction}
-      error={error || errorMessage}
-    >
-      {users && (
-        <Box className={styles.table__wrapper}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={() => closeTable(null)}
-          >
-            {t("admin_page.users.close_table")}
-          </Button>
-
+    <Box className={styles.table__wrapper}>
+      <Button variant="contained" fullWidth onClick={() => closeTable(null)}>
+        {t("admin_page.users.close_table")}
+      </Button>
+      <FetchWrapper
+        loading={loading || loadingAction}
+        error={error || errorMessage}
+      >
+        {users && (
           <Box>
             <TableContainer>
               <Table>
@@ -209,9 +220,9 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
               </DialogActions>
             </Dialog>
           </Box>
-        </Box>
-      )}
-    </FetchWrapper>
+        )}
+      </FetchWrapper>
+    </Box>
   );
 }
 

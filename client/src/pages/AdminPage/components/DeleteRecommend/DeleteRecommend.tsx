@@ -1,5 +1,5 @@
 import { Typography, NativeSelect, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -13,7 +13,7 @@ function DeleteRecommend() {
 
   const language = i18n.language as Locales;
 
-  const { fetchRecommends, fetchDeleteRecommend } = useActions();
+  const { fetchRecommends, fetchDeleteRecommend, clearErrors } = useActions();
   const recommend = useTypedSelector((state) => state.recommend);
   useEffect(() => {
     fetchRecommends();
@@ -21,6 +21,22 @@ function DeleteRecommend() {
   const { recommends, error, loading } = useTypedSelector(
     (state) => state.recommends,
   );
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || recommend.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["recommends", "recommend"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, recommend.error]);
 
   const selectRecommend = (value: string) => {
     setChooseRecommend(value);

@@ -5,7 +5,7 @@ import {
   CircularProgress,
   Paper,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./GuideRequestsTable.module.scss";
 import {
   acceptGuideRequest,
@@ -47,6 +47,21 @@ function GuideRequestsTable(props: { closeList: (state: null) => void }) {
     })();
   }, []);
 
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error) {
+      timeoutRef.current = setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error]);
+
   const handleAccept = async (id: number) => {
     await acceptGuideRequest(id);
     setRequests((prev) => prev.filter((r) => r.id !== id));
@@ -58,11 +73,11 @@ function GuideRequestsTable(props: { closeList: (state: null) => void }) {
   };
 
   return (
-    <FetchWrapper loading={loading} error={error}>
-      <Box className={styles.cardList}>
-        <Button variant="contained" fullWidth onClick={() => closeList(null)}>
-          {t("admin_page.guides.close_list")}
-        </Button>
+    <Box className={styles.cardList}>
+      <Button variant="contained" fullWidth onClick={() => closeList(null)}>
+        {t("admin_page.guides.close_list")}
+      </Button>
+      <FetchWrapper loading={loading} error={error}>
         {requests &&
           requests.map((req) => (
             <Paper elevation={3} key={req.id} className={styles.card}>
@@ -96,8 +111,8 @@ function GuideRequestsTable(props: { closeList: (state: null) => void }) {
               </Box>
             </Paper>
           ))}
-      </Box>
-    </FetchWrapper>
+      </FetchWrapper>
+    </Box>
   );
 }
 

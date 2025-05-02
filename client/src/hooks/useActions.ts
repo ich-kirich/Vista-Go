@@ -47,6 +47,7 @@ import {
   fetchUnBanUser,
 } from "../store/actionCreators/adminUsers";
 import fetchGuide from "../store/actionCreators/guide";
+import { clearErrors } from "../store/actionCreators/clearErrors";
 
 const useActions = () => {
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ const useActions = () => {
       fetchUsers,
       fetchBanUser,
       fetchUnBanUser,
+      clearErrors,
     },
     dispatch,
   );

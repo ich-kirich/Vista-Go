@@ -1,5 +1,5 @@
 import { Box, Typography, Button, TextField, Tabs, Tab } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -20,8 +20,24 @@ function AddTag() {
   });
   const { t } = useTranslation();
 
-  const { fetchAddTag } = useActions();
+  const { fetchAddTag, clearErrors } = useActions();
   const { error, loading } = useTypedSelector((state) => state.tag);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["tag"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);

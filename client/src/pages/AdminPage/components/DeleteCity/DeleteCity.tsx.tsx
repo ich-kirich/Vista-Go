@@ -1,5 +1,5 @@
 import { Box, Typography, NativeSelect, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -13,12 +13,28 @@ function DeleteCity() {
 
   const language = i18n.language as Locales;
 
-  const { fetchCities, fetchDeleteCity } = useActions();
+  const { fetchCities, fetchDeleteCity, clearErrors } = useActions();
   const city = useTypedSelector((state) => state.city);
   useEffect(() => {
     fetchCities();
   }, [city.loading]);
   const { cities, error, loading } = useTypedSelector((state) => state.cities);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || city.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["cities", "city"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, city.error]);
 
   const selectCity = (value: string) => {
     setChooseCity(value);

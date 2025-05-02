@@ -7,7 +7,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -37,7 +37,8 @@ function AddSight() {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchCreateSight, fetchTags, fetchGuides } = useActions();
+  const { fetchCreateSight, fetchTags, fetchGuides, clearErrors } =
+    useActions();
   const { error, loading } = useTypedSelector((state) => state.sight);
   const tags = useTypedSelector((state) => state.tags);
   const guides = useTypedSelector((state) => state.guides);
@@ -46,6 +47,22 @@ function AddSight() {
     fetchTags();
     fetchGuides();
   }, []);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || guides.error || tags.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["tags", "guides", "sight"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, guides.error, tags.error]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -155,7 +172,10 @@ function AddSight() {
   };
 
   return (
-    <>
+    <FetchWrapper
+      loading={loading || tags.loading || guides.loading}
+      error={error || guides.error || tags.error}
+    >
       {isClick ? (
         <FetchWrapper loading={loading} error={error}>
           <Typography variant="h6">
@@ -359,7 +379,7 @@ function AddSight() {
           </Button>
         </Box>
       )}
-    </>
+    </FetchWrapper>
   );
 }
 

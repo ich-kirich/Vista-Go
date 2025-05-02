@@ -7,7 +7,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -41,14 +41,35 @@ function UpdateSight() {
   const sight = useTypedSelector((state) => state.sight);
   const tags = useTypedSelector((state) => state.tags);
   const guides = useTypedSelector((state) => state.guides);
-  const { fetchTags, fetchAllSights, fetchUpdateSight, fetchGuides } =
-    useActions();
+  const {
+    fetchTags,
+    fetchAllSights,
+    fetchUpdateSight,
+    fetchGuides,
+    clearErrors,
+  } = useActions();
 
   useEffect(() => {
     fetchTags();
     fetchAllSights();
     fetchGuides();
   }, [sight.loading]);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (sight.error || sights.error || tags.error || guides.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["sight", "sights", "tags", "guides"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [sight.error, sights.error, tags.error, guides.error]);
 
   useEffect(() => {
     if (sights.sights && sights.sights.length > 0) {

@@ -7,7 +7,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent, useEffect, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -30,11 +30,13 @@ function AddCity() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string | null;
   }>({});
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchCreateCity, fetchAllSights, fetchGuides } = useActions();
+  const { fetchCreateCity, fetchAllSights, fetchGuides, clearErrors } =
+    useActions();
   const sights = useTypedSelector((state) => state.sights);
   const city = useTypedSelector((state) => state.city);
   const guides = useTypedSelector((state) => state.guides);
@@ -43,6 +45,21 @@ function AddCity() {
     fetchGuides();
     fetchAllSights();
   }, []);
+
+  useEffect(() => {
+    if (guides.error || city.error || sights.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["guides", "city", "sights"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [guides.error, city.error, sights.error]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);

@@ -19,3 +19,5 @@ export const CONTEXT = React.createContext({} as IContext);
 
 export const LOCAL_STORAGE_KEY_SPINNER_DATE = "spinnerDate";
 export const LOCAL_STORAGE_KEY_SPINNER_INDEX = "spinnerIndex";
+
+export const CLEAR_REDUX__ERRORS = "CLEAR_ERRORS";

@@ -1,5 +1,5 @@
 import { Typography, NativeSelect, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -12,12 +12,28 @@ function DeleteGuide() {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchGuides, fetchDeleteGuide } = useActions();
+  const { fetchGuides, fetchDeleteGuide, clearErrors } = useActions();
   const guide = useTypedSelector((state) => state.guide);
   useEffect(() => {
     fetchGuides();
   }, [guide.loading]);
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || guide.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["guides", "guide"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, guide.error]);
 
   const selectGuide = (value: string) => {
     setChooseGuide(value);

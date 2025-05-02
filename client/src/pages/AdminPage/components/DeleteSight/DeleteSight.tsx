@@ -1,5 +1,5 @@
 import { Typography, NativeSelect, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -12,12 +12,28 @@ function DeleteSight() {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Locales;
 
-  const { fetchAllSights, fetchDeleteSight } = useActions();
+  const { fetchAllSights, fetchDeleteSight, clearErrors } = useActions();
   const sight = useTypedSelector((state) => state.sight);
   useEffect(() => {
     fetchAllSights();
   }, [sight.loading]);
   const { sights, error, loading } = useTypedSelector((state) => state.sights);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || sight.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["sights", "sight"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, sight.error]);
 
   const selectSight = (value: string) => {
     setChooseSight(value);

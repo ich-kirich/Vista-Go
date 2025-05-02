@@ -7,7 +7,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -29,7 +29,7 @@ function UpdateTag() {
   });
   const { t } = useTranslation();
 
-  const { fetchTags, fetchUpdateTag } = useActions();
+  const { fetchTags, fetchUpdateTag, clearErrors } = useActions();
   const tag = useTypedSelector((state) => state.tag);
 
   useEffect(() => {
@@ -37,6 +37,22 @@ function UpdateTag() {
   }, [tag.loading]);
 
   const { tags, error, loading } = useTypedSelector((state) => state.tags);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || tag.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["tags", "tag"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [tag.error, error]);
 
   useEffect(() => {
     if (tags && tags.length > 0) {

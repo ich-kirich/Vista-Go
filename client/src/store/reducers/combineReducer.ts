@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { AnyAction, combineReducers } from "redux";
 import recommendReducer from "./recommendReducer";
 import authReducer from "./authReducer";
 import citiesReducer from "./citiesReducer";
@@ -15,8 +15,9 @@ import tagReducer from "./tagReducer";
 import tagsReducer from "./tagsReducer";
 import userReducer from "./userReducer";
 import usersReducer from "./usersReducer";
+import { CLEAR_REDUX__ERRORS } from "../../libs/constants";
 
-export const rootReducer = combineReducers({
+const combinedReducer = combineReducers({
   cities: citiesReducer,
   recommends: recommendsReducer,
   city: cityReducer,
@@ -35,4 +36,17 @@ export const rootReducer = combineReducers({
   users: usersReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export const rootReducer = (state: any, action: AnyAction) => {
+  if (action.type === CLEAR_REDUX__ERRORS) {
+    const newState = { ...state };
+    action.payload.forEach((domain: any) => {
+      if (newState[domain]) {
+        newState[domain] = { ...newState[domain], error: null };
+      }
+    });
+    return newState;
+  }
+  return combinedReducer(state, action);
+};
+
+export type RootState = ReturnType<typeof combinedReducer>;

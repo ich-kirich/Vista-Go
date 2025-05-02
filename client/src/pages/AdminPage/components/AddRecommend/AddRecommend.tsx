@@ -1,5 +1,5 @@
 import { Box, Typography, NativeSelect, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
@@ -13,12 +13,28 @@ function AddRecommend() {
 
   const language = i18n.language as Locales;
 
-  const { fetchCities, fetchAddRecommend } = useActions();
+  const { fetchCities, fetchAddRecommend, clearErrors } = useActions();
   useEffect(() => {
     fetchCities();
   }, []);
   const { cities, error, loading } = useTypedSelector((state) => state.cities);
   const recommend = useTypedSelector((state) => state.recommend);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (error || recommend.error) {
+      timeoutRef.current = setTimeout(() => {
+        clearErrors(["cities", "recommend"]);
+        setIsClick(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [error, recommend.error]);
 
   const selectCity = (value: string) => {
     setCity(value);
