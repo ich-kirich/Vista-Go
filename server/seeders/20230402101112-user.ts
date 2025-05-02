@@ -28,7 +28,7 @@ export default {
         updatedAt: now,
       },
       {
-        name: "Andrey Medvedik",
+        name: "Andrey Udilchenko",
         email: "andrey@example.com",
         password: passwordHash,
         image: "https://i.ibb.co/Nd9MBTwd/andr.png",

@@ -13,8 +13,6 @@ export const SLIDER_SETTINGS = {
   variableWidth: true,
 };
 
-export const ADMIN_ROLE = "ADMIN";
-
 export const CONTEXT = React.createContext({} as IContext);
 
 export const LOCAL_STORAGE_KEY_SPINNER_DATE = "spinnerDate";

@@ -77,3 +77,10 @@ export async function createGuideRequest(
   });
   return data;
 }
+
+export async function createSupportRequest(requestText: string) {
+  const data = await adminHost.post("user/support/request", {
+    requestText,
+  });
+  return data;
+}

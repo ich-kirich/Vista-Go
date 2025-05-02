@@ -22,4 +22,10 @@ userRouter.post(
   UserControllers.createGuideRequest,
 );
 
+userRouter.post(
+  "/support/request",
+  checkRole([ROLES.GUIDE]),
+  UserControllers.createRequestForAdmin,
+);
+
 export default userRouter;

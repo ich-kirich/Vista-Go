@@ -7,13 +7,19 @@ import {
   FormControl,
   InputLabel,
   SelectChangeEvent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CabinetPage.module.scss";
 import { IUser } from "../../types/types";
 import ViewError from "../../components/ViewError/ViewError";
-import { ADMIN_ROLE } from "../../libs/constants";
 import ChangeUsername from "./components/ChangeUsername/ChangeUsername";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import ChangeImage from "./components/ChangeImage/ChangeImage";
@@ -23,12 +29,15 @@ import {
   Auth,
   Locales,
   LocalStorageKeys,
+  ROLES,
   Routes,
   User,
 } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { createSupportRequest } from "../../api/userService";
+import Loader from "../../components/Loader/Loader";
 
 function CabinetPage() {
   const { t, i18n } = useTranslation();
@@ -43,6 +52,12 @@ function CabinetPage() {
   const navigate = useNavigate();
   const { user } = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const [supportModalOpen, setSupportModalOpen] = useState(false);
+  const [supportMessage, setSupportMessage] = useState("");
+  const [supportLoading, setSupportLoading] = useState(false);
+  const [supportError, setSupportError] = useState<string | null>(null);
+  const [supportSuccess, setSupportSuccess] = useState(false);
 
   useEffect(() => {
     const token = user || getValidToken();
@@ -68,6 +83,29 @@ function CabinetPage() {
     const newLanguage = event.target.value;
     setSelectedLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
+  };
+
+  const handleSupportSubmit = async () => {
+    setSupportLoading(true);
+    setSupportError(null);
+    try {
+      await createSupportRequest(supportMessage);
+      setSupportSuccess(true);
+      setSupportMessage("");
+    } catch (err) {
+      setSupportError(
+        t("cabinet.support_send_error") || t("app_error.unexpected_error"),
+      );
+    } finally {
+      setSupportLoading(false);
+    }
+  };
+
+  const handleSupportClose = () => {
+    setSupportModalOpen(false);
+    setSupportMessage("");
+    setSupportError(null);
+    setSupportSuccess(false);
   };
 
   if (error) return <ViewError>{error}</ViewError>;
@@ -122,13 +160,23 @@ function CabinetPage() {
             {t(`cabinet.change_${field}`)}
           </Button>
         ))}
-        {user && user.role === ADMIN_ROLE && (
+        {user && user.role === ROLES.ADMIN && (
           <Button
             variant="contained"
             fullWidth
             onClick={() => navigate(Routes.ADMIN)}
           >
             {t("cabinet.admin_panel")}
+          </Button>
+        )}
+        {(user?.role === ROLES.GUIDE ||
+          getValidToken()?.role === ROLES.GUIDE) && (
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => setSupportModalOpen(true)}
+          >
+            {t("cabinet.contact_admin")}
           </Button>
         )}
         <Button variant="contained" fullWidth onClick={logout}>
@@ -149,6 +197,51 @@ function CabinetPage() {
           email={userInfo?.email}
         />
       )}
+
+      <Dialog fullWidth open={supportModalOpen} onClose={handleSupportClose}>
+        <DialogTitle>{t("cabinet.support_title_modal")}</DialogTitle>
+        <DialogContent>
+          {!supportLoading && !supportError && !supportSuccess && (
+            <TextField
+              label={t("cabinet.support_message")}
+              multiline
+              rows={4}
+              fullWidth
+              value={supportMessage}
+              onChange={(e) => setSupportMessage(e.target.value)}
+            />
+          )}
+          {supportLoading && (
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+              <CircularProgress />
+            </Box>
+          )}
+          {supportError && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {supportError}
+            </Alert>
+          )}
+          {supportSuccess && (
+            <Alert severity="success" sx={{ mt: 2 }}>
+              {t("cabinet.support_success")}
+            </Alert>
+          )}
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleSupportClose} disabled={supportLoading}>
+            {t("cabinet.close_email_form")}
+          </Button>
+          <Button
+            onClick={handleSupportSubmit}
+            disabled={
+              supportLoading || supportSuccess || !supportMessage.trim()
+            }
+          >
+            {t("cabinet.send")}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

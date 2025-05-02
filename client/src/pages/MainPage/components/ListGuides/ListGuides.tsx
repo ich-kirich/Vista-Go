@@ -8,7 +8,7 @@ import styles from "./ListGuides.module.scss";
 import GuideRequestModal from "../GuideRequestModal/GuideRequestModal";
 import { useNavigate } from "react-router-dom";
 import { getRoute, getValidToken } from "../../../../libs/utils";
-import { Routes } from "../../../../libs/enums";
+import { ROLES, Routes } from "../../../../libs/enums";
 
 function ListGuides() {
   const { fetchGuides } = useActions();
@@ -28,8 +28,7 @@ function ListGuides() {
   };
 
   const viewGuideRequestModal = () => {
-    const userInfo = user || getValidToken();
-    userInfo ? setIsModalOpen(true) : navigate(Routes.LOGIN);
+    user || getValidToken() ? setIsModalOpen(true) : navigate(Routes.LOGIN);
   };
 
   return (

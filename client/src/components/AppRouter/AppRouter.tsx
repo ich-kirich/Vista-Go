@@ -13,9 +13,8 @@ import SightPage from "../../pages/SightPage/SightPage";
 import SightsPage from "../../pages/SightsPage/SightsPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import CabinetPage from "../../pages/CabinetPage/CabinetPage";
-import { ADMIN_ROLE } from "../../libs/constants";
 import AdminPage from "../../pages/AdminPage/AdminPage";
-import { Routes } from "../../libs/enums";
+import { ROLES, Routes } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import GuidePage from "../../pages/GuidePage/GuidePage";
 import GeoMapPage from "../../pages/GeoMapPage/GeoMapPage";
@@ -41,7 +40,7 @@ function AppRouter() {
       return <Navigate to={Routes.LOGIN} replace />;
     }
 
-    if (user?.role !== ADMIN_ROLE) {
+    if (user?.role !== ROLES.ADMIN) {
       return <Navigate to={Routes.HOME} replace />;
     }
 

@@ -204,6 +204,15 @@
   "cabinet.select_language": "Выберите язык",
   "cabinet.language_english": "Английский",
   "cabinet.language_russian": "Русский",
+  "cabinet.support_title_modal": "Отправьте письмо тех поддержке",
+  "cabinet.support_send_email_error": "Ошибка отправки письма тех поддержке",
+  "cabinet.contact_admin": "Связаться с тех поддержкой",
+  "cabinet.support_message": "Текст письма",
+  "cabinet.support_success": "Письмо успешно отправлено",
+  "cabinet.close_email_form": "Закрыть",
+  "cabinet.send": "Отправить",
+  "cabinet.support_send_error": "Ошибка отправки письма",
+  
 
   "change_username.enter_name": "Введите ваше имя",
   "change_username.save_name": "Сохранить имя",

@@ -13,8 +13,10 @@ import {
   verificationPassword,
   createGuideRequestService,
 } from "../services/userServices";
-import { CODE_SEND, ERROR, ROLES } from "../libs/constants";
+import { CODE_SEND, EMAIL_SUBJECTS, ERROR, ROLES } from "../libs/constants";
 import logger from "../libs/logger";
+import User from "../../models/user";
+import sendEmail from "../libs/sendEmails";
 
 class UserControllers {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -163,6 +165,45 @@ class UserControllers {
       return res.status(StatusCodes.CREATED).json(request);
     } catch (e) {
       logger.error("Error creating guide request", e);
+      return next(
+        new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
+      );
+    }
+  }
+
+  async createRequestForAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { requestText } = req.body;
+      const token = req.headers.authorization?.split(" ")[1];
+      const decoded = decodeJwt(token);
+
+      if (decoded.role !== ROLES.GUIDE) {
+        logger.error(
+          `Error creating request for admin from user with this email: ${decoded.email}`,
+        );
+        return next(new ApiError(StatusCodes.FORBIDDEN, ERROR.NO_ACCESS));
+      }
+
+      const adminUsers = await User.findAll({ where: { role: ROLES.ADMIN } });
+
+      if (!adminUsers) {
+        logger.error("Admins not found");
+        throw new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND);
+      }
+
+      const adminEmails = adminUsers.map((user) => user.email);
+
+      const fullMessage = `Email: ${decoded.email}\n\\n${requestText}`;
+
+      await sendEmail(
+        adminEmails,
+        EMAIL_SUBJECTS.REQUEST_FOR_ADMIN,
+        fullMessage,
+      );
+      logger.info(`Request for admin created for user ID ${decoded.id}`);
+      return res.status(StatusCodes.CREATED).json({ success: true });
+    } catch (e) {
+      logger.error("Error creating request for admin", e);
       return next(
         new ApiError(e.status || StatusCodes.INTERNAL_SERVER_ERROR, e.message),
       );

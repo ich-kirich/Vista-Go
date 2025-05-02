@@ -169,3 +169,9 @@ export enum Locales {
   RU = "ru",
   EN = "en",
 }
+
+export enum ROLES {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  GUIDE = "GUIDE",
+}

@@ -65,4 +65,5 @@ export enum EMAIL_SUBJECTS {
   GUIDE_REQUEST = "Guide Request Vista go",
   REJECT_GUIDE_REQUEST = "Reject Guide Request Vista go",
   ACCEPT_GUIDE_REQUEST = "Accept Guide Request Vista go",
+  REQUEST_FOR_ADMIN = "Request for admin Vista go",
 }
