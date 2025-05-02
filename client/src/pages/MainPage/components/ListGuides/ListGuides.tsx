@@ -7,13 +7,14 @@ import { useTranslation } from "react-i18next";
 import styles from "./ListGuides.module.scss";
 import GuideRequestModal from "../GuideRequestModal/GuideRequestModal";
 import { useNavigate } from "react-router-dom";
-import { getRoute } from "../../../../libs/utils";
+import { getRoute, getValidToken } from "../../../../libs/utils";
 import { Routes } from "../../../../libs/enums";
 
 function ListGuides() {
   const { fetchGuides } = useActions();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useTypedSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { guides, error, loading } = useTypedSelector((state) => state.guides);
@@ -24,6 +25,11 @@ function ListGuides() {
 
   const viewGuide = (id: number) => {
     navigate(getRoute(Routes.GUIDE, { id }));
+  };
+
+  const viewGuideRequestModal = () => {
+    const userInfo = user || getValidToken();
+    userInfo ? setIsModalOpen(true) : navigate(Routes.LOGIN);
   };
 
   return (
@@ -50,7 +56,7 @@ function ListGuides() {
         <Button
           variant="text"
           className={styles.guide__joying}
-          onClick={() => setIsModalOpen(true)}
+          onClick={viewGuideRequestModal}
         >
           {t("list_guides.join")}
         </Button>

@@ -245,6 +245,7 @@
   "recovery_password.send_verification_code": "Отправить код подтверждения на email",
 
   "main_page.greeting": "Привет,",
+  "main_page.guest": "Гость",
   "main_page.destination_question": "Куда ты хочешь поехать?",
 
   "search_field.placeholder": "Введите направление",

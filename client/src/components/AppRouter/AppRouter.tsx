@@ -53,10 +53,10 @@ function AppRouter() {
       <Route path={Routes.LOGIN} element={<LoginPage />} />
       <Route path={Routes.REGISTRATION} element={<RegistrationPage />} />
       <Route path={Routes.ERROR} element={<ErrorPage />} />
+      <Route path={Routes.HOME} element={<MainPage />} />
+      <Route path={Routes.CITY} element={<CityPage />} />
 
       <Route element={<ProtectedRoute />}>
-        <Route path={Routes.HOME} element={<MainPage />} />
-        <Route path={Routes.CITY} element={<CityPage />} />
         <Route path={Routes.SIGHTS} element={<SightsPage />} />
         <Route path={Routes.SIGHT_DETAILS} element={<SightPage />} />
         <Route path={Routes.CABINET} element={<CabinetPage />} />

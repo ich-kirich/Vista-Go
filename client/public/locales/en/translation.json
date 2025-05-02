@@ -246,6 +246,7 @@
   "recovery_password.send_verification_code": "Send Verification code on email",
 
   "main_page.greeting": "Hi,",
+  "main_page.guest": "Guest",
   "main_page.destination_question": "Where do you want to go?",
 
   "search_field.placeholder": "Input destination",

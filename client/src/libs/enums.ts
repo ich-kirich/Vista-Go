@@ -1,10 +1,10 @@
 export enum Routes {
-  HOME = "/home",
+  HOME = "/",
   CITY = "/city/:id",
   CABINET = "/cabinet",
   SIGHTS = "/city/:id/sights",
   SIGHT_DETAILS = "/city/:id/sights/:sightId",
-  LOGIN = "/",
+  LOGIN = "/login",
   REGISTRATION = "/registration",
   ERROR = "/error",
   ADMIN = "/admin",
