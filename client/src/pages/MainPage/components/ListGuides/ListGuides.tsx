@@ -52,13 +52,16 @@ function ListGuides() {
               onClick={() => viewGuide(item.id)}
             />
           ))}
-        <Button
-          variant="text"
-          className={styles.guide__joying}
-          onClick={viewGuideRequestModal}
-        >
-          {t("list_guides.join")}
-        </Button>
+        {(user || getValidToken())?.role !== ROLES.GUIDE &&
+          (user || getValidToken())?.role !== ROLES.ADMIN && (
+            <Button
+              variant="text"
+              className={styles.guide__joying}
+              onClick={viewGuideRequestModal}
+            >
+              {t("list_guides.join")}
+            </Button>
+          )}
       </Box>
       <GuideRequestModal
         open={isModalOpen}

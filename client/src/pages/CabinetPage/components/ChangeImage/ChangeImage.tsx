@@ -1,19 +1,14 @@
 import { Box, Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IChangeUsernameProps } from "../../../../types/types";
-import Loader from "../../../../components/Loader/Loader";
-import ViewError from "../../../../components/ViewError/ViewError";
 import { useTranslation } from "react-i18next";
 import styles from "./ChangeImage.module.scss";
 import useActions from "../../../../hooks/useActions";
-import useTypedSelector from "../../../../hooks/useTypedSelector";
 
 function ChangeImage(props: IChangeUsernameProps) {
   const { visible, setVisible } = props;
-  const [displayError, setDisplayError] = useState(false);
 
   const { fetchUpdateUserImage } = useActions();
-  const { error, loading } = useTypedSelector((state) => state.user);
   const { t } = useTranslation();
 
   const closeNameField = () => {
@@ -21,23 +16,11 @@ function ChangeImage(props: IChangeUsernameProps) {
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    setDisplayError(true);
-    fetchUpdateUserImage(file);
-  };
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (error) {
-      timer = setTimeout(() => {
-        setDisplayError(false);
-      }, 5000);
+    if (event.target.files) {
+      const file = event.target.files[0];
+      fetchUpdateUserImage(file);
     }
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [error]);
+  };
 
   return (
     <Box>
@@ -55,11 +38,6 @@ function ChangeImage(props: IChangeUsernameProps) {
             </Button>
           </Box>
         </Box>
-      )}
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>{error && displayError && <ViewError>{error}</ViewError>}</Box>
       )}
     </Box>
   );

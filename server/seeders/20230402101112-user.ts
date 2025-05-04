@@ -18,6 +18,16 @@ export default {
         updatedAt: now,
       },
       {
+        name: "Kirill Medved",
+        email: "kirill.medzvedz@gmail.com",
+        password: passwordHash,
+        image: "https://i.ibb.co/JvKSP4t/default.png",
+        role: "ADMIN",
+        isBanned: false,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
         name: "User",
         email: "user@gmail.com",
         password: passwordHash,

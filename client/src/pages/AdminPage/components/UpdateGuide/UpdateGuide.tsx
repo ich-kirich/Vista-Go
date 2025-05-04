@@ -224,6 +224,11 @@ function UpdateGuide() {
               value={nameGuide.en}
               onChange={(e) => newNameGuide(e.target.value, "en")}
               fullWidth
+              error={!!validationErrors.nameGuide_en}
+              helperText={
+                validationErrors.nameGuide_en &&
+                t(`${validationErrors.nameGuide_en}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.update.guide.description")} (English)
@@ -245,6 +250,11 @@ function UpdateGuide() {
               value={nameGuide.ru}
               onChange={(e) => newNameGuide(e.target.value, "ru")}
               fullWidth
+              error={!!validationErrors.nameGuide_ru}
+              helperText={
+                validationErrors.nameGuide_ru &&
+                t(`${validationErrors.nameGuide_ru}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.update.guide.description")} (Русский)

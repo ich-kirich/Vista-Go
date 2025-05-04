@@ -251,6 +251,9 @@ function UpdateSight() {
               value={nameSight.en}
               onChange={(e) => newNameSight(e.target.value, "en")}
               error={!!validationErrors.name.en}
+              helperText={
+                validationErrors.name.en && t(`${validationErrors.name.en}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.update.sight.description")} (English)
@@ -262,6 +265,10 @@ function UpdateSight() {
               value={descriptionSight.en}
               onChange={(e) => newDescriptionSight(e.target.value, "en")}
               error={!!validationErrors.description.en}
+              helperText={
+                validationErrors.description.en &&
+                t(`${validationErrors.description.en}`)
+              }
             />
           </Box>
 
@@ -275,6 +282,9 @@ function UpdateSight() {
               value={nameSight.ru}
               onChange={(e) => newNameSight(e.target.value, "ru")}
               error={!!validationErrors.name.ru}
+              helperText={
+                validationErrors.name.ru && t(`${validationErrors.name.ru}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.update.sight.description")} (Русский)
@@ -286,6 +296,10 @@ function UpdateSight() {
               value={descriptionSight.ru}
               onChange={(e) => newDescriptionSight(e.target.value, "ru")}
               error={!!validationErrors.description.ru}
+              helperText={
+                validationErrors.description.ru &&
+                t(`${validationErrors.description.ru}`)
+              }
             />
           </Box>
 

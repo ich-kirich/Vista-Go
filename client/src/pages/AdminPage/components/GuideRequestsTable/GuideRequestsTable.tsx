@@ -63,13 +63,27 @@ function GuideRequestsTable(props: { closeList: (state: null) => void }) {
   }, [error]);
 
   const handleAccept = async (id: number) => {
-    await acceptGuideRequest(id);
-    setRequests((prev) => prev.filter((r) => r.id !== id));
+    try {
+      setLoading(true);
+      await acceptGuideRequest(id);
+      setRequests((prev) => prev.filter((r) => r.id !== id));
+    } catch (e: any) {
+      setError(e?.response?.data?.message || t("app_error.unexpected_error"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleReject = async (id: number) => {
-    await rejectGuideRequest(id);
-    setRequests((prev) => prev.filter((r) => r.id !== id));
+    try {
+      setLoading(true);
+      await rejectGuideRequest(id);
+      setRequests((prev) => prev.filter((r) => r.id !== id));
+    } catch (e: any) {
+      setError(e?.response?.data?.message || t("app_error.unexpected_error"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

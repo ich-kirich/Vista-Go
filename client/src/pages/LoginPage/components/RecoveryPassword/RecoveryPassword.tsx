@@ -1,4 +1,4 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, IconButton } from "@mui/material";
 import { useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import useTypedSelector from "../../../../hooks/useTypedSelector";
@@ -6,6 +6,7 @@ import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import VerificationPassword from "../../../../components/VerificationPassword/VerificationPassword";
 import { useTranslation } from "react-i18next";
 import styles from "./RecoveryPassword.module.scss";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface IRecoveryPasswordProps {
   setVisible: (visible: boolean) => void;
@@ -15,6 +16,7 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
   const [emailUser, setEmailUser] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [sentMail, setSentMail] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { fetchCodePassword } = useActions();
   const { error, loading } = useTypedSelector((state) => state.codepass);
@@ -24,6 +26,10 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
     e.stopPropagation();
     fetchCodePassword(emailUser, newPassword);
     setSentMail(true);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -39,11 +45,23 @@ function RecoveryPassword({ setVisible }: IRecoveryPasswordProps) {
         />
         <TextField
           label={t("recovery_password.enter_new_password")}
-          type="password"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
           fullWidth
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={togglePasswordVisibility}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            ),
+          }}
         />
       </Box>
       <Box className={styles.btns__wrapper}>

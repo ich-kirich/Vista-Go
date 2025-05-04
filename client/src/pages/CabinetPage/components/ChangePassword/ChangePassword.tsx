@@ -28,7 +28,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
   const { t } = useTranslation();
 
   const { fetchCodePassword } = useActions();
-  const { error, loading } = useTypedSelector((state) => state.codepass);
+  const { res, error, loading } = useTypedSelector((state) => state.codepass);
 
   const closeNameField = () => {
     setVisible(false);
@@ -38,9 +38,7 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
     setShowError(true);
     if (newPassword === repeatPassword && email) {
       fetchCodePassword(email, newPassword);
-      if (!loading && !error) {
-        setVisibleFieldCode(true);
-      }
+      setVisibleFieldCode(true);
     } else {
       setErrorRepeat(AppError.REENTERED_PASSWORD);
     }
@@ -79,15 +77,17 @@ function ChangePassword({ visible, setVisible, email }: IChangePasswordProps) {
     >
       {visible && email && (
         <Box>
-          <PopupComponent
-            visible={visibleFieldCode}
-            setVisible={setVisibleFieldCode}
-          >
-            <VerificationPassword
-              email={email}
+          {res && (
+            <PopupComponent
+              visible={visibleFieldCode}
               setVisible={setVisibleFieldCode}
-            />
-          </PopupComponent>
+            >
+              <VerificationPassword
+                email={email}
+                setVisible={setVisibleFieldCode}
+              />
+            </PopupComponent>
+          )}
           <Box className={styles.inputs__wrapper}>
             <TextField
               label={t("change_password.enter_new_password")}

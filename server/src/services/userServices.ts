@@ -53,7 +53,7 @@ async function checkVerificationUser(email: string, code: string) {
   });
   if (verificationExist) {
     if (verificationExist.dataValues.verificationCode === code) {
-      await VerificationPassword.destroy({ where: { email } });
+      await VerificationUser.destroy({ where: { email } });
       logger.info("Verification user code has been successfully verified");
       return verificationExist.dataValues;
     }
@@ -318,6 +318,15 @@ export async function registrationUser(
 }
 
 export async function verificationPassword(password: string, email: string) {
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    logger.error(`User with this email: ${email} was not found`);
+    throw new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND);
+  }
+  if (user.isBanned) {
+    logger.error(`User with this email: ${email} is banned`);
+    throw new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_BANNED);
+  }
   const checkPassword = validatePassword(password, email);
   const verificationCode = await createVerificationPassword(email, password);
   const emailText = `Verification Code: ${verificationCode}`;

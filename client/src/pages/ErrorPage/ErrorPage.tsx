@@ -10,7 +10,7 @@ function ErrorPage() {
   const { t } = useTranslation();
 
   const goHome = () => {
-    navigate(Routes.LOGIN);
+    navigate(Routes.HOME);
   };
 
   return (

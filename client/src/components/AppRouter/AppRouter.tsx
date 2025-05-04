@@ -18,6 +18,8 @@ import { ROLES, Routes } from "../../libs/enums";
 import { getValidToken } from "../../libs/utils";
 import GuidePage from "../../pages/GuidePage/GuidePage";
 import GeoMapPage from "../../pages/GeoMapPage/GeoMapPage";
+import Loader from "../Loader/Loader";
+import { Suspense } from "react";
 
 function AppRouter() {
   const { isAuth } = useTypedSelector((state) => state.auth);
@@ -48,27 +50,29 @@ function AppRouter() {
   };
 
   return (
-    <RouterRoutes>
-      <Route path={Routes.LOGIN} element={<LoginPage />} />
-      <Route path={Routes.REGISTRATION} element={<RegistrationPage />} />
-      <Route path={Routes.ERROR} element={<ErrorPage />} />
-      <Route path={Routes.HOME} element={<MainPage />} />
-      <Route path={Routes.CITY} element={<CityPage />} />
+    <Suspense fallback={<Loader />}>
+      <RouterRoutes>
+        <Route path={Routes.LOGIN} element={<LoginPage />} />
+        <Route path={Routes.REGISTRATION} element={<RegistrationPage />} />
+        <Route path={Routes.ERROR} element={<ErrorPage />} />
+        <Route path={Routes.HOME} element={<MainPage />} />
+        <Route path={Routes.CITY} element={<CityPage />} />
 
-      <Route element={<ProtectedRoute />}>
-        <Route path={Routes.SIGHTS} element={<SightsPage />} />
-        <Route path={Routes.SIGHT_DETAILS} element={<SightPage />} />
-        <Route path={Routes.CABINET} element={<CabinetPage />} />
-        <Route path={Routes.GUIDE} element={<GuidePage />} />
-        <Route path={Routes.MAP} element={<GeoMapPage />} />
-      </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path={Routes.SIGHTS} element={<SightsPage />} />
+          <Route path={Routes.SIGHT_DETAILS} element={<SightPage />} />
+          <Route path={Routes.CABINET} element={<CabinetPage />} />
+          <Route path={Routes.GUIDE} element={<GuidePage />} />
+          <Route path={Routes.MAP} element={<GeoMapPage />} />
+        </Route>
 
-      <Route element={<AdminRoute />}>
-        <Route path={Routes.ADMIN} element={<AdminPage />} />
-      </Route>
+        <Route element={<AdminRoute />}>
+          <Route path={Routes.ADMIN} element={<AdminPage />} />
+        </Route>
 
-      <Route path="*" element={<Navigate to={Routes.ERROR} replace />} />
-    </RouterRoutes>
+        <Route path="*" element={<Navigate to={Routes.ERROR} replace />} />
+      </RouterRoutes>
+    </Suspense>
   );
 }
 

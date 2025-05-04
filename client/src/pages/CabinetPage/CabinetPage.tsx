@@ -50,7 +50,11 @@ function CabinetPage() {
     i18n.language as Locales,
   );
   const navigate = useNavigate();
-  const { user } = useTypedSelector((state) => state.user);
+  const {
+    user,
+    error: userError,
+    loading,
+  } = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [supportModalOpen, setSupportModalOpen] = useState(false);
@@ -58,6 +62,7 @@ function CabinetPage() {
   const [supportLoading, setSupportLoading] = useState(false);
   const [supportError, setSupportError] = useState<string | null>(null);
   const [supportSuccess, setSupportSuccess] = useState(false);
+  const [displayError, setDisplayError] = useState(true);
 
   useEffect(() => {
     const token = user || getValidToken();
@@ -107,6 +112,19 @@ function CabinetPage() {
     setSupportError(null);
     setSupportSuccess(false);
   };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (userError) {
+      timer = setTimeout(() => {
+        setDisplayError(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [userError]);
 
   if (error) return <ViewError>{error}</ViewError>;
 
@@ -196,6 +214,14 @@ function CabinetPage() {
           setVisible={() => setActiveField(null)}
           email={userInfo?.email}
         />
+      )}
+
+      {loading ? (
+        <Loader />
+      ) : (
+        <Box>
+          {userError && displayError && <ViewError>{userError}</ViewError>}
+        </Box>
       )}
 
       <Dialog fullWidth open={supportModalOpen} onClose={handleSupportClose}>

@@ -200,6 +200,9 @@ function AddSight() {
               onChange={(e) => newNameSight(e.target.value, "en")}
               fullWidth
               error={!!validationErrors.name.en}
+              helperText={
+                validationErrors.name.en && t(`${validationErrors.name.en}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.add.sight.description_label")} (English)
@@ -213,6 +216,10 @@ function AddSight() {
               onChange={(e) => newDescriptionSight(e.target.value, "en")}
               fullWidth
               error={!!validationErrors.description.en}
+              helperText={
+                validationErrors.description.en &&
+                t(`${validationErrors.description.en}`)
+              }
             />
           </Box>
 
@@ -227,6 +234,9 @@ function AddSight() {
               onChange={(e) => newNameSight(e.target.value, "ru")}
               fullWidth
               error={!!validationErrors.name.ru}
+              helperText={
+                validationErrors.name.ru && t(`${validationErrors.name.ru}`)
+              }
             />
             <Typography variant="h6">
               {t("admin_page.add.sight.description_label")} (Русский)
@@ -240,6 +250,10 @@ function AddSight() {
               onChange={(e) => newDescriptionSight(e.target.value, "ru")}
               fullWidth
               error={!!validationErrors.description.ru}
+              helperText={
+                validationErrors.description.ru &&
+                t(`${validationErrors.description.ru}`)
+              }
             />
           </Box>
 

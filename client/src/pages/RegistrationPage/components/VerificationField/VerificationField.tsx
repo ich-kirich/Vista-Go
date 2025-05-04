@@ -30,7 +30,7 @@ function VerificationField({ name, email }: IVerificationFieldProps) {
 
   useEffect(() => {
     if (sendClicked && !loading && !error) {
-      navigate(Routes.LOGIN);
+      navigate(Routes.HOME);
     }
   }, [sendClicked, loading, error]);
 
