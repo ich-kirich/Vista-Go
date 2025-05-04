@@ -38,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { createSupportRequest } from "../../api/userService";
 import Loader from "../../components/Loader/Loader";
+import useActions from "../../hooks/useActions";
 
 function CabinetPage() {
   const { t, i18n } = useTranslation();
@@ -55,6 +56,7 @@ function CabinetPage() {
     error: userError,
     loading,
   } = useTypedSelector((state) => state.user);
+  const { clearErrors } = useActions();
   const dispatch = useDispatch();
 
   const [supportModalOpen, setSupportModalOpen] = useState(false);
@@ -118,6 +120,7 @@ function CabinetPage() {
     if (userError) {
       timer = setTimeout(() => {
         setDisplayError(false);
+        clearErrors(["user"]);
       }, 5000);
     }
 

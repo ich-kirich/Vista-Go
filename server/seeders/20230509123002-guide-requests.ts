@@ -7,7 +7,7 @@ export default {
 
     const guideRequests = [
       {
-        userId: 2,
+        userId: 3,
         contacts: "user@gmail.com, telegram: @userguide",
         requestText: "I'd love to join your guide platform and help tourists.",
         status: GUIDES_REQUEST_STATUS.PENDING,
