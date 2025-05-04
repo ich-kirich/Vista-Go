@@ -12,7 +12,7 @@ export default {
         email: "adminus@gmail.com",
         password: passwordHash,
         image: "https://i.ibb.co/JvKSP4t/default.png",
-        role: "ADMIN",
+        role: "SUPER_ADMIN",
         isBanned: false,
         createdAt: now,
         updatedAt: now,

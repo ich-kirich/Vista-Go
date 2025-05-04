@@ -214,3 +214,13 @@ export async function acceptGuideRequest(id: number) {
   const response = await adminHost.post(`admin/guide/request/${id}/accept/`);
   return response;
 }
+
+export async function upgradeToAdmin(id: number) {
+  const response = await adminHost.post(`admin/upgrade/user/${id}`);
+  return response;
+}
+
+export async function downgradeToUser(id: number) {
+  const response = await adminHost.post(`admin/downgrade/user/${id}`);
+  return response;
+}

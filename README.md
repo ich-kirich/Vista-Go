@@ -13,7 +13,7 @@ It is a sightseeing search app
 ***
 ## Technology stack
 - Backend: ExpressJs, NodeJs, Typescript, PostgreSQL, Sequelize ORM, Docker, Nodemon, Prettier, Eslint, Postman, Http Status Codes, Node Config, Postman, Nodemailer, Express-fileupload, Axios, Jsonwebtoken, Bcrypt, Uuid, Mime-types, Cors, Node Cron
-- Frontend: React, Redux, Typescript, Material UI, SCSS, Eslint, Prettier, Axios, Normalize CSS, Classnames, React Slick, Jwt-decode
+- Frontend: React, Redux, Typescript, Material UI, SCSS, Eslint, Prettier, I18, Axios, Normalize CSS, Classnames, React Slick, Jwt-decode
 - NodeJS 22.14.0
 
 ## Api

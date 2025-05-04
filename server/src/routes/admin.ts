@@ -1,5 +1,8 @@
 import { Router } from "express";
 import AdminControllers from "../controllers/AdminControllers";
+import SuperAdminControllers from "../controllers/SuperAdminControllers";
+import checkRole from "../middleware/checkRoleMiddleware";
+import { ROLES } from "../libs/constants";
 
 const adminRouter = Router();
 
@@ -33,6 +36,18 @@ adminRouter.delete(
 adminRouter.post(
   "/guide/request/:id/accept",
   AdminControllers.acceptGuideRequest,
+);
+
+adminRouter.post(
+  "/upgrade/user/:id/",
+  checkRole([ROLES.SUPER_ADMIN]),
+  SuperAdminControllers.upgradeToAdmin,
+);
+
+adminRouter.post(
+  "/downgrade/user/:id/",
+  checkRole([ROLES.SUPER_ADMIN]),
+  SuperAdminControllers.downgradeAdmin,
 );
 
 export default adminRouter;

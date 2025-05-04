@@ -53,7 +53,8 @@ function ListGuides() {
             />
           ))}
         {(user || getValidToken())?.role !== ROLES.GUIDE &&
-          (user || getValidToken())?.role !== ROLES.ADMIN && (
+          (user || getValidToken())?.role !== ROLES.ADMIN &&
+          (user || getValidToken())?.role !== ROLES.SUPER_ADMIN && (
             <Button
               variant="text"
               className={styles.guide__joying}

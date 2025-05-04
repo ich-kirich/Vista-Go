@@ -24,6 +24,8 @@ import useTypedSelector from "../../../../hooks/useTypedSelector";
 import FetchWrapper from "../../../../components/FetchWrapper/FetchWrapper";
 import styles from "./UsersTable.module.scss";
 import { useTranslation } from "react-i18next";
+import { ROLES } from "../../../../libs/enums";
+import { getValidToken } from "../../../../libs/utils";
 
 function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -36,10 +38,21 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { t } = useTranslation();
 
-  const { fetchUsers, fetchBanUser, fetchUnBanUser, clearErrors } =
-    useActions();
+  const {
+    fetchUsers,
+    fetchBanUser,
+    fetchUnBanUser,
+    clearErrors,
+    fetchUpgradeRoleUser,
+    fetchDowngradeRoleUser,
+  } = useActions();
 
   const { users, error, loading } = useTypedSelector((state) => state.users);
+  const {
+    user,
+    error: errorUser,
+    loading: loadingUser,
+  } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
     if (!users) fetchUsers();
@@ -49,7 +62,7 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
   useEffect(() => {
     if (error) {
       timeoutRef.current = setTimeout(() => {
-        clearErrors(["users"]);
+        clearErrors(["users", "user"]);
       }, 5000);
     }
 
@@ -64,6 +77,26 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+  };
+
+  const handleRoleChange = async (
+    user: IUser,
+    newRole: ROLES.USER | ROLES.ADMIN,
+  ) => {
+    setLoadingAction(true);
+    try {
+      if (newRole === ROLES.ADMIN) {
+        fetchUpgradeRoleUser(user.id);
+      } else {
+        fetchDowngradeRoleUser(user.id);
+      }
+      setErrorMessage(null);
+      fetchUsers();
+    } catch (error) {
+      setErrorMessage(t(`${error}`));
+    } finally {
+      setLoadingAction(false);
+    }
   };
 
   const handleChangePage = (
@@ -135,8 +168,8 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
         {t("admin_page.users.close_table")}
       </Button>
       <FetchWrapper
-        loading={loading || loadingAction}
-        error={error || errorMessage}
+        loading={loading || loadingAction || loadingUser}
+        error={error || errorMessage || errorUser}
       >
         {users && (
           <Box>
@@ -159,21 +192,52 @@ function UserTable({ closeTable }: { closeTable: (state: null) => void }) {
                     <TableCell>{t("admin_page.users.username")}</TableCell>
                     <TableCell>{t("admin_page.users.role")}</TableCell>
                     <TableCell>{t("admin_page.users.banned")}</TableCell>
+                    {(user || getValidToken())?.role === ROLES.SUPER_ADMIN && (
+                      <TableCell>{t("admin_page.users.actions")}</TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {paginatedUsers.map((user) => (
+                  {paginatedUsers.map((userElem) => (
                     <TableRow
                       hover
-                      key={user.email}
-                      onDoubleClick={() => handleOpenDialog(user)}
+                      key={userElem.email}
+                      onDoubleClick={() => handleOpenDialog(userElem)}
                     >
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.role}</TableCell>
+                      <TableCell>{userElem.email}</TableCell>
+                      <TableCell>{userElem.name}</TableCell>
+                      <TableCell>{userElem.role}</TableCell>
                       <TableCell>
-                        {user.isBanned ? <GavelIcon /> : <TagFacesIcon />}
+                        {userElem.isBanned ? <GavelIcon /> : <TagFacesIcon />}
                       </TableCell>
+                      {(user || getValidToken())?.role ===
+                        ROLES.SUPER_ADMIN && (
+                        <TableCell>
+                          {userElem?.role === ROLES.USER ? (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() =>
+                                handleRoleChange(userElem, ROLES.ADMIN)
+                              }
+                            >
+                              {t("admin_page.users.upgrade")}
+                            </Button>
+                          ) : (
+                            userElem?.role === ROLES.ADMIN && (
+                              <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={() =>
+                                  handleRoleChange(userElem, ROLES.USER)
+                                }
+                              >
+                                {t("admin_page.users.downgrade")}
+                              </Button>
+                            )
+                          )}
+                        </TableCell>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>

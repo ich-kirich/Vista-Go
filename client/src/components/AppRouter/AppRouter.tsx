@@ -42,7 +42,7 @@ function AppRouter() {
       return <Navigate to={Routes.LOGIN} replace />;
     }
 
-    if (user?.role !== ROLES.ADMIN) {
+    if (user?.role !== ROLES.ADMIN && user?.role !== ROLES.SUPER_ADMIN) {
       return <Navigate to={Routes.HOME} replace />;
     }
 

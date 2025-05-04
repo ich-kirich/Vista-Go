@@ -19,9 +19,9 @@ router.use("/", TagsRouter);
 router.use("/user", userRouter);
 router.use(
   "/user/update",
-  checkRole([ROLES.ADMIN, ROLES.USER, ROLES.GUIDE]),
+  checkRole([ROLES.ADMIN, ROLES.USER, ROLES.GUIDE, ROLES.SUPER_ADMIN]),
   changeUserRouter,
 );
-router.use("/admin", checkRole([ROLES.ADMIN]), adminRouter);
+router.use("/admin", checkRole([ROLES.ADMIN, ROLES.SUPER_ADMIN]), adminRouter);
 
 export default router;

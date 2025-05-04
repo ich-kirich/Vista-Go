@@ -32,6 +32,8 @@ import {
   getRejectGuideRequestEmailTextForUser,
 } from "../libs/utils";
 import sendEmail from "../libs/sendEmails";
+import { decodeJwt } from "../libs/jwtUtils";
+import { Op } from "sequelize";
 
 class AdminControllers {
   async createRecommend(req: Request, res: Response, next: NextFunction) {
@@ -352,6 +354,8 @@ class AdminControllers {
   async banUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { email } = req.body;
+      const token = req.headers.authorization?.split(" ")[1];
+      const decoded = decodeJwt(token);
 
       const user = await User.findOne({ where: { email } });
 
@@ -360,7 +364,27 @@ class AdminControllers {
         return next(new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND));
       }
 
-      if (user.isBanned) {
+      if (
+        decoded?.role !== ROLES.SUPER_ADMIN &&
+        user.dataValues.role === ROLES.SUPER_ADMIN
+      ) {
+        logger.error("User is super admin");
+        return next(
+          new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_SUPER_ADMIN),
+        );
+      }
+
+      if (
+        decoded?.role !== ROLES.SUPER_ADMIN &&
+        user.dataValues.role === ROLES.ADMIN
+      ) {
+        logger.error("User is admin");
+        return next(
+          new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_ALREADY_ADMIN),
+        );
+      }
+
+      if (user.dataValues.isBanned) {
         logger.error(`User with this email: ${email} is banned`);
         return next(new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_BANNED));
       }
@@ -383,6 +407,8 @@ class AdminControllers {
   async unBanUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { email } = req.body;
+      const token = req.headers.authorization?.split(" ")[1];
+      const decoded = decodeJwt(token);
 
       const user = await User.findOne({ where: { email } });
 
@@ -391,10 +417,20 @@ class AdminControllers {
         return next(new ApiError(StatusCodes.NOT_FOUND, ERROR.USER_NOT_FOUND));
       }
 
-      if (!user.isBanned) {
-        logger.error(`User with this email: ${email} is unbanned`);
+      if (!user.dataValues.isBanned) {
+        logger.error(`User with this email: ${email} isn't banned`);
         return next(
           new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_UNBANNED),
+        );
+      }
+
+      if (
+        decoded?.role !== ROLES.SUPER_ADMIN &&
+        user.dataValues.role === ROLES.ADMIN
+      ) {
+        logger.error("User is admin");
+        return next(
+          new ApiError(StatusCodes.FORBIDDEN, ERROR.USER_IS_ALREADY_ADMIN),
         );
       }
 
@@ -415,7 +451,18 @@ class AdminControllers {
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      const users = await User.findAll();
+      const token = req.headers.authorization?.split(" ")[1];
+      const decoded = decodeJwt(token);
+      const users =
+        decoded?.role === ROLES.SUPER_ADMIN
+          ? await User.findAll()
+          : await User.findAll({
+              where: {
+                role: {
+                  [Op.in]: [ROLES.GUIDE, ROLES.USER],
+                },
+              },
+            });
 
       logger.info("Fetched all users successfully");
       return res.json(users);

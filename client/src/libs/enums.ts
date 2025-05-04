@@ -57,6 +57,9 @@ export enum AppError {
   USER_IS_ALREADY_GUIDE = "app_error.user_is_already_guide",
   GUIDE_REQUEST_ALREADY_EXISTS = "app_error.guide_request_already_exists",
   GUIDE_REQUEST_NOT_FOUND = "app_error.guide_request_not_found",
+  USER_IS_ALREADY_ADMIN = "app_error.user_is_already_admin",
+  USER_IS_NOT_ADMIN = "app_error.user_is_not_admin",
+  USER_IS_SUPER_ADMIN = "app_error.user_is_super_admin",
 }
 
 export enum CodePass {
@@ -155,6 +158,12 @@ export enum Users {
   FETCH_USERS_ERROR = "FETCH_USERS_ERROR",
 }
 
+export enum UserRole {
+  FETCH_USER_ROLE = "FETCH_USER_ROLE",
+  FETCH_USER_ROLE_SUCCESS = "FETCH_USER_ROLE_SUCCESS",
+  FETCH_USER_ROLE_ERROR = "FETCH_USER_ROLE_ERROR",
+}
+
 export enum Cities {
   FETCH_CITIES = "FETCH_CITIES",
   FETCH_CITIES_SUCCESS = "FETCH_CITIES_SUCCESS",
@@ -174,4 +183,5 @@ export enum ROLES {
   USER = "USER",
   ADMIN = "ADMIN",
   GUIDE = "GUIDE",
+  SUPER_ADMIN = "SUPER_ADMIN",
 }

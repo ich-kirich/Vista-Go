@@ -178,15 +178,16 @@ function CabinetPage() {
             {t(`cabinet.change_${field}`)}
           </Button>
         ))}
-        {user && user.role === ROLES.ADMIN && (
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={() => navigate(Routes.ADMIN)}
-          >
-            {t("cabinet.admin_panel")}
-          </Button>
-        )}
+        {user &&
+          (user.role === ROLES.ADMIN || user.role === ROLES.SUPER_ADMIN) && (
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => navigate(Routes.ADMIN)}
+            >
+              {t("cabinet.admin_panel")}
+            </Button>
+          )}
         {(user?.role === ROLES.GUIDE ||
           getValidToken()?.role === ROLES.GUIDE) && (
           <Button
