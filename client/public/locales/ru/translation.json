@@ -67,6 +67,7 @@
   "admin_page.users.user": "Пользователя",
   "admin_page.users.warning": "Вы точно хотите",
   "admin_page.users.close_warning": "Закрыть",
+  "admin_page.users.actions": "Действия",
   "admin_page.users.upgrade": "Повысить",
   "admin_page.users.downgrade": "Понизить",
 
